@@ -130,7 +130,4 @@ This project requires [TinyJSON](pbhogan/TinyJSON). It is included in this proje
 
 Handcrafted by Patrick Hogan [[twitter](http://twitter.com/pbhogan) &bull; [github](http://github.com/pbhogan) &bull; [website](http://www.gallantgames.com)]
 
-If this project makes you happy, you can support it with Gittip:
-<iframe style="border: 0; margin: 0; padding: 0;" src="https://www.gittip.com/pbhogan/widget.html" width="48pt" height="22pt"></iframe>
-
 Released under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
