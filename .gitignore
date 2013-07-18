@@ -1,0 +1,7 @@
+Temp/*
+Build/*
+
+*.pidb
+*.userprefs
+.DS_Store
+Library/metadata/*

@@ -1,0 +1,3 @@
+﻿License
+
+This library and its documentation are dedicated to the public domain. It may be used by anyone, for any purpose without restrictions. 
