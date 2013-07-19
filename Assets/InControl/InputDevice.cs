@@ -230,10 +230,10 @@ namespace InControl
 				var u = DPadUp;
 				var d = DPadDown;
 
-				var x = l.State ? l.Value : r.Value;
-				var y = u.State ? u.Value : d.Value;
+				var x = l.State ? -l.Value : r.Value;
+				var y = u.State ? u.Value : -d.Value;
 
-				return new Vector2( x, y ).normalized;
+				return new Vector2( x, InputManager.InvertYAxis ? -y : y ).normalized;
 			}
 		}
 
