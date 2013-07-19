@@ -66,6 +66,13 @@ public class YourScene : MonoBehaviour
 }
 ```
 
+By default, InControl reports the Y-axis as positive pointing up. You can invert this behavior if you wish:
+
+```csharp
+InputManager.InvertYAxis = true;
+InputManager.Setup();
+```
+
 Now that you have everything set up, you can query for devices and controls. The active device is the device that last received input.
 
 ```csharp
@@ -94,13 +101,33 @@ control.LastValue;   // float, previous tick value
 Controls also implement implicit conversion operators for `bool` and `float` which allows for slightly simpler syntax:
 
 ```csharp
-if (InputManager.ActiveDevice.GetControl( InputControlType.Action1 ))
+if (InputManager.ActiveDevice.GetControl( InputControlType.Action3 ))
+{
+	player.Boost();
+}
+```
+
+The `InputDevice` class provides handy shortcut properties to the standardized inputs:
+
+```csharp
+if (InputManager.ActiveDevice.Action1.WasPressed)
 {
 	player.Jump();
 }
 ```
 
-Finally, you can subscribe to events to detect when the active device changed, or devices are attached/detached:
+It also provides four properties that each return a normalized directional `Vector2`:
+
+```csharp
+Vector2 lsv = device.LeftStickVector;
+Vector2 rsv = device.RightStickVector;
+Vector2 dpv = device.DPadVector;
+Vector2 dir = device.Direction;
+```
+
+The fourth, `Direction`, is a combination of the D-Pad and Left Stick, where the D-Pad takes precedence. That is, if there is any input on the D-Pad, the Left Stick will be ignored.
+
+Finally, you can subscribe to events to be notified when the active device changes, or devices are attached/detached:
 
 ```csharp
 InputManager.OnDeviceAttached += inputDevice => Debug.Log( "Attached: " + inputDevice.Name );
