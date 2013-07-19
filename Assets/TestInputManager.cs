@@ -23,11 +23,14 @@ public class TestInputManager : MonoBehaviour
 	{
 		InputManager.Update();
 
-		// bool jump = InputManager.ActiveDevice.GetControl( InputControlType.Action1 );
-
-		if (InputManager.Devices[0].GetControl( InputControlType.Action1 ).WasPressed)
+		if (InputManager.ActiveDevice.GetControl( InputControlType.Action1 ).WasPressed)
 		{
 			Debug.Log( "JUMP!" );
+		}
+
+		if (InputManager.ActiveDevice.Action3.WasPressed)
+		{
+			Debug.Log( "SHOOT!" );
 		}
 	}
 
@@ -46,15 +49,14 @@ public class TestInputManager : MonoBehaviour
 
 		SetColor( Color.white );
 
-		GUI.Label( new Rect( x, y, x + w, y + 10 ), "Devices:", style );
-		y += 15;
+		GUI.Label( new Rect( x, y, x + w, y + 10 ), "Devices: ", style );
 
 		foreach (var inputDevice in InputManager.Devices)
 		{
 			bool active = InputManager.ActiveDevice == inputDevice;
 			Color color = active ? Color.yellow : Color.white;
 
-			y = 25;
+			y = 35;
 
 			SetColor( color );
 

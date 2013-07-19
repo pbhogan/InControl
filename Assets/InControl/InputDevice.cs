@@ -17,6 +17,7 @@ namespace InControl
 		public InputControl[] Buttons { get; private set; }
 
 		InputControl[] controlTable;
+		InputControl nullControl = new InputControl( "N/A" );
 
 
 		public InputDevice( InputDeviceProfile deviceProfile, int unityJoystickId = 0 )
@@ -59,7 +60,8 @@ namespace InControl
 		public InputControl GetControl( Enum inputAnalog )
 		{
 			int controlIndex = Convert.ToInt32( inputAnalog );
-			return controlTable[ controlIndex ];
+			var control = controlTable[controlIndex];
+			return control == null ? nullControl : control;
 		}
 
 
@@ -173,6 +175,76 @@ namespace InControl
 			}
 
 			return Input.GetKey( source );
+		}
+
+
+		public InputControl LeftStickX { get { return GetControl( InputControlType.LeftStickX ); } }
+		public InputControl LeftStickY { get { return GetControl( InputControlType.LeftStickY ); } }
+		public InputControl LeftStickButton { get { return GetControl( InputControlType.LeftStickButton ); } }
+
+		public InputControl RightStickX { get { return GetControl( InputControlType.RightStickX ); } }
+		public InputControl RightStickY { get { return GetControl( InputControlType.RightStickY ); } }
+		public InputControl RightStickButton { get { return GetControl( InputControlType.RightStickButton ); } }
+
+		public InputControl DPadUp { get { return GetControl( InputControlType.DPadUp ); } }
+		public InputControl DPadDown { get { return GetControl( InputControlType.DPadDown ); } }
+		public InputControl DPadLeft { get { return GetControl( InputControlType.DPadLeft ); } }
+		public InputControl DPadRight { get { return GetControl( InputControlType.DPadRight ); } }
+				
+		public InputControl Action1 { get { return GetControl( InputControlType.Action1 ); } }
+		public InputControl Action2 { get { return GetControl( InputControlType.Action2 ); } }
+		public InputControl Action3 { get { return GetControl( InputControlType.Action3 ); } }
+		public InputControl Action4 { get { return GetControl( InputControlType.Action4 ); } }
+
+		public InputControl LeftTrigger { get { return GetControl( InputControlType.LeftTrigger ); } }
+		public InputControl RightTrigger { get { return GetControl( InputControlType.RightTrigger ); } }
+
+		public InputControl LeftBumper { get { return GetControl( InputControlType.LeftBumper ); } }
+		public InputControl RightBumper { get { return GetControl( InputControlType.RightBumper ); } }
+
+
+		public Vector2 LeftStickVector
+		{
+			get
+			{
+				return new Vector2( LeftStickX.Value, LeftStickY.Value ).normalized;
+			}
+		}
+
+
+		public Vector2 RightStickVector
+		{
+			get
+			{
+				return new Vector2( RightStickX.Value, RightStickY.Value ).normalized;
+			}
+		}
+
+
+		public Vector2 DPadVector
+		{
+			get
+			{
+				var l = DPadLeft;
+				var r = DPadRight;
+				var u = DPadUp;
+				var d = DPadDown;
+
+				var x = l.State ? l.Value : r.Value;
+				var y = u.State ? u.Value : d.Value;
+
+				return new Vector2( x, y ).normalized;
+			}
+		}
+
+
+		public Vector2 Direction
+		{
+			get
+			{
+				var dpv = DPadVector;
+				return dpv == Vector2.zero ? LeftStickVector : dpv;
+			}
 		}
 	}
 }

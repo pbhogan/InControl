@@ -21,12 +21,11 @@ namespace InControl
 
 		public static int NumInputControlTypes { get; private set; }
 		public static string Platform { get; private set; }
-		public static bool InvertYAxis { get; set; }
 
-		static List<InputDeviceProfile> inputDeviceProfiles = new List<InputDeviceProfile>();
+		static List<InputDeviceProfile> deviceProfiles = new List<InputDeviceProfile>();
 		static bool keyboardDevicesAttached = false;
 		static string joystickHash = "";
-
+		static bool invertYAxis = false; // default to y-axis up.
 		static bool isSetup = false;
 
 
@@ -35,7 +34,6 @@ namespace InControl
 			if (!isSetup)
 			{
 				Platform = (SystemInfo.operatingSystem + " " + SystemInfo.deviceModel).ToUpper();
-				InvertYAxis = true; // default to y-axis points up.
 
 				NumInputControlTypes = (int) InputControlType.Count + 1;
 
@@ -98,7 +96,7 @@ namespace InControl
 
 		static void AttachKeyboardDevices()
 		{
-			foreach (var config in inputDeviceProfiles)
+			foreach (var config in deviceProfiles)
 			{
 				if (!config.IsJoystick && config.IsSupportedOnThisPlatform)
 				{
@@ -127,12 +125,12 @@ namespace InControl
 			for (int i = 0; i < joystickNames.Length; i++)
 			{
 				var joystickName = joystickNames[i];
-				var matchedConfig = inputDeviceProfiles.Find( config => config.HasJoystickName( joystickName ) );
+				var matchedConfig = deviceProfiles.Find( config => config.HasJoystickName( joystickName ) );
 
 				if (matchedConfig == null)
 				{
 					matchedConfig = new InputDeviceProfile( joystickName );
-					inputDeviceProfiles.Add( matchedConfig );
+					deviceProfiles.Add( matchedConfig );
 				}
 
 				foreach (var device in Devices)
@@ -204,7 +202,7 @@ namespace InControl
 						
 				if (deviceProfile.IsSupportedOnThisPlatform)
 				{
-					inputDeviceProfiles.Add( deviceProfile );
+					deviceProfiles.Add( deviceProfile );
 				}
 			}
 		}
@@ -223,17 +221,11 @@ namespace InControl
 		}
 
 
-		/*
-		public static Vector2 GetMousePosition()
-		{
-			var camera = Futile.instance.camera;
-			var screenPos = Input.mousePosition;
-			screenPos.z = -camera.transform.position.z;
-			var worldPos = (Vector2) camera.ScreenToWorldPoint( screenPos );
-
-			return worldPos; // + offset;
+		public static bool InvertYAxis 
+		{ 
+			get { return invertYAxis; } 
+			set { invertYAxis = value; }
 		}
-		*/
 	}
 }
 

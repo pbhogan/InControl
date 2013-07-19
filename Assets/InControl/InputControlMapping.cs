@@ -101,7 +101,7 @@ namespace InControl
 				value = -value;
 			}
 
-			if (InputManager.InvertYAxis && isYAxis)
+			if (isYAxis && !InputManager.InvertYAxis)
 			{
 				value = -value;
 			}

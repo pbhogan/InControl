@@ -24,8 +24,6 @@ namespace InControl
 		Action2,
 		Action3,
 		Action4,
-		Action5,
-		Action6,
 
 		LeftTrigger,
 		RightTrigger,
