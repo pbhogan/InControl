@@ -7,7 +7,7 @@ Note: The public API is currently in beta and is subject to change ever so sligh
 ## Features
 
 * Standardizes input mappings across various platforms.
-* Unity `InputManager.asset` for 10 devices with up to 10 analogs and 20 buttons each.
+* Support for 10 connected devices with up to 10 analogs and 20 buttons each.
 * Device mappings are specified through JSON profiles that make it trivial to support new devices and platforms.
 * Events for attached and detached devices.
 * Events for active device switches.
@@ -120,7 +120,7 @@ InputManager.OnActiveDeviceChanged += inputDevice => Debug.Log( "Switched: " + i
 ## Known Issues
 
 * Not all platforms trigger the `DeviceAttached` event (OUYA in particular). If Unity's `Input.joystickNames()` is updated by the platform while the app is running, it will work. Every platform does, however, report all newly connected devices once the app is relaunched.
-* Some controller specific buttons (like Start, Select, Back, OUYA, Xbox Guide, PS3, etc.) are not part of the standardized set of supported inputs simply because they do not work on every platform. You should not generally be using these buttons anyway. Use of the OUYA button, for example, is dangerous as the user is just as likely to quit your app do what they intend.
+* Some controller specific buttons (like Start, Select, Back, OUYA, Xbox Guide, PS3, etc.) are not part of the standardized set of supported inputs simply because they do not work on every platform. You should not be using these buttons in a generalized cross-platform capacity. Use of the OUYA button, for example, is dangerous as the user is just as likely to accidentally quit your app as do what they intend.
 
 ## Dependencies
 
