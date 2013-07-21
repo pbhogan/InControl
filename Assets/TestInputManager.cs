@@ -55,7 +55,12 @@ public class TestInputManager : MonoBehaviour
 
 		SetColor( Color.white );
 
-		string info = "Devices: (Platform: " + InputManager.Platform + ") (Joysticks " + InputManager.JoystickHash + ")";
+		string info = "Devices: (Platform: " + InputManager.Platform + ") (Joysticks " + InputManager.JoystickHash + ") ";
+
+		if (InputManager.ActiveDevice != null)
+		{
+			info += InputManager.ActiveDevice.DPadVector;
+		}
 
 		GUI.Label( new Rect( x, y, x + w, y + 10 ), info, style );
 

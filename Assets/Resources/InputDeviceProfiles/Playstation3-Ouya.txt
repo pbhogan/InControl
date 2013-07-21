@@ -81,7 +81,8 @@
 		{
 			"handle": "Left Stick Y",
 			"target": "LeftStickY",
-			"source": "analog 1"
+			"source": "analog 1",
+			"invert": true
 		},
 		{
 			"handle": "Right Stick X",
@@ -91,7 +92,8 @@
 		{
 			"handle": "Right Stick Y",
 			"target": "RightStickY",
-			"source": "analog 3"
+			"source": "analog 3",
+			"invert": true
 		},
 		{
 			"handle": "Left Trigger",

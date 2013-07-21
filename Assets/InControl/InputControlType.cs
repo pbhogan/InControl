@@ -38,6 +38,9 @@ namespace InControl
 		Start,
 		Select,
 		System,
+		TiltX,
+		TiltY,
+		TiltZ,
 
 
 		// Not standardized.

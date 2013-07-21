@@ -81,7 +81,8 @@
 		{
 			"handle": "Left Stick Y",
 			"target": "LeftStickY",
-			"source": "analog 1"
+			"source": "analog 1",
+			"invert": true
 		},
 		{
 			"handle": "Right Stick X",
@@ -91,7 +92,8 @@
 		{
 			"handle": "Right Stick Y",
 			"target": "RightStickY",
-			"source": "analog 5"
+			"source": "analog 5",
+			"invert": true
 		},
 		{
 			"handle": "DPad Left",
@@ -119,14 +121,13 @@
 		},
 		{
 			"handle": "Tilt X",
-			"target": "Analog1",
+			"target": "TiltX",
 			"source": "analog 3"
 		},
 		{
-			"handle": "Tilt Z",
-			"target": "Analog2",
-			"source": "analog 4",
-			"invert": true
+			"handle": "Tilt Y",
+			"target": "TiltY",
+			"source": "analog 4"
 		}
 	]
 }
