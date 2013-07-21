@@ -4,7 +4,7 @@
 	"supportedPlatforms": ["OUYA"],
 	"joystickNames": ["OUYA Game Controller"],
 	"sensitivity": 1.0,
-	"deadZone": 0.2,
+	"deadZone": 0.3,
 	"buttonMappings": [
 		{
 			"handle": "O",
@@ -65,12 +65,7 @@
 			"handle": "DPad Right",
 			"target": "DPadRight",
 			"source": "button 11"
-		},
-		{
-			"handle": "System",
-			"target": "System",
-			"source": "menu"
-		},
+		}
 	],
 	"analogMappings": [
 		{

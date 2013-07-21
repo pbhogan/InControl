@@ -2,7 +2,7 @@
 	"name": "Playstation 3 Controller",
 	"meta": "Playstation 3 Controller on OUYA",
 	"supportedPlatforms": ["OUYA"],
-	"joystickNames": ["Sony PLAYSTATION(R)3 Controller"],
+	"joystickNames": ["PLAYSTATION(R)3 Controller"],
 	"sensitivity": 1.0,
 	"deadZone": 0.2,
 	"buttonMappings": [

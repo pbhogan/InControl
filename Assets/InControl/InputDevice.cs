@@ -178,6 +178,12 @@ namespace InControl
 		}
 
 
+		public bool IsConfiguredWith( InputDeviceProfile deviceProfile, int unityJoystickId )
+		{
+			return Profile == deviceProfile && UnityJoystickId == unityJoystickId;
+		}
+	
+
 		public InputControl LeftStickX { get { return GetControl( InputControlType.LeftStickX ); } }
 		public InputControl LeftStickY { get { return GetControl( InputControlType.LeftStickY ); } }
 		public InputControl LeftStickButton { get { return GetControl( InputControlType.LeftStickButton ); } }

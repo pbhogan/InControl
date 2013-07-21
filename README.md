@@ -1,4 +1,4 @@
-## Description
+## Description  [![Stories in Ready](https://badge.waffle.io/pbhogan/InControl.png)](http://waffle.io/pbhogan/InControl)
 
 InControl is an input manager for Unity3D (version 4) that tames the cross-platform controller beast.
 
@@ -146,7 +146,7 @@ InputManager.OnActiveDeviceChanged += inputDevice => Debug.Log( "Switched: " + i
 
 ## Known Issues
 
-* Not all platforms trigger the `DeviceAttached` event (OUYA in particular). If Unity's `Input.joystickNames()` is updated by the platform while the app is running, it will work. Every platform does, however, report all newly connected devices once the app is relaunched.
+* Not all platforms trigger the `DeviceAttached` event correctly. If Unity's `Input.GetJoystickNames()` is updated by the platform while the app is running, it will work. Every platform does, however, report all newly connected devices once the app is relaunched.
 * Some controller specific buttons (like Start, Select, Back, OUYA, Xbox Guide, PS3, etc.) are not part of the standardized set of supported inputs simply because they do not work on every platform. You should not be using these buttons in a generalized cross-platform capacity. Use of the OUYA button, for example, is dangerous as the user is just as likely to accidentally quit your app as do what they intend.
 
 ## Dependencies
@@ -156,5 +156,7 @@ This project requires [TinyJSON](pbhogan/TinyJSON). It is included in this proje
 ## Meta
 
 Handcrafted by Patrick Hogan [[twitter](http://twitter.com/pbhogan) &bull; [github](http://github.com/pbhogan) &bull; [website](http://www.gallantgames.com)]
+
+I'm using [waffle.io to manage my github issues workflow](http://waffle.io/pbhogan/InControl) so you can see what I'm working on.
 
 Released under the [MIT License](http://www.opensource.org/licenses/mit-license.php).

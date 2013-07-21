@@ -8,13 +8,31 @@ using UnityEngine;
 
 namespace InControl
 {
+	public enum LogMessageType
+	{
+		Info,
+		Warning,
+		Error
+	}
+
+
+	public struct LogMessage
+	{
+		public string text;
+		public LogMessageType type;
+	}
+
+
 	public class InputManager
 	{
 		public delegate void DeviceEventHandler( InputDevice device );
+		public delegate void LogMessageHandler( LogMessage message );
 
 		public static event DeviceEventHandler OnDeviceAttached;
 		public static event DeviceEventHandler OnDeviceDetached;
 		public static event DeviceEventHandler OnActiveDeviceChanged;
+
+		public static event LogMessageHandler OnLogMessage;
 
 		public static InputDevice ActiveDevice { get; private set; }
 		public static List<InputDevice> Devices = new List<InputDevice>();
@@ -73,8 +91,9 @@ namespace InControl
 				}
 			}
 
-			if (joystickHash != GetJoystickHash())
+			if (joystickHash != JoystickHash)
 			{
+				LogInfo( "Change in Unity attached joysticks detected; refreshing device list." );
 				RefreshDevices();
 			}
 		}
@@ -121,37 +140,61 @@ namespace InControl
 
 		static void DetectAttachedJoystickDevices( bool notify )
 		{
-			string[] joystickNames = Input.GetJoystickNames();
-			for (int i = 0; i < joystickNames.Length; i++)
+			try
 			{
-				var joystickName = joystickNames[i];
-				var matchedConfig = deviceProfiles.Find( config => config.HasJoystickName( joystickName ) );
-
-				if (matchedConfig == null)
+				var joystickNames = Input.GetJoystickNames();
+				for (int i = 0; i < joystickNames.Length; i++)
 				{
-					matchedConfig = new InputDeviceProfile( joystickName );
-					deviceProfiles.Add( matchedConfig );
-				}
-
-				foreach (var device in Devices)
-				{
-					if (device.Profile == matchedConfig && device.UnityJoystickId - 1 == i)
-					{
-						// already configured
-						return;
-					}
-				}
-
-				var inputDevice = new InputDevice( matchedConfig, i + 1 );
-				Devices.Add( inputDevice );
-
-				if (notify && OnDeviceAttached != null)
-				{
-					OnDeviceAttached( inputDevice );
+					DetectAttachedJoystickDevice( i + 1, joystickNames[i], notify );
 				}
 			}
+			catch (Exception e)
+			{
+				LogError( e.Message );
+				LogError( e.StackTrace );
+			}
 
-			joystickHash = GetJoystickHash();
+			joystickHash = JoystickHash;
+		}
+
+
+		static void DetectAttachedJoystickDevice( int unityJoystickId, string unityJoystickName, bool notify )
+		{
+			var matchedDeviceProfile = deviceProfiles.Find( config => config.HasJoystickName( unityJoystickName ) );
+			InputDeviceProfile deviceProfile = null;
+
+			if (matchedDeviceProfile == null)
+			{
+				deviceProfile = new InputDeviceProfile( unityJoystickName );
+				deviceProfiles.Add( deviceProfile );
+			}
+			else
+			{
+				deviceProfile = matchedDeviceProfile;
+			}
+
+			if (Devices.Any( device => device.IsConfiguredWith( deviceProfile, unityJoystickId ) ))
+		    {
+				LogInfo( "Device \"" + unityJoystickName + "\" is already configured with " + deviceProfile.Name );
+				return;
+			}
+
+			var inputDevice = new InputDevice( deviceProfile, unityJoystickId );
+			Devices.Add( inputDevice );
+
+			if (notify && OnDeviceAttached != null)
+			{
+				OnDeviceAttached( inputDevice );
+			}
+
+			if (matchedDeviceProfile == null)
+			{
+				LogWarning( "Attached device has no matching profile: \"" + unityJoystickName + "\"" );
+			}
+			else
+			{
+				LogInfo( "Attached device \"" + unityJoystickName + "\" matched profile: " + deviceProfile.Name );
+			}
 		}
 
 
@@ -182,6 +225,8 @@ namespace InControl
 					{
 						OnDeviceDetached( inputDevice );
 					}
+
+					LogInfo( "Detached device: " + inputDevice.Profile.Name );
 				}
 			}
 		}
@@ -195,14 +240,19 @@ namespace InControl
 
 				if (proxyObject == null)
 				{
-					Debug.LogError( textAsset.name + " is not a valid JSON file." );
+					LogError( textAsset.name + " is not a valid JSON file." );
 				}
 
 				var deviceProfile = proxyObject.Make<InputDeviceProfile>();
 						
 				if (deviceProfile.IsSupportedOnThisPlatform)
 				{
+					LogInfo( "Adding profile: " + deviceProfile.Name + " (" + textAsset.name + ".json)" );
 					deviceProfiles.Add( deviceProfile );
+				}
+				else
+				{
+					LogInfo( "Ignored profile: " + deviceProfile.Name + " (" + textAsset.name + ".json)" );
 				}
 			}
 		}
@@ -214,10 +264,43 @@ namespace InControl
 		}
 
 
-		static string GetJoystickHash()
+		public static string JoystickHash
 		{
-			var joystickNames = Input.GetJoystickNames();
-			return joystickNames.Length + ":" + String.Join( ",", joystickNames );
+			get
+			{
+				var joystickNames = Input.GetJoystickNames();
+				return joystickNames.Length + ": " + String.Join( ", ", joystickNames );
+			}
+		}
+
+
+		static void LogInfo( string text )
+		{
+			if (OnLogMessage != null)
+			{
+				var logMessage = new LogMessage() { text = text, type = LogMessageType.Info };
+				OnLogMessage( logMessage );
+			}
+		}
+
+
+		static void LogWarning( string text )
+		{
+			if (OnLogMessage != null)
+			{
+				var logMessage = new LogMessage() { text = text, type = LogMessageType.Warning };
+				OnLogMessage( logMessage );
+			}
+		}
+
+
+		static void LogError( string text )
+		{
+			if (OnLogMessage != null)
+			{
+				var logMessage = new LogMessage() { text = text, type = LogMessageType.Error };
+				OnLogMessage( logMessage );
+			}
 		}
 
 

@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using InControl;
 
@@ -7,15 +9,18 @@ using InControl;
 public class TestInputManager : MonoBehaviour
 {
 	GUIStyle style = new GUIStyle();
+	List<LogMessage> logMessages = new List<LogMessage>();
 
 
 	void Start()
 	{
-		InputManager.Setup();
-
 		InputManager.OnDeviceAttached += inputDevice => Debug.Log( "Attached: " + inputDevice.Name );
 		InputManager.OnDeviceDetached += inputDevice => Debug.Log( "Detached: " + inputDevice.Name );
 		InputManager.OnActiveDeviceChanged += inputDevice => Debug.Log( "Active device changed to: " + inputDevice.Name );
+
+		InputManager.OnLogMessage += logMessage => logMessages.Add( logMessage );
+
+		InputManager.Setup();
 	}
 
 
@@ -46,10 +51,13 @@ public class TestInputManager : MonoBehaviour
 		var w = 300;
 		var x = 10;
 		var y = 10;
+		var lineHeight = 15;
 
 		SetColor( Color.white );
 
-		GUI.Label( new Rect( x, y, x + w, y + 10 ), "Devices: ", style );
+		string info = "Devices: (Platform: " + InputManager.Platform + ") (Joysticks " + InputManager.JoystickHash + ")";
+
+		GUI.Label( new Rect( x, y, x + w, y + 10 ), info, style );
 
 		foreach (var inputDevice in InputManager.Devices)
 		{
@@ -61,26 +69,42 @@ public class TestInputManager : MonoBehaviour
 			SetColor( color );
 
 			GUI.Label( new Rect( x, y, x + w, y + 10 ), inputDevice.Name, style );
-			y += 15;
+			y += lineHeight;
 
 			GUI.Label( new Rect( x, y, x + w, y + 10 ), "UpdateTime: " + inputDevice.UpdateTime, style );
-			y += 15;
+			y += lineHeight;
 
 			foreach (var analog in inputDevice.Analogs)
 			{
 				SetColor( analog.State ? Color.green : color );
 				GUI.Label( new Rect( x, y, x + w, y + 10 ), analog.Handle + ": " + analog.Value, style );
-				y += 15;
+				y += lineHeight;
 			}
 
 			foreach (var button in inputDevice.Buttons)
 			{
 				SetColor( button.State ? Color.green : color );
 				GUI.Label( new Rect( x, y, x + w, y + 10 ), button.Handle + ": " + (button.State ? "True" : ""), style );
-				y += 15;
+				y += lineHeight;
 			}
 
-			x += 300;
+			x += 200;
+		}
+
+
+		Color[] logColors = { Color.gray, Color.yellow, Color.white };
+		SetColor( Color.white );
+		x = 10;
+		y = Screen.height - (10 + lineHeight);
+		for (int i = logMessages.Count - 1; i >= 0; i--)
+		{
+			var logMessage = logMessages[i];
+			SetColor( logColors[(int)logMessage.type] );
+			foreach (var line in logMessage.text.Split('\n'))
+			{
+	        	GUI.Label( new Rect( x, y, Screen.width, y + 10 ), line, style );
+				y -= lineHeight;
+			}
 		}
 	}
 }
