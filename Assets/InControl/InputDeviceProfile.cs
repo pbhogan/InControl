@@ -2,28 +2,30 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TinyJSON;
 using UnityEngine;
 
 
 namespace InControl
 {
+	public sealed class DeviceProfile : Attribute {}
+
+
 	public class InputDeviceProfile
 	{
 		public const int MaxUnityButtons = 20;
 		public const int MaxUnityAnalogs = 10;
 
-		string name = "Unknown";
-		string meta = "";
+		protected string name = "Unknown Device";
+		protected string meta = "";
 
-		float sensitivity = 1.0f;
-		float deadZone = 0.2f;
+		protected float sensitivity = 1.0f;
+		protected float deadZone = 0.2f;
 
-		InputControlAnalogMapping[] analogMappings;
-		InputControlButtonMapping[] buttonMappings;
+		protected InputControlAnalogMapping[] analogMappings;
+		protected InputControlButtonMapping[] buttonMappings;
 		
-		List<string> supportedPlatforms = new List<string>();
-		List<string> joystickNames = new List<string>();
+		protected List<string> supportedPlatforms;
+		protected List<string> joystickNames;
 
 
 		public InputDeviceProfile()
@@ -31,6 +33,7 @@ namespace InControl
 		}
 
 
+		// Refactor into new subclass UnknownDeviceProfile
 		public InputDeviceProfile( string joystickName )
 		{
 			if (joystickName != "")
@@ -59,13 +62,20 @@ namespace InControl
 		{
 			get 
 			{
+				if (supportedPlatforms == null || supportedPlatforms.Count == 0)
+				{
+					return true;
+				}
+
 				foreach (var platform in supportedPlatforms)
 				{
+					// TODO: refactor out the "*" from all device profiles.
 					if (platform == "*" || InputManager.Platform.Contains( platform.ToUpper() ))
 					{
 						return true;
 					}
 				}
+
 				return false;
 			}
 		}
@@ -73,12 +83,16 @@ namespace InControl
 
 		public bool IsJoystick 
 		{ 
-			get { return joystickNames.Count > 0; } 
+			get { return joystickNames != null && joystickNames.Count > 0; } 
 		}
 
 
 		public bool HasJoystickName( string joystickName )
 		{
+			if (!IsJoystick)
+			{
+				return false;
+			}
 			return joystickNames.Contains( joystickName, StringComparer.OrdinalIgnoreCase );
 		}
 

@@ -2,7 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using TinyJSON;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 
@@ -234,25 +235,21 @@ namespace InControl
 
 		static void LoadDeviceProfiles()
 		{
-			foreach (TextAsset textAsset in Resources.LoadAll( "InputDeviceProfiles", typeof( TextAsset ) ))
+			foreach (var type in Assembly.GetExecutingAssembly().GetTypes()) 
 			{
-				var proxyObject = JSON.Load( textAsset.text ) as ProxyObject;
+				if (type.GetCustomAttributes( typeof(DeviceProfile), true ).Length > 0) 
+				{
+					var deviceProfile = (InputDeviceProfile) Activator.CreateInstance( type );
 
-				if (proxyObject == null)
-				{
-					LogError( textAsset.name + " is not a valid JSON file." );
-				}
-
-				var deviceProfile = proxyObject.Make<InputDeviceProfile>();
-						
-				if (deviceProfile.IsSupportedOnThisPlatform)
-				{
-					LogInfo( "Adding profile: " + deviceProfile.Name + " (" + textAsset.name + ".json)" );
-					deviceProfiles.Add( deviceProfile );
-				}
-				else
-				{
-					LogInfo( "Ignored profile: " + deviceProfile.Name + " (" + textAsset.name + ".json)" );
+					if (deviceProfile.IsSupportedOnThisPlatform)
+					{
+						LogInfo( "Adding profile: " + type.Name + " (" + deviceProfile.Name + ")" );
+						deviceProfiles.Add( deviceProfile );
+					}
+					else
+					{
+						LogInfo( "Ignored profile: " + type.Name + " (" + deviceProfile.Name + ")" );
+					}
 				}
 			}
 		}

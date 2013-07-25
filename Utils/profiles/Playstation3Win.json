@@ -1,0 +1,133 @@
+{
+	"name": "Playstation 3 Controller",
+	"meta": "Playstation 3 Controller on Windows (via MotioninJoy Gamepad Tool)",
+	"supportedPlatforms": ["Windows"],
+	"joystickNames": ["MotioninJoy Virtual Game Controller"],
+	"sensitivity": 1.0,
+	"deadZone": 0.2,
+	"buttonMappings": [
+		{
+			"handle": "Cross",
+			"target": "Action1",
+			"source": "button 2"
+		},
+		{
+			"handle": "Circle",
+			"target": "Action2",
+			"source": "button 1"
+		},
+		{
+			"handle": "Square",
+			"target": "Action3",
+			"source": "button 3"
+		},
+		{
+			"handle": "Triangle",
+			"target": "Action4",
+			"source": "button 0"
+		},
+		{
+			"handle": "Left Bumper",
+			"target": "LeftBumper",
+			"source": "button 4"
+		},
+		{
+			"handle": "Right Bumper",
+			"target": "RightBumper",
+			"source": "button 5"
+		},
+		{
+			"handle": "Left Trigger",
+			"target": "LeftTrigger",
+			"source": "button 6"
+		},
+		{
+			"handle": "Right Trigger",
+			"target": "RightTrigger",
+			"source": "button 7"
+		},
+		{
+			"handle": "Select",
+			"target": "Select",
+			"source": "button 8"
+		},
+		{
+			"handle": "Left Stick Button",
+			"target": "LeftStickButton",
+			"source": "button 9"
+		},
+		{
+			"handle": "Right Stick Button",
+			"target": "RightStickButton",
+			"source": "button 10"
+		},
+		{
+			"handle": "Start",
+			"target": "Start",
+			"source": "button 11"
+		},
+		{
+			"handle": "System",
+			"target": "System",
+			"source": "button 12"
+		}
+	],
+	"analogMappings": [
+		{
+			"handle": "Left Stick X",
+			"target": "LeftStickX",
+			"source": "analog 0"
+		},
+		{
+			"handle": "Left Stick Y",
+			"target": "LeftStickY",
+			"source": "analog 1",
+			"invert": true
+		},
+		{
+			"handle": "Right Stick X",
+			"target": "RightStickX",
+			"source": "analog 2"
+		},
+		{
+			"handle": "Right Stick Y",
+			"target": "RightStickY",
+			"source": "analog 5",
+			"invert": true
+		},
+		{
+			"handle": "DPad Left",
+			"target": "DPadLeft",
+			"source": "analog 8",
+			"ranged": "-"
+		},
+		{
+			"handle": "DPad Right",
+			"target": "DPadRight",
+			"source": "analog 8",
+			"ranged": "+"
+		},
+		{
+			"handle": "DPad Up",
+			"target": "DPadUp",
+			"source": "analog 9",
+			"ranged": "+"
+		},
+		{
+			"handle": "DPad Down",
+			"target": "DPadDown",
+			"source": "analog 9",
+			"ranged": "-"
+		},
+		{
+			"handle": "Tilt X",
+			"target": "TiltX",
+			"source": "analog 3"
+		},
+		{
+			"handle": "Tilt Y",
+			"target": "TiltY",
+			"source": "analog 4"
+		}
+	]
+}

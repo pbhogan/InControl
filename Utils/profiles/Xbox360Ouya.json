@@ -1,0 +1,113 @@
+{
+	"name": "XBox 360 Controller",
+	"meta": "XBox 360 Controller on OUYA",
+	"supportedPlatforms": ["OUYA"],
+	"joystickNames": ["Microsoft X-Box 360 pad"],
+	"sensitivity": 1.0,
+	"deadZone": 0.2,
+	"buttonMappings": [
+		{
+			"handle": "A",
+			"target": "Action1",
+			"source": "button 0"
+		},
+		{
+			"handle": "B",
+			"target": "Action2",
+			"source": "button 1"
+		},
+		{
+			"handle": "X",
+			"target": "Action3",
+			"source": "button 3"
+		},
+		{
+			"handle": "Y",
+			"target": "Action4",
+			"source": "button 4"
+		},
+		{
+			"handle": "Left Bumper",
+			"target": "LeftBumper",
+			"source": "button 6"
+		},
+		{
+			"handle": "Right Bumper",
+			"target": "RightBumper",
+			"source": "button 7"
+		},
+		{
+			"handle": "Left Stick Button",
+			"target": "LeftStickButton",
+			"source": "button 13"
+		},
+		{
+			"handle": "Right Stick Button",
+			"target": "RightStickButton",
+			"source": "button 14"
+		},
+		{
+			"handle": "Start",
+			"target": "Start",
+			"source": "button 11"
+		}
+	],
+	"analogMappings": [
+		{
+			"handle": "Left Stick X",
+			"target": "LeftStickX",
+			"source": "analog 0"
+		},
+		{
+			"handle": "Left Stick Y",
+			"target": "LeftStickY",
+			"source": "analog 1",
+			"invert": true
+		},
+		{
+			"handle": "Right Stick X",
+			"target": "RightStickX",
+			"source": "analog 2"
+		},
+		{
+			"handle": "Right Stick Y",
+			"target": "RightStickY",
+			"source": "analog 3",
+			"invert": true
+		},
+		{
+			"handle": "DPad Left",
+			"target": "DPadLeft",
+			"source": "analog 4",
+			"ranged": "-"
+		},
+		{
+			"handle": "DPad Right",
+			"target": "DPadRight",
+			"source": "analog 4",
+			"ranged": "+"
+		},
+		{
+			"handle": "DPad Up",
+			"target": "DPadUp",
+			"source": "analog 5",
+			"ranged": "-"
+		},
+		{
+			"handle": "DPad Down",
+			"target": "DPadDown",
+			"source": "analog 5",
+			"ranged": "+"
+		},
+		{
+			"handle": "Left Trigger",
+			"target": "LeftTrigger",
+			"source": "analog 6"
+		},
+		{
+			"handle": "Right Trigger",
+			"target": "RightTrigger",
+			"source": "analog 7"
+		}
+	]
+}

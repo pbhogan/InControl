@@ -1,0 +1,114 @@
+{
+	"name": "Playstation 3 Controller",
+	"meta": "Playstation 3 Controller on Mac",
+	"supportedPlatforms": ["OS X"],
+	"joystickNames": ["Sony PLAYSTATION(R)3 Controller"],
+	"sensitivity": 1.0,
+	"deadZone": 0.2,
+	"buttonMappings": [
+		{
+			"handle": "Cross",
+			"target": "Action1",
+			"source": "button 14"
+		},
+		{
+			"handle": "Circle",
+			"target": "Action2",
+			"source": "button 13"
+		},
+		{
+			"handle": "Square",
+			"target": "Action3",
+			"source": "button 15"
+		},
+		{
+			"handle": "Triangle",
+			"target": "Action4",
+			"source": "button 12"
+		},
+		{
+			"handle": "DPad Up",
+			"target": "DPadUp",
+			"source": "button 4"
+		},
+		{
+			"handle": "DPad Down",
+			"target": "DPadDown",
+			"source": "button 6"
+		},
+		{
+			"handle": "DPad Left",
+			"target": "DPadLeft",
+			"source": "button 7"
+		},
+		{
+			"handle": "DPad Right",
+			"target": "DPadRight",
+			"source": "button 5"
+		},
+		{
+			"handle": "Left Bumper",
+			"target": "LeftBumper",
+			"source": "button 10"
+		},
+		{
+			"handle": "Right Bumper",
+			"target": "RightBumper",
+			"source": "button 11"
+		},
+		{
+			"handle": "Start",
+			"target": "Start",
+			"source": "button 3"
+		},
+		{
+			"handle": "Select",
+			"target": "Select",
+			"source": "button 0"
+		},
+		{
+			"handle": "Left Trigger",
+			"target": "LeftTrigger",
+			"source": "button 8"
+		},
+		{
+			"handle": "Right Trigger",
+			"target": "RightTrigger",
+			"source": "button 9"
+		},
+		{
+			"handle": "Left Stick Button",
+			"target": "LeftStickButton",
+			"source": "button 1"
+		},
+		{
+			"handle": "Right Stick Button",
+			"target": "RightStickButton",
+			"source": "button 2"
+		}
+	],
+	"analogMappings": [
+		{
+			"handle": "Left Stick X",
+			"target": "LeftStickX",
+			"source": "analog 0"
+		},
+		{
+			"handle": "Left Stick Y",
+			"target": "LeftStickY",
+			"source": "analog 1",
+			"invert": true
+		},
+		{
+			"handle": "Right Stick X",
+			"target": "RightStickX",
+			"source": "analog 2"
+		},
+		{
+			"handle": "Right Stick Y",
+			"target": "RightStickY",
+			"source": "analog 3",
+			"invert": true
+		}
+	]
+}

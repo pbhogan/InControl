@@ -1,0 +1,12 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    erubis (2.7.0)
+    json (1.8.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  erubis
+  json
