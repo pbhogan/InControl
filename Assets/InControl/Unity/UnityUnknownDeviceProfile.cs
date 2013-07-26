@@ -5,13 +5,13 @@ using System.Collections.Generic;
 
 namespace InControl
 {
-	public class UnknownUnityDeviceProfile : InputDeviceProfile
+	public class UnityUnknownDeviceProfile : InputDeviceProfile
 	{
 		public const int MaxUnityButtons = 20;
 		public const int MaxUnityAnalogs = 10;
 
 
-		public UnknownUnityDeviceProfile( string joystickName )
+		public UnityUnknownDeviceProfile( string joystickName )
 		{
 			Name = "Unknown Device";
 			if (joystickName != "")

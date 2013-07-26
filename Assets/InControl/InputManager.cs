@@ -35,7 +35,7 @@ namespace InControl
 
 		public static event LogMessageHandler OnLogMessage;
 
-		public static InputDevice ActiveDevice { get; private set; }
+		private static InputDevice activeDevice = InputDevice.Null;
 		public static List<InputDevice> Devices = new List<InputDevice>();
 
 		public static int NumInputControlTypes { get; private set; }
@@ -56,7 +56,7 @@ namespace InControl
 
 				NumInputControlTypes = (int) InputControlType.Count + 1;
 
-				LoadDeviceProfiles();
+				AutoDiscoverDeviceProfiles();
 				RefreshDevices( false );
 
 				isSetup = true;
@@ -66,6 +66,11 @@ namespace InControl
 
 		public static void Update()
 		{
+			if (!isSetup)
+			{
+				Setup();
+			}
+
 			Update( Time.time );
 		}
 
@@ -78,7 +83,8 @@ namespace InControl
 			{
 				inputDevice.Update( updateTime );
 
-				if (ActiveDevice == null || inputDevice.UpdateTime > ActiveDevice.UpdateTime)
+				if (ActiveDevice == InputDevice.Null || 
+				    inputDevice.UpdateTime > ActiveDevice.UpdateTime)
 				{
 					ActiveDevice = inputDevice;
 				}
@@ -107,9 +113,9 @@ namespace InControl
 			DetectAttachedJoystickDevices( notify );
 			DetectDetachedJoystickDevices( notify );
 
-			if (ActiveDevice == null)
+			if (ActiveDevice == InputDevice.Null)
 			{
-				ActiveDevice = GetDefaultActiveDevice();
+				ActiveDevice = DefaultActiveDevice;
 			}
 		}
 
@@ -133,7 +139,8 @@ namespace InControl
 				return;
 			}
 
-			Devices.Add( new InputDevice( config, 0 ) );
+			var keyboardDevice = new UnityInputDevice( config );
+			Devices.Add( keyboardDevice );
 
 			keyboardDevicesAttached = true;
 		}
@@ -166,7 +173,7 @@ namespace InControl
 
 			if (matchedDeviceProfile == null)
 			{
-				deviceProfile = new UnknownUnityDeviceProfile( unityJoystickName );
+				deviceProfile = new UnityUnknownDeviceProfile( unityJoystickName );
 				deviceProfiles.Add( deviceProfile );
 			}
 			else
@@ -174,13 +181,18 @@ namespace InControl
 				deviceProfile = matchedDeviceProfile;
 			}
 
-			if (Devices.Any( device => device.IsConfiguredWith( deviceProfile, unityJoystickId ) ))
+
+			foreach (var device in Devices)
 		    {
-				LogInfo( "Device \"" + unityJoystickName + "\" is already configured with " + deviceProfile.Name );
-				return;
+				var unityDevice = device as UnityInputDevice;
+				if (unityDevice != null && unityDevice.IsConfiguredWith( deviceProfile, unityJoystickId ))
+				{
+					LogInfo( "Device \"" + unityJoystickName + "\" is already configured with " + deviceProfile.Name );
+					return;
+				}
 			}
 
-			var inputDevice = new InputDevice( deviceProfile, unityJoystickId );
+			var inputDevice = new UnityInputDevice( deviceProfile, unityJoystickId );
 			Devices.Add( inputDevice );
 
 			if (notify && OnDeviceAttached != null)
@@ -205,35 +217,36 @@ namespace InControl
 
 			for (int i = Devices.Count - 1; i >= 0; i--)
 			{
-				InputDevice inputDevice = Devices[i];
+				var unityDevice = Devices[i] as UnityInputDevice;
 
-				if (!inputDevice.Profile.IsJoystick)
+				if (unityDevice == null || unityDevice.Profile.IsNotJoystick)
 				{
 					continue;
 				}
 
-				if (joystickNames.Length < inputDevice.UnityJoystickId || 
-					!inputDevice.Profile.HasJoystickName( joystickNames[inputDevice.UnityJoystickId - 1] ))
+				// TODO: This should all obviously be inside some sort of UnityInputDeviceManager.
+				if (joystickNames.Length < unityDevice.UnityJoystickId || 
+					!unityDevice.Profile.HasJoystickName( joystickNames[unityDevice.UnityJoystickId - 1] ))
 				{
-					if (ActiveDevice == inputDevice)
+					if (ActiveDevice == unityDevice)
 					{
-						ActiveDevice = GetDefaultActiveDevice();
+						ActiveDevice = DefaultActiveDevice;
 					}
 
-					Devices.Remove( inputDevice );
+					Devices.Remove( unityDevice );
 
 					if (notify && OnDeviceDetached != null)
 					{
-						OnDeviceDetached( inputDevice );
+						OnDeviceDetached( unityDevice );
 					}
 
-					LogInfo( "Detached device: " + inputDevice.Profile.Name );
+					LogInfo( "Detached device: " + unityDevice.Profile.Name );
 				}
 			}
 		}
 
 
-		static void LoadDeviceProfiles()
+		static void AutoDiscoverDeviceProfiles()
 		{
 			foreach (var type in Assembly.GetExecutingAssembly().GetTypes()) 
 			{
@@ -251,22 +264,6 @@ namespace InControl
 						LogInfo( "Ignored profile: " + type.Name + " (" + deviceProfile.Name + ")" );
 					}
 				}
-			}
-		}
-
-
-		static InputDevice GetDefaultActiveDevice()
-		{
-			return Devices.Count > 0 ? Devices[0] : null;
-		}
-
-
-		public static string JoystickHash
-		{
-			get
-			{
-				var joystickNames = Input.GetJoystickNames();
-				return joystickNames.Length + ": " + String.Join( ", ", joystickNames );
 			}
 		}
 
@@ -297,6 +294,32 @@ namespace InControl
 			{
 				var logMessage = new LogMessage() { text = text, type = LogMessageType.Error };
 				OnLogMessage( logMessage );
+			}
+		}
+
+
+		static InputDevice DefaultActiveDevice
+		{
+			get { return (Devices.Count > 0) ? Devices[0] : InputDevice.Null; }
+		}
+
+
+		public static string JoystickHash
+		{
+			get
+			{
+				var joystickNames = Input.GetJoystickNames();
+				return joystickNames.Length + ": " + String.Join( ", ", joystickNames );
+			}
+		}
+
+
+		public static InputDevice ActiveDevice 
+		{ 
+			get { return activeDevice; }
+			private set 
+			{ 
+				activeDevice = (value == null) ? InputDevice.Null : value;
 			}
 		}
 

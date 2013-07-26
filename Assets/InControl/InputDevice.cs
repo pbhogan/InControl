@@ -1,38 +1,41 @@
-using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System;
+using UnityEngine;
 
 
 namespace InControl
 {
-	// TODO: Refactor to add two subclasses: UnityInputDevice and NullInputDevice
 	public class InputDevice
 	{
-		public int UnityJoystickId { get; private set; }
-		public InputDeviceProfile Profile { get; private set; }	
-		public string Name { get; private set; }
-		public string Meta { get; private set; }
-		public float UpdateTime { get; private set; }
-		public InputControl[] Analogs { get; private set; }
-		public InputControl[] Buttons { get; private set; }
+		public string Name { get; protected set; }
+		public string Meta { get; protected set; }
 
-		InputControl[] controlTable;
-		InputControl nullControl = new InputControl( "N/A" );
+		public InputDeviceProfile Profile { get; protected set; }
+		public InputControl[] Analogs { get; protected set; }
+		public InputControl[] Buttons { get; protected set; }
+
+		public float UpdateTime { get; protected set; }
+
+		protected InputControl[] controlTable;
+		static InputControl nullControl = new InputControl( "N/A" ); // TODO: Create a NullInputControl?
+
+		public static readonly InputDevice Null = new InputDevice();
 
 
-		public InputDevice( InputDeviceProfile deviceProfile, int unityJoystickId = 0 )
+		public InputDevice()
 		{
-			UnityJoystickId = unityJoystickId;
+			Name = "";
+			Meta = "";
+		}
+
+
+		public InputDevice( InputDeviceProfile deviceProfile )
+		{
 			Profile = deviceProfile;
 
 			Name = deviceProfile.Name;
-
 			Meta = deviceProfile.Meta;
-			if (unityJoystickId != 0)
-			{
-				Meta += " [id: " + unityJoystickId + "]";
-			}
 
 			controlTable = new InputControl[ InputManager.NumInputControlTypes ];
 
@@ -53,13 +56,15 @@ namespace InControl
 				var targetControl = (int) Profile.ButtonMappings[i].Target;
 				controlTable[targetControl] = Buttons[i];
 			}
-
-			Update( 0.0f );
 		}
 
 
 		public InputControl GetControl( Enum inputAnalog )
 		{
+			if (controlTable == null)
+			{
+				return nullControl;
+			}
 			int controlIndex = Convert.ToInt32( inputAnalog );
 			var control = controlTable[controlIndex];
 			return control == null ? nullControl : control;
@@ -68,13 +73,18 @@ namespace InControl
 
 		public void Update( float updateTime )
 		{
+			if (Profile == null)
+			{
+				return;
+			}
+
 			bool stateChanged = false;
 		
 			var analogMappingCount = Profile.AnalogMappings.Length;
 			for (int i = 0; i < analogMappingCount; i++)
 			{
 				var analogMapping = Profile.AnalogMappings[i];
-				var unityValue = GetUnityAnalogValue( analogMapping.Source );
+				var unityValue = GetAnalogValue( analogMapping.Source );
 
 				if (analogMapping.HasPositiveTargetRange && unityValue == 0.0f && Analogs[i].UpdateTime == 0.0f)
 				{
@@ -94,7 +104,7 @@ namespace InControl
 			for (int i = 0; i < buttonMappingCount; i++)
 			{
 				var buttonSource = Profile.ButtonMappings[i].Source;
-				Buttons[i].UpdateWithState( GetUnityButtonState( buttonSource ), updateTime );
+				Buttons[i].UpdateWithState( GetButtonState( buttonSource ), updateTime );
 				stateChanged = stateChanged || Buttons[i].HasChanged;
 			}
 
@@ -102,6 +112,18 @@ namespace InControl
 			{
 				UpdateTime = updateTime;
 			}
+		}
+
+
+		protected virtual float GetAnalogValue( string source )
+		{
+			return 0.0f;
+		}
+
+
+		protected virtual bool GetButtonState( string source )
+		{
+			return false;
 		}
 
 		
@@ -129,61 +151,6 @@ namespace InControl
 			}
 		}
 
-
-		float GetUnityAnalogValue( string source )
-		{
-			if (source == "")
-			{
-				return 0.0f;
-			}
-			
-			if (Profile.IsJoystick)
-			{
-				source = "joystick " + UnityJoystickId + " " + source;
-				return Input.GetAxisRaw( source );
-			}
-			else
-			{
-				string[] axisStringSplit = source.Split( ' ' );
-
-				int axisVal = 0;
-
-				if (Input.GetKey( axisStringSplit[0] ))
-				{
-					axisVal--;
-				}
-
-				if (Input.GetKey( axisStringSplit[1] ))
-				{
-					axisVal++;
-				}
-
-				return axisVal;
-			}
-		}
-
-
-		bool GetUnityButtonState( string source )
-		{		
-			if (source == "")
-			{
-				return false;
-			}
-
-			if (Profile.IsJoystick)
-			{
-				source = "joystick " + UnityJoystickId + " " + source;
-			}
-
-			return Input.GetKey( source );
-		}
-
-
-		public bool IsConfiguredWith( InputDeviceProfile deviceProfile, int unityJoystickId )
-		{
-			return Profile == deviceProfile && UnityJoystickId == unityJoystickId;
-		}
-	
 
 		public InputControl LeftStickX { get { return GetControl( InputControlType.LeftStickX ); } }
 		public InputControl LeftStickY { get { return GetControl( InputControlType.LeftStickY ); } }

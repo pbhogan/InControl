@@ -62,12 +62,19 @@ namespace InControl
 		}
 
 
+		public bool IsNotJoystick
+		{ 
+			get { return JoystickNames == null || JoystickNames.Length == 0; } 
+		}
+
+
 		public bool HasJoystickName( string joystickName )
 		{
-			if (!IsJoystick)
+			if (IsNotJoystick)
 			{
 				return false;
 			}
+
 			return JoystickNames.Contains( joystickName, StringComparer.OrdinalIgnoreCase );
 		}
 	}

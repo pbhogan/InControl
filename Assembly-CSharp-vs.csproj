@@ -55,11 +55,12 @@
      <Compile Include="Assets\InControl\InputDeviceProfiles\Playstation3MacProfile.cs" />
      <Compile Include="Assets\InControl\InputDeviceProfiles\Playstation3OuyaProfile.cs" />
      <Compile Include="Assets\InControl\InputDeviceProfiles\Playstation3WinProfile.cs" />
-     <Compile Include="Assets\InControl\InputDeviceProfiles\UnknownUnityDeviceProfile.cs" />
      <Compile Include="Assets\InControl\InputDeviceProfiles\Xbox360MacProfile.cs" />
      <Compile Include="Assets\InControl\InputDeviceProfiles\Xbox360OuyaProfile.cs" />
      <Compile Include="Assets\InControl\InputDeviceProfiles\Xbox360WinProfile.cs" />
      <Compile Include="Assets\InControl\InputManager.cs" />
+     <Compile Include="Assets\InControl\Unity\UnityInputDevice.cs" />
+     <Compile Include="Assets\InControl\Unity\UnknownUnityDeviceProfile.cs" />
      <Compile Include="Assets\Ouya\LitJson\IJsonWrapper.cs" />
      <Compile Include="Assets\Ouya\LitJson\JsonData.cs" />
      <Compile Include="Assets\Ouya\LitJson\JsonException.cs" />
