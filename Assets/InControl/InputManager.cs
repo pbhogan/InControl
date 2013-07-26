@@ -166,7 +166,7 @@ namespace InControl
 
 			if (matchedDeviceProfile == null)
 			{
-				deviceProfile = new InputDeviceProfile( unityJoystickName );
+				deviceProfile = new UnknownUnityDeviceProfile( unityJoystickName );
 				deviceProfiles.Add( deviceProfile );
 			}
 			else
@@ -237,7 +237,7 @@ namespace InControl
 		{
 			foreach (var type in Assembly.GetExecutingAssembly().GetTypes()) 
 			{
-				if (type.GetCustomAttributes( typeof(DeviceProfile), true ).Length > 0) 
+				if (type.GetCustomAttributes( typeof(AutoDiscover), true ).Length > 0) 
 				{
 					var deviceProfile = (InputDeviceProfile) Activator.CreateInstance( type );
 

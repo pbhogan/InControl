@@ -9,11 +9,11 @@ namespace InControl
 		public string Source;
 		public InputControlType Target;
 
-		public bool Button = false; // buttons map onto 0 - 1 value range. TODO: refactor into Range TargetRange
+		public bool Button = false; // buttons map onto 0 - 1 value range. TODO: Refactor into Range TargetRange
 		public bool Invert = false;
 
 		public enum Range { Complete, Negative, Positive }; 
-		public Range Ranged = Range.Complete; // TODO: rename to SourceRange
+		public Range Ranged = Range.Complete; // TODO: Rename to SourceRange
 
 
 		public bool HasPositiveTargetRange

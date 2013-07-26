@@ -5,28 +5,28 @@ using System.Collections.Generic;
 
 namespace InControl
 {
-	[DeviceProfile]
+	[AutoDiscover]
 	public class OuyaProfile : InputDeviceProfile
 	{
 		public OuyaProfile()
 		{
-			name = "OUYA Controller";
-			meta = "OUYA Controller on OUYA";
+			Name = "OUYA Controller";
+			Meta = "OUYA Controller on OUYA";
 
-			supportedPlatforms = new List<string>()
+			SupportedPlatforms = new List<string>()
 			{
 				"OUYA"
 			};
 
-			joystickNames = new List<string>()
+			JoystickNames = new List<string>()
 			{
 				"OUYA Game Controller"
 			};
 
-			sensitivity = 1.0f;
-			deadZone = 0.3f;
+			Sensitivity = 1.0f;
+			DeadZone = 0.3f;
 
-			buttonMappings = new InputControlButtonMapping[]
+			ButtonMappings = new InputControlButtonMapping[]
 			{
 				new InputControlButtonMapping()
 				{
@@ -102,7 +102,7 @@ namespace InControl
 				}
 			};
 
-			analogMappings = new InputControlAnalogMapping[]
+			AnalogMappings = new InputControlAnalogMapping[]
 			{
 				new InputControlAnalogMapping()
 				{

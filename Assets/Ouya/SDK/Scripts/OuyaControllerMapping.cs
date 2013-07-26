@@ -284,7 +284,7 @@ public static class OuyaControllerMapping
 
         controllers.Add(ouya.name, ouya);
 
-        //TODO: Complete OUYA Controller Settings
+        
 
         #endregion
     }

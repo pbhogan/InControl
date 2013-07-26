@@ -7,54 +7,30 @@ using UnityEngine;
 
 namespace InControl
 {
-	public sealed class DeviceProfile : Attribute {}
+	public sealed class AutoDiscover : Attribute {}
 
 
 	public class InputDeviceProfile
 	{
-		public const int MaxUnityButtons = 20;
-		public const int MaxUnityAnalogs = 10;
+		public string Name { get; protected set; }
+		public string Meta { get; protected set; }
 
-		protected string name = "Unknown Device";
-		protected string meta = "";
+		public float Sensitivity { get; protected set; }
+		public float DeadZone { get; protected set; }
 
-		protected float sensitivity = 1.0f;
-		protected float deadZone = 0.2f;
-
-		protected InputControlAnalogMapping[] analogMappings;
-		protected InputControlButtonMapping[] buttonMappings;
+		public InputControlAnalogMapping[] AnalogMappings { get; protected set; }
+		public InputControlButtonMapping[] ButtonMappings { get; protected set; }
 		
-		protected List<string> supportedPlatforms;
-		protected List<string> joystickNames;
+		protected List<string> SupportedPlatforms; // TODO: Refactor to array
+		protected List<string> JoystickNames; // TODO: Refactor to array
 
 
 		public InputDeviceProfile()
 		{
-		}
-
-
-		// Refactor into new subclass UnknownDeviceProfile
-		public InputDeviceProfile( string joystickName )
-		{
-			if (joystickName != "")
-			{
-				name += " (" + joystickName + ")";
-			}
-
-			supportedPlatforms = new List<string>() { "*" };
-			joystickNames = new List<string>() { joystickName };
-
-			analogMappings = new InputControlAnalogMapping[ MaxUnityAnalogs ];
-			for (int i = 0; i < MaxUnityAnalogs; i++)
-			{
-				analogMappings[i] = new InputControlAnalogMapping( i );
-			}
-
-			buttonMappings = new InputControlButtonMapping[ MaxUnityButtons ];
-			for (int i = 0; i < MaxUnityButtons; i++)
-			{
-				buttonMappings[i] = new InputControlButtonMapping( i );
-			}
+			Name = "";
+			Meta = "";
+			Sensitivity = 1.0f;
+			DeadZone = 0.2f;
 		}
 
 
@@ -62,15 +38,14 @@ namespace InControl
 		{
 			get 
 			{
-				if (supportedPlatforms == null || supportedPlatforms.Count == 0)
+				if (SupportedPlatforms == null || SupportedPlatforms.Count == 0)
 				{
 					return true;
 				}
 
-				foreach (var platform in supportedPlatforms)
+				foreach (var platform in SupportedPlatforms)
 				{
-					// TODO: refactor out the "*" from all device profiles.
-					if (platform == "*" || InputManager.Platform.Contains( platform.ToUpper() ))
+					if (InputManager.Platform.Contains( platform.ToUpper() ))
 					{
 						return true;
 					}
@@ -83,7 +58,7 @@ namespace InControl
 
 		public bool IsJoystick 
 		{ 
-			get { return joystickNames != null && joystickNames.Count > 0; } 
+			get { return JoystickNames != null && JoystickNames.Count > 0; } 
 		}
 
 
@@ -93,43 +68,7 @@ namespace InControl
 			{
 				return false;
 			}
-			return joystickNames.Contains( joystickName, StringComparer.OrdinalIgnoreCase );
-		}
-
-
-		public string Name
-		{
-			get { return name; }
-		}
-
-
-		public string Meta
-		{
-			get { return meta; }
-		}
-
-
-		public float Sensitivity
-		{
-			get { return sensitivity; }
-		}
-
-
-		public float DeadZone
-		{
-			get { return deadZone; }
-		}
-
-
-		public InputControlAnalogMapping[] AnalogMappings
-		{
-			get { return analogMappings; }
-		}
-
-
-		public InputControlButtonMapping[] ButtonMappings
-		{
-			get { return buttonMappings; }
+			return JoystickNames.Contains( joystickName, StringComparer.OrdinalIgnoreCase );
 		}
 	}
 }

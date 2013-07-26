@@ -6,6 +6,7 @@ using System;
 
 namespace InControl
 {
+	// TODO: Refactor to add two subclasses: UnityInputDevice and NullInputDevice
 	public class InputDevice
 	{
 		public int UnityJoystickId { get; private set; }

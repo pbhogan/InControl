@@ -5,29 +5,29 @@ using System.Collections.Generic;
 
 namespace InControl
 {
-	[DeviceProfile]
+	[AutoDiscover]
 	public class Xbox360MacProfile : InputDeviceProfile
 	{
 		public Xbox360MacProfile()
 		{
-			name = "XBox 360 Controller";
-			meta = "XBox 360 Controller on Mac";
+			Name = "XBox 360 Controller";
+			Meta = "XBox 360 Controller on Mac";
 
-			supportedPlatforms = new List<string>()
+			SupportedPlatforms = new List<string>()
 			{
 				"OS X"
 			};
 
-			joystickNames = new List<string>()
+			JoystickNames = new List<string>()
 			{
 				"",
 				"Microsoft Wireless 360 Controller"
 			};
 
-			sensitivity = 1.0f;
-			deadZone = 0.2f;
+			Sensitivity = 1.0f;
+			DeadZone = 0.2f;
 
-			buttonMappings = new InputControlButtonMapping[]
+			ButtonMappings = new InputControlButtonMapping[]
 			{
 				new InputControlButtonMapping()
 				{
@@ -121,7 +121,7 @@ namespace InControl
 				}
 			};
 
-			analogMappings = new InputControlAnalogMapping[]
+			AnalogMappings = new InputControlAnalogMapping[]
 			{
 				new InputControlAnalogMapping()
 				{

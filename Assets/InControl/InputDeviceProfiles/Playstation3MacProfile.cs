@@ -5,28 +5,28 @@ using System.Collections.Generic;
 
 namespace InControl
 {
-	[DeviceProfile]
+	[AutoDiscover]
 	public class Playstation3MacProfile : InputDeviceProfile
 	{
 		public Playstation3MacProfile()
 		{
-			name = "Playstation 3 Controller";
-			meta = "Playstation 3 Controller on Mac";
+			Name = "Playstation 3 Controller";
+			Meta = "Playstation 3 Controller on Mac";
 
-			supportedPlatforms = new List<string>()
+			SupportedPlatforms = new List<string>()
 			{
 				"OS X"
 			};
 
-			joystickNames = new List<string>()
+			JoystickNames = new List<string>()
 			{
 				"Sony PLAYSTATION(R)3 Controller"
 			};
 
-			sensitivity = 1.0f;
-			deadZone = 0.2f;
+			Sensitivity = 1.0f;
+			DeadZone = 0.2f;
 
-			buttonMappings = new InputControlButtonMapping[]
+			ButtonMappings = new InputControlButtonMapping[]
 			{
 				new InputControlButtonMapping()
 				{
@@ -126,7 +126,7 @@ namespace InControl
 				}
 			};
 
-			analogMappings = new InputControlAnalogMapping[]
+			AnalogMappings = new InputControlAnalogMapping[]
 			{
 				new InputControlAnalogMapping()
 				{

@@ -5,28 +5,28 @@ using System.Collections.Generic;
 
 namespace InControl
 {
-	[DeviceProfile]
+	[AutoDiscover]
 	public class Xbox360OuyaProfile : InputDeviceProfile
 	{
 		public Xbox360OuyaProfile()
 		{
-			name = "XBox 360 Controller";
-			meta = "XBox 360 Controller on OUYA";
+			Name = "XBox 360 Controller";
+			Meta = "XBox 360 Controller on OUYA";
 
-			supportedPlatforms = new List<string>()
+			SupportedPlatforms = new List<string>()
 			{
 				"OUYA"
 			};
 
-			joystickNames = new List<string>()
+			JoystickNames = new List<string>()
 			{
 				"Microsoft X-Box 360 pad"
 			};
 
-			sensitivity = 1.0f;
-			deadZone = 0.2f;
+			Sensitivity = 1.0f;
+			DeadZone = 0.2f;
 
-			buttonMappings = new InputControlButtonMapping[]
+			ButtonMappings = new InputControlButtonMapping[]
 			{
 				new InputControlButtonMapping()
 				{
@@ -84,7 +84,7 @@ namespace InControl
 				}
 			};
 
-			analogMappings = new InputControlAnalogMapping[]
+			AnalogMappings = new InputControlAnalogMapping[]
 			{
 				new InputControlAnalogMapping()
 				{

@@ -5,15 +5,15 @@ using System.Collections.Generic;
 
 namespace InControl
 {
-	[DeviceProfile]
+	[AutoDiscover]
 	public class KeyboardProfile : InputDeviceProfile
 	{
 		public KeyboardProfile()
 		{
-			name = "Keyboard";
-			meta = "";
+			Name = "Keyboard";
+			Meta = "";
 
-			supportedPlatforms = new List<string>()
+			SupportedPlatforms = new List<string>()
 			{
 				"Windows",
 				"Mac",
@@ -21,10 +21,10 @@ namespace InControl
 			};
 
 
-			sensitivity = 1.0f;
-			deadZone = 0.0f;
+			Sensitivity = 1.0f;
+			DeadZone = 0.0f;
 
-			buttonMappings = new InputControlButtonMapping[]
+			ButtonMappings = new InputControlButtonMapping[]
 			{
 				new InputControlButtonMapping()
 				{
@@ -52,7 +52,7 @@ namespace InControl
 				}
 			};
 
-			analogMappings = new InputControlAnalogMapping[]
+			AnalogMappings = new InputControlAnalogMapping[]
 			{
 				new InputControlAnalogMapping()
 				{

@@ -12,7 +12,7 @@ def fix_mapping_attribute(k, v)
 end
 
 
-output_path = "../Assets/InControl/DeviceProfiles"
+output_path = "../Assets/InControl/InputDeviceProfiles"
 template = DATA.read
 Dir["profiles/*.json"].each do |path|
   name = File.basename(path, ".json")
@@ -52,32 +52,32 @@ using System.Collections.Generic;
 
 namespace InControl
 {
-	[DeviceProfile]
+	[AutoDiscover]
 	public class <%= class_name %> : InputDeviceProfile
 	{
 		public <%= class_name %>()
 		{
-			name = "<%= name %>";
-			meta = "<%= meta %>";
+			Name = "<%= name %>";
+			Meta = "<%= meta %>";
 
 			<% unless supportedPlatforms.empty? %>
-			supportedPlatforms = new List<string>()
+			SupportedPlatforms = new List<string>()
 			{
 				<%= '"' + supportedPlatforms.join("\",\n\t\t\t\t\"") + '"' %>
 			};
 			<% end %>
 
 			<% unless joystickNames.empty? %>
-			joystickNames = new List<string>()
+			JoystickNames = new List<string>()
 			{
 				<%= '"' + joystickNames.join("\",\n\t\t\t\t\"") + '"' %>
 			};
 			<% end %>
 
-			sensitivity = <%= sensitivity %>f;
-			deadZone = <%= deadZone %>f;
+			Sensitivity = <%= sensitivity %>f;
+			DeadZone = <%= deadZone %>f;
 
-			buttonMappings = new InputControlButtonMapping[]
+			ButtonMappings = new InputControlButtonMapping[]
 			{
 				<% buttonMappings.each_with_index do |m, i| %>
 				new InputControlButtonMapping()
@@ -89,7 +89,7 @@ namespace InControl
 				<% end %>
 			};
 
-			analogMappings = new InputControlAnalogMapping[]
+			AnalogMappings = new InputControlAnalogMapping[]
 			{
 				<% analogMappings.each_with_index do |m, i| %>
 				new InputControlAnalogMapping()

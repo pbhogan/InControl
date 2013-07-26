@@ -5,29 +5,29 @@ using System.Collections.Generic;
 
 namespace InControl
 {
-	[DeviceProfile]
+	[AutoDiscover]
 	public class Xbox360WinProfile : InputDeviceProfile
 	{
 		public Xbox360WinProfile()
 		{
-			name = "XBox 360 Controller";
-			meta = "XBox 360 Controller on Windows";
+			Name = "XBox 360 Controller";
+			Meta = "XBox 360 Controller on Windows";
 
-			supportedPlatforms = new List<string>()
+			SupportedPlatforms = new List<string>()
 			{
 				"Windows"
 			};
 
-			joystickNames = new List<string>()
+			JoystickNames = new List<string>()
 			{
 				"Controller (XBOX 360 For Windows)",
 				"Controller (XBOX 360 Wireless Receiver for Windows)"
 			};
 
-			sensitivity = 1.0f;
-			deadZone = 0.2f;
+			Sensitivity = 1.0f;
+			DeadZone = 0.2f;
 
-			buttonMappings = new InputControlButtonMapping[]
+			ButtonMappings = new InputControlButtonMapping[]
 			{
 				new InputControlButtonMapping()
 				{
@@ -91,7 +91,7 @@ namespace InControl
 				}
 			};
 
-			analogMappings = new InputControlAnalogMapping[]
+			AnalogMappings = new InputControlAnalogMapping[]
 			{
 				new InputControlAnalogMapping()
 				{

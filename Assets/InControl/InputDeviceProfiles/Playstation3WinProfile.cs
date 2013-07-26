@@ -5,28 +5,28 @@ using System.Collections.Generic;
 
 namespace InControl
 {
-	[DeviceProfile]
+	[AutoDiscover]
 	public class Playstation3WinProfile : InputDeviceProfile
 	{
 		public Playstation3WinProfile()
 		{
-			name = "Playstation 3 Controller";
-			meta = "Playstation 3 Controller on Windows (via MotioninJoy Gamepad Tool)";
+			Name = "Playstation 3 Controller";
+			Meta = "Playstation 3 Controller on Windows (via MotioninJoy Gamepad Tool)";
 
-			supportedPlatforms = new List<string>()
+			SupportedPlatforms = new List<string>()
 			{
 				"Windows"
 			};
 
-			joystickNames = new List<string>()
+			JoystickNames = new List<string>()
 			{
 				"MotioninJoy Virtual Game Controller"
 			};
 
-			sensitivity = 1.0f;
-			deadZone = 0.2f;
+			Sensitivity = 1.0f;
+			DeadZone = 0.2f;
 
-			buttonMappings = new InputControlButtonMapping[]
+			ButtonMappings = new InputControlButtonMapping[]
 			{
 				new InputControlButtonMapping()
 				{
@@ -108,7 +108,7 @@ namespace InControl
 				}
 			};
 
-			analogMappings = new InputControlAnalogMapping[]
+			AnalogMappings = new InputControlAnalogMapping[]
 			{
 				new InputControlAnalogMapping()
 				{
