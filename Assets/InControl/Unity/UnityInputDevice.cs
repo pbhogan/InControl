@@ -8,17 +8,31 @@ namespace InControl
 {
 	public class UnityInputDevice : InputDevice
 	{
-		public int UnityJoystickId { get; private set; }
+		public int JoystickId { get; private set; }
 
 
-		public UnityInputDevice( InputDeviceProfile deviceProfile, int unityJoystickId = 0 )
-			: base( deviceProfile )
+		public UnityInputDevice( UnityInputDeviceProfile profile, int joystickId = 0 )
+			: base( profile.Name, profile.AnalogMappings.Length, profile.ButtonMappings.Length )
 		{
-			UnityJoystickId = unityJoystickId;
+			Profile = profile;
 
-			if (unityJoystickId != 0)
+			Meta = Profile.Meta;
+
+			foreach (var analogMapping in Profile.AnalogMappings)
 			{
-				Meta += " [id: " + unityJoystickId + "]";
+				AddAnalogControl( analogMapping.Target, analogMapping.Handle );
+			}
+
+			foreach (var buttonMapping in Profile.ButtonMappings)
+			{
+				AddButtonControl( buttonMapping.Target, buttonMapping.Handle );
+			}
+
+			JoystickId = joystickId;
+
+			if (joystickId != 0)
+			{
+				Meta += " [id: " + joystickId + "]";
 			}
 		}
 
@@ -32,7 +46,7 @@ namespace InControl
 
 			if (Profile.IsJoystick)
 			{
-				source = "joystick " + UnityJoystickId + " " + source;
+				source = "joystick " + JoystickId + " " + source;
 				return Input.GetAxisRaw( source );
 			}
 			else
@@ -65,16 +79,16 @@ namespace InControl
 
 			if (Profile.IsJoystick)
 			{
-				source = "joystick " + UnityJoystickId + " " + source;
+				source = "joystick " + JoystickId + " " + source;
 			}
 
 			return Input.GetKey( source );
 		}
 
 
-		public bool IsConfiguredWith( InputDeviceProfile deviceProfile, int unityJoystickId )
+		public bool IsConfiguredWith( UnityInputDeviceProfile deviceProfile, int joystickId )
 		{
-			return Profile == deviceProfile && UnityJoystickId == unityJoystickId;
+			return Profile == deviceProfile && JoystickId == joystickId;
 		}
 	}
 }

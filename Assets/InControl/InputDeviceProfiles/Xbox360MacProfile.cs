@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class Xbox360MacProfile : InputDeviceProfile
+	public class Xbox360MacProfile : UnityInputDeviceProfile
 	{
 		public Xbox360MacProfile()
 		{

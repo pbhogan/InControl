@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace InControl
 {
-	public class UnityUnknownDeviceProfile : InputDeviceProfile
+	public class UnityUnknownDeviceProfile : UnityInputDeviceProfile
 	{
 		public const int MaxUnityButtons = 20;
 		public const int MaxUnityAnalogs = 10;

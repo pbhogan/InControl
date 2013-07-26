@@ -10,7 +10,7 @@ namespace InControl
 	public sealed class AutoDiscover : Attribute {}
 
 
-	public class InputDeviceProfile
+	public class UnityInputDeviceProfile
 	{
 		public string Name { get; protected set; }
 		public string Meta { get; protected set; }
@@ -25,7 +25,7 @@ namespace InControl
 		protected string[] JoystickNames;
 
 
-		public InputDeviceProfile()
+		public UnityInputDeviceProfile()
 		{
 			Name = "";
 			Meta = "";

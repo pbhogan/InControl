@@ -49,7 +49,7 @@
      <Compile Include="Assets\InControl\InputControlState.cs" />
      <Compile Include="Assets\InControl\InputControlType.cs" />
      <Compile Include="Assets\InControl\InputDevice.cs" />
-     <Compile Include="Assets\InControl\InputDeviceProfile.cs" />
+     <Compile Include="Assets\InControl\InputDeviceManager.cs" />
      <Compile Include="Assets\InControl\InputDeviceProfiles\KeyboardProfile.cs" />
      <Compile Include="Assets\InControl\InputDeviceProfiles\OuyaProfile.cs" />
      <Compile Include="Assets\InControl\InputDeviceProfiles\Playstation3MacProfile.cs" />
@@ -60,7 +60,9 @@
      <Compile Include="Assets\InControl\InputDeviceProfiles\Xbox360WinProfile.cs" />
      <Compile Include="Assets\InControl\InputManager.cs" />
      <Compile Include="Assets\InControl\Unity\UnityInputDevice.cs" />
-     <Compile Include="Assets\InControl\Unity\UnknownUnityDeviceProfile.cs" />
+     <Compile Include="Assets\InControl\Unity\UnityInputDeviceManager.cs" />
+     <Compile Include="Assets\InControl\Unity\UnityInputDeviceProfile.cs" />
+     <Compile Include="Assets\InControl\Unity\UnityUnknownDeviceProfile.cs" />
      <Compile Include="Assets\Ouya\LitJson\IJsonWrapper.cs" />
      <Compile Include="Assets\Ouya\LitJson\JsonData.cs" />
      <Compile Include="Assets\Ouya\LitJson\JsonException.cs" />

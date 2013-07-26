@@ -8,66 +8,69 @@ namespace InControl
 {
 	public class InputDevice
 	{
+		public static readonly InputDevice Null = new InputDevice( "NullInputDevice" );
+
 		public string Name { get; protected set; }
 		public string Meta { get; protected set; }
 
-		public InputDeviceProfile Profile { get; protected set; }
+		public UnityInputDeviceProfile Profile { get; protected set; }
 		public InputControl[] Analogs { get; protected set; }
 		public InputControl[] Buttons { get; protected set; }
 
 		public float UpdateTime { get; protected set; }
 
-		protected InputControl[] controlTable;
-		static InputControl nullControl = new InputControl( "N/A" ); // TODO: Create a NullInputControl?
+		InputControl[] controlTable;
+		int filledAnalogCount = 0;
+		int filledButtonCount = 0;
 
-		public static readonly InputDevice Null = new InputDevice();
 
-
-		public InputDevice()
+		public InputDevice( string name, int analogCount = 0, int buttonCount = 0 )
 		{
-			Name = "";
+			Name = name;
 			Meta = "";
+
+			Analogs = new InputControl[ analogCount ];
+			Buttons = new InputControl[ buttonCount ];
+
+			var numInputControlTypes = (int) InputControlType.Count + 1;
+			controlTable = new InputControl[ numInputControlTypes ];
+			Debug.Log( "controlTable.Length = " + controlTable.Length );
 		}
 
 
-		public InputDevice( InputDeviceProfile deviceProfile )
+		public InputControl GetControl( Enum inputControlType )
 		{
-			Profile = deviceProfile;
-
-			Name = deviceProfile.Name;
-			Meta = deviceProfile.Meta;
-
-			controlTable = new InputControl[ InputManager.NumInputControlTypes ];
-
-			var analogMappingCount = Profile.AnalogMappings.Length;
-			Analogs = new InputControl[ analogMappingCount ];
-			for (int i = 0; i < analogMappingCount; i++)
-			{
-				Analogs[i] = new InputControl( Profile.AnalogMappings[i].Handle );
-				var targetControl = (int) Profile.AnalogMappings[i].Target;
-				controlTable[targetControl] = Analogs[i];
-			}
-
-			var buttonMappingCount = Profile.ButtonMappings.Length;
-			Buttons = new InputControl[ buttonMappingCount ];
-			for (int i = 0; i < buttonMappingCount; i++)
-			{
-				Buttons[i] = new InputControl( Profile.ButtonMappings[i].Handle );
-				var targetControl = (int) Profile.ButtonMappings[i].Target;
-				controlTable[targetControl] = Buttons[i];
-			}
-		}
-
-
-		public InputControl GetControl( Enum inputAnalog )
-		{
-			if (controlTable == null)
-			{
-				return nullControl;
-			}
-			int controlIndex = Convert.ToInt32( inputAnalog );
+			int controlIndex = Convert.ToInt32( inputControlType );
 			var control = controlTable[controlIndex];
-			return control == null ? nullControl : control;
+			return control == null ? InputControl.Null : control;
+		}
+
+
+		public void AddAnalogControl( Enum target, string handle = "" )
+		{
+			SetAnalogControl( filledAnalogCount++, target, handle );
+		}
+
+
+		public void SetAnalogControl( int i, Enum target, string handle = "" )
+		{
+			Analogs[i] = new InputControl( handle );
+			var controlIndex = Convert.ToInt32( target );
+			controlTable[controlIndex] = Analogs[i];
+		}
+
+
+		public void AddButtonControl( Enum target, string handle = "" )
+		{
+			SetButtonControl( filledButtonCount++, target, handle );
+		}
+
+
+		public void SetButtonControl( int i, Enum target, string handle = "" )
+		{
+			Buttons[i] = new InputControl( handle );
+			var controlIndex = Convert.ToInt32( target );
+			controlTable[controlIndex] = Buttons[i];
 		}
 
 

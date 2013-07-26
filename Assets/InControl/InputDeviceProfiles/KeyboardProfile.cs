@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class KeyboardProfile : InputDeviceProfile
+	public class KeyboardProfile : UnityInputDeviceProfile
 	{
 		public KeyboardProfile()
 		{

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class Playstation3OuyaProfile : InputDeviceProfile
+	public class Playstation3OuyaProfile : UnityInputDeviceProfile
 	{
 		public Playstation3OuyaProfile()
 		{

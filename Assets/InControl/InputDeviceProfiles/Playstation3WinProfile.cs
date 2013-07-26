@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class Playstation3WinProfile : InputDeviceProfile
+	public class Playstation3WinProfile : UnityInputDeviceProfile
 	{
 		public Playstation3WinProfile()
 		{

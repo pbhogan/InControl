@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class OuyaProfile : InputDeviceProfile
+	public class OuyaProfile : UnityInputDeviceProfile
 	{
 		public OuyaProfile()
 		{
