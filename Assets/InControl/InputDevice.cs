@@ -14,7 +14,7 @@ namespace InControl
 		public string Meta { get; protected set; }
 
 		public UnityInputDeviceProfile Profile { get; protected set; }
-		public InputControl[] Analogs { get; protected set; }
+		public InputControl[] Analogs { get; protected set; } // TODO: Unify Analogs and Buttons
 		public InputControl[] Buttons { get; protected set; }
 
 		public float UpdateTime { get; protected set; }
@@ -34,7 +34,6 @@ namespace InControl
 
 			var numInputControlTypes = (int) InputControlType.Count + 1;
 			controlTable = new InputControl[ numInputControlTypes ];
-			Debug.Log( "controlTable.Length = " + controlTable.Length );
 		}
 
 

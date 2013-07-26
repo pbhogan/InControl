@@ -12,7 +12,7 @@ def fix_mapping_attribute(k, v)
 end
 
 
-output_path = "../Assets/InControl/InputDeviceProfiles"
+output_path = "../Assets/InControl/Unity/DeviceProfiles"
 template = DATA.read
 Dir["profiles/*.json"].each do |path|
   name = File.basename(path, ".json")
@@ -53,7 +53,7 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class <%= class_name %> : InputDeviceProfile
+	public class <%= class_name %> : UnityInputDeviceProfile
 	{
 		public <%= class_name %>()
 		{

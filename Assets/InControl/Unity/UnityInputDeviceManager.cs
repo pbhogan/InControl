@@ -99,7 +99,7 @@ namespace InControl
 
 			if (matchedDeviceProfile == null)
 			{
-				deviceProfile = new UnityUnknownDeviceProfile( unityJoystickName );
+				deviceProfile = new UnknownDeviceProfile( unityJoystickName );
 				deviceProfiles.Add( deviceProfile );
 			}
 			else

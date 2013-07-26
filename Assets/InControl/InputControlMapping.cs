@@ -15,29 +15,7 @@ namespace InControl
 		public enum Range { Complete, Negative, Positive }; 
 		public Range Ranged = Range.Complete; // TODO: Rename to SourceRange
 
-
-		public bool HasPositiveTargetRange
-		{
-			get { return Button; }
-		}
-
-
-		private string handle;
-		public string Handle
-		{
-			get { return (handle == null || handle == "") ? Target.ToString() : handle; }
-			set { handle = value; }
-		}
-
-
-		bool IsYAxis 
-		{
-			get 
-			{ 
-				return Target == InputControlType.LeftStickY   || 
-					   Target == InputControlType.RightStickY; 
-			}
-		}
+		string handle;
 
 
 		float GetRangedValue( float value )
@@ -73,10 +51,33 @@ namespace InControl
 			var minimum = Button ? 0.0f : -1.0f;
 			return Mathf.Lerp( minimum, 1.0f, Mathf.InverseLerp( -1.0f, 1.0f, value ) );
 		}
+
+
+		public bool HasPositiveTargetRange
+		{
+			get { return Button; }
+		}
+
+
+		public string Handle
+		{
+			get { return (handle == null || handle == "") ? Target.ToString() : handle; }
+			set { handle = value; }
+		}
+
+
+		bool IsYAxis 
+		{
+			get 
+			{ 
+				return Target == InputControlType.LeftStickY   || 
+					Target == InputControlType.RightStickY; 
+			}
+		}
 	}
 
 
-	// TODO: Refactor to eliminate this class.
+	// TODO: Refactor to eliminate InputControlAnalogMapping.
 	public class InputControlAnalogMapping : InputControlMapping
 	{
 		public InputControlAnalogMapping() 
@@ -93,7 +94,7 @@ namespace InControl
 	}
 
 
-	// TODO: Refactor to eliminate this class.
+	// TODO: Refactor to eliminate InputControlButtonMapping.
 	public class InputControlButtonMapping : InputControlMapping
 	{
 		public InputControlButtonMapping() 
