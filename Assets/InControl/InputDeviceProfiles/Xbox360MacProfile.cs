@@ -13,12 +13,12 @@ namespace InControl
 			Name = "XBox 360 Controller";
 			Meta = "XBox 360 Controller on Mac";
 
-			SupportedPlatforms = new List<string>()
+			SupportedPlatforms = new[]
 			{
 				"OS X"
 			};
 
-			JoystickNames = new List<string>()
+			JoystickNames = new[]
 			{
 				"",
 				"Microsoft Wireless 360 Controller"
@@ -27,7 +27,7 @@ namespace InControl
 			Sensitivity = 1.0f;
 			DeadZone = 0.2f;
 
-			ButtonMappings = new InputControlButtonMapping[]
+			ButtonMappings = new[]
 			{
 				new InputControlButtonMapping()
 				{

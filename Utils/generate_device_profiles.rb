@@ -61,23 +61,23 @@ namespace InControl
 			Meta = "<%= meta %>";
 
 			<% unless supportedPlatforms.empty? %>
-			SupportedPlatforms = new List<string>()
+			SupportedPlatforms = new[]
 			{
 				<%= '"' + supportedPlatforms.join("\",\n\t\t\t\t\"") + '"' %>
 			};
-			<% end %>
 
+			<% end %>
 			<% unless joystickNames.empty? %>
-			JoystickNames = new List<string>()
+			JoystickNames = new[]
 			{
 				<%= '"' + joystickNames.join("\",\n\t\t\t\t\"") + '"' %>
 			};
-			<% end %>
 
+			<% end %>
 			Sensitivity = <%= sensitivity %>f;
 			DeadZone = <%= deadZone %>f;
 
-			ButtonMappings = new InputControlButtonMapping[]
+			ButtonMappings = new[]
 			{
 				<% buttonMappings.each_with_index do |m, i| %>
 				new InputControlButtonMapping()

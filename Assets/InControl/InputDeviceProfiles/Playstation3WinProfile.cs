@@ -13,12 +13,12 @@ namespace InControl
 			Name = "Playstation 3 Controller";
 			Meta = "Playstation 3 Controller on Windows (via MotioninJoy Gamepad Tool)";
 
-			SupportedPlatforms = new List<string>()
+			SupportedPlatforms = new[]
 			{
 				"Windows"
 			};
 
-			JoystickNames = new List<string>()
+			JoystickNames = new[]
 			{
 				"MotioninJoy Virtual Game Controller"
 			};
@@ -26,7 +26,7 @@ namespace InControl
 			Sensitivity = 1.0f;
 			DeadZone = 0.2f;
 
-			ButtonMappings = new InputControlButtonMapping[]
+			ButtonMappings = new[]
 			{
 				new InputControlButtonMapping()
 				{

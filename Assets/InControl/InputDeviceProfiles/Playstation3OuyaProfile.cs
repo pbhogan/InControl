@@ -13,12 +13,12 @@ namespace InControl
 			Name = "Playstation 3 Controller";
 			Meta = "Playstation 3 Controller on OUYA";
 
-			SupportedPlatforms = new List<string>()
+			SupportedPlatforms = new[]
 			{
 				"OUYA"
 			};
 
-			JoystickNames = new List<string>()
+			JoystickNames = new[]
 			{
 				"PLAYSTATION(R)3 Controller"
 			};
@@ -26,7 +26,7 @@ namespace InControl
 			Sensitivity = 1.0f;
 			DeadZone = 0.2f;
 
-			ButtonMappings = new InputControlButtonMapping[]
+			ButtonMappings = new[]
 			{
 				new InputControlButtonMapping()
 				{

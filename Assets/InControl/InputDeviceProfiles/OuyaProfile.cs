@@ -13,12 +13,12 @@ namespace InControl
 			Name = "OUYA Controller";
 			Meta = "OUYA Controller on OUYA";
 
-			SupportedPlatforms = new List<string>()
+			SupportedPlatforms = new[]
 			{
 				"OUYA"
 			};
 
-			JoystickNames = new List<string>()
+			JoystickNames = new[]
 			{
 				"OUYA Game Controller"
 			};
@@ -26,7 +26,7 @@ namespace InControl
 			Sensitivity = 1.0f;
 			DeadZone = 0.3f;
 
-			ButtonMappings = new InputControlButtonMapping[]
+			ButtonMappings = new[]
 			{
 				new InputControlButtonMapping()
 				{

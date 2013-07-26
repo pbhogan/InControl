@@ -13,12 +13,12 @@ namespace InControl
 			Name = "Playstation 3 Controller";
 			Meta = "Playstation 3 Controller on Mac";
 
-			SupportedPlatforms = new List<string>()
+			SupportedPlatforms = new[]
 			{
 				"OS X"
 			};
 
-			JoystickNames = new List<string>()
+			JoystickNames = new[]
 			{
 				"Sony PLAYSTATION(R)3 Controller"
 			};
@@ -26,7 +26,7 @@ namespace InControl
 			Sensitivity = 1.0f;
 			DeadZone = 0.2f;
 
-			ButtonMappings = new InputControlButtonMapping[]
+			ButtonMappings = new[]
 			{
 				new InputControlButtonMapping()
 				{

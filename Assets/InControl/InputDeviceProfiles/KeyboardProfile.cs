@@ -13,18 +13,17 @@ namespace InControl
 			Name = "Keyboard";
 			Meta = "";
 
-			SupportedPlatforms = new List<string>()
+			SupportedPlatforms = new[]
 			{
 				"Windows",
 				"Mac",
 				"Linux"
 			};
 
-
 			Sensitivity = 1.0f;
 			DeadZone = 0.0f;
 
-			ButtonMappings = new InputControlButtonMapping[]
+			ButtonMappings = new[]
 			{
 				new InputControlButtonMapping()
 				{

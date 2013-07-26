@@ -36,7 +36,7 @@ namespace InControl
 
 			controlTable = new InputControl[ InputManager.NumInputControlTypes ];
 
-			var analogMappingCount = Profile.AnalogMappings.GetLength( 0 );
+			var analogMappingCount = Profile.AnalogMappings.Length;
 			Analogs = new InputControl[ analogMappingCount ];
 			for (int i = 0; i < analogMappingCount; i++)
 			{
@@ -45,7 +45,7 @@ namespace InControl
 				controlTable[targetControl] = Analogs[i];
 			}
 
-			var buttonMappingCount = Profile.ButtonMappings.GetLength( 0 );
+			var buttonMappingCount = Profile.ButtonMappings.Length;
 			Buttons = new InputControl[ buttonMappingCount ];
 			for (int i = 0; i < buttonMappingCount; i++)
 			{
@@ -70,7 +70,7 @@ namespace InControl
 		{
 			bool stateChanged = false;
 		
-			var analogMappingCount = Profile.AnalogMappings.GetLength( 0 );
+			var analogMappingCount = Profile.AnalogMappings.Length;
 			for (int i = 0; i < analogMappingCount; i++)
 			{
 				var analogMapping = Profile.AnalogMappings[i];
@@ -90,7 +90,7 @@ namespace InControl
 				stateChanged = stateChanged || Analogs[i].HasChanged;
 			}
 
-			var buttonMappingCount = Profile.ButtonMappings.GetLength( 0 );
+			var buttonMappingCount = Profile.ButtonMappings.Length;
 			for (int i = 0; i < buttonMappingCount; i++)
 			{
 				var buttonSource = Profile.ButtonMappings[i].Source;

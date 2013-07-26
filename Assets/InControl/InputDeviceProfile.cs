@@ -21,8 +21,8 @@ namespace InControl
 		public InputControlAnalogMapping[] AnalogMappings { get; protected set; }
 		public InputControlButtonMapping[] ButtonMappings { get; protected set; }
 		
-		protected List<string> SupportedPlatforms; // TODO: Refactor to array
-		protected List<string> JoystickNames; // TODO: Refactor to array
+		protected string[] SupportedPlatforms;
+		protected string[] JoystickNames;
 
 
 		public InputDeviceProfile()
@@ -38,7 +38,7 @@ namespace InControl
 		{
 			get 
 			{
-				if (SupportedPlatforms == null || SupportedPlatforms.Count == 0)
+				if (SupportedPlatforms == null || SupportedPlatforms.Length == 0)
 				{
 					return true;
 				}
@@ -58,7 +58,7 @@ namespace InControl
 
 		public bool IsJoystick 
 		{ 
-			get { return JoystickNames != null && JoystickNames.Count > 0; } 
+			get { return JoystickNames != null && JoystickNames.Length > 0; } 
 		}
 
 

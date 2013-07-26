@@ -13,12 +13,12 @@ namespace InControl
 			Name = "XBox 360 Controller";
 			Meta = "XBox 360 Controller on OUYA";
 
-			SupportedPlatforms = new List<string>()
+			SupportedPlatforms = new[]
 			{
 				"OUYA"
 			};
 
-			JoystickNames = new List<string>()
+			JoystickNames = new[]
 			{
 				"Microsoft X-Box 360 pad"
 			};
@@ -26,7 +26,7 @@ namespace InControl
 			Sensitivity = 1.0f;
 			DeadZone = 0.2f;
 
-			ButtonMappings = new InputControlButtonMapping[]
+			ButtonMappings = new[]
 			{
 				new InputControlButtonMapping()
 				{

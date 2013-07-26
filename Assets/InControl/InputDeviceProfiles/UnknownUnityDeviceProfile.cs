@@ -24,7 +24,7 @@ namespace InControl
 			DeadZone = 0.2f;
 
 			SupportedPlatforms = null;
-			JoystickNames = new List<string>() { joystickName };
+			JoystickNames = new[] { joystickName };
 
 			AnalogMappings = new InputControlAnalogMapping[ MaxUnityAnalogs ];
 			for (int i = 0; i < MaxUnityAnalogs; i++)

@@ -13,12 +13,12 @@ namespace InControl
 			Name = "XBox 360 Controller";
 			Meta = "XBox 360 Controller on Windows";
 
-			SupportedPlatforms = new List<string>()
+			SupportedPlatforms = new[]
 			{
 				"Windows"
 			};
 
-			JoystickNames = new List<string>()
+			JoystickNames = new[]
 			{
 				"Controller (XBOX 360 For Windows)",
 				"Controller (XBOX 360 Wireless Receiver for Windows)"
@@ -27,7 +27,7 @@ namespace InControl
 			Sensitivity = 1.0f;
 			DeadZone = 0.2f;
 
-			ButtonMappings = new InputControlButtonMapping[]
+			ButtonMappings = new[]
 			{
 				new InputControlButtonMapping()
 				{
