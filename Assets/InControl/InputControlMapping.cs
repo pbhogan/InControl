@@ -28,37 +28,14 @@ namespace InControl
 		string handle;
 
 
-		float GetRangedValue( float value )
-		{
-			if (SourceRange == Range.Negative)
-			{
-				return value < 0.0f ? -value : 0.0f;
-			}
-
-			if (SourceRange == Range.Complete || value > 0.0f)
-			{
-				return value;
-			}
-
-			return 0.0f;
-		}
-
-
 		public float MapValue( float value )
 		{
-			if (Invert)
+			if (Invert ^ (IsYAxis && InputManager.InvertYAxis))
 			{
 				value = -value;
 			}
 
-			if (IsYAxis && InputManager.InvertYAxis)
-			{
-				value = -value;
-			}
-
-			value = GetRangedValue( value );
-
-			return Mathf.Lerp( TargetRange.Min, TargetRange.Max, Mathf.InverseLerp( -1.0f, 1.0f, value ) );
+			return Mathf.Lerp( TargetRange.Min, TargetRange.Max, Mathf.InverseLerp( SourceRange.Min, SourceRange.Max, value ) );
 		}
 
 
