@@ -63,7 +63,6 @@ namespace InControl
 	}
 
 
-	// TODO: Refactor to eliminate InputControlAnalogMapping.
 	public class InputControlAnalogMapping : InputControlMapping
 	{
 		public InputControlAnalogMapping() 
@@ -80,7 +79,6 @@ namespace InControl
 	}
 
 
-	// TODO: Refactor to eliminate InputControlButtonMapping.
 	public class InputControlButtonMapping : InputControlMapping
 	{
 		public InputControlButtonMapping() 

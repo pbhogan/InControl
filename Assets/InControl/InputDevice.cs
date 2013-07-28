@@ -14,7 +14,7 @@ namespace InControl
 		public string Meta { get; protected set; }
 
 		public UnityInputDeviceProfile Profile { get; protected set; }
-		public InputControl[] Analogs { get; protected set; } // TODO: Unify Analogs and Buttons
+		public InputControl[] Analogs { get; protected set; } // TODO: Unify Analogs and Buttons. Use polymorphism.
 		public InputControl[] Buttons { get; protected set; }
 
 		public float UpdateTime { get; protected set; }
