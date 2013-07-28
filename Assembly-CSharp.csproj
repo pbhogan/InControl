@@ -1,95 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-	<ProductVersion>10.0.20506</ProductVersion>
-	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{6A2A44BE-05EA-B3B8-5908-F5AC69FDC3C6}</ProjectGuid>
-	<OutputType>Library</OutputType>
-	<AppDesignerFolder>Properties</AppDesignerFolder>
-	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
-	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-	<FileAlignment>512</FileAlignment>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6A2A44BE-05EA-B3B8-5908-F5AC69FDC3C6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-	<DebugSymbols>true</DebugSymbols>
-	<DebugType>full</DebugType>
-	<Optimize>false</Optimize>
-	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;UNITY_ANDROID_API;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_2_0;UNITY_4_2;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX</DefineConstants>
-	<ErrorReport>prompt</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<NoWarn>0169</NoWarn>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;UNITY_ANDROID_API;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_2_0;UNITY_4_2;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-	<DebugType>pdbonly</DebugType>
-	<Optimize>true</Optimize>
-	<OutputPath>Temp\bin\Release\</OutputPath>
-	<DefineConstants>TRACE</DefineConstants>
-	<ErrorReport>prompt</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<NoWarn>0169</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-	<Reference Include="System" />
-    <Reference Include="System.XML" />
-	<Reference Include="System.Core" />
-	<Reference Include="UnityEngine">
-	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll</HintPath>
-	</Reference>
-	<Reference Include="UnityEditor">
-	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll</HintPath>
-	</Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\..\Applications\Unity\Unity.app\Contents\Frameworks\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>..\..\..\..\..\Applications\Unity\Unity.app\Contents\Frameworks\Managed\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\InControl\InputControl.cs" />
-     <Compile Include="Assets\InControl\InputControlMapping.cs" />
-     <Compile Include="Assets\InControl\InputControlState.cs" />
-     <Compile Include="Assets\InControl\InputControlType.cs" />
-     <Compile Include="Assets\InControl\InputDevice.cs" />
-     <Compile Include="Assets\InControl\InputDeviceManager.cs" />
-     <Compile Include="Assets\InControl\InputManager.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\KeyboardProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\OuyaProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\Playstation3MacProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\Playstation3OuyaProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\Playstation3WinProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\Xbox360MacProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\Xbox360OuyaProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\Xbox360WinProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\UnityInputDevice.cs" />
-     <Compile Include="Assets\InControl\Unity\UnityInputDeviceManager.cs" />
-     <Compile Include="Assets\InControl\Unity\UnityInputDeviceProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\UnknownDeviceProfile.cs" />
-     <Compile Include="Assets\Ouya\LitJson\IJsonWrapper.cs" />
-     <Compile Include="Assets\Ouya\LitJson\JsonData.cs" />
-     <Compile Include="Assets\Ouya\LitJson\JsonException.cs" />
-     <Compile Include="Assets\Ouya\LitJson\JsonMapper.cs" />
-     <Compile Include="Assets\Ouya\LitJson\JsonReader.cs" />
-     <Compile Include="Assets\Ouya\LitJson\JsonWriter.cs" />
-     <Compile Include="Assets\Ouya\LitJson\Lexer.cs" />
-     <Compile Include="Assets\Ouya\LitJson\ParserToken.cs" />
-     <Compile Include="Assets\Ouya\OuyaExampleCommon.cs" />
-     <Compile Include="Assets\Ouya\OuyaKeyCodes.cs" />
-     <Compile Include="Assets\Ouya\OuyaSDK.cs" />
-     <Compile Include="Assets\Ouya\SDK\Scripts\OuyaControllerMapping.cs" />
-     <Compile Include="Assets\Ouya\SDK\Scripts\OuyaGameObject.cs" />
-     <Compile Include="Assets\Ouya\SDK\Scripts\OuyaInputManager.cs" />
-     <Compile Include="Assets\TestInputManager.cs" />
-     <None Include="Assets\Resources\InputDeviceProfiles\Ouya-Ouya.txt" />
-     <None Include="Assets\Resources\InputDeviceProfiles\Keyboard.txt" />
-     <None Include="Assets\Resources\InputDeviceProfiles\Playstation3-Win.txt" />
-     <None Include="Assets\Resources\InputDeviceProfiles\Xbox360-Ouya.txt" />
-     <None Include="Assets\Plugins\Android\res\values\strings.xml" />
-     <None Include="Assets\Resources\InputDeviceProfiles\Xbox360-Mac.txt" />
-     <None Include="Assets\Resources\InputDeviceProfiles\Playstation3-Mac.txt" />
-     <None Include="Assets\Resources\InputDeviceProfiles\Playstation3-Ouya.txt" />
-     <None Include="Assets\Ouya\LitJson\license.txt" />
-     <None Include="Assets\Resources\InputDeviceProfiles\Xbox360-Win.txt" />
-     <None Include="Assets\Plugins\Android\res\layout\main.xml" />
-     <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
+    <Compile Include="Assets\InControl\InputControl.cs" />
+    <Compile Include="Assets\InControl\InputControlMapping.cs" />
+    <Compile Include="Assets\InControl\InputControlState.cs" />
+    <Compile Include="Assets\InControl\InputControlType.cs" />
+    <Compile Include="Assets\InControl\InputDevice.cs" />
+    <Compile Include="Assets\InControl\InputDeviceManager.cs" />
+    <Compile Include="Assets\InControl\InputManager.cs" />
+    <Compile Include="Assets\InControl\Unity\DeviceProfiles\KeyboardProfile.cs" />
+    <Compile Include="Assets\InControl\Unity\DeviceProfiles\OuyaProfile.cs" />
+    <Compile Include="Assets\InControl\Unity\DeviceProfiles\Playstation3MacProfile.cs" />
+    <Compile Include="Assets\InControl\Unity\DeviceProfiles\Playstation3OuyaProfile.cs" />
+    <Compile Include="Assets\InControl\Unity\DeviceProfiles\Playstation3WinProfile.cs" />
+    <Compile Include="Assets\InControl\Unity\DeviceProfiles\Xbox360MacProfile.cs" />
+    <Compile Include="Assets\InControl\Unity\DeviceProfiles\Xbox360OuyaProfile.cs" />
+    <Compile Include="Assets\InControl\Unity\DeviceProfiles\Xbox360WinProfile.cs" />
+    <Compile Include="Assets\InControl\Unity\UnityInputDevice.cs" />
+    <Compile Include="Assets\InControl\Unity\UnityInputDeviceManager.cs" />
+    <Compile Include="Assets\InControl\Unity\UnityInputDeviceProfile.cs" />
+    <Compile Include="Assets\InControl\Unity\UnknownDeviceProfile.cs" />
+    <Compile Include="Assets\Ouya\LitJson\IJsonWrapper.cs" />
+    <Compile Include="Assets\Ouya\LitJson\JsonData.cs" />
+    <Compile Include="Assets\Ouya\LitJson\JsonException.cs" />
+    <Compile Include="Assets\Ouya\LitJson\JsonMapper.cs" />
+    <Compile Include="Assets\Ouya\LitJson\JsonReader.cs" />
+    <Compile Include="Assets\Ouya\LitJson\JsonWriter.cs" />
+    <Compile Include="Assets\Ouya\LitJson\Lexer.cs" />
+    <Compile Include="Assets\Ouya\LitJson\ParserToken.cs" />
+    <Compile Include="Assets\Ouya\OuyaExampleCommon.cs" />
+    <Compile Include="Assets\Ouya\OuyaKeyCodes.cs" />
+    <Compile Include="Assets\Ouya\OuyaSDK.cs" />
+    <Compile Include="Assets\Ouya\SDK\Scripts\OuyaControllerMapping.cs" />
+    <Compile Include="Assets\Ouya\SDK\Scripts\OuyaGameObject.cs" />
+    <Compile Include="Assets\Ouya\SDK\Scripts\OuyaInputManager.cs" />
+    <Compile Include="Assets\TestInputManager.cs" />
+    <None Include="Assets\Resources\InputDeviceProfiles\Ouya-Ouya.txt" />
+    <None Include="Assets\Resources\InputDeviceProfiles\Keyboard.txt" />
+    <None Include="Assets\Resources\InputDeviceProfiles\Playstation3-Win.txt" />
+    <None Include="Assets\Resources\InputDeviceProfiles\Xbox360-Ouya.txt" />
+    <None Include="Assets\Plugins\Android\res\values\strings.xml" />
+    <None Include="Assets\Resources\InputDeviceProfiles\Xbox360-Mac.txt" />
+    <None Include="Assets\Resources\InputDeviceProfiles\Playstation3-Mac.txt" />
+    <None Include="Assets\Resources\InputDeviceProfiles\Playstation3-Ouya.txt" />
+    <None Include="Assets\Ouya\LitJson\license.txt" />
+    <None Include="Assets\Resources\InputDeviceProfiles\Xbox360-Win.txt" />
+    <None Include="Assets\Plugins\Android\res\layout\main.xml" />
+    <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
+    <Compile Include="Assets\InControl\Debug\Logger.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -99,5 +99,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  
+  <ItemGroup>
+    <Folder Include="Assets\InControl\Debug\" />
+  </ItemGroup>
 </Project>

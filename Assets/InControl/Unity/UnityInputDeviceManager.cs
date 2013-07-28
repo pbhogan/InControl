@@ -31,7 +31,7 @@ namespace InControl
 
 			if (joystickHash != JoystickHash)
 			{
-				InputManager.LogInfo( "Change in Unity attached joysticks detected; refreshing device list." );
+				Logger.LogInfo( "Change in Unity attached joysticks detected; refreshing device list." );
 				RefreshDevices();
 			}
 		}
@@ -86,8 +86,8 @@ namespace InControl
 			}
 			catch (Exception e)
 			{
-				InputManager.LogError( e.Message );
-				InputManager.LogError( e.StackTrace );
+				Logger.LogError( e.Message );
+				Logger.LogError( e.StackTrace );
 			}
 		}
 
@@ -113,7 +113,7 @@ namespace InControl
 				var unityDevice = device as UnityInputDevice;
 				if (unityDevice != null && unityDevice.IsConfiguredWith( deviceProfile, unityJoystickId ))
 				{
-					InputManager.LogInfo( "Device \"" + unityJoystickName + "\" is already configured with " + deviceProfile.Name );
+					Logger.LogInfo( "Device \"" + unityJoystickName + "\" is already configured with " + deviceProfile.Name );
 					return;
 				}
 			}
@@ -125,11 +125,11 @@ namespace InControl
 
 			if (matchedDeviceProfile == null)
 			{
-				InputManager.LogWarning( "Attached device has no matching profile: \"" + unityJoystickName + "\"" );
+				Logger.LogWarning( "Attached device has no matching profile: \"" + unityJoystickName + "\"" );
 			}
 			else
 			{
-				InputManager.LogInfo( "Attached device \"" + unityJoystickName + "\" matched profile: " + deviceProfile.Name );
+				Logger.LogInfo( "Attached device \"" + unityJoystickName + "\" matched profile: " + deviceProfile.Name );
 			}
 		}
 
@@ -154,7 +154,7 @@ namespace InControl
 
 					InputManager.DetachDevice( inputDevice );
 
-					InputManager.LogInfo( "Detached device: " + inputDevice.Profile.Name );
+					Logger.LogInfo( "Detached device: " + inputDevice.Profile.Name );
 				}
 			}
 		}
@@ -170,12 +170,12 @@ namespace InControl
 
 					if (deviceProfile.IsSupportedOnThisPlatform)
 					{
-						InputManager.LogInfo( "Adding profile: " + type.Name + " (" + deviceProfile.Name + ")" );
+						Logger.LogInfo( "Adding profile: " + type.Name + " (" + deviceProfile.Name + ")" );
 						deviceProfiles.Add( deviceProfile );
 					}
 					else
 					{
-						InputManager.LogInfo( "Ignored profile: " + type.Name + " (" + deviceProfile.Name + ")" );
+						Logger.LogInfo( "Ignored profile: " + type.Name + " (" + deviceProfile.Name + ")" );
 					}
 				}
 			}

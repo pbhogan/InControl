@@ -18,7 +18,7 @@ public class TestInputManager : MonoBehaviour
 		InputManager.OnDeviceDetached += inputDevice => Debug.Log( "Detached: " + inputDevice.Name );
 		InputManager.OnActiveDeviceChanged += inputDevice => Debug.Log( "Active device changed to: " + inputDevice.Name );
 
-		InputManager.OnLogMessage += logMessage => logMessages.Add( logMessage );
+		Logger.OnLogMessage += logMessage => logMessages.Add( logMessage );
 
 		InputManager.Setup();
 	}

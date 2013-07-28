@@ -8,33 +8,12 @@ using UnityEngine;
 
 namespace InControl
 {
-	// TODO: Refactor our Logging into InControl.Debug.Logger
-	public enum LogMessageType
-	{
-		Info,
-		Warning,
-		Error
-	}
-
-
-	public struct LogMessage
-	{
-		public string text;
-		public LogMessageType type;
-	}
-
-
 	public class InputManager
 	{
 		public delegate void DeviceEventHandler( InputDevice device );
-
 		public static event DeviceEventHandler OnDeviceAttached;
 		public static event DeviceEventHandler OnDeviceDetached;
 		public static event DeviceEventHandler OnActiveDeviceChanged;
-
-		public delegate void LogMessageHandler( LogMessage message );
-
-		public static event LogMessageHandler OnLogMessage;
 
 		static List<InputDeviceManager> inputDeviceManagers = new List<InputDeviceManager>();
 
@@ -139,36 +118,6 @@ namespace InControl
 				{
 					OnDeviceDetached( inputDevice );
 				}
-			}
-		}
-
-
-		public static void LogInfo( string text )
-		{
-			if (OnLogMessage != null)
-			{
-				var logMessage = new LogMessage() { text = text, type = LogMessageType.Info };
-				OnLogMessage( logMessage );
-			}
-		}
-
-
-		public static void LogWarning( string text )
-		{
-			if (OnLogMessage != null)
-			{
-				var logMessage = new LogMessage() { text = text, type = LogMessageType.Warning };
-				OnLogMessage( logMessage );
-			}
-		}
-
-
-		public static void LogError( string text )
-		{
-			if (OnLogMessage != null)
-			{
-				var logMessage = new LogMessage() { text = text, type = LogMessageType.Error };
-				OnLogMessage( logMessage );
 			}
 		}
 
