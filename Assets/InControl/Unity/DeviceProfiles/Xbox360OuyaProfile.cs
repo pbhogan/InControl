@@ -117,28 +117,28 @@ namespace InControl
 					Handle = "DPad Left",
 					Target = InputControlType.DPadLeft,
 					Source = "analog 4",
-					Ranged = InputControlMapping.Range.Negative
+					SourceRange = InputControlMapping.Range.Negative
 				},
 				new InputControlAnalogMapping()
 				{
 					Handle = "DPad Right",
 					Target = InputControlType.DPadRight,
 					Source = "analog 4",
-					Ranged = InputControlMapping.Range.Positive
+					SourceRange = InputControlMapping.Range.Positive
 				},
 				new InputControlAnalogMapping()
 				{
 					Handle = "DPad Up",
 					Target = InputControlType.DPadUp,
 					Source = "analog 5",
-					Ranged = InputControlMapping.Range.Negative
+					SourceRange = InputControlMapping.Range.Negative
 				},
 				new InputControlAnalogMapping()
 				{
 					Handle = "DPad Down",
 					Target = InputControlType.DPadDown,
 					Source = "analog 5",
-					Ranged = InputControlMapping.Range.Positive
+					SourceRange = InputControlMapping.Range.Positive
 				},
 				new InputControlAnalogMapping()
 				{

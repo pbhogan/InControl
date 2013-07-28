@@ -44,6 +44,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\InControl\Debug\Logger.cs" />
      <Compile Include="Assets\InControl\InputControl.cs" />
      <Compile Include="Assets\InControl\InputControlMapping.cs" />
      <Compile Include="Assets\InControl\InputControlState.cs" />

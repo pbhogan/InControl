@@ -154,14 +154,14 @@ namespace InControl
 					Handle = "Left Trigger",
 					Target = InputControlType.LeftTrigger,
 					Source = "analog 4",
-					Button = true
+					TargetRange = InputControlMapping.Range.Positive
 				},
 				new InputControlAnalogMapping()
 				{
 					Handle = "Right Trigger",
 					Target = InputControlType.RightTrigger,
 					Source = "analog 5",
-					Button = true
+					TargetRange = InputControlMapping.Range.Positive
 				}
 			};
 		}

@@ -6,26 +6,36 @@ namespace InControl
 {
 	public class InputControlMapping
 	{
+		public class Range
+		{
+			public static Range Complete = new Range() { Min = -1.0f, Max = +1.0f };
+			public static Range Positive = new Range() { Min = +0.0f, Max = +1.0f };
+			public static Range Negative = new Range() { Min = -1.0f, Max = -0.0f };
+
+			public float Min;
+			public float Max;
+		}
+
+
 		public string Source;
 		public InputControlType Target;
 
-		public bool Button = false; // buttons map onto 0 - 1 value range. TODO: Refactor into Range TargetRange
 		public bool Invert = false;
 
-		public enum Range { Complete, Negative, Positive }; 
-		public Range Ranged = Range.Complete; // TODO: Rename to SourceRange
+		public Range SourceRange = Range.Complete;
+		public Range TargetRange = Range.Complete;
 
 		string handle;
 
 
 		float GetRangedValue( float value )
 		{
-			if (Ranged == Range.Negative)
+			if (SourceRange == Range.Negative)
 			{
 				return value < 0.0f ? -value : 0.0f;
 			}
 
-			if (Ranged == Range.Complete || value > 0.0f)
+			if (SourceRange == Range.Complete || value > 0.0f)
 			{
 				return value;
 			}
@@ -48,14 +58,13 @@ namespace InControl
 
 			value = GetRangedValue( value );
 
-			var minimum = Button ? 0.0f : -1.0f;
-			return Mathf.Lerp( minimum, 1.0f, Mathf.InverseLerp( -1.0f, 1.0f, value ) );
+			return Mathf.Lerp( TargetRange.Min, TargetRange.Max, Mathf.InverseLerp( -1.0f, 1.0f, value ) );
 		}
 
 
 		public bool HasPositiveTargetRange
 		{
-			get { return Button; }
+			get { return TargetRange == Range.Positive; }
 		}
 
 
@@ -71,7 +80,7 @@ namespace InControl
 			get 
 			{ 
 				return Target == InputControlType.LeftStickY   || 
-					Target == InputControlType.RightStickY; 
+					   Target == InputControlType.RightStickY; 
 			}
 		}
 	}
