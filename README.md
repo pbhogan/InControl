@@ -24,7 +24,6 @@ Note: The public API is currently in beta and is subject to change ever so sligh
 This repository contains a complete Unity application used to test the library in Windows, Mac and OUYA. As a result there are a lot of files you can safely ignore (the ODK for example). Here is the list of files to copy into your own projects:
 
 * `Assets/InControl/*`
-* `Assets/Resources/InputDeviceProfiles/*`
 * `ProjectSettings/InputManager.asset`
 
 ## Standardized Inputs
