@@ -149,10 +149,6 @@ InputManager.OnActiveDeviceChanged += inputDevice => Debug.Log( "Switched: " + i
 * Not all platforms trigger the `DeviceAttached` event correctly. If Unity's `Input.GetJoystickNames()` is updated by the platform while the app is running, it will work. Every platform does, however, report all newly connected devices once the app is relaunched.
 * Some controller specific buttons (like Start, Select, Back, OUYA, Xbox Guide, PS3, etc.) are not part of the standardized set of supported inputs simply because they do not work on every platform. You should not be using these buttons in a generalized cross-platform capacity. Use of the OUYA button, for example, is dangerous as the user is just as likely to accidentally quit your app as do what they intend.
 
-## Dependencies
-
-This project requires [TinyJSON](pbhogan/TinyJSON). It is included in this project under `Assets/InControl/ThirdParty`.
-
 ## Meta
 
 Handcrafted by Patrick Hogan [[twitter](http://twitter.com/pbhogan) &bull; [github](http://github.com/pbhogan) &bull; [website](http://www.gallantgames.com)]
