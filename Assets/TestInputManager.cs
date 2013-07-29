@@ -21,6 +21,8 @@ public class TestInputManager : MonoBehaviour
 		Logger.OnLogMessage += logMessage => logMessages.Add( logMessage );
 
 		InputManager.Setup();
+
+		TestInputMappings();
 	}
 
 
@@ -108,6 +110,84 @@ public class TestInputManager : MonoBehaviour
 	        	GUI.Label( new Rect( x, y, Screen.width, y + 10 ), line, style );
 				y -= lineHeight;
 			}
+		}
+	}
+
+
+	void TestInputMappings()
+	{
+		var complete = InputControlMapping.Range.Complete;
+		var positive = InputControlMapping.Range.Positive;
+		var negative = InputControlMapping.Range.Negative;
+		var noInvert = false;
+		var doInvert = true;
+
+		TestInputMapping( complete, complete, noInvert, -1.0f, 0.0f, 1.0f );
+		TestInputMapping( complete, negative, noInvert, -1.0f, -0.5f, 0.0f );
+		TestInputMapping( complete, positive, noInvert, 0.0f, 0.5f, 1.0f );
+
+		TestInputMapping( negative, complete, noInvert, -1.0f, 1.0f, 0.0f );
+		TestInputMapping( negative, negative, noInvert, -1.0f, 0.0f, 0.0f );
+		TestInputMapping( negative, positive, noInvert, 0.0f, 1.0f, 0.0f );
+
+		TestInputMapping( positive, complete, noInvert, 0.0f, -1.0f, 1.0f );
+		TestInputMapping( positive, negative, noInvert, 0.0f, -1.0f, 0.0f );
+		TestInputMapping( positive, positive, noInvert, 0.0f, 0.0f, 1.0f );
+
+		TestInputMapping( complete, complete, doInvert, 1.0f, 0.0f, -1.0f );
+		TestInputMapping( complete, negative, doInvert, 1.0f, 0.5f, 0.0f );
+		TestInputMapping( complete, positive, doInvert, 0.0f, -0.5f, -1.0f );
+
+		TestInputMapping( negative, complete, doInvert, 1.0f, -1.0f, 0.0f );
+		TestInputMapping( negative, negative, doInvert, 1.0f, 0.0f, 0.0f );
+		TestInputMapping( negative, positive, doInvert, 0.0f, -1.0f, 0.0f );
+
+		TestInputMapping( positive, complete, doInvert, 0.0f, 1.0f, -1.0f );
+		TestInputMapping( positive, negative, doInvert, 0.0f, 1.0f, 0.0f );
+		TestInputMapping( positive, positive, doInvert, 0.0f, 0.0f, -1.0f );
+	}
+
+
+	void TestInputMapping( InputControlMapping.Range sourceRange, InputControlMapping.Range targetRange, bool invert, float expectA, float expectB, float expectC )
+	{
+		var mapping = new InputControlMapping() {
+			SourceRange = sourceRange,
+			TargetRange = targetRange,
+			Invert      = invert
+		};
+
+		float value;
+
+		string sr = "Complete";
+		if (sourceRange == InputControlMapping.Range.Negative)
+			sr = "Negative";
+		else
+		if (sourceRange == InputControlMapping.Range.Positive)
+			sr = "Positive";
+
+		string tr = "Complete";
+		if (targetRange == InputControlMapping.Range.Negative)
+			tr = "Negative";
+		else
+		if (targetRange == InputControlMapping.Range.Positive)
+			tr = "Positive";
+
+		value = mapping.MapValue( -1.0f );
+		if (Mathf.Abs( value - expectA ) > Single.Epsilon)
+		{
+			Debug.LogError( "Got unexpected value A " + value + " instead of " + expectA + " (SR = " + sr + ", TR = " + tr + ")" );
+		}
+
+		value = mapping.MapValue( 0.0f );
+		if (Mathf.Abs( value - expectB ) > Single.Epsilon)
+		{
+			Debug.LogError( "Got unexpected value B " + value + " instead of " + expectB + " (SR = " + sr + ", TR = " + tr + ")" );
+		}
+
+		value = mapping.MapValue( 1.0f );
+		if (Mathf.Abs( value - expectC ) > Single.Epsilon)
+		{
+			Debug.LogError( "Got unexpected value C " + value + " instead of " + expectC + " (SR = " + sr + ", TR = " + tr + ")" );
 		}
 	}
 }

@@ -88,7 +88,7 @@ namespace InControl
 				var analogMapping = Profile.AnalogMappings[i];
 				var unityValue = GetAnalogValue( analogMapping.Source );
 
-				if (analogMapping.HasPositiveTargetRange && unityValue == 0.0f && Analogs[i].UpdateTime == 0.0f)
+				if (analogMapping.TargetRangeIsNotComplete && unityValue == 0.0f && Analogs[i].UpdateTime == 0.0f)
 				{
 					// Ignore initial input stream for triggers, because they report 
 					// zero incorrectly until the value changes for the first time.

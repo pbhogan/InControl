@@ -8,12 +8,12 @@ namespace InControl
 	{
 		public class Range
 		{
-			public static Range Complete = new Range() { Min = -1.0f, Max = +1.0f };
-			public static Range Positive = new Range() { Min = +0.0f, Max = +1.0f };
-			public static Range Negative = new Range() { Min = -1.0f, Max = -0.0f };
+			public static Range Complete = new Range() { Minimum = -1.0f, Maximum = 1.0f };
+			public static Range Positive = new Range() { Minimum =  0.0f, Maximum = 1.0f };
+			public static Range Negative = new Range() { Minimum = -1.0f, Maximum = 0.0f };
 
-			public float Min;
-			public float Max;
+			public float Minimum;
+			public float Maximum;
 		}
 
 
@@ -30,18 +30,27 @@ namespace InControl
 
 		public float MapValue( float value )
 		{
+			if (value < SourceRange.Minimum || value > SourceRange.Maximum)
+			{
+				// Values outside of source range are considered invalid.
+				return 0.0f;
+			}
+		
+			var sourceValue = Mathf.InverseLerp( SourceRange.Minimum, SourceRange.Maximum, value );
+			var targetValue = Mathf.Lerp( TargetRange.Minimum, TargetRange.Maximum, sourceValue );
+
 			if (Invert ^ (IsYAxis && InputManager.InvertYAxis))
 			{
-				value = -value;
+				targetValue = -targetValue;
 			}
 
-			return Mathf.Lerp( TargetRange.Min, TargetRange.Max, Mathf.InverseLerp( SourceRange.Min, SourceRange.Max, value ) );
+			return targetValue;
 		}
 
 
-		public bool HasPositiveTargetRange
+		public bool TargetRangeIsNotComplete
 		{
-			get { return TargetRange == Range.Positive; }
+			get { return TargetRange != Range.Complete; }
 		}
 
 
