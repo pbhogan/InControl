@@ -74,6 +74,12 @@ namespace InControl
 		}
 
 
+		public bool IsPressed
+		{
+			get { return thisState.State; }
+		}
+
+
 		public bool WasPressed
 		{
 			get { return thisState && !lastState; }
