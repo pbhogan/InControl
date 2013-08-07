@@ -22,6 +22,11 @@ namespace InControl
 
 		public void UpdateWithState( bool state, float updateTime )
 		{
+			if (IsNull)
+			{
+				throw new InvalidOperationException( "A null control cannot be updated." );
+			}
+
 			lastState = thisState;
 
 			if (thisState != state)
@@ -34,6 +39,11 @@ namespace InControl
 
 		public void UpdateWithValue( float value, float updateTime )
 		{
+			if (IsNull)
+			{
+				throw new InvalidOperationException( "A null control cannot be updated." );
+			}
+
 			lastState = thisState;
 
 			if (thisState != value)
@@ -89,6 +99,18 @@ namespace InControl
 		public bool WasReleased
 		{
 			get { return !thisState && lastState; }
+		}
+
+
+		public bool IsNull
+		{
+			get { return this == Null; }
+		}
+
+
+		public bool IsNotNull
+		{
+			get { return this != Null; }
 		}
 
 
