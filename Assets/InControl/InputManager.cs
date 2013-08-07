@@ -32,7 +32,7 @@ namespace InControl
 			{
 				Platform = (SystemInfo.operatingSystem + " " + SystemInfo.deviceModel).ToUpper();
 
-				inputDeviceManagers.Add( new UnityInputDeviceManager() );
+				AddDeviceManager( new UnityInputDeviceManager() );
 				UpdateDeviceManagers( 0.0f );
 
 				isSetup = true;
@@ -80,11 +80,23 @@ namespace InControl
 		}
 
 
+		public static void AddDeviceManager( InputDeviceManager inputDeviceManager )
+		{
+			// TODO: Enforce adding before isSetup?
+			inputDeviceManagers.Add( inputDeviceManager );
+		}
+
+
 		static void UpdateDeviceManagers( float updateTime )
 		{
 			foreach (var inputDeviceManager in inputDeviceManagers)
 			{
 				inputDeviceManager.Update( updateTime );
+			}
+
+			foreach (var device in Devices)
+			{
+				device.AdvanceUpdateTime( updateTime );
 			}
 		}
 

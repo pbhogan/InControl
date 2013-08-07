@@ -13,7 +13,7 @@ namespace InControl
 		public string Name { get; protected set; }
 		public string Meta { get; protected set; }
 
-		public UnityInputDeviceProfile Profile { get; protected set; }
+		public UnityInputDeviceProfile Profile { get; protected set; } // TODO: Move into UnityInputDevice
 		public InputControl[] Analogs { get; protected set; } // TODO: Unify Analogs and Buttons. Use polymorphism.
 		public InputControl[] Buttons { get; protected set; }
 
@@ -80,8 +80,8 @@ namespace InControl
 				return;
 			}
 
-			bool stateChanged = false;
-		
+			// TODO: Move Unity specific stuff here into UnityInputDevice		
+
 			var analogMappingCount = Profile.AnalogMappings.Length;
 			for (int i = 0; i < analogMappingCount; i++)
 			{
@@ -99,7 +99,6 @@ namespace InControl
 				var smoothValue = SmoothAnalogValue( unityValue, Analogs[i].LastValue );
 				var mappedValue = analogMapping.MapValue( smoothValue );
 				Analogs[i].UpdateWithValue( mappedValue, updateTime );
-				stateChanged = stateChanged || Analogs[i].HasChanged;
 			}
 
 			var buttonMappingCount = Profile.ButtonMappings.Length;
@@ -107,25 +106,42 @@ namespace InControl
 			{
 				var buttonSource = Profile.ButtonMappings[i].Source;
 				Buttons[i].UpdateWithState( GetButtonState( buttonSource ), updateTime );
-				stateChanged = stateChanged || Buttons[i].HasChanged;
-			}
-
-			if (stateChanged)
-			{
-				UpdateTime = updateTime;
 			}
 		}
 
 
+		// TODO: This belongs in UnityInputDevice
 		protected virtual float GetAnalogValue( string source )
 		{
 			return 0.0f;
 		}
 
 
+		// TODO: This belongs in UnityInputDevice
 		protected virtual bool GetButtonState( string source )
 		{
 			return false;
+		}
+
+
+		public void AdvanceUpdateTime( float updateTime )
+		{
+			bool stateChanged = false;
+
+			foreach (var analog in Analogs)
+			{
+				stateChanged = stateChanged || analog.HasChanged;
+			}
+
+			foreach (var button in Buttons)
+			{
+				stateChanged = stateChanged || button.HasChanged;
+			}
+
+			if (stateChanged)
+			{
+				UpdateTime = updateTime;
+			}
 		}
 
 		
