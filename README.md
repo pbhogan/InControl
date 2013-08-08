@@ -8,7 +8,7 @@ Note: The public API is currently in beta and is subject to change ever so sligh
 
 * Standardizes input mappings across various platforms.
 * Support for 10 connected devices with up to 10 analogs and 20 buttons each.
-* Device mappings are specified through JSON profiles that make it trivial to support new devices and platforms.
+* Trivial to support new devices and platforms.
 * Events for attached and detached devices.
 * Events for active device switches.
 
