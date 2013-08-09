@@ -44,6 +44,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\InControl\Editor\EditorMenu.cs" />
      <Compile Include="Assets\Ouya\SDK\Editor\OuyaMenuAdmin.cs" />
      <Compile Include="Assets\Ouya\SDK\Editor\OuyaPanel.cs" />
      <Compile Include="Assets\Ouya\SDK\Editor\OuyaPostProcessor.cs" />

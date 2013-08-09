@@ -36,21 +36,21 @@ namespace InControl
 				},
 				new InputControlButtonMapping()
 				{
-					Handle = "U",
+					Handle = "A",
 					Target = InputControlType.Action2,
+					Source = "button 3"
+				},
+				new InputControlButtonMapping()
+				{
+					Handle = "U",
+					Target = InputControlType.Action3,
 					Source = "button 1"
 				},
 				new InputControlButtonMapping()
 				{
 					Handle = "Y",
-					Target = InputControlType.Action3,
-					Source = "button 2"
-				},
-				new InputControlButtonMapping()
-				{
-					Handle = "A",
 					Target = InputControlType.Action4,
-					Source = "button 3"
+					Source = "button 2"
 				},
 				new InputControlButtonMapping()
 				{
