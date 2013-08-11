@@ -82,14 +82,16 @@ public class TestInputManager : MonoBehaviour
 			foreach (var analog in inputDevice.Analogs)
 			{
 				SetColor( analog.State ? Color.green : color );
-				GUI.Label( new Rect( x, y, x + w, y + 10 ), analog.Handle + ": " + analog.Value, style );
+				var label = string.Format( "{0} ({1}) = {2}", analog.Target, analog.Handle, analog.Value );
+				GUI.Label( new Rect( x, y, x + w, y + 10 ), label, style );
 				y += lineHeight;
 			}
 
 			foreach (var button in inputDevice.Buttons)
 			{
 				SetColor( button.State ? Color.green : color );
-				GUI.Label( new Rect( x, y, x + w, y + 10 ), button.Handle + ": " + (button.State ? "True" : ""), style );
+				var label = string.Format( "{0} ({1}) = {2}", button.Target, button.Handle, button.State ? "True" : "" );
+				GUI.Label( new Rect( x, y, x + w, y + 10 ), label, style );
 				y += lineHeight;
 			}
 

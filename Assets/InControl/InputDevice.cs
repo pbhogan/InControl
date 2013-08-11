@@ -53,7 +53,7 @@ namespace InControl
 
 		public void SetAnalogControl( int i, Enum target, string handle = "" )
 		{
-			Analogs[i] = new InputControl( handle );
+			Analogs[i] = new InputControl( handle, target.ToString() );
 			var controlIndex = Convert.ToInt32( target );
 			controlTable[controlIndex] = Analogs[i];
 		}
@@ -67,7 +67,7 @@ namespace InControl
 
 		public void SetButtonControl( int i, Enum target, string handle = "" )
 		{
-			Buttons[i] = new InputControl( handle );
+			Buttons[i] = new InputControl( handle, target.ToString() );
 			var controlIndex = Convert.ToInt32( target );
 			controlTable[controlIndex] = Buttons[i];
 		}
