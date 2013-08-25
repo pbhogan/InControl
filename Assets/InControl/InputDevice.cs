@@ -53,7 +53,7 @@ namespace InControl
 
 		public void SetAnalogControl( int i, Enum target, string handle = "" )
 		{
-			Analogs[i] = new InputControl( handle );
+			Analogs[i] = new InputControl( handle, target.ToString() );
 			var controlIndex = Convert.ToInt32( target );
 			controlTable[controlIndex] = Analogs[i];
 		}
@@ -67,7 +67,7 @@ namespace InControl
 
 		public void SetButtonControl( int i, Enum target, string handle = "" )
 		{
-			Buttons[i] = new InputControl( handle );
+			Buttons[i] = new InputControl( handle, target.ToString() );
 			var controlIndex = Convert.ToInt32( target );
 			controlTable[controlIndex] = Buttons[i];
 		}
@@ -150,6 +150,7 @@ namespace InControl
 			if (Profile.IsJoystick)
 			{
 				// Apply dead zone.
+//				thisValue = Mathf.Abs( thisValue ) > Profile.DeadZone ? thisValue : 0.0f;
 				thisValue = Mathf.InverseLerp( Profile.DeadZone, 1.0f, Mathf.Abs( thisValue ) ) * Mathf.Sign( thisValue );
 
 				// Apply sensitivity (how quickly the value adapts to changes).

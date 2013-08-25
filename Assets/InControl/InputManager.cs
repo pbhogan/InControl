@@ -22,32 +22,49 @@ namespace InControl
 
 		public static string Platform { get; private set; }
 
-		static bool invertYAxis = false; // default to y-axis up.
-		static bool isSetup = false;
+		static bool invertYAxis; // default to y-axis up.
+		static bool isSetup;
+		static float currentTime;
 
 
 		public static void Setup()
 		{
+			isSetup = false;
+
+			Platform = (SystemInfo.operatingSystem + " " + SystemInfo.deviceModel).ToUpper();
+
+			invertYAxis = false; // default to y-axis up.
+			currentTime = 0.0f;
+
+			inputDeviceManagers.Clear();
+			Devices.Clear();
+			activeDevice = InputDevice.Null;
+
+			OnDeviceAttached = null;
+			OnDeviceDetached = null;
+			OnActiveDeviceChanged = null;
+
+			isSetup = true;
+
+			AddDeviceManager( new UnityInputDeviceManager() );
+		}
+
+
+		static void AssertIsSetup()
+		{
 			if (!isSetup)
 			{
-				Platform = (SystemInfo.operatingSystem + " " + SystemInfo.deviceModel).ToUpper();
-
-				AddDeviceManager( new UnityInputDeviceManager() );
-				UpdateDeviceManagers( 0.0f );
-
-				isSetup = true;
+				throw new Exception( "InputManager is not initialized. Call InputManager.Setup() first." );
 			}
 		}
 
 
 		public static void Update()
 		{
-			if (!isSetup)
-			{
-				Setup();
-			}
+			AssertIsSetup();
 
-			Update( Time.time );
+			currentTime = Time.timeSinceLevelLoad;
+			Update( currentTime );
 		}
 
 
@@ -82,8 +99,10 @@ namespace InControl
 
 		public static void AddDeviceManager( InputDeviceManager inputDeviceManager )
 		{
-			// TODO: Enforce adding before isSetup?
+			AssertIsSetup();
+
 			inputDeviceManagers.Add( inputDeviceManager );
+			inputDeviceManager.Update( currentTime );
 		}
 
 
@@ -103,20 +122,26 @@ namespace InControl
 
 		public static void AttachDevice( InputDevice inputDevice )
 		{
+			AssertIsSetup();
+
 			Devices.Add( inputDevice );
 
-			if (isSetup)
+			if (OnDeviceAttached != null)
 			{
-				if (OnDeviceAttached != null)
-				{
-					OnDeviceAttached( inputDevice );
-				}
+				OnDeviceAttached( inputDevice );
+			}
+
+			if (ActiveDevice == InputDevice.Null)
+			{
+				ActiveDevice = inputDevice;
 			}
 		}
 
 
 		public static void DetachDevice( InputDevice inputDevice )
 		{
+			AssertIsSetup();
+
 			Devices.Remove( inputDevice );
 
 			if (ActiveDevice == inputDevice)
@@ -124,12 +149,9 @@ namespace InControl
 				ActiveDevice = InputDevice.Null;
 			}
 
-			if (isSetup)
+			if (OnDeviceDetached != null)
 			{
-				if (OnDeviceDetached != null)
-				{
-					OnDeviceDetached( inputDevice );
-				}
+				OnDeviceDetached( inputDevice );
 			}
 		}
 
@@ -140,24 +162,28 @@ namespace InControl
 		}
 
 
-		public static InputDevice ActiveDevice 
-		{ 
-			get 
-			{ 
-				return (activeDevice == null) ? InputDevice.Null : activeDevice; 
+		public static InputDevice ActiveDevice
+		{
+			get
+			{
+				return (activeDevice == null) ? InputDevice.Null : activeDevice;
 			}
 
-			private set 
-			{ 
+			private set
+			{
 				activeDevice = (value == null) ? InputDevice.Null : value;
 			}
 		}
 
 
-		public static bool InvertYAxis 
-		{ 
-			get { return invertYAxis; } 
-			set { invertYAxis = value; }
+		public static bool InvertYAxis
+		{
+			get { return invertYAxis; }
+			set 
+			{ 
+				AssertIsSetup();
+				invertYAxis = value; 
+			}
 		}
 	}
 }

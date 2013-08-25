@@ -5,18 +5,21 @@ namespace InControl
 {
 	public class InputControl
 	{
-		public static readonly InputControl Null = new InputControl( "NullInputControl" );
+		public static readonly InputControl Null = new InputControl( "NullInputControl", "" );
 
 		public string Handle { get; private set; }
+		public string Target { get; private set; }
+
 		public float UpdateTime { get; private set; }
 
 		InputControlState thisState;
 		InputControlState lastState;
 
 
-		public InputControl( string handle )
+		public InputControl( string handle, string target )
 		{
 			Handle = handle;
+			Target = target;
 		}
 
 
