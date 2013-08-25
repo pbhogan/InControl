@@ -150,6 +150,7 @@ namespace InControl
 			if (Profile.IsJoystick)
 			{
 				// Apply dead zone.
+//				thisValue = Mathf.Abs( thisValue ) > Profile.DeadZone ? thisValue : 0.0f;
 				thisValue = Mathf.InverseLerp( Profile.DeadZone, 1.0f, Mathf.Abs( thisValue ) ) * Mathf.Sign( thisValue );
 
 				// Apply sensitivity (how quickly the value adapts to changes).

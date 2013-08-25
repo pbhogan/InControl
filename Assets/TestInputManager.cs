@@ -14,13 +14,14 @@ public class TestInputManager : MonoBehaviour
 
 	void Start()
 	{
-		InputManager.OnDeviceAttached += inputDevice => Debug.Log( "Attached: " + inputDevice.Name );
-		InputManager.OnDeviceDetached += inputDevice => Debug.Log( "Detached: " + inputDevice.Name );
-		InputManager.OnActiveDeviceChanged += inputDevice => Debug.Log( "Active device changed to: " + inputDevice.Name );
-
 		Logger.OnLogMessage += logMessage => logMessages.Add( logMessage );
 
 		InputManager.Setup();
+		// InputManager.InvertYAxis = true;
+
+		InputManager.OnDeviceAttached += inputDevice => Debug.Log( "Attached: " + inputDevice.Name );
+		InputManager.OnDeviceDetached += inputDevice => Debug.Log( "Detached: " + inputDevice.Name );
+		InputManager.OnActiveDeviceChanged += inputDevice => Debug.Log( "Active device changed to: " + inputDevice.Name );
 
 		TestInputMappings();
 	}
@@ -38,6 +39,11 @@ public class TestInputManager : MonoBehaviour
 		if (InputManager.ActiveDevice.Action3.WasPressed)
 		{
 			Debug.Log( "SHOOT!" );
+		}
+
+		if (Input.GetKeyDown( KeyCode.R ))
+		{
+			Application.LoadLevel( "TestInputManager" );
 		}
 	}
 
