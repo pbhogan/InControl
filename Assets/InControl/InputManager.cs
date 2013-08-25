@@ -24,6 +24,8 @@ namespace InControl
 
 		static bool invertYAxis; // default to y-axis up.
 		static bool isSetup;
+
+		static float initialTime;
 		static float currentTime;
 
 
@@ -34,6 +36,8 @@ namespace InControl
 			Platform = (SystemInfo.operatingSystem + " " + SystemInfo.deviceModel).ToUpper();
 
 			invertYAxis = false; // default to y-axis up.
+
+			initialTime = Time.realtimeSinceStartup;
 			currentTime = 0.0f;
 
 			inputDeviceManagers.Clear();
@@ -63,7 +67,7 @@ namespace InControl
 		{
 			AssertIsSetup();
 
-			currentTime = Time.timeSinceLevelLoad;
+			currentTime = Time.realtimeSinceStartup - initialTime;
 			Update( currentTime );
 		}
 
