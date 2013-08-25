@@ -10,10 +10,14 @@ public class TestInputManager : MonoBehaviour
 {
 	GUIStyle style = new GUIStyle();
 	List<LogMessage> logMessages = new List<LogMessage>();
+	bool isPaused;
 
 
 	void Start()
 	{
+		isPaused = false;
+		Time.timeScale = 1.0f;
+
 		Logger.OnLogMessage += logMessage => logMessages.Add( logMessage );
 
 		InputManager.Setup();
@@ -40,10 +44,25 @@ public class TestInputManager : MonoBehaviour
 		{
 			Debug.Log( "SHOOT!" );
 		}
+	}
+
+
+	void Update()
+	{
+		if (isPaused)
+		{
+			InputManager.Update();
+		}
 
 		if (Input.GetKeyDown( KeyCode.R ))
 		{
 			Application.LoadLevel( "TestInputManager" );
+		}
+
+		if (Input.GetKeyDown( KeyCode.P ))
+		{
+			Time.timeScale = isPaused ? 1.0f : 0.0f;
+			isPaused = !isPaused;
 		}
 	}
 
@@ -68,7 +87,15 @@ public class TestInputManager : MonoBehaviour
 //		info += " (Joysticks " + InputManager.JoystickHash + ")";
 		info += " " + InputManager.ActiveDevice.Direction;
 
+		if (isPaused)
+		{
+			SetColor( Color.red );
+			info = "+++ PAUSED +++";
+		}
+
 		GUI.Label( new Rect( x, y, x + w, y + 10 ), info, style );
+
+		SetColor( Color.white );
 
 		foreach (var inputDevice in InputManager.Devices)
 		{

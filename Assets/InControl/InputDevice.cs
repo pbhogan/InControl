@@ -23,6 +23,8 @@ namespace InControl
 		int filledAnalogCount = 0;
 		int filledButtonCount = 0;
 
+		float lastUpdateTime;
+
 
 		public InputDevice( string name, int analogCount = 0, int buttonCount = 0 )
 		{
@@ -31,6 +33,9 @@ namespace InControl
 
 			Analogs = new InputControl[ analogCount ];
 			Buttons = new InputControl[ buttonCount ];
+
+			UpdateTime = 0.0f;
+			lastUpdateTime = 0.0f;
 
 			var numInputControlTypes = (int) InputControlType.Count + 1;
 			controlTable = new InputControl[ numInputControlTypes ];
@@ -80,6 +85,8 @@ namespace InControl
 				return;
 			}
 
+			float deltaTime = updateTime - lastUpdateTime;
+
 			// TODO: Move Unity specific stuff here into UnityInputDevice		
 
 			var analogMappingCount = Profile.AnalogMappings.Length;
@@ -95,8 +102,8 @@ namespace InControl
 					// Example: wired Xbox controller on Mac.
 					continue;
 				}
-				
-				var smoothValue = SmoothAnalogValue( unityValue, Analogs[i].LastValue );
+
+				var smoothValue = SmoothAnalogValue( unityValue, Analogs[i].LastValue, deltaTime );
 				var mappedValue = analogMapping.MapValue( smoothValue );
 				Analogs[i].UpdateWithValue( mappedValue, updateTime );
 			}
@@ -107,6 +114,8 @@ namespace InControl
 				var buttonSource = Profile.ButtonMappings[i].Source;
 				Buttons[i].UpdateWithState( GetButtonState( buttonSource ), updateTime );
 			}
+
+			lastUpdateTime = updateTime;
 		}
 
 
@@ -145,16 +154,15 @@ namespace InControl
 		}
 
 		
-		float SmoothAnalogValue( float thisValue, float lastValue )
+		float SmoothAnalogValue( float thisValue, float lastValue, float deltaTime )
 		{
 			if (Profile.IsJoystick)
 			{
 				// Apply dead zone.
-//				thisValue = Mathf.Abs( thisValue ) > Profile.DeadZone ? thisValue : 0.0f;
 				thisValue = Mathf.InverseLerp( Profile.DeadZone, 1.0f, Mathf.Abs( thisValue ) ) * Mathf.Sign( thisValue );
 
 				// Apply sensitivity (how quickly the value adapts to changes).
-				float maxDelta = Time.deltaTime * Profile.Sensitivity * 100.0f;
+				float maxDelta = deltaTime * Profile.Sensitivity * 100.0f;
 				
 				// Move faster towards zero when changing direction.
 				if (Mathf.Sign( lastValue ) != Mathf.Sign( thisValue )) 
