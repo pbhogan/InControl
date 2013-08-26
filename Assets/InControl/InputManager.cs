@@ -67,14 +67,8 @@ namespace InControl
 		{
 			AssertIsSetup();
 
-			currentTime = Time.realtimeSinceStartup - initialTime;
-			Update( currentTime );
-		}
-
-
-		static void Update( float updateTime )
-		{
-			UpdateDeviceManagers( updateTime );
+			UpdateCurrentTime();
+			UpdateDeviceManagers();
 			UpdateActiveDevice();
 		}
 
@@ -85,7 +79,8 @@ namespace InControl
 
 			foreach (var inputDevice in Devices)
 			{
-				if (ActiveDevice == InputDevice.Null || inputDevice.UpdateTime > ActiveDevice.UpdateTime)
+				if (ActiveDevice == InputDevice.Null || 
+				    inputDevice.LastChangedAfter( ActiveDevice ))
 				{
 					ActiveDevice = inputDevice;
 				}
@@ -110,16 +105,17 @@ namespace InControl
 		}
 
 
-		static void UpdateDeviceManagers( float updateTime )
+		static void UpdateCurrentTime()
+		{
+			currentTime = Time.realtimeSinceStartup - initialTime;
+		}
+
+
+		static void UpdateDeviceManagers()
 		{
 			foreach (var inputDeviceManager in inputDeviceManagers)
 			{
-				inputDeviceManager.Update( updateTime );
-			}
-
-			foreach (var device in Devices)
-			{
-				device.AdvanceUpdateTime( updateTime );
+				inputDeviceManager.Update( currentTime );
 			}
 		}
 

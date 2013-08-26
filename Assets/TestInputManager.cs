@@ -59,7 +59,8 @@ public class TestInputManager : MonoBehaviour
 			Application.LoadLevel( "TestInputManager" );
 		}
 
-		if (Input.GetKeyDown( KeyCode.P ))
+		if (Input.GetKeyDown( KeyCode.P ) || 
+		    InputManager.ActiveDevice.GetControl( InputControlType.Start ).WasPressed)
 		{
 			Time.timeScale = isPaused ? 1.0f : 0.0f;
 			isPaused = !isPaused;
@@ -109,13 +110,13 @@ public class TestInputManager : MonoBehaviour
 			GUI.Label( new Rect( x, y, x + w, y + 10 ), inputDevice.Name, style );
 			y += lineHeight;
 
-			GUI.Label( new Rect( x, y, x + w, y + 10 ), "UpdateTime: " + inputDevice.UpdateTime, style );
+			GUI.Label( new Rect( x, y, x + w, y + 10 ), "LastChangeTime: " + inputDevice.LastChangeTime, style );
 			y += lineHeight;
 
 			foreach (var analog in inputDevice.Analogs)
 			{
 				SetColor( analog.State ? Color.green : color );
-				var label = string.Format( "{0} ({1}) = {2}", analog.Target, analog.Handle, analog.Value );
+				var label = string.Format( "{0} ({1}) {2}", analog.Target, analog.Handle, analog.State ? "= " + analog.Value : "" );
 				GUI.Label( new Rect( x, y, x + w, y + 10 ), label, style );
 				y += lineHeight;
 			}
@@ -123,7 +124,7 @@ public class TestInputManager : MonoBehaviour
 			foreach (var button in inputDevice.Buttons)
 			{
 				SetColor( button.State ? Color.green : color );
-				var label = string.Format( "{0} ({1}) = {2}", button.Target, button.Handle, button.State ? "True" : "" );
+				var label = string.Format( "{0} ({1}) {2}", button.Target, button.Handle, button.State ? "= True" : "" );
 				GUI.Label( new Rect( x, y, x + w, y + 10 ), label, style );
 				y += lineHeight;
 			}

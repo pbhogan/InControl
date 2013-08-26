@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 
 namespace InControl
@@ -13,17 +14,14 @@ namespace InControl
 		public string Name { get; protected set; }
 		public string Meta { get; protected set; }
 
-		public UnityInputDeviceProfile Profile { get; protected set; } // TODO: Move into UnityInputDevice
 		public InputControl[] Analogs { get; protected set; } // TODO: Unify Analogs and Buttons. Use polymorphism.
 		public InputControl[] Buttons { get; protected set; }
 
-		public float UpdateTime { get; protected set; }
+		public float LastChangeTime { get; protected set; }
 
 		InputControl[] controlTable;
 		int filledAnalogCount = 0;
 		int filledButtonCount = 0;
-
-		float lastUpdateTime;
 
 
 		public InputDevice( string name, int analogCount = 0, int buttonCount = 0 )
@@ -34,8 +32,7 @@ namespace InControl
 			Analogs = new InputControl[ analogCount ];
 			Buttons = new InputControl[ buttonCount ];
 
-			UpdateTime = 0.0f;
-			lastUpdateTime = 0.0f;
+			LastChangeTime = 0.0f;
 
 			var numInputControlTypes = (int) InputControlType.Count + 1;
 			controlTable = new InputControl[ numInputControlTypes ];
@@ -78,104 +75,24 @@ namespace InControl
 		}
 
 
-		public void Update( float updateTime )
+		public virtual void Update( float updateTime, float deltaTime )
 		{
-			if (Profile == null)
-			{
-				return;
-			}
-
-			float deltaTime = updateTime - lastUpdateTime;
-
-			// TODO: Move Unity specific stuff here into UnityInputDevice		
-
-			var analogMappingCount = Profile.AnalogMappings.Length;
-			for (int i = 0; i < analogMappingCount; i++)
-			{
-				var analogMapping = Profile.AnalogMappings[i];
-				var unityValue = GetAnalogValue( analogMapping.Source );
-
-				if (analogMapping.TargetRangeIsNotComplete && unityValue == 0.0f && Analogs[i].UpdateTime == 0.0f)
-				{
-					// Ignore initial input stream for triggers, because they report 
-					// zero incorrectly until the value changes for the first time.
-					// Example: wired Xbox controller on Mac.
-					continue;
-				}
-
-				var smoothValue = SmoothAnalogValue( unityValue, Analogs[i].LastValue, deltaTime );
-				var mappedValue = analogMapping.MapValue( smoothValue );
-				Analogs[i].UpdateWithValue( mappedValue, updateTime );
-			}
-
-			var buttonMappingCount = Profile.ButtonMappings.Length;
-			for (int i = 0; i < buttonMappingCount; i++)
-			{
-				var buttonSource = Profile.ButtonMappings[i].Source;
-				Buttons[i].UpdateWithState( GetButtonState( buttonSource ), updateTime );
-			}
-
-			lastUpdateTime = updateTime;
 		}
 
 
-		// TODO: This belongs in UnityInputDevice
-		protected virtual float GetAnalogValue( string source )
+		public void UpdateLastChangeTime( float updateTime )
 		{
-			return 0.0f;
+			if (Analogs.Any( analog => analog.HasChanged ) ||
+				Buttons.Any( button => button.HasChanged ))
+			{
+				LastChangeTime = updateTime;
+			}
 		}
 
 
-		// TODO: This belongs in UnityInputDevice
-		protected virtual bool GetButtonState( string source )
+		public bool LastChangedAfter( InputDevice otherDevice )
 		{
-			return false;
-		}
-
-
-		public void AdvanceUpdateTime( float updateTime )
-		{
-			bool stateChanged = false;
-
-			foreach (var analog in Analogs)
-			{
-				stateChanged = stateChanged || analog.HasChanged;
-			}
-
-			foreach (var button in Buttons)
-			{
-				stateChanged = stateChanged || button.HasChanged;
-			}
-
-			if (stateChanged)
-			{
-				UpdateTime = updateTime;
-			}
-		}
-
-		
-		float SmoothAnalogValue( float thisValue, float lastValue, float deltaTime )
-		{
-			if (Profile.IsJoystick)
-			{
-				// Apply dead zone.
-				thisValue = Mathf.InverseLerp( Profile.DeadZone, 1.0f, Mathf.Abs( thisValue ) ) * Mathf.Sign( thisValue );
-
-				// Apply sensitivity (how quickly the value adapts to changes).
-				float maxDelta = deltaTime * Profile.Sensitivity * 100.0f;
-				
-				// Move faster towards zero when changing direction.
-				if (Mathf.Sign( lastValue ) != Mathf.Sign( thisValue )) 
-				{
-				   maxDelta *= 2;
-				}
-				
-				return Mathf.Clamp( lastValue + Mathf.Clamp( thisValue - lastValue, -maxDelta, maxDelta ), -1.0f, 1.0f );
-			}
-			else
-			{
-				return thisValue;
-			}
+			return LastChangeTime > otherDevice.LastChangeTime;
 		}
 
 
