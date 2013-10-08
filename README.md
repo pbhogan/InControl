@@ -2,7 +2,7 @@
 
 InControl is an input manager for Unity3D (version 4) that tames the cross-platform controller beast.
 
-Note: The public API is currently in beta and is subject to change ever so slightly.
+**Note:** The public API is currently in beta and is subject to change ever so slightly.
 
 ## Features
 
@@ -16,8 +16,11 @@ Note: The public API is currently in beta and is subject to change ever so sligh
 
 * Xbox 360 controller support for Windows, Mac and OUYA.
 * Playstation 3 controller support for Windows, Mac and OUYA.
+* Playstation 4 controller support for Windows and Mac.
 * OUYA controller support on OUYA.
 * Keyboard support on Windows and Mac.
+
+**Note:** New device profiles are simple to create. Please feel free to submit profiles for any controller/platform not currently in the list, but do ensure it correctly supports all the standardized inputs (see below).
 
 ## Relevant Files
 
@@ -142,7 +145,7 @@ InputManager.OnActiveDeviceChanged += inputDevice => Debug.Log( "Switched: " + i
 * API to assist with allowing users to customize device inputs for game actions.
 * Support Apple MFi controllers on Mac and iOS.
 * Add popular Android controllers, like the Moga Pro.
-* Linux support?
+* Linux support (it should work fine, just needs profiles).
 
 ## Known Issues
 
