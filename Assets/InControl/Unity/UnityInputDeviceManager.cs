@@ -9,7 +9,6 @@ namespace InControl
 {
 	public class UnityInputDeviceManager : InputDeviceManager
 	{
-		List<UnityInputDevice> devices = new List<UnityInputDevice>();
 		List<UnityInputDeviceProfile> deviceProfiles = new List<UnityInputDeviceProfile>();
 		bool keyboardDevicesAttached = false;
 		string joystickHash = "";
@@ -22,11 +21,11 @@ namespace InControl
 		}
 
 
-		public override void Update( float updateTime )
+		public override void Update( float updateTime, float deltaTime )
 		{
 			foreach (var device in devices)
 			{
-				device.Update( updateTime );
+				device.Update( updateTime, deltaTime );
 			}
 
 			if (joystickHash != JoystickHash)
@@ -140,7 +139,7 @@ namespace InControl
 
 			for (int i = devices.Count - 1; i >= 0; i--)
 			{
-				var inputDevice = devices[i];
+				var inputDevice = devices[i] as UnityInputDevice;
 
 				if (inputDevice.Profile.IsNotJoystick)
 				{

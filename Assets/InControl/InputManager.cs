@@ -37,7 +37,7 @@ namespace InControl
 
 			invertYAxis = false; // default to y-axis up.
 
-			initialTime = Time.realtimeSinceStartup;
+			initialTime = 0.0f;
 			currentTime = 0.0f;
 
 			inputDeviceManagers.Clear();
@@ -67,14 +67,8 @@ namespace InControl
 		{
 			AssertIsSetup();
 
-			currentTime = Time.realtimeSinceStartup - initialTime;
-			Update( currentTime );
-		}
-
-
-		static void Update( float updateTime )
-		{
-			UpdateDeviceManagers( updateTime );
+			UpdateCurrentTime();
+			UpdateDeviceManagers();
 			UpdateActiveDevice();
 		}
 
@@ -85,7 +79,8 @@ namespace InControl
 
 			foreach (var inputDevice in Devices)
 			{
-				if (ActiveDevice == InputDevice.Null || inputDevice.UpdateTime > ActiveDevice.UpdateTime)
+				if (ActiveDevice == InputDevice.Null || 
+				    inputDevice.LastChangedAfter( ActiveDevice ))
 				{
 					ActiveDevice = inputDevice;
 				}
@@ -110,16 +105,24 @@ namespace InControl
 		}
 
 
-		static void UpdateDeviceManagers( float updateTime )
+		static void UpdateCurrentTime()
+		{
+			// Have to do this hack since Time.realtimeSinceStartup 
+			// is not updated until AFTER Awake().
+			if (initialTime == 0.0f)
+			{
+				initialTime = Time.realtimeSinceStartup;
+			}
+
+			currentTime = Math.Max( 0.0f, Time.realtimeSinceStartup - initialTime );
+		}
+
+
+		static void UpdateDeviceManagers()
 		{
 			foreach (var inputDeviceManager in inputDeviceManagers)
 			{
-				inputDeviceManager.Update( updateTime );
-			}
-
-			foreach (var device in Devices)
-			{
-				device.AdvanceUpdateTime( updateTime );
+				inputDeviceManager.Update( currentTime );
 			}
 		}
 
