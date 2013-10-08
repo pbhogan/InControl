@@ -37,7 +37,7 @@ namespace InControl
 
 			invertYAxis = false; // default to y-axis up.
 
-			initialTime = Time.realtimeSinceStartup;
+			initialTime = 0.0f;
 			currentTime = 0.0f;
 
 			inputDeviceManagers.Clear();
@@ -107,7 +107,14 @@ namespace InControl
 
 		static void UpdateCurrentTime()
 		{
-			currentTime = Time.realtimeSinceStartup - initialTime;
+			// Have to do this hack since Time.realtimeSinceStartup 
+			// is not updated until AFTER Awake().
+			if (initialTime == 0.0f)
+			{
+				initialTime = Time.realtimeSinceStartup;
+			}
+
+			currentTime = Math.Max( 0.0f, Time.realtimeSinceStartup - initialTime );
 		}
 
 
