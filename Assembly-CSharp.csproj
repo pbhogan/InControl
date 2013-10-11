@@ -44,6 +44,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Examples\SimpleExample.cs" />
      <Compile Include="Assets\InControl\Debug\Logger.cs" />
      <Compile Include="Assets\InControl\InputControl.cs" />
      <Compile Include="Assets\InControl\InputControlMapping.cs" />
@@ -80,18 +81,9 @@
      <Compile Include="Assets\Ouya\SDK\Scripts\OuyaControllerMapping.cs" />
      <Compile Include="Assets\Ouya\SDK\Scripts\OuyaGameObject.cs" />
      <Compile Include="Assets\Ouya\SDK\Scripts\OuyaInputManager.cs" />
-     <Compile Include="Assets\SimpleExample.cs" />
-     <Compile Include="Assets\TestInputManager.cs" />
-     <None Include="Assets\Resources\InputDeviceProfiles\Ouya-Ouya.txt" />
-     <None Include="Assets\Resources\InputDeviceProfiles\Keyboard.txt" />
-     <None Include="Assets\Resources\InputDeviceProfiles\Playstation3-Win.txt" />
-     <None Include="Assets\Resources\InputDeviceProfiles\Xbox360-Ouya.txt" />
+     <Compile Include="Assets\Test\TestInputManager.cs" />
      <None Include="Assets\Plugins\Android\res\values\strings.xml" />
-     <None Include="Assets\Resources\InputDeviceProfiles\Xbox360-Mac.txt" />
-     <None Include="Assets\Resources\InputDeviceProfiles\Playstation3-Mac.txt" />
-     <None Include="Assets\Resources\InputDeviceProfiles\Playstation3-Ouya.txt" />
      <None Include="Assets\Ouya\LitJson\license.txt" />
-     <None Include="Assets\Resources\InputDeviceProfiles\Xbox360-Win.txt" />
      <None Include="Assets\Plugins\Android\res\layout\main.xml" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
   </ItemGroup>

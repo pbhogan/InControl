@@ -6,6 +6,11 @@ using UnityEngine;
 using InControl;
 
 
+/**
+ * WARNING: This is NOT an example of how to use InControl.
+ * It is intended for testing and debugging the library under development.
+ **/
+
 public class TestInputManager : MonoBehaviour
 {
 	GUIStyle style = new GUIStyle();
@@ -35,14 +40,9 @@ public class TestInputManager : MonoBehaviour
 	{
 		InputManager.Update();
 
-		if (InputManager.ActiveDevice.GetControl( InputControlType.Action1 ).WasPressed)
+		if (InputManager.ActiveDevice.Action1.WasPressed)
 		{
-			Debug.Log( "JUMP!" );
-		}
-
-		if (InputManager.ActiveDevice.Action3.WasPressed)
-		{
-			Debug.Log( "SHOOT!" );
+			Debug.Log( "BOOM!" );
 		}
 	}
 
@@ -227,3 +227,4 @@ public class TestInputManager : MonoBehaviour
 		}
 	}
 }
+
