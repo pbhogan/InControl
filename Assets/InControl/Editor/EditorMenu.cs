@@ -8,7 +8,7 @@ namespace InControl
 {
 	public class EditorMenu
 	{
-		[MenuItem("InControl/Setup InputManager Asset")]
+		[MenuItem("Edit/Project Settings/InControl/Generate InputManager Asset")]
 		static void SetupInputManagerAsset()
 		{
 			var inputManagerAsset = AssetDatabase.LoadAllAssetsAtPath( "ProjectSettings/InputManager.asset" )[0];

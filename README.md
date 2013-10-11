@@ -29,6 +29,9 @@ This repository contains a complete Unity application used to test the library i
 * `Assets/InControl/*`
 * `ProjectSettings/InputManager.asset`
 
+The `InputManager.asset` file can also be generated through the editor menu:
+`Edit > Project Settings > InControl > Generate InputManager Asset`
+
 ## Standardized Inputs
 
 Device profiles map supported controllers on various platforms to a strict set of named inputs that can be relied upon to be present. Physical positions (particularly for action buttons) will match across devices for uniformity.
@@ -48,25 +51,26 @@ Unsupported devices can be used, however their default mappings are utterly unpr
 
 ## Usage
 
-The project is namespaced under `InControl`. The entry point is the `InputManager` class. You'll need to call `InputManager.Setup()` once and `InputManager.Update()` every tick.
+The project is namespaced under `InControl`. The entry point is the `InputManager` class. You'll need to call `InputManager.Setup()` once and `InputManager.Update()` every tick (or whenever you wish to poll for new input state).
 
 ```csharp
 using InControl;
 
-public class YourScene : MonoBehaviour
+public class UpdateInputManager : MonoBehaviour
 {
 	void Start()
 	{
 		InputManager.Setup();
 	}
 
-	void FixedUpdate()
+	void Update()
 	{
 		InputManager.Update();
-		// Update all the things...
 	}
 }
 ```
+
+**Note:** It is a good idea to alter the [execution order](http://docs.unity3d.com/Documentation/Components/class-ScriptExecution.html) of the script responsible for calling `InputManager.Update()` so that every other object which queries the input state gets a consistent value for the duration of the frame, otherwise the update may be called mid-frame and some objects will get the input state from the previous frame while others get the state for the current frame.
 
 By default, InControl reports the Y-axis as positive pointing up. You can invert this behavior if you wish:
 
