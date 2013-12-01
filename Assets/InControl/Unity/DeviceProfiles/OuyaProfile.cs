@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 
 namespace InControl
@@ -99,6 +100,12 @@ namespace InControl
 					Handle = "DPad Right",
 					Target = InputControlType.DPadRight,
 					Source = "button 11"
+				},
+				new InputControlButtonMapping()
+				{
+					Handle = "System",
+					Target = InputControlType.System,
+					SourceKeyCode = KeyCode.Menu
 				}
 			};
 

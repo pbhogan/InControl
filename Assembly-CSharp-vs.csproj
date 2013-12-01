@@ -55,6 +55,7 @@
      <Compile Include="Assets\InControl\InputDevice.cs" />
      <Compile Include="Assets\InControl\InputDeviceManager.cs" />
      <Compile Include="Assets\InControl\InputManager.cs" />
+     <Compile Include="Assets\InControl\Unity\DeviceProfiles\GameStickProfile.cs" />
      <Compile Include="Assets\InControl\Unity\DeviceProfiles\KeyboardProfile.cs" />
      <Compile Include="Assets\InControl\Unity\DeviceProfiles\OuyaProfile.cs" />
      <Compile Include="Assets\InControl\Unity\DeviceProfiles\Playstation3MacProfile.cs" />

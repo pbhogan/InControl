@@ -67,8 +67,20 @@ namespace InControl
 			var buttonMappingCount = Profile.ButtonMappings.Length;
 			for (int i = 0; i < buttonMappingCount; i++)
 			{
-				var buttonSource = Profile.ButtonMappings[i].Source;
-				Buttons[i].UpdateWithState( GetButtonState( buttonSource ), updateTime );
+				var buttonMapping = Profile.ButtonMappings[i];
+				bool buttonState;
+				
+				// TODO: Refactor this hack for KeyCode buttons.
+				if (buttonMapping.SourceKeyCode != KeyCode.None)
+				{
+					buttonState = Input.GetKey( buttonMapping.SourceKeyCode );
+				}
+				else
+				{
+					buttonState = GetButtonState( buttonMapping.Source );
+				}
+				
+				Buttons[i].UpdateWithState( buttonState, updateTime );
 			}
 		}
 
@@ -132,7 +144,7 @@ namespace InControl
 
 
 		bool GetButtonState( string source )
-		{		
+		{
 			if (source == "")
 			{
 				return false;

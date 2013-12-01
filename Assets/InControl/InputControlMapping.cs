@@ -8,9 +8,9 @@ namespace InControl
 	{
 		public class Range
 		{
-			public static Range Complete = new Range() { Minimum = -1.0f, Maximum = 1.0f };
-			public static Range Positive = new Range() { Minimum =  0.0f, Maximum = 1.0f };
-			public static Range Negative = new Range() { Minimum = -1.0f, Maximum = 0.0f };
+			public static Range Complete = new Range { Minimum = -1.0f, Maximum = 1.0f };
+			public static Range Positive = new Range { Minimum =  0.0f, Maximum = 1.0f };
+			public static Range Negative = new Range { Minimum = -1.0f, Maximum = 0.0f };
 
 			public float Minimum;
 			public float Maximum;
@@ -20,10 +20,12 @@ namespace InControl
 		public string Source;
 		public InputControlType Target;
 
-		public bool Invert = false;
+		public bool Invert;
 
 		public Range SourceRange = Range.Complete;
 		public Range TargetRange = Range.Complete;
+
+		public KeyCode SourceKeyCode = KeyCode.None;
 
 		string handle;
 
@@ -56,7 +58,7 @@ namespace InControl
 
 		public string Handle
 		{
-			get { return (handle == null || handle == "") ? Target.ToString() : handle; }
+			get { return (string.IsNullOrEmpty( handle )) ? Target.ToString() : handle; }
 			set { handle = value; }
 		}
 

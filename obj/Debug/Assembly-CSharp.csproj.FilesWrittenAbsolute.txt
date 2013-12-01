@@ -1,0 +1,10 @@
+/Users/pbhogan/Dropbox/Projects/InControl/Temp/bin/Debug/Assembly-CSharp.dll.mdb
+/Users/pbhogan/Dropbox/Projects/InControl/Temp/bin/Debug/Assembly-CSharp.dll
+/Users/pbhogan/Dropbox/Projects/InControl/obj/Debug/Assembly-CSharp.dll
+/Users/pbhogan/Dropbox/Projects/InControl/obj/Debug/Assembly-CSharp.dll.mdb
+/Users/pbhogan/Dropbox/Projects/InControl/Temp/bin/Debug/UnityEngine.dll
+/Users/pbhogan/Dropbox/Projects/InControl/Temp/bin/Debug/UnityEditor.dll
+/Users/pbhogan/Dropbox/Projects/InControl/Temp/bin/Debug/Mono.Cecil.dll
+/Users/pbhogan/Dropbox/Projects/InControl/Temp/bin/Debug/nunit.framework.dll
+/Users/pbhogan/Dropbox/Projects/InControl/Temp/bin/Debug/Unity.DataContract.dll
+/Users/pbhogan/Dropbox/Projects/InControl/Temp/bin/Debug/ICSharpCode.NRefactory.dll
