@@ -21,7 +21,8 @@ namespace InControl
 			JoystickNames = new[]
 			{
 				"Controller (XBOX 360 For Windows)",
-				"Controller (XBOX 360 Wireless Receiver for Windows)"
+				"Controller (XBOX 360 Wireless Receiver for Windows)",
+				"XBOX 360 For Windows (Controller)"
 			};
 
 			Sensitivity = 1.0f;
