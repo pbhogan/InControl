@@ -17,7 +17,7 @@ InControl is an input manager for Unity3D (version 4) that tames the cross-platf
 * Xbox 360 controller support for Windows, Mac and OUYA.
 * Playstation 3 controller support for Windows, Mac and OUYA.
 * Playstation 4 controller support for Windows and Mac.
-* OUYA controller support on OUYA.
+* OUYA controller support on OUYA and Windows.
 * GameStick support.
 * Keyboard support on Windows and Mac.
 
