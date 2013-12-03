@@ -16,7 +16,8 @@ namespace InControl
 
 			SupportedPlatforms = new[]
 			{
-				"OUYA"
+				"OUYA",
+				"Windows"
 			};
 
 			JoystickNames = new[]
