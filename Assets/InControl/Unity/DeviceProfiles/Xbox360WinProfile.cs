@@ -34,97 +34,97 @@ namespace InControl
 				{
 					Handle = "A",
 					Target = InputControlType.Action1,
-					Source = "button 0"
+					Source = Button0
 				},
 				new InputControlButtonMapping()
 				{
 					Handle = "B",
 					Target = InputControlType.Action2,
-					Source = "button 1"
+					Source = Button1
 				},
 				new InputControlButtonMapping()
 				{
 					Handle = "X",
 					Target = InputControlType.Action3,
-					Source = "button 2"
+					Source = Button2
 				},
 				new InputControlButtonMapping()
 				{
 					Handle = "Y",
 					Target = InputControlType.Action4,
-					Source = "button 3"
+					Source = Button3
 				},
 				new InputControlButtonMapping()
 				{
 					Handle = "Left Bumper",
 					Target = InputControlType.LeftBumper,
-					Source = "button 4"
+					Source = Button4
 				},
 				new InputControlButtonMapping()
 				{
 					Handle = "Right Bumper",
 					Target = InputControlType.RightBumper,
-					Source = "button 5"
+					Source = Button5
 				},
 				new InputControlButtonMapping()
 				{
 					Handle = "Left Stick Button",
 					Target = InputControlType.LeftStickButton,
-					Source = "button 8"
+					Source = Button8
 				},
 				new InputControlButtonMapping()
 				{
 					Handle = "Right Stick Button",
 					Target = InputControlType.RightStickButton,
-					Source = "button 9"
+					Source = Button9
 				},
 				new InputControlButtonMapping()
 				{
 					Handle = "Back",
 					Target = InputControlType.Select,
-					Source = "button 6"
+					Source = Button6
 				},
 				new InputControlButtonMapping()
 				{
 					Handle = "Start",
 					Target = InputControlType.Start,
-					Source = "button 7"
+					Source = Button7
 				}
 			};
 
-			AnalogMappings = new InputControlAnalogMapping[]
+			AnalogMappings = new[]
 			{
 				new InputControlAnalogMapping()
 				{
 					Handle = "Left Stick X",
 					Target = InputControlType.LeftStickX,
-					Source = "analog 0"
+					Source = Analog0
 				},
 				new InputControlAnalogMapping()
 				{
 					Handle = "Left Stick Y",
 					Target = InputControlType.LeftStickY,
-					Source = "analog 1",
+					Source = Analog1,
 					Invert = true
 				},
 				new InputControlAnalogMapping()
 				{
 					Handle = "Right Stick X",
 					Target = InputControlType.RightStickX,
-					Source = "analog 3"
+					Source = Analog3
 				},
 				new InputControlAnalogMapping()
 				{
 					Handle = "Right Stick Y",
 					Target = InputControlType.RightStickY,
-					Source = "analog 4",
+					Source = Analog4,
 					Invert = true
 				},
 				new InputControlAnalogMapping()
 				{
 					Handle = "DPad Left",
 					Target = InputControlType.DPadLeft,
-					Source = "analog 5",
+					Source = Analog5,
 					SourceRange = InputControlMapping.Range.Negative,
 					TargetRange = InputControlMapping.Range.Negative,
 					Invert = true
@@ -133,7 +133,7 @@ namespace InControl
 				{
 					Handle = "DPad Right",
 					Target = InputControlType.DPadRight,
-					Source = "analog 5",
+					Source = Analog5,
 					SourceRange = InputControlMapping.Range.Positive,
 					TargetRange = InputControlMapping.Range.Positive
 				},
@@ -141,7 +141,7 @@ namespace InControl
 				{
 					Handle = "DPad Up",
 					Target = InputControlType.DPadUp,
-					Source = "analog 6",
+					Source = Analog6,
 					SourceRange = InputControlMapping.Range.Positive,
 					TargetRange = InputControlMapping.Range.Positive
 				},
@@ -149,7 +149,7 @@ namespace InControl
 				{
 					Handle = "DPad Down",
 					Target = InputControlType.DPadDown,
-					Source = "analog 6",
+					Source = Analog6,
 					SourceRange = InputControlMapping.Range.Negative,
 					TargetRange = InputControlMapping.Range.Negative,
 					Invert = true
@@ -158,13 +158,13 @@ namespace InControl
 				{
 					Handle = "Left Trigger",
 					Target = InputControlType.LeftTrigger,
-					Source = "analog 8"
+					Source = Analog8
 				},
 				new InputControlAnalogMapping()
 				{
 					Handle = "Right Trigger",
 					Target = InputControlType.RightTrigger,
-					Source = "analog 9"
+					Source = Analog9
 				}
 			};
 		}

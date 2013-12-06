@@ -49,7 +49,8 @@ namespace InControl
 			for (int i = 0; i < analogMappingCount; i++)
 			{
 				var analogMapping = Profile.AnalogMappings[i];
-				var unityValue = GetAnalogValue( analogMapping.Source );
+				// var unityValue = GetAnalogValue( analogMapping.Source );
+				var unityValue = analogMapping.Source.GetValue( JoystickId );
 
 				if (analogMapping.TargetRangeIsNotComplete && unityValue == 0.0f && Analogs[i].UpdateTime == 0.0f)
 				{
@@ -77,7 +78,8 @@ namespace InControl
 				}
 				else
 				{
-					buttonState = GetButtonState( buttonMapping.Source );
+					// buttonState = GetButtonState( buttonMapping.Source );
+					buttonState = buttonMapping.Source.GetState( JoystickId );
 				}
 				
 				Buttons[i].UpdateWithState( buttonState, updateTime );

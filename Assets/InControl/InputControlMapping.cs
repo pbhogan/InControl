@@ -17,7 +17,7 @@ namespace InControl
 		}
 
 
-		public string Source;
+		public InputControlSource Source;
 		public InputControlType Target;
 
 		public bool Invert;
@@ -81,10 +81,11 @@ namespace InControl
 		}
 
 
+		// TODO: This is kind of Unity specific. Refactor.
 		public InputControlAnalogMapping( int index )
 		{
 			Handle = "Analog " + index;
-			Source = "analog " + index;
+			Source = new UnityAnalogInputControlSource( index );
 			Target = (InputControlType) index;
 		}
 	}
@@ -97,10 +98,11 @@ namespace InControl
 		}
 
 
+		// TODO: This is kind of Unity specific. Refactor.
 		public InputControlButtonMapping( int index )
 		{
 			Handle = "Button " + index;
-			Source = "button " + index;
+			Source = new UnityButtonInputControlSource( index );
 			Target = (InputControlType) index;
 		}
 	}

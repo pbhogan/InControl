@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 
 namespace InControl
@@ -29,41 +30,41 @@ namespace InControl
 				{
 					Handle = "Spacebar",
 					Target = InputControlType.Action1,
-					Source = "space"
+					Source = KeyCodeButton( KeyCode.Space )
 				},
 				new InputControlButtonMapping()
 				{
 					Handle = "A Key",
 					Target = InputControlType.Action2,
-					Source = "a"
+					Source = KeyCodeButton( KeyCode.A )
 				},
 				new InputControlButtonMapping()
 				{
 					Handle = "S Key",
 					Target = InputControlType.Action3,
-					Source = "s"
+					Source = KeyCodeButton( KeyCode.S )
 				},
 				new InputControlButtonMapping()
 				{
 					Handle = "D Key",
 					Target = InputControlType.Action4,
-					Source = "d"
+					Source = KeyCodeButton( KeyCode.D )
 				}
 			};
 
-			AnalogMappings = new InputControlAnalogMapping[]
+			AnalogMappings = new[]
 			{
 				new InputControlAnalogMapping()
 				{
 					Handle = "Arrow Keys X",
 					Target = InputControlType.LeftStickX,
-					Source = "left right"
+					Source = KeyCodeAxis( KeyCode.LeftArrow, KeyCode.RightArrow )
 				},
 				new InputControlAnalogMapping()
 				{
 					Handle = "Arrow Keys Y",
 					Target = InputControlType.LeftStickY,
-					Source = "down up"
+					Source = KeyCodeAxis( KeyCode.DownArrow, KeyCode.UpArrow )
 				}
 			};
 		}

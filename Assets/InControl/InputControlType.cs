@@ -3,6 +3,7 @@ using System;
 
 namespace InControl
 {
+	// TODO: This should be renamed to InputControlTarget.
 	public enum InputControlType
 	{
 		// Standardized.
