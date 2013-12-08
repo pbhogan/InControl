@@ -135,6 +135,14 @@ namespace InControl
 		protected static InputControlSource Analog8  = Analog( 8 );
 		protected static InputControlSource Analog9  = Analog( 9 );
 
+		protected static InputControlSource MouseButton0     = new UnityMouseButtonSource( 0 );
+		protected static InputControlSource MouseButton1     = new UnityMouseButtonSource( 1 );
+		protected static InputControlSource MouseButton2     = new UnityMouseButtonSource( 2 );
+
+		protected static InputControlSource MouseXAxis       = new UnityMouseAxisSource( "x" );
+		protected static InputControlSource MouseYAxis       = new UnityMouseAxisSource( "y" );
+		protected static InputControlSource MouseScrollWheel = new UnityMouseAxisSource( "z" );
+
 		#endregion
 	}
 }

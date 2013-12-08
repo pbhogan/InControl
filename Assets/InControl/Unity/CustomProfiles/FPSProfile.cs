@@ -29,19 +29,19 @@ namespace InControl
 				{
 					Handle = "Fire",
 					Target = InputControlType.Action1,
-					Source = new UnityMouseButtonSource( 0 )
+					Source = MouseButton0
 				},
 				new InputControlMapping
 				{
 					Handle = "AltFire",
 					Target = InputControlType.Action2,
-					Source = new UnityMouseButtonSource( 2 )
+					Source = MouseButton2
 				},
 				new InputControlMapping
 				{
 					Handle = "Middle",
 					Target = InputControlType.Action3,
-					Source = new UnityMouseButtonSource( 1 )
+					Source = MouseButton1
 				},
 				new InputControlMapping
 				{
@@ -69,21 +69,21 @@ namespace InControl
 				{
 					Handle = "Look X",
 					Target = InputControlType.RightStickX,
-					Source = new UnityMouseAxisSource( "x" ),
+					Source = MouseXAxis,
 					Raw    = true
 				},
 				new InputControlMapping
 				{
 					Handle = "Look Y",
 					Target = InputControlType.RightStickY,
-					Source = new UnityMouseAxisSource( "y" ),
+					Source = MouseYAxis,
 					Raw    = true
 				},
 				new InputControlMapping
 				{
 					Handle = "Look Z",
 					Target = InputControlType.ScrollWheel,
-					Source = new UnityMouseAxisSource( "z" ),
+					Source = MouseScrollWheel,
 					Raw    = true
 				}
 			};
