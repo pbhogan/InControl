@@ -11,6 +11,7 @@ namespace InControl
 			public static Range Complete = new Range { Minimum = -1.0f, Maximum = 1.0f };
 			public static Range Positive = new Range { Minimum =  0.0f, Maximum = 1.0f };
 			public static Range Negative = new Range { Minimum = -1.0f, Maximum = 0.0f };
+			public static Range Infinity = null;
 
 			public float Minimum;
 			public float Maximum;
@@ -32,15 +33,26 @@ namespace InControl
 
 		public float MapValue( float value )
 		{
-			if (value < SourceRange.Minimum || value > SourceRange.Maximum)
-			{
-				// Values outside of source range are considered invalid.
-				return 0.0f;
-			}
-		
-			var sourceValue = Mathf.InverseLerp( SourceRange.Minimum, SourceRange.Maximum, value );
-			var targetValue = Mathf.Lerp( TargetRange.Minimum, TargetRange.Maximum, sourceValue );
+			float targetValue;
 
+			if (SourceRange == Range.Infinity || TargetRange == Range.Infinity)
+			{
+				// Infinity (raw) value ranges don't get remapped.
+				targetValue = value;
+			}
+			else
+			{
+				if (value < SourceRange.Minimum || value > SourceRange.Maximum)
+				{
+					// Values outside of source range are considered invalid.
+					return 0.0f;
+				}
+			
+				var sourceValue = Mathf.InverseLerp( SourceRange.Minimum, SourceRange.Maximum, value );
+				targetValue = Mathf.Lerp( TargetRange.Minimum, TargetRange.Maximum, sourceValue );
+			}
+
+			// Invert value if necessary.
 			if (Invert ^ (IsYAxis && InputManager.InvertYAxis))
 			{
 				targetValue = -targetValue;
@@ -70,40 +82,6 @@ namespace InControl
 				return Target == InputControlType.LeftStickY   || 
 					   Target == InputControlType.RightStickY; 
 			}
-		}
-	}
-
-
-	public class InputControlAnalogMapping : InputControlMapping
-	{
-		public InputControlAnalogMapping() 
-		{
-		}
-
-
-		// TODO: This is kind of Unity specific. Refactor.
-		public InputControlAnalogMapping( int index )
-		{
-			Handle = "Analog " + index;
-			Source = new UnityAnalogInputControlSource( index );
-			Target = (InputControlType) index;
-		}
-	}
-
-
-	public class InputControlButtonMapping : InputControlMapping
-	{
-		public InputControlButtonMapping() 
-		{
-		}
-
-
-		// TODO: This is kind of Unity specific. Refactor.
-		public InputControlButtonMapping( int index )
-		{
-			Handle = "Button " + index;
-			Source = new UnityButtonInputControlSource( index );
-			Target = (InputControlType) index;
 		}
 	}
 }

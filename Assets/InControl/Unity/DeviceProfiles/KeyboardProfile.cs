@@ -26,25 +26,25 @@ namespace InControl
 
 			ButtonMappings = new[]
 			{
-				new InputControlButtonMapping()
+				new InputControlMapping
 				{
 					Handle = "Spacebar",
 					Target = InputControlType.Action1,
 					Source = KeyCodeButton( KeyCode.Space )
 				},
-				new InputControlButtonMapping()
+				new InputControlMapping
 				{
 					Handle = "A Key",
 					Target = InputControlType.Action2,
 					Source = KeyCodeButton( KeyCode.A )
 				},
-				new InputControlButtonMapping()
+				new InputControlMapping
 				{
 					Handle = "S Key",
 					Target = InputControlType.Action3,
 					Source = KeyCodeButton( KeyCode.S )
 				},
-				new InputControlButtonMapping()
+				new InputControlMapping
 				{
 					Handle = "D Key",
 					Target = InputControlType.Action4,
@@ -54,13 +54,13 @@ namespace InControl
 
 			AnalogMappings = new[]
 			{
-				new InputControlAnalogMapping()
+				new InputControlMapping
 				{
 					Handle = "Arrow Keys X",
 					Target = InputControlType.LeftStickX,
 					Source = KeyCodeAxis( KeyCode.LeftArrow, KeyCode.RightArrow )
 				},
-				new InputControlAnalogMapping()
+				new InputControlMapping
 				{
 					Handle = "Arrow Keys Y",
 					Target = InputControlType.LeftStickY,

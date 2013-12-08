@@ -20,8 +20,8 @@ namespace InControl
 		public float Sensitivity { get; protected set; }
 		public float DeadZone { get; protected set; }
 
-		public InputControlAnalogMapping[] AnalogMappings { get; protected set; }
-		public InputControlButtonMapping[] ButtonMappings { get; protected set; }
+		public InputControlMapping[] AnalogMappings { get; protected set; }
+		public InputControlMapping[] ButtonMappings { get; protected set; }
 		
 		protected string[] SupportedPlatforms;
 		protected string[] JoystickNames;
@@ -81,47 +81,61 @@ namespace InControl
 		}
 
 
-		protected InputControlSource Button0  = new UnityButtonInputControlSource( 0 );
-		protected InputControlSource Button1  = new UnityButtonInputControlSource( 1 );
-		protected InputControlSource Button2  = new UnityButtonInputControlSource( 2 );
-		protected InputControlSource Button3  = new UnityButtonInputControlSource( 3 );
-		protected InputControlSource Button4  = new UnityButtonInputControlSource( 4 );
-		protected InputControlSource Button5  = new UnityButtonInputControlSource( 5 );
-		protected InputControlSource Button6  = new UnityButtonInputControlSource( 6 );
-		protected InputControlSource Button7  = new UnityButtonInputControlSource( 7 );
-		protected InputControlSource Button8  = new UnityButtonInputControlSource( 8 );
-		protected InputControlSource Button9  = new UnityButtonInputControlSource( 9 );
-		protected InputControlSource Button10 = new UnityButtonInputControlSource( 10 );
-		protected InputControlSource Button11 = new UnityButtonInputControlSource( 11 );
-		protected InputControlSource Button12 = new UnityButtonInputControlSource( 12 );
-		protected InputControlSource Button13 = new UnityButtonInputControlSource( 13 );
-		protected InputControlSource Button14 = new UnityButtonInputControlSource( 14 );
-		protected InputControlSource Button15 = new UnityButtonInputControlSource( 15 );
-		protected InputControlSource Button16 = new UnityButtonInputControlSource( 16 );
-		protected InputControlSource Button17 = new UnityButtonInputControlSource( 17 );
-		protected InputControlSource Button18 = new UnityButtonInputControlSource( 18 );
-		protected InputControlSource Button19 = new UnityButtonInputControlSource( 19 );
+		#region InputControlSource Helpers
 
-		protected InputControlSource Analog0  = new UnityAnalogInputControlSource( 0 );
-		protected InputControlSource Analog1  = new UnityAnalogInputControlSource( 1 );
-		protected InputControlSource Analog2  = new UnityAnalogInputControlSource( 2 );
-		protected InputControlSource Analog3  = new UnityAnalogInputControlSource( 3 );
-		protected InputControlSource Analog4  = new UnityAnalogInputControlSource( 4 );
-		protected InputControlSource Analog5  = new UnityAnalogInputControlSource( 5 );
-		protected InputControlSource Analog6  = new UnityAnalogInputControlSource( 6 );
-		protected InputControlSource Analog7  = new UnityAnalogInputControlSource( 7 );
-		protected InputControlSource Analog8  = new UnityAnalogInputControlSource( 8 );
-		protected InputControlSource Analog9  = new UnityAnalogInputControlSource( 9 );
-
-		protected InputControlSource KeyCodeButton( KeyCode keyCode )
+		protected static InputControlSource Button( int index )
 		{
-			return new UnityKeyCodeButtonInputControlSource( keyCode );
+			return new UnityButtonSource( index );
 		}
 
-		protected InputControlSource KeyCodeAxis( KeyCode negativeKeyCode, KeyCode positiveKeyCode )
+		protected static InputControlSource Analog( int index )
 		{
-			return new UnityKeyCodeAxisInputControlSource( negativeKeyCode, positiveKeyCode );
+			return new UnityAnalogSource( index );
 		}
+
+		protected static InputControlSource KeyCodeButton( KeyCode keyCode )
+		{
+			return new UnityKeyCodeSource( keyCode );
+		}
+		
+		protected static InputControlSource KeyCodeAxis( KeyCode negativeKeyCode, KeyCode positiveKeyCode )
+		{
+			return new UnityKeyCodeAxisSource( negativeKeyCode, positiveKeyCode );
+		}
+
+		protected static InputControlSource Button0  = Button( 0 );
+		protected static InputControlSource Button1  = Button( 1 );
+		protected static InputControlSource Button2  = Button( 2 );
+		protected static InputControlSource Button3  = Button( 3 );
+		protected static InputControlSource Button4  = Button( 4 );
+		protected static InputControlSource Button5  = Button( 5 );
+		protected static InputControlSource Button6  = Button( 6 );
+		protected static InputControlSource Button7  = Button( 7 );
+		protected static InputControlSource Button8  = Button( 8 );
+		protected static InputControlSource Button9  = Button( 9 );
+		protected static InputControlSource Button10 = Button( 10 );
+		protected static InputControlSource Button11 = Button( 11 );
+		protected static InputControlSource Button12 = Button( 12 );
+		protected static InputControlSource Button13 = Button( 13 );
+		protected static InputControlSource Button14 = Button( 14 );
+		protected static InputControlSource Button15 = Button( 15 );
+		protected static InputControlSource Button16 = Button( 16 );
+		protected static InputControlSource Button17 = Button( 17 );
+		protected static InputControlSource Button18 = Button( 18 );
+		protected static InputControlSource Button19 = Button( 19 );
+
+		protected static InputControlSource Analog0  = Analog( 0 );
+		protected static InputControlSource Analog1  = Analog( 1 );
+		protected static InputControlSource Analog2  = Analog( 2 );
+		protected static InputControlSource Analog3  = Analog( 3 );
+		protected static InputControlSource Analog4  = Analog( 4 );
+		protected static InputControlSource Analog5  = Analog( 5 );
+		protected static InputControlSource Analog6  = Analog( 6 );
+		protected static InputControlSource Analog7  = Analog( 7 );
+		protected static InputControlSource Analog8  = Analog( 8 );
+		protected static InputControlSource Analog9  = Analog( 9 );
+
+		#endregion
 	}
 }
 

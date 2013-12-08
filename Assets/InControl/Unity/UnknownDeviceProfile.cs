@@ -26,16 +26,26 @@ namespace InControl
 			SupportedPlatforms = null;
 			JoystickNames = new[] { joystickName };
 
-			AnalogMappings = new InputControlAnalogMapping[ MaxUnityAnalogs ];
+			AnalogMappings = new InputControlMapping[ MaxUnityAnalogs ];
 			for (int i = 0; i < MaxUnityAnalogs; i++)
 			{
-				AnalogMappings[i] = new InputControlAnalogMapping( i );
+				AnalogMappings[i] = new InputControlMapping
+				{
+					Handle = "Analog " + i,
+					Source = Analog( i ),
+					Target = (InputControlType) i
+				};
 			}
 
-			ButtonMappings = new InputControlButtonMapping[ MaxUnityButtons ];
+			ButtonMappings = new InputControlMapping[ MaxUnityButtons ];
 			for (int i = 0; i < MaxUnityButtons; i++)
 			{
-				ButtonMappings[i] = new InputControlButtonMapping( i );
+				ButtonMappings[i] = new InputControlMapping
+				{
+					Handle = "Button " + i,
+					Source = Button( i ),
+					Target = (InputControlType) i
+				};
 			}
 		}
 	}
