@@ -27,27 +27,27 @@ namespace InControl
 			{
 				new InputControlMapping
 				{
-					Handle = "Spacebar",
+					Handle = "Fire",
 					Target = InputControlType.Action1,
-					Source = KeyCodeButton( KeyCode.Space )
+					Source = new UnityMouseButtonSource( 0 )
 				},
 				new InputControlMapping
 				{
-					Handle = "A Key",
+					Handle = "AltFire",
 					Target = InputControlType.Action2,
-					Source = KeyCodeButton( KeyCode.A )
+					Source = new UnityMouseButtonSource( 2 )
 				},
 				new InputControlMapping
 				{
-					Handle = "S Key",
+					Handle = "Middle",
 					Target = InputControlType.Action3,
-					Source = KeyCodeButton( KeyCode.S )
+					Source = new UnityMouseButtonSource( 1 )
 				},
 				new InputControlMapping
 				{
-					Handle = "D Key",
+					Handle = "Jump",
 					Target = InputControlType.Action4,
-					Source = KeyCodeButton( KeyCode.D )
+					Source = KeyCodeButton( KeyCode.Space )
 				}
 			};
 
@@ -77,6 +77,13 @@ namespace InControl
 					Handle = "Look Y",
 					Target = InputControlType.RightStickY,
 					Source = new UnityMouseAxisSource( "y" ),
+					Raw    = true
+				},
+				new InputControlMapping
+				{
+					Handle = "Look Z",
+					Target = InputControlType.ScrollWheel,
+					Source = new UnityMouseAxisSource( "z" ),
 					Raw    = true
 				}
 			};
