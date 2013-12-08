@@ -23,11 +23,6 @@ namespace InControl
 
 		public override void Update( float updateTime, float deltaTime )
 		{
-			foreach (var device in devices)
-			{
-				device.Update( updateTime, deltaTime );
-			}
-
 			if (joystickHash != JoystickHash)
 			{
 				Logger.LogInfo( "Change in Unity attached joysticks detected; refreshing device list." );
@@ -45,7 +40,7 @@ namespace InControl
 		}
 
 
-		public void AttachDevice( UnityInputDevice device )
+		void AttachDevice( UnityInputDevice device )
 		{
 			devices.Add( device );
 			InputManager.AttachDevice( device );

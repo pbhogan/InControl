@@ -27,8 +27,7 @@ namespace InControl
 
 		static float initialTime;
 		static float currentTime;
-
-		public static UnityInputDeviceManager UnityInputDeviceManager;
+		static float lastUpdateTime;
 
 
 		public static void Setup()
@@ -41,6 +40,7 @@ namespace InControl
 
 			initialTime = 0.0f;
 			currentTime = 0.0f;
+			lastUpdateTime = 0.0f;
 
 			inputDeviceManagers.Clear();
 			Devices.Clear();
@@ -52,8 +52,7 @@ namespace InControl
 
 			isSetup = true;
 
-			UnityInputDeviceManager = new UnityInputDeviceManager();
-			AddDeviceManager( UnityInputDeviceManager );
+			AddDeviceManager( new UnityInputDeviceManager() );
 		}
 
 
@@ -72,7 +71,10 @@ namespace InControl
 
 			UpdateCurrentTime();
 			UpdateDeviceManagers();
+			UpdateDevices();
 			UpdateActiveDevice();
+
+			lastUpdateTime = currentTime;
 		}
 
 
@@ -104,7 +106,7 @@ namespace InControl
 			AssertIsSetup();
 
 			inputDeviceManagers.Add( inputDeviceManager );
-			inputDeviceManager.Update( currentTime );
+			inputDeviceManager.Update( currentTime, currentTime - lastUpdateTime );
 		}
 
 
@@ -123,9 +125,23 @@ namespace InControl
 
 		static void UpdateDeviceManagers()
 		{
+			var deltaTime = currentTime - lastUpdateTime;
+
 			foreach (var inputDeviceManager in inputDeviceManagers)
 			{
-				inputDeviceManager.Update( currentTime );
+				inputDeviceManager.Update( currentTime, deltaTime );
+			}
+		}
+
+
+		static void UpdateDevices()
+		{
+			var deltaTime = currentTime - lastUpdateTime;
+
+			foreach (var device in Devices)
+			{
+				device.Update( currentTime, deltaTime );
+				device.UpdateLastChangeTime( currentTime );
 			}
 		}
 

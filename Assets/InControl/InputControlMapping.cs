@@ -21,6 +21,8 @@ namespace InControl
 		public InputControlType Target;
 
 		public bool Invert;
+
+		// Raw inputs won't be range remapped, smoothed or filtered.
 		public bool Raw;
 
 		public Range SourceRange = Range.Complete;

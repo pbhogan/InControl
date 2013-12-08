@@ -42,6 +42,7 @@ namespace InControl
 		TiltX,
 		TiltY,
 		TiltZ,
+		ScrollWheel,
 
 
 		// Not standardized.
