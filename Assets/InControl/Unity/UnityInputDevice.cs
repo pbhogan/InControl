@@ -51,18 +51,24 @@ namespace InControl
 				var analogMapping = Profile.AnalogMappings[i];
 				var unityValue = analogMapping.Source.GetValue( this );
 
-				if (analogMapping.TargetRangeIsNotComplete && unityValue == 0.0f && Analogs[i].UpdateTime == 0.0f)
+				if (!analogMapping.Raw)
 				{
-					// Ignore initial input stream for triggers, because they report 
-					// zero incorrectly until the value changes for the first time.
-					// Example: wired Xbox controller on Mac.
-					continue;
+					if (analogMapping.TargetRangeIsNotComplete && unityValue == 0.0f && Analogs[i].UpdateTime == 0.0f)
+					{
+						// Ignore initial input stream for triggers, because they report 
+						// zero incorrectly until the value changes for the first time.
+						// Example: wired Xbox controller on Mac.
+						continue;
+					}
+
+					var smoothValue = SmoothAnalogValue( unityValue, Analogs[i].LastValue, deltaTime );
+					var mappedValue = analogMapping.MapValue( smoothValue );
+					Analogs[i].UpdateWithValue( mappedValue, updateTime );
 				}
-
-				var smoothValue = SmoothAnalogValue( unityValue, Analogs[i].LastValue, deltaTime );
-				var mappedValue = analogMapping.MapValue( smoothValue );
-
-				Analogs[i].UpdateWithValue( mappedValue, updateTime );
+				else
+				{
+					Analogs[i].UpdateWithValue( unityValue, updateTime );
+				}
 			}
 
 			var buttonMappingCount = Profile.ButtonMappings.Length;

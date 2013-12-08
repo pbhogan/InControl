@@ -60,8 +60,10 @@
      <Compile Include="Assets\InControl\Unity\ControlSources\UnityButtonSource.cs" />
      <Compile Include="Assets\InControl\Unity\ControlSources\UnityKeyCodeAxisSource.cs" />
      <Compile Include="Assets\InControl\Unity\ControlSources\UnityKeyCodeSource.cs" />
+     <Compile Include="Assets\InControl\Unity\ControlSources\UnityMouseAxisSource.cs" />
+     <Compile Include="Assets\InControl\Unity\CustomProfiles\BasicKeyboardProfile.cs" />
+     <Compile Include="Assets\InControl\Unity\CustomProfiles\FPSProfile.cs" />
      <Compile Include="Assets\InControl\Unity\DeviceProfiles\GameStickProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\KeyboardProfile.cs" />
      <Compile Include="Assets\InControl\Unity\DeviceProfiles\OuyaProfile.cs" />
      <Compile Include="Assets\InControl\Unity\DeviceProfiles\Playstation3MacProfile.cs" />
      <Compile Include="Assets\InControl\Unity\DeviceProfiles\Playstation3OuyaProfile.cs" />

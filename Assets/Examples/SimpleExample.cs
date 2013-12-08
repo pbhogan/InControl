@@ -11,6 +11,7 @@ public class SimpleExample : MonoBehaviour
 	void Start()
 	{
 		InputManager.Setup();
+		InputManager.UnityInputDeviceManager.AttachDevice( new UnityInputDevice( new FPSProfile() ) );
 
 		Debug.Log( "Ready!" );
 	}
@@ -41,8 +42,10 @@ public class SimpleExample : MonoBehaviour
 			target.renderer.material.color = Color.white;
 		}
 
-		target.transform.Rotate( Vector3.up,    80.0f * Time.deltaTime * InputManager.ActiveDevice.Direction.x );
-		target.transform.Rotate( Vector3.right, 80.0f * Time.deltaTime * InputManager.ActiveDevice.Direction.y );
+		target.transform.Rotate( Vector3.down,  500.0f * Time.deltaTime * InputManager.ActiveDevice.Direction.x, Space.World );
+		target.transform.Rotate( Vector3.right, 500.0f * Time.deltaTime * InputManager.ActiveDevice.Direction.y, Space.World );
+		target.transform.Rotate( Vector3.down,  500.0f * Time.deltaTime * InputManager.ActiveDevice.RightStickX, Space.World );
+		target.transform.Rotate( Vector3.right, 500.0f * Time.deltaTime * InputManager.ActiveDevice.RightStickY, Space.World );
 	}
 }
 

@@ -124,7 +124,7 @@ namespace InControl
 		{
 			get
 			{
-				return new Vector2( LeftStickX.Value, LeftStickY.Value ).normalized;
+				return new Vector2( LeftStickX.Value, LeftStickY.Value );
 			}
 		}
 
@@ -133,7 +133,7 @@ namespace InControl
 		{
 			get
 			{
-				return new Vector2( RightStickX.Value, RightStickY.Value ).normalized;
+				return new Vector2( RightStickX.Value, RightStickY.Value );
 			}
 		}
 

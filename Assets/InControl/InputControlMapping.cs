@@ -11,7 +11,6 @@ namespace InControl
 			public static Range Complete = new Range { Minimum = -1.0f, Maximum = 1.0f };
 			public static Range Positive = new Range { Minimum =  0.0f, Maximum = 1.0f };
 			public static Range Negative = new Range { Minimum = -1.0f, Maximum = 0.0f };
-			public static Range Infinity = null;
 
 			public float Minimum;
 			public float Maximum;
@@ -22,11 +21,10 @@ namespace InControl
 		public InputControlType Target;
 
 		public bool Invert;
+		public bool Raw;
 
 		public Range SourceRange = Range.Complete;
 		public Range TargetRange = Range.Complete;
-
-		public KeyCode SourceKeyCode = KeyCode.None;
 
 		string handle;
 
@@ -35,9 +33,8 @@ namespace InControl
 		{
 			float targetValue;
 
-			if (SourceRange == Range.Infinity || TargetRange == Range.Infinity)
+			if (Raw)
 			{
-				// Infinity (raw) value ranges don't get remapped.
 				targetValue = value;
 			}
 			else

@@ -28,6 +28,8 @@ namespace InControl
 		static float initialTime;
 		static float currentTime;
 
+		public static UnityInputDeviceManager UnityInputDeviceManager;
+
 
 		public static void Setup()
 		{
@@ -50,7 +52,8 @@ namespace InControl
 
 			isSetup = true;
 
-			AddDeviceManager( new UnityInputDeviceManager() );
+			UnityInputDeviceManager = new UnityInputDeviceManager();
+			AddDeviceManager( UnityInputDeviceManager );
 		}
 
 

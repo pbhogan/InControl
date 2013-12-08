@@ -124,7 +124,7 @@ if (InputManager.ActiveDevice.Action1.WasPressed)
 }
 ```
 
-It also provides four properties that each return a normalized directional `Vector2`:
+It also provides four properties that each return a directional `Vector2`:
 
 ```csharp
 Vector2 lsv = device.LeftStickVector;

@@ -6,13 +6,12 @@ using UnityEngine;
 
 namespace InControl
 {
-	[AutoDiscover]
-	public class KeyboardProfile : UnityInputDeviceProfile
+	public class FPSProfile : UnityInputDeviceProfile
 	{
-		public KeyboardProfile()
+		public FPSProfile()
 		{
-			Name = "Keyboard";
-			Meta = "";
+			Name = "FPS Keyboard/Mouse";
+			Meta = "A keyboard and mouse combination profile appropriate for FPS.";
 
 			SupportedPlatforms = new[]
 			{
@@ -56,15 +55,29 @@ namespace InControl
 			{
 				new InputControlMapping
 				{
-					Handle = "Arrow Keys X",
+					Handle = "Move X",
 					Target = InputControlType.LeftStickX,
-					Source = KeyCodeAxis( KeyCode.LeftArrow, KeyCode.RightArrow )
+					Source = KeyCodeAxis( KeyCode.A, KeyCode.D )
 				},
 				new InputControlMapping
 				{
-					Handle = "Arrow Keys Y",
+					Handle = "Move Y",
 					Target = InputControlType.LeftStickY,
-					Source = KeyCodeAxis( KeyCode.DownArrow, KeyCode.UpArrow )
+					Source = KeyCodeAxis( KeyCode.S, KeyCode.W )
+				},
+				new InputControlMapping
+				{
+					Handle = "Look X",
+					Target = InputControlType.RightStickX,
+					Source = new UnityMouseAxisSource( "x" ),
+					Raw    = true
+				},
+				new InputControlMapping
+				{
+					Handle = "Look Y",
+					Target = InputControlType.RightStickY,
+					Source = new UnityMouseAxisSource( "y" ),
+					Raw    = true
 				}
 			};
 		}

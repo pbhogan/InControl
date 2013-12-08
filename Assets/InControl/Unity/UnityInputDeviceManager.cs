@@ -45,6 +45,13 @@ namespace InControl
 		}
 
 
+		public void AttachDevice( UnityInputDevice device )
+		{
+			devices.Add( device );
+			InputManager.AttachDevice( device );
+		}
+
+
 		void AttachKeyboardDevices()
 		{
 			foreach (var deviceProfile in deviceProfiles)
@@ -65,9 +72,7 @@ namespace InControl
 			}
 
 			var keyboardDevice = new UnityInputDevice( config );
-			devices.Add( keyboardDevice );
-
-			InputManager.AttachDevice( keyboardDevice );
+			AttachDevice( keyboardDevice );
 
 			keyboardDevicesAttached = true;
 		}
@@ -117,10 +122,8 @@ namespace InControl
 				}
 			}
 
-			var inputDevice = new UnityInputDevice( deviceProfile, unityJoystickId );
-			devices.Add( inputDevice );
-
-			InputManager.AttachDevice( inputDevice );
+			var joystickDevice = new UnityInputDevice( deviceProfile, unityJoystickId );
+			AttachDevice( joystickDevice );
 
 			if (matchedDeviceProfile == null)
 			{
