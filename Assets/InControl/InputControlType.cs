@@ -43,6 +43,9 @@ namespace InControl
 		TiltY,
 		TiltZ,
 		ScrollWheel,
+		TouchPadTap,
+		TouchPadXAxis,
+		TouchPadYAxis,
 
 
 		// Not standardized.

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 
 namespace InControl
@@ -44,43 +45,43 @@ namespace InControl
 				{
 					Handle = "X",
 					Target = InputControlType.Action3,
-					Source = Button3
+					Source = Button2
 				},
 				new InputControlMapping
 				{
 					Handle = "Y",
 					Target = InputControlType.Action4,
-					Source = Button4
+					Source = Button3
 				},
 				new InputControlMapping
 				{
 					Handle = "Left Bumper",
 					Target = InputControlType.LeftBumper,
-					Source = Button6
+					Source = Button4
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Bumper",
 					Target = InputControlType.RightBumper,
-					Source = Button7
+					Source = Button5
 				},
 				new InputControlMapping
 				{
 					Handle = "Left Stick Button",
 					Target = InputControlType.LeftStickButton,
-					Source = Button13
+					Source = Button8
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Stick Button",
 					Target = InputControlType.RightStickButton,
-					Source = Button14
+					Source = Button9
 				},
 				new InputControlMapping
 				{
-					Handle = "Start",
-					Target = InputControlType.Start,
-					Source = Button11
+					Handle = "System",
+					Target = InputControlType.System,
+					Source = KeyCodeButton( KeyCode.Menu )
 				}
 			};
 
