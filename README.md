@@ -55,6 +55,7 @@ Unsupported devices can be used, however their default mappings are utterly unpr
 The project is namespaced under `InControl`. The entry point is the `InputManager` class. You'll need to call `InputManager.Setup()` once and `InputManager.Update()` every tick (or whenever you wish to poll for new input state).
 
 ```csharp
+using UnityEngine;
 using InControl;
 
 public class UpdateInputManager : MonoBehaviour
