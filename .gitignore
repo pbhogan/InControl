@@ -6,3 +6,4 @@ obj/*
 *.userprefs
 .DS_Store
 Library/metadata/*
+Library/*
