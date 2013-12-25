@@ -7,11 +7,13 @@ namespace InControl
 	public class UnityButtonSource : InputControlSource
 	{
 		int buttonId;
+		static string[,] buttonQueries;
 
 
 		public UnityButtonSource( int buttonId )
 		{
 			this.buttonId = buttonId;
+			SetupButtonQueries();
 		}
 
 
@@ -24,7 +26,31 @@ namespace InControl
 		public override bool GetState( InputDevice inputDevice )
 		{
 			var joystickId = (inputDevice as UnityInputDevice).JoystickId;
-			return Input.GetKey( "joystick " + joystickId + " button " + buttonId );
+			var buttonKey = GetButtonKey( joystickId, buttonId );
+			return Input.GetKey( buttonKey );
+		}
+
+
+		static void SetupButtonQueries()
+		{
+			if (buttonQueries == null)
+			{			
+				buttonQueries = new string[ 10, 20 ];
+				
+				for (int joystickId = 1; joystickId <= 10; joystickId++)
+				{
+					for (int buttonId = 0; buttonId < 20; buttonId++)
+					{
+						buttonQueries[ joystickId - 1, buttonId ] = "joystick " + joystickId + " button " + buttonId;
+					}
+				}
+			}
+		}
+		
+		
+		static string GetButtonKey( int joystickId, int buttonId )
+		{
+			return buttonQueries[ joystickId - 1, buttonId ];
 		}
 	}
 }

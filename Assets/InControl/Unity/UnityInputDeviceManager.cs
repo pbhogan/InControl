@@ -9,6 +9,9 @@ namespace InControl
 {
 	public class UnityInputDeviceManager : InputDeviceManager
 	{
+		float deviceRefreshTimer = 0.0f;
+		const float deviceRefreshInterval = 1.0f;
+
 		List<UnityInputDeviceProfile> deviceProfiles = new List<UnityInputDeviceProfile>();
 		bool keyboardDevicesAttached = false;
 		string joystickHash = "";
@@ -23,10 +26,16 @@ namespace InControl
 
 		public override void Update( float updateTime, float deltaTime )
 		{
-			if (joystickHash != JoystickHash)
+			deviceRefreshTimer += deltaTime;
+			if (string.IsNullOrEmpty( joystickHash ) || deviceRefreshTimer >= deviceRefreshInterval)
 			{
-				Logger.LogInfo( "Change in Unity attached joysticks detected; refreshing device list." );
-				RefreshDevices();
+				deviceRefreshTimer = 0.0f;
+
+				if (joystickHash != JoystickHash)
+				{
+					Logger.LogInfo( "Change in Unity attached joysticks detected; refreshing device list." );
+					RefreshDevices();
+				}
 			}
 		}
 
@@ -49,12 +58,14 @@ namespace InControl
 
 		void AttachKeyboardDevices()
 		{
-			foreach (var deviceProfile in deviceProfiles)
+			int deviceProfileCount = deviceProfiles.Count;
+			for (int i = 0; i < deviceProfileCount; i++)
 			{
+				var deviceProfile = deviceProfiles[i];
 				if (deviceProfile.IsNotJoystick && deviceProfile.IsSupportedOnThisPlatform)
 				{
 					AttachKeyboardDeviceWithConfig( deviceProfile );
-				}	
+				}
 			}
 		}
 
@@ -106,9 +117,10 @@ namespace InControl
 				deviceProfile = matchedDeviceProfile;
 			}
 
-
-			foreach (var device in devices)
+			int deviceCount = devices.Count;
+			for (int i = 0; i < deviceCount; i++)
 			{
+				var device = devices[i];
 				var unityDevice = device as UnityInputDevice;
 				if (unityDevice != null && unityDevice.IsConfiguredWith( deviceProfile, unityJoystickId ))
 				{

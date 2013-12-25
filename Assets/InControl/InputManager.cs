@@ -82,8 +82,10 @@ namespace InControl
 		{
 			var lastActiveDevice = ActiveDevice;
 
-			foreach (var inputDevice in Devices)
+			int deviceCount = Devices.Count;
+			for (int i = 0; i < deviceCount; i++)
 			{
+				var inputDevice = Devices[i];
 				if (ActiveDevice == InputDevice.Null || 
 				    inputDevice.LastChangedAfter( ActiveDevice ))
 				{
@@ -127,8 +129,10 @@ namespace InControl
 		{
 			var deltaTime = currentTime - lastUpdateTime;
 
-			foreach (var inputDeviceManager in inputDeviceManagers)
+			int inputDeviceManagerCount = inputDeviceManagers.Count;
+			for (int i = 0; i < inputDeviceManagerCount; i++)
 			{
+				var inputDeviceManager = inputDeviceManagers[i];
 				inputDeviceManager.Update( currentTime, deltaTime );
 			}
 		}
@@ -138,8 +142,10 @@ namespace InControl
 		{
 			var deltaTime = currentTime - lastUpdateTime;
 
-			foreach (var device in Devices)
+			int deviceCount = Devices.Count;
+			for (int i = 0; i < deviceCount; i++)
 			{
+				var device = Devices[i];
 				device.Update( currentTime, deltaTime );
 				device.UpdateLastChangeTime( currentTime );
 			}

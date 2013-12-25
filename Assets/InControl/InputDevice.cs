@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using System.Linq;
 
 
 namespace InControl
@@ -81,10 +80,24 @@ namespace InControl
 
 		public void UpdateLastChangeTime( float updateTime )
 		{
-			if (Analogs.Any( analog => analog.HasChanged ) ||
-				Buttons.Any( button => button.HasChanged ))
+			int analogCount = Analogs.GetLength( 0 );
+			for (int i = 0; i < analogCount; i++)
 			{
-				LastChangeTime = updateTime;
+				if (Analogs[i].HasChanged)
+				{
+					LastChangeTime = updateTime;
+					return;
+				}
+			}
+
+			int buttonCount = Buttons.GetLength( 0 );
+			for (int i = 0; i < buttonCount; i++)
+			{
+				if (Buttons[i].HasChanged)
+				{
+					LastChangeTime = updateTime;
+					return;
+				}
 			}
 		}
 
