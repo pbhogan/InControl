@@ -56,6 +56,7 @@ The project is namespaced under `InControl`. The entry point is the `InputManage
 
 ```csharp
 using InControl;
+using UnityEngine;
 
 public class UpdateInputManager : MonoBehaviour
 {
