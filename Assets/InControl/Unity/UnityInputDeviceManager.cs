@@ -171,7 +171,7 @@ namespace InControl
 
 		void AutoDiscoverDeviceProfiles()
 		{
-			foreach (var type in Assembly.GetExecutingAssembly().GetTypes()) 
+			foreach (var type in GetType().Assembly.GetTypes()) 
 			{
 				if (type.GetCustomAttributes( typeof(AutoDiscover), true ).Length > 0) 
 				{
