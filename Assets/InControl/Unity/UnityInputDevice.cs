@@ -49,26 +49,35 @@ namespace InControl
 			for (int i = 0; i < analogMappingCount; i++)
 			{
 				var analogMapping = Profile.AnalogMappings[i];
-				var unityValue = GetAnalogValue( analogMapping.Source );
+				var unityValue = analogMapping.Source.GetValue( this );
 
-				if (analogMapping.TargetRangeIsNotComplete && unityValue == 0.0f && Analogs[i].UpdateTime == 0.0f)
+				if (!analogMapping.Raw)
 				{
-					// Ignore initial input stream for triggers, because they report 
-					// zero incorrectly until the value changes for the first time.
-					// Example: wired Xbox controller on Mac.
-					continue;
-				}
+					if (analogMapping.TargetRangeIsNotComplete && unityValue == 0.0f && Analogs[i].UpdateTime == 0.0f)
+					{
+						// Ignore initial input stream for triggers, because they report 
+						// zero incorrectly until the value changes for the first time.
+						// Example: wired Xbox controller on Mac.
+						continue;
+					}
 
-				var smoothValue = SmoothAnalogValue( unityValue, Analogs[i].LastValue, deltaTime );
-				var mappedValue = analogMapping.MapValue( smoothValue );
-				Analogs[i].UpdateWithValue( mappedValue, updateTime );
+					var smoothValue = SmoothAnalogValue( unityValue, Analogs[i].LastValue, deltaTime );
+					var mappedValue = analogMapping.MapValue( smoothValue );
+					Analogs[i].UpdateWithValue( mappedValue, updateTime );
+				}
+				else
+				{
+					Analogs[i].UpdateWithValue( unityValue, updateTime );
+				}
 			}
 
 			var buttonMappingCount = Profile.ButtonMappings.Length;
 			for (int i = 0; i < buttonMappingCount; i++)
 			{
-				var buttonSource = Profile.ButtonMappings[i].Source;
-				Buttons[i].UpdateWithState( GetButtonState( buttonSource ), updateTime );
+				var buttonMapping = Profile.ButtonMappings[i];
+				var buttonState = buttonMapping.Source.GetState( this );
+				
+				Buttons[i].UpdateWithState( buttonState, updateTime );
 			}
 		}
 
@@ -95,55 +104,6 @@ namespace InControl
 			{
 				return thisValue;
 			}
-		}
-
-
-		float GetAnalogValue( string source )
-		{
-			if (source == "")
-			{
-				return 0.0f;
-			}
-
-			if (Profile.IsJoystick)
-			{
-				source = "joystick " + JoystickId + " " + source;
-				return Input.GetAxisRaw( source );
-			}
-			else
-			{
-				string[] axisStringSplit = source.Split( ' ' );
-
-				int axisVal = 0;
-
-				if (Input.GetKey( axisStringSplit[0] ))
-				{
-					axisVal--;
-				}
-
-				if (Input.GetKey( axisStringSplit[1] ))
-				{
-					axisVal++;
-				}
-
-				return axisVal;
-			}
-		}
-
-
-		bool GetButtonState( string source )
-		{		
-			if (source == "")
-			{
-				return false;
-			}
-
-			if (Profile.IsJoystick)
-			{
-				source = "joystick " + JoystickId + " " + source;
-			}
-
-			return Input.GetKey( source );
 		}
 
 

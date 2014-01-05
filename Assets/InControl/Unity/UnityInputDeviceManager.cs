@@ -9,6 +9,9 @@ namespace InControl
 {
 	public class UnityInputDeviceManager : InputDeviceManager
 	{
+		float deviceRefreshTimer = 0.0f;
+		const float deviceRefreshInterval = 1.0f;
+
 		List<UnityInputDeviceProfile> deviceProfiles = new List<UnityInputDeviceProfile>();
 		bool keyboardDevicesAttached = false;
 		string joystickHash = "";
@@ -23,15 +26,16 @@ namespace InControl
 
 		public override void Update( float updateTime, float deltaTime )
 		{
-			foreach (var device in devices)
+			deviceRefreshTimer += deltaTime;
+			if (string.IsNullOrEmpty( joystickHash ) || deviceRefreshTimer >= deviceRefreshInterval)
 			{
-				device.Update( updateTime, deltaTime );
-			}
+				deviceRefreshTimer = 0.0f;
 
-			if (joystickHash != JoystickHash)
-			{
-				Logger.LogInfo( "Change in Unity attached joysticks detected; refreshing device list." );
-				RefreshDevices();
+				if (joystickHash != JoystickHash)
+				{
+					Logger.LogInfo( "Change in Unity attached joysticks detected; refreshing device list." );
+					RefreshDevices();
+				}
 			}
 		}
 
@@ -45,14 +49,23 @@ namespace InControl
 		}
 
 
+		void AttachDevice( UnityInputDevice device )
+		{
+			devices.Add( device );
+			InputManager.AttachDevice( device );
+		}
+
+
 		void AttachKeyboardDevices()
 		{
-			foreach (var deviceProfile in deviceProfiles)
+			int deviceProfileCount = deviceProfiles.Count;
+			for (int i = 0; i < deviceProfileCount; i++)
 			{
+				var deviceProfile = deviceProfiles[i];
 				if (deviceProfile.IsNotJoystick && deviceProfile.IsSupportedOnThisPlatform)
 				{
 					AttachKeyboardDeviceWithConfig( deviceProfile );
-				}	
+				}
 			}
 		}
 
@@ -65,9 +78,7 @@ namespace InControl
 			}
 
 			var keyboardDevice = new UnityInputDevice( config );
-			devices.Add( keyboardDevice );
-
-			InputManager.AttachDevice( keyboardDevice );
+			AttachDevice( keyboardDevice );
 
 			keyboardDevicesAttached = true;
 		}
@@ -106,9 +117,10 @@ namespace InControl
 				deviceProfile = matchedDeviceProfile;
 			}
 
-
-			foreach (var device in devices)
+			int deviceCount = devices.Count;
+			for (int i = 0; i < deviceCount; i++)
 			{
+				var device = devices[i];
 				var unityDevice = device as UnityInputDevice;
 				if (unityDevice != null && unityDevice.IsConfiguredWith( deviceProfile, unityJoystickId ))
 				{
@@ -117,10 +129,8 @@ namespace InControl
 				}
 			}
 
-			var inputDevice = new UnityInputDevice( deviceProfile, unityJoystickId );
-			devices.Add( inputDevice );
-
-			InputManager.AttachDevice( inputDevice );
+			var joystickDevice = new UnityInputDevice( deviceProfile, unityJoystickId );
+			AttachDevice( joystickDevice );
 
 			if (matchedDeviceProfile == null)
 			{
@@ -161,7 +171,7 @@ namespace InControl
 
 		void AutoDiscoverDeviceProfiles()
 		{
-			foreach (var type in Assembly.GetExecutingAssembly().GetTypes()) 
+			foreach (var type in GetType().Assembly.GetTypes()) 
 			{
 				if (type.GetCustomAttributes( typeof(AutoDiscover), true ).Length > 0) 
 				{

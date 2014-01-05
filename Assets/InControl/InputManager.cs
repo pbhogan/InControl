@@ -27,6 +27,7 @@ namespace InControl
 
 		static float initialTime;
 		static float currentTime;
+		static float lastUpdateTime;
 
 
 		public static void Setup()
@@ -39,6 +40,7 @@ namespace InControl
 
 			initialTime = 0.0f;
 			currentTime = 0.0f;
+			lastUpdateTime = 0.0f;
 
 			inputDeviceManagers.Clear();
 			Devices.Clear();
@@ -69,7 +71,10 @@ namespace InControl
 
 			UpdateCurrentTime();
 			UpdateDeviceManagers();
+			UpdateDevices();
 			UpdateActiveDevice();
+
+			lastUpdateTime = currentTime;
 		}
 
 
@@ -77,8 +82,10 @@ namespace InControl
 		{
 			var lastActiveDevice = ActiveDevice;
 
-			foreach (var inputDevice in Devices)
+			int deviceCount = Devices.Count;
+			for (int i = 0; i < deviceCount; i++)
 			{
+				var inputDevice = Devices[i];
 				if (ActiveDevice == InputDevice.Null || 
 				    inputDevice.LastChangedAfter( ActiveDevice ))
 				{
@@ -101,7 +108,7 @@ namespace InControl
 			AssertIsSetup();
 
 			inputDeviceManagers.Add( inputDeviceManager );
-			inputDeviceManager.Update( currentTime );
+			inputDeviceManager.Update( currentTime, currentTime - lastUpdateTime );
 		}
 
 
@@ -120,9 +127,27 @@ namespace InControl
 
 		static void UpdateDeviceManagers()
 		{
-			foreach (var inputDeviceManager in inputDeviceManagers)
+			var deltaTime = currentTime - lastUpdateTime;
+
+			int inputDeviceManagerCount = inputDeviceManagers.Count;
+			for (int i = 0; i < inputDeviceManagerCount; i++)
 			{
-				inputDeviceManager.Update( currentTime );
+				var inputDeviceManager = inputDeviceManagers[i];
+				inputDeviceManager.Update( currentTime, deltaTime );
+			}
+		}
+
+
+		static void UpdateDevices()
+		{
+			var deltaTime = currentTime - lastUpdateTime;
+
+			int deviceCount = Devices.Count;
+			for (int i = 0; i < deviceCount; i++)
+			{
+				var device = Devices[i];
+				device.Update( currentTime, deltaTime );
+				device.UpdateLastChangeTime( currentTime );
 			}
 		}
 

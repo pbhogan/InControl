@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 
 namespace InControl
@@ -14,14 +11,15 @@ namespace InControl
 		public string Name { get; protected set; }
 		public string Meta { get; protected set; }
 
-		public InputControl[] Analogs { get; protected set; } // TODO: Unify Analogs and Buttons. Use polymorphism.
+		// TODO: Unify Analogs and Buttons. Use polymorphism.
+		public InputControl[] Analogs { get; protected set; }
 		public InputControl[] Buttons { get; protected set; }
 
 		public float LastChangeTime { get; protected set; }
 
-		InputControl[] controlTable;
-		int filledAnalogCount = 0;
-		int filledButtonCount = 0;
+		readonly InputControl[] controlTable;
+		int filledAnalogCount;
+		int filledButtonCount;
 
 
 		public InputDevice( string name, int analogCount = 0, int buttonCount = 0 )
@@ -34,7 +32,7 @@ namespace InControl
 
 			LastChangeTime = 0.0f;
 
-			var numInputControlTypes = (int) InputControlType.Count + 1;
+			const int numInputControlTypes = (int) InputControlType.Count + 1;
 			controlTable = new InputControl[ numInputControlTypes ];
 		}
 
@@ -43,7 +41,7 @@ namespace InControl
 		{
 			int controlIndex = Convert.ToInt32( inputControlType );
 			var control = controlTable[controlIndex];
-			return control == null ? InputControl.Null : control;
+			return control ?? InputControl.Null;
 		}
 
 
@@ -82,10 +80,24 @@ namespace InControl
 
 		public void UpdateLastChangeTime( float updateTime )
 		{
-			if (Analogs.Any( analog => analog.HasChanged ) ||
-				Buttons.Any( button => button.HasChanged ))
+			int analogCount = Analogs.GetLength( 0 );
+			for (int i = 0; i < analogCount; i++)
 			{
-				LastChangeTime = updateTime;
+				if (Analogs[i].HasChanged)
+				{
+					LastChangeTime = updateTime;
+					return;
+				}
+			}
+
+			int buttonCount = Buttons.GetLength( 0 );
+			for (int i = 0; i < buttonCount; i++)
+			{
+				if (Buttons[i].HasChanged)
+				{
+					LastChangeTime = updateTime;
+					return;
+				}
 			}
 		}
 
@@ -125,7 +137,7 @@ namespace InControl
 		{
 			get
 			{
-				return new Vector2( LeftStickX.Value, LeftStickY.Value ).normalized;
+				return new Vector2( LeftStickX.Value, LeftStickY.Value );
 			}
 		}
 
@@ -134,7 +146,7 @@ namespace InControl
 		{
 			get
 			{
-				return new Vector2( RightStickX.Value, RightStickY.Value ).normalized;
+				return new Vector2( RightStickX.Value, RightStickY.Value );
 			}
 		}
 

@@ -17,7 +17,7 @@ InControl is an input manager for Unity3D (version 4) that tames the cross-platf
 * Xbox 360 controller support for Windows, Mac and OUYA.
 * Playstation 3 controller support for Windows, Mac and OUYA.
 * Playstation 4 controller support for Windows and Mac.
-* OUYA controller support on OUYA.
+* OUYA controller support on OUYA and Windows.
 * GameStick support.
 * Keyboard support on Windows and Mac.
 
@@ -57,6 +57,7 @@ The project is namespaced under `InControl`. The entry point is the `InputManage
 ```csharp
 using UnityEngine;
 using InControl;
+using UnityEngine;
 
 public class UpdateInputManager : MonoBehaviour
 {
@@ -125,7 +126,7 @@ if (InputManager.ActiveDevice.Action1.WasPressed)
 }
 ```
 
-It also provides four properties that each return a normalized directional `Vector2`:
+It also provides four properties that each return a directional `Vector2`:
 
 ```csharp
 Vector2 lsv = device.LeftStickVector;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 
 namespace InControl
@@ -20,6 +21,7 @@ namespace InControl
 
 			JoystickNames = new[]
 			{
+				"", // Meh... thanks OUYA
 				"PLAYSTATION(R)3 Controller"
 			};
 
@@ -28,125 +30,141 @@ namespace InControl
 
 			ButtonMappings = new[]
 			{
-				new InputControlButtonMapping()
+				new InputControlMapping
 				{
 					Handle = "Cross",
 					Target = InputControlType.Action1,
-					Source = "button 14"
+					Source = Button0
 				},
-				new InputControlButtonMapping()
+				new InputControlMapping
 				{
 					Handle = "Circle",
 					Target = InputControlType.Action2,
-					Source = "button 13"
+					Source = Button1
 				},
-				new InputControlButtonMapping()
+				new InputControlMapping
 				{
 					Handle = "Square",
 					Target = InputControlType.Action3,
-					Source = "button 15"
+					Source = Button2
 				},
-				new InputControlButtonMapping()
+				new InputControlMapping
 				{
 					Handle = "Triangle",
 					Target = InputControlType.Action4,
-					Source = "button 12"
+					Source = Button3
 				},
-				new InputControlButtonMapping()
-				{
-					Handle = "DPad Up",
-					Target = InputControlType.DPadUp,
-					Source = "button 4"
-				},
-				new InputControlButtonMapping()
-				{
-					Handle = "DPad Down",
-					Target = InputControlType.DPadDown,
-					Source = "button 6"
-				},
-				new InputControlButtonMapping()
-				{
-					Handle = "DPad Left",
-					Target = InputControlType.DPadLeft,
-					Source = "button 7"
-				},
-				new InputControlButtonMapping()
-				{
-					Handle = "DPad Right",
-					Target = InputControlType.DPadRight,
-					Source = "button 5"
-				},
-				new InputControlButtonMapping()
+				new InputControlMapping
 				{
 					Handle = "Left Bumper",
 					Target = InputControlType.LeftBumper,
-					Source = "button 10"
+					Source = Button4
 				},
-				new InputControlButtonMapping()
+				new InputControlMapping
 				{
 					Handle = "Right Bumper",
 					Target = InputControlType.RightBumper,
-					Source = "button 11"
+					Source = Button5
 				},
-				new InputControlButtonMapping()
-				{
-					Handle = "Start",
-					Target = InputControlType.Start,
-					Source = "button 3"
-				},
-				new InputControlButtonMapping()
-				{
-					Handle = "Left Stick Button",
-					Target = InputControlType.LeftStickButton,
-					Source = "button 1"
-				},
-				new InputControlButtonMapping()
-				{
-					Handle = "Right Stick Button",
-					Target = InputControlType.RightStickButton,
-					Source = "button 2"
-				}
-			};
-
-			AnalogMappings = new InputControlAnalogMapping[]
-			{
-				new InputControlAnalogMapping()
-				{
-					Handle = "Left Stick X",
-					Target = InputControlType.LeftStickX,
-					Source = "analog 0"
-				},
-				new InputControlAnalogMapping()
-				{
-					Handle = "Left Stick Y",
-					Target = InputControlType.LeftStickY,
-					Source = "analog 1",
-					Invert = true
-				},
-				new InputControlAnalogMapping()
-				{
-					Handle = "Right Stick X",
-					Target = InputControlType.RightStickX,
-					Source = "analog 2"
-				},
-				new InputControlAnalogMapping()
-				{
-					Handle = "Right Stick Y",
-					Target = InputControlType.RightStickY,
-					Source = "analog 3",
-					Invert = true
-				},
-				new InputControlAnalogMapping()
+				new InputControlMapping
 				{
 					Handle = "Left Trigger",
 					Target = InputControlType.LeftTrigger,
-					Source = "analog 4"
+					Source = Button6
 				},
-				new InputControlAnalogMapping()
+				new InputControlMapping
 				{
 					Handle = "Right Trigger",
 					Target = InputControlType.RightTrigger,
-					Source = "analog 5"
+					Source = Button7
+				},
+				new InputControlMapping
+				{
+					Handle = "Left Stick Button",
+					Target = InputControlType.LeftStickButton,
+					Source = Button8
+				},
+				new InputControlMapping
+				{
+					Handle = "Right Stick Button",
+					Target = InputControlType.RightStickButton,
+					Source = Button9
+				},
+				new InputControlMapping
+				{
+					Handle = "Start",
+					Target = InputControlType.Start,
+					Source = Button10
+				},
+				new InputControlMapping
+				{
+					Handle = "System",
+					Target = InputControlType.System,
+					Source = KeyCodeButton( KeyCode.Menu )
+				}
+			};
+
+			AnalogMappings = new[]
+			{
+				new InputControlMapping
+				{
+					Handle = "Left Stick X",
+					Target = InputControlType.LeftStickX,
+					Source = Analog0
+				},
+				new InputControlMapping
+				{
+					Handle = "Left Stick Y",
+					Target = InputControlType.LeftStickY,
+					Source = Analog1,
+					Invert = true
+				},
+				new InputControlMapping
+				{
+					Handle = "Right Stick X",
+					Target = InputControlType.RightStickX,
+					Source = Analog2
+				},
+				new InputControlMapping
+				{
+					Handle = "Right Stick Y",
+					Target = InputControlType.RightStickY,
+					Source = Analog3,
+					Invert = true
+				},
+				new InputControlMapping
+				{
+					Handle = "DPad Left",
+					Target = InputControlType.DPadLeft,
+					Source = Analog4,
+					SourceRange = InputControlMapping.Range.Negative,
+					TargetRange = InputControlMapping.Range.Negative,
+					Invert = true
+				},
+				new InputControlMapping
+				{
+					Handle = "DPad Right",
+					Target = InputControlType.DPadRight,
+					Source = Analog4,
+					SourceRange = InputControlMapping.Range.Positive,
+					TargetRange = InputControlMapping.Range.Positive
+				},
+				new InputControlMapping
+				{
+					Handle = "DPad Up",
+					Target = InputControlType.DPadUp,
+					Source = Analog5,
+					SourceRange = InputControlMapping.Range.Negative,
+					TargetRange = InputControlMapping.Range.Negative,
+					Invert = true
+				},
+				new InputControlMapping
+				{
+					Handle = "DPad Down",
+					Target = InputControlType.DPadDown,
+					Source = Analog5,
+					SourceRange = InputControlMapping.Range.Positive,
+					TargetRange = InputControlMapping.Range.Positive
 				}
 			};
 		}

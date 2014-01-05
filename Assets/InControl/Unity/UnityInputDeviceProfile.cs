@@ -7,7 +7,9 @@ using UnityEngine;
 
 namespace InControl
 {
-	public sealed class AutoDiscover : Attribute {}
+	public sealed class AutoDiscover : Attribute
+	{
+	}
 
 
 	public class UnityInputDeviceProfile
@@ -18,8 +20,8 @@ namespace InControl
 		public float Sensitivity { get; protected set; }
 		public float DeadZone { get; protected set; }
 
-		public InputControlAnalogMapping[] AnalogMappings { get; protected set; }
-		public InputControlButtonMapping[] ButtonMappings { get; protected set; }
+		public InputControlMapping[] AnalogMappings { get; protected set; }
+		public InputControlMapping[] ButtonMappings { get; protected set; }
 		
 		protected string[] SupportedPlatforms;
 		protected string[] JoystickNames;
@@ -36,7 +38,7 @@ namespace InControl
 
 		public bool IsSupportedOnThisPlatform
 		{
-			get 
+			get
 			{
 				if (SupportedPlatforms == null || SupportedPlatforms.Length == 0)
 				{
@@ -77,6 +79,71 @@ namespace InControl
 
 			return JoystickNames.Contains( joystickName, StringComparer.OrdinalIgnoreCase );
 		}
+
+
+		#region InputControlSource Helpers
+
+		protected static InputControlSource Button( int index )
+		{
+			return new UnityButtonSource( index );
+		}
+
+		protected static InputControlSource Analog( int index )
+		{
+			return new UnityAnalogSource( index );
+		}
+
+		protected static InputControlSource KeyCodeButton( KeyCode keyCode )
+		{
+			return new UnityKeyCodeSource( keyCode );
+		}
+		
+		protected static InputControlSource KeyCodeAxis( KeyCode negativeKeyCode, KeyCode positiveKeyCode )
+		{
+			return new UnityKeyCodeAxisSource( negativeKeyCode, positiveKeyCode );
+		}
+
+		protected static InputControlSource Button0  = Button( 0 );
+		protected static InputControlSource Button1  = Button( 1 );
+		protected static InputControlSource Button2  = Button( 2 );
+		protected static InputControlSource Button3  = Button( 3 );
+		protected static InputControlSource Button4  = Button( 4 );
+		protected static InputControlSource Button5  = Button( 5 );
+		protected static InputControlSource Button6  = Button( 6 );
+		protected static InputControlSource Button7  = Button( 7 );
+		protected static InputControlSource Button8  = Button( 8 );
+		protected static InputControlSource Button9  = Button( 9 );
+		protected static InputControlSource Button10 = Button( 10 );
+		protected static InputControlSource Button11 = Button( 11 );
+		protected static InputControlSource Button12 = Button( 12 );
+		protected static InputControlSource Button13 = Button( 13 );
+		protected static InputControlSource Button14 = Button( 14 );
+		protected static InputControlSource Button15 = Button( 15 );
+		protected static InputControlSource Button16 = Button( 16 );
+		protected static InputControlSource Button17 = Button( 17 );
+		protected static InputControlSource Button18 = Button( 18 );
+		protected static InputControlSource Button19 = Button( 19 );
+
+		protected static InputControlSource Analog0  = Analog( 0 );
+		protected static InputControlSource Analog1  = Analog( 1 );
+		protected static InputControlSource Analog2  = Analog( 2 );
+		protected static InputControlSource Analog3  = Analog( 3 );
+		protected static InputControlSource Analog4  = Analog( 4 );
+		protected static InputControlSource Analog5  = Analog( 5 );
+		protected static InputControlSource Analog6  = Analog( 6 );
+		protected static InputControlSource Analog7  = Analog( 7 );
+		protected static InputControlSource Analog8  = Analog( 8 );
+		protected static InputControlSource Analog9  = Analog( 9 );
+
+		protected static InputControlSource MouseButton0     = new UnityMouseButtonSource( 0 );
+		protected static InputControlSource MouseButton1     = new UnityMouseButtonSource( 1 );
+		protected static InputControlSource MouseButton2     = new UnityMouseButtonSource( 2 );
+
+		protected static InputControlSource MouseXAxis       = new UnityMouseAxisSource( "x" );
+		protected static InputControlSource MouseYAxis       = new UnityMouseAxisSource( "y" );
+		protected static InputControlSource MouseScrollWheel = new UnityMouseAxisSource( "z" );
+
+		#endregion
 	}
 }
 

@@ -3,6 +3,7 @@ using System;
 
 namespace InControl
 {
+	// TODO: This should be renamed to InputControlTarget.
 	public enum InputControlType
 	{
 		// Standardized.
@@ -41,6 +42,10 @@ namespace InControl
 		TiltX,
 		TiltY,
 		TiltZ,
+		ScrollWheel,
+		TouchPadTap,
+		TouchPadXAxis,
+		TouchPadYAxis,
 
 
 		// Not standardized.
