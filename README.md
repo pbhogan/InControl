@@ -7,7 +7,7 @@ InControl is an input manager for Unity3D (version 4) that tames the cross-platf
 ## Features
 
 * Standardizes input mappings across various platforms.
-* Support for 10 connected devices with up to 10 analogs and 20 buttons each.
+* Support for 10 connected devices with up to 20 analogs and 20 buttons each.
 * Trivial to support new devices and platforms.
 * Events for attached and detached devices.
 * Events for active device switches.
@@ -16,10 +16,10 @@ InControl is an input manager for Unity3D (version 4) that tames the cross-platf
 
 * Xbox 360 controller support for Windows, Mac and OUYA.
 * Playstation 3 controller support for Windows, Mac and OUYA.
-* Playstation 4 controller support for Windows and Mac.
+* Playstation 4 controller support for Windows, Mac and Linux.
 * OUYA controller support on OUYA and Windows.
 * GameStick support.
-* Keyboard support on Windows and Mac.
+* Keyboard and Mouse support on Windows, Mac and Linux.
 
 **Note:** New device profiles are simple to create. Please feel free to submit profiles for any controller/platform not currently in the list, but do ensure it correctly supports all the standardized inputs (see below).
 
@@ -147,17 +147,16 @@ InputManager.OnActiveDeviceChanged += inputDevice => Debug.Log( "Switched: " + i
 
 ## To-do List
 
-* API to record and play back device input (for replays!)
+* Support Apple MFi controllers on Mac and iOS.
+* Support Android controllers like the Moga Pro.
+* Support more controllers on Linux.
 * API to enable non-Unity devices and virtual controls as first-class citizens.
 * API to assist with allowing users to customize device inputs for game actions.
-* Support Apple MFi controllers on Mac and iOS.
-* Add popular Android controllers, like the Moga Pro.
-* Linux support (it should work fine, just needs profiles).
 
 ## Known Issues
 
 * Not all platforms trigger the `DeviceAttached` event correctly. If Unity's `Input.GetJoystickNames()` is updated by the platform while the app is running, it will work. Every platform does, however, report all newly connected devices once the app is relaunched.
-* Some controller specific buttons (like Start, Select, Back, OUYA, Xbox Guide, PS3, etc.) are not part of the standardized set of supported inputs simply because they do not work on every platform. You should not be using these buttons in a generalized cross-platform capacity. Use of the OUYA button, for example, is dangerous as the user is just as likely to accidentally quit your app as do what they intend.
+* Some controller specific buttons (like Start, Select, Back, OUYA, Xbox Guide, PS3, etc.) are not part of the standardized set of supported inputs simply because they do not work on every platform. You should not be using these buttons in a generalized cross-platform capacity.
 
 ## Meta
 
