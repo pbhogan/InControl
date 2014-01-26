@@ -35,11 +35,11 @@ namespace InControl
 		{
 			if (analogQueries == null)
 			{			
-				analogQueries = new string[ 10, 10 ];
+				analogQueries = new string[ UnityInputDevice.MaxDevices, UnityInputDevice.MaxAnalogs ];
 			
-				for (int joystickId = 1; joystickId <= 10; joystickId++)
+				for (int joystickId = 1; joystickId <= UnityInputDevice.MaxDevices; joystickId++)
 				{
-					for (int analogId = 0; analogId < 10; analogId++)
+					for (int analogId = 0; analogId < UnityInputDevice.MaxAnalogs; analogId++)
 					{
 						analogQueries[ joystickId - 1, analogId ] = "joystick " + joystickId + " analog " + analogId;
 					}

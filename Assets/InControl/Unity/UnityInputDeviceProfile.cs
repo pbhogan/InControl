@@ -134,6 +134,16 @@ namespace InControl
 		protected static InputControlSource Analog7  = Analog( 7 );
 		protected static InputControlSource Analog8  = Analog( 8 );
 		protected static InputControlSource Analog9  = Analog( 9 );
+		protected static InputControlSource Analog10 = Analog( 10 );
+		protected static InputControlSource Analog11 = Analog( 11 );
+		protected static InputControlSource Analog12 = Analog( 12 );
+		protected static InputControlSource Analog13 = Analog( 13 );
+		protected static InputControlSource Analog14 = Analog( 14 );
+		protected static InputControlSource Analog15 = Analog( 15 );
+		protected static InputControlSource Analog16 = Analog( 16 );
+		protected static InputControlSource Analog17 = Analog( 17 );
+		protected static InputControlSource Analog18 = Analog( 18 );
+		protected static InputControlSource Analog19 = Analog( 19 );
 
 		protected static InputControlSource MouseButton0     = new UnityMouseButtonSource( 0 );
 		protected static InputControlSource MouseButton1     = new UnityMouseButtonSource( 1 );

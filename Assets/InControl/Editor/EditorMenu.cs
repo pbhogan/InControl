@@ -15,13 +15,13 @@ namespace InControl
 			var serializedObject = new SerializedObject( inputManagerAsset );
 			var axisArray = serializedObject.FindProperty( "m_Axes" );
 
-			axisArray.arraySize = 103;
+			axisArray.arraySize = (UnityInputDevice.MaxDevices * UnityInputDevice.MaxAnalogs) + 3;
 			serializedObject.ApplyModifiedProperties();
 
 			int axisIndex = 0;
-			for (int joystick = 1; joystick <= 10; joystick++)
+			for (int joystick = 1; joystick <= UnityInputDevice.MaxDevices; joystick++)
 			{
-				for (int analog = 0; analog <= 9; analog++)
+				for (int analog = 0; analog < UnityInputDevice.MaxAnalogs; analog++)
 				{
 					var axis = axisArray.GetArrayElementAtIndex( axisIndex++ );
 

@@ -35,11 +35,11 @@ namespace InControl
 		{
 			if (buttonQueries == null)
 			{			
-				buttonQueries = new string[ 10, 20 ];
+				buttonQueries = new string[ UnityInputDevice.MaxDevices, UnityInputDevice.MaxButtons ];
 				
-				for (int joystickId = 1; joystickId <= 10; joystickId++)
+				for (int joystickId = 1; joystickId <= UnityInputDevice.MaxDevices; joystickId++)
 				{
-					for (int buttonId = 0; buttonId < 20; buttonId++)
+					for (int buttonId = 0; buttonId < UnityInputDevice.MaxButtons; buttonId++)
 					{
 						buttonQueries[ joystickId - 1, buttonId ] = "joystick " + joystickId + " button " + buttonId;
 					}

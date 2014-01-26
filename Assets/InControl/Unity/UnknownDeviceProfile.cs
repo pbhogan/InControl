@@ -7,10 +7,6 @@ namespace InControl
 {
 	public class UnknownDeviceProfile : UnityInputDeviceProfile
 	{
-		const int MaxUnityButtons = 20;
-		const int MaxUnityAnalogs = 10;
-
-
 		public UnknownDeviceProfile( string joystickName )
 		{
 			Name = "Unknown Device";
@@ -26,8 +22,8 @@ namespace InControl
 			SupportedPlatforms = null;
 			JoystickNames = new[] { joystickName };
 
-			AnalogMappings = new InputControlMapping[ MaxUnityAnalogs ];
-			for (int i = 0; i < MaxUnityAnalogs; i++)
+			AnalogMappings = new InputControlMapping[ UnityInputDevice.MaxAnalogs ];
+			for (int i = 0; i < UnityInputDevice.MaxAnalogs; i++)
 			{
 				AnalogMappings[i] = new InputControlMapping
 				{
@@ -37,8 +33,8 @@ namespace InControl
 				};
 			}
 
-			ButtonMappings = new InputControlMapping[ MaxUnityButtons ];
-			for (int i = 0; i < MaxUnityButtons; i++)
+			ButtonMappings = new InputControlMapping[ UnityInputDevice.MaxButtons ];
+			for (int i = 0; i < UnityInputDevice.MaxButtons; i++)
 			{
 				ButtonMappings[i] = new InputControlMapping
 				{
