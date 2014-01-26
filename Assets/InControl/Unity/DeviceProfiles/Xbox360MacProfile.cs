@@ -21,7 +21,8 @@ namespace InControl
 			JoystickNames = new[]
 			{
 				"",
-				"Microsoft Wireless 360 Controller"
+				"Microsoft Wireless 360 Controller",
+				"Mad Catz, Inc. Mad Catz FPS Pro GamePad"
 			};
 
 			Sensitivity = 1.0f;
