@@ -7,3 +7,6 @@ obj/*
 .DS_Store
 Library/metadata/*
 Library/*
+
+/Assets/AssetStoreTools/
+/Assets/AssetStoreTools.meta

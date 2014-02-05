@@ -12,14 +12,12 @@ namespace InControl
 		static void CreateUnityPackage()
 		{
 			var assetPathNames = new string[] { 
-				"Assets/InControl", 
-				"ProjectSettings/InputManager.asset"
+				"Assets/InControl"
+//				, "ProjectSettings/InputManager.asset"
 			};
 			AssetDatabase.ExportPackage( assetPathNames, "InControl.unitypackage", ExportPackageOptions.Recurse );
 		}
 	}
 }
 #endif
-
-
 

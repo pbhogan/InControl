@@ -1,6 +1,6 @@
 ## Description
 
-InControl is an input manager for Unity3D (version 4+) that tames the cross-platform controller beast.
+InControl is an input manager for Unity3D that standardizes input mappings across various platforms for common controllers.
 
 ## Features
 

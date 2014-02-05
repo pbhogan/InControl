@@ -8,7 +8,9 @@ using InControl;
 
 /**
  * WARNING: This is NOT an example of how to use InControl.
- * It is intended for testing and debugging the library under development.
+ * It is intended for testing and troubleshooting the library.
+ * It can also be used for create new device profiles as it will
+ * show the default Unity mappings for unknown devices.
  **/
 
 public class TestInputManager : MonoBehaviour
