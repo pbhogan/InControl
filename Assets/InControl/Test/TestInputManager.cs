@@ -35,6 +35,8 @@ public class TestInputManager : MonoBehaviour
 		InputManager.AttachDevice( new UnityInputDevice( new FPSProfile() ) );
 
 		TestInputMappings();
+
+		Debug.Log( "InControl (version " + InputManager.Version + ")" );
 	}
 
 

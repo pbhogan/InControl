@@ -90,8 +90,8 @@ namespace InControl
 		{
 			if (Profile.IsJoystick)
 			{
-				// Apply dead zone.
-				thisValue = Mathf.InverseLerp( Profile.DeadZone, 1.0f, Mathf.Abs( thisValue ) ) * Mathf.Sign( thisValue );
+				// Apply lower dead zone, and for now a mandatory upper deadzone.
+				thisValue = Mathf.InverseLerp( Profile.DeadZone, 0.9f, Mathf.Abs( thisValue ) ) * Mathf.Sign( thisValue );
 
 				// Apply sensitivity (how quickly the value adapts to changes).
 				float maxDelta = deltaTime * Profile.Sensitivity * 100.0f;

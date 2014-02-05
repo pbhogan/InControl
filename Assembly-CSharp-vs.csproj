@@ -19,7 +19,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_WEBPLAYER;WEBPLUG;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_GENERICS;ENABLE_SUBSTANCE;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_3_3;UNITY_4_3;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_STANDALONE_OSX;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_GENERICS;ENABLE_SUBSTANCE;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_GAMECENTER;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_3_3;UNITY_4_3;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -46,40 +46,42 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Examples\SimpleExample.cs" />
-     <Compile Include="Assets\InControl\Debug\Logger.cs" />
-     <Compile Include="Assets\InControl\InputControl.cs" />
-     <Compile Include="Assets\InControl\InputControlMapping.cs" />
-     <Compile Include="Assets\InControl\InputControlSource.cs" />
-     <Compile Include="Assets\InControl\InputControlState.cs" />
-     <Compile Include="Assets\InControl\InputControlType.cs" />
-     <Compile Include="Assets\InControl\InputDevice.cs" />
-     <Compile Include="Assets\InControl\InputDeviceManager.cs" />
-     <Compile Include="Assets\InControl\InputManager.cs" />
-     <Compile Include="Assets\InControl\Unity\ControlSources\UnityAnalogSource.cs" />
-     <Compile Include="Assets\InControl\Unity\ControlSources\UnityButtonSource.cs" />
-     <Compile Include="Assets\InControl\Unity\ControlSources\UnityKeyCodeAxisSource.cs" />
-     <Compile Include="Assets\InControl\Unity\ControlSources\UnityKeyCodeSource.cs" />
-     <Compile Include="Assets\InControl\Unity\ControlSources\UnityMouseAxisSource.cs" />
-     <Compile Include="Assets\InControl\Unity\ControlSources\UnityMouseButtonSource.cs" />
-     <Compile Include="Assets\InControl\Unity\CustomProfiles\BasicKeyboardProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\CustomProfiles\FPSProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\GameStickProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\OuyaProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\OuyaWinProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\Playstation3MacProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\Playstation3OuyaProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\Playstation3WinProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\Playstation4LinuxProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\Playstation4MacProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\Playstation4WinProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\Xbox360MacProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\Xbox360OuyaProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\DeviceProfiles\Xbox360WinProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\UnityInputDevice.cs" />
-     <Compile Include="Assets\InControl\Unity\UnityInputDeviceManager.cs" />
-     <Compile Include="Assets\InControl\Unity\UnityInputDeviceProfile.cs" />
-     <Compile Include="Assets\InControl\Unity\UnknownDeviceProfile.cs" />
+     <Compile Include="Assets\InControl\Examples\SimpleExample.cs" />
+     <Compile Include="Assets\InControl\Library\Control\InputControl.cs" />
+     <Compile Include="Assets\InControl\Library\Control\InputControlMapping.cs" />
+     <Compile Include="Assets\InControl\Library\Control\InputControlSource.cs" />
+     <Compile Include="Assets\InControl\Library\Control\InputControlState.cs" />
+     <Compile Include="Assets\InControl\Library\Control\InputControlType.cs" />
+     <Compile Include="Assets\InControl\Library\Debug\Logger.cs" />
+     <Compile Include="Assets\InControl\Library\Device\InputDevice.cs" />
+     <Compile Include="Assets\InControl\Library\Device\InputDeviceManager.cs" />
+     <Compile Include="Assets\InControl\Library\InputManager.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\ControlSources\UnityAnalogSource.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\ControlSources\UnityButtonSource.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\ControlSources\UnityKeyCodeAxisSource.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\ControlSources\UnityKeyCodeSource.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\ControlSources\UnityMouseAxisSource.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\ControlSources\UnityMouseButtonSource.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\CustomProfiles\BasicKeyboardProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\CustomProfiles\FPSProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\GameStickProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\OuyaProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\OuyaWinProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Playstation3MacProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Playstation3OuyaProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Playstation3WinProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Playstation4LinuxProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Playstation4MacProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Playstation4WinProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Xbox360MacProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Xbox360OuyaProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Xbox360WinProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\UnityInputDevice.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\UnityInputDeviceManager.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\UnityInputDeviceProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\UnknownDeviceProfile.cs" />
+     <Compile Include="Assets\InControl\Library\VersionInfo.cs" />
+     <Compile Include="Assets\InControl\Test\TestInputManager.cs" />
      <Compile Include="Assets\Ouya\LitJson\IJsonWrapper.cs" />
      <Compile Include="Assets\Ouya\LitJson\JsonData.cs" />
      <Compile Include="Assets\Ouya\LitJson\JsonException.cs" />
@@ -94,7 +96,6 @@
      <Compile Include="Assets\Ouya\SDK\Scripts\OuyaControllerMapping.cs" />
      <Compile Include="Assets\Ouya\SDK\Scripts\OuyaGameObject.cs" />
      <Compile Include="Assets\Ouya\SDK\Scripts\OuyaInputManager.cs" />
-     <Compile Include="Assets\Test\TestInputManager.cs" />
      <None Include="Assets\Plugins\Android\res\values\strings.xml" />
      <None Include="Assets\Ouya\LitJson\license.txt" />
      <None Include="Assets\Plugins\Android\res\layout\main.xml" />

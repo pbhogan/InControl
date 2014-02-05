@@ -10,6 +10,8 @@ namespace InControl
 {
 	public class InputManager
 	{
+		public static readonly VersionInfo Version = new VersionInfo();
+
 		public delegate void DeviceEventHandler( InputDevice device );
 		public static event DeviceEventHandler OnDeviceAttached;
 		public static event DeviceEventHandler OnDeviceDetached;

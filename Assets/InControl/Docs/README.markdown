@@ -1,4 +1,4 @@
-## Description  [![Stories in Ready](https://badge.waffle.io/pbhogan/InControl.png)](http://waffle.io/pbhogan/InControl)
+## Description
 
 InControl is an input manager for Unity3D (version 4+) that tames the cross-platform controller beast.
 
@@ -142,28 +142,12 @@ InputManager.OnActiveDeviceChanged += inputDevice => Debug.Log( "Switched: " + i
 * Support Apple MFi controllers on Mac and iOS.
 * Support Android controllers like the Moga Pro.
 * Support more controllers on Linux.
-* API to enable non-Unity devices and virtual controls as first-class citizens.
-* API to assist with allowing users to customize device inputs for game actions.
 
 ## Known Issues
 
 * Not all platforms trigger the `DeviceAttached` event correctly. If Unity's `Input.GetJoystickNames()` is updated by the platform while the app is running, it will work. Every platform does, however, report all newly connected devices once the app is relaunched.
 * Some controller specific buttons (like Start, Select, Back, OUYA, Xbox Guide, PS3, etc.) are not part of the standardized set of supported inputs simply because they do not work on every platform. You should not be using these buttons in a generalized cross-platform capacity.
 
-## Relevant Files
-
-This repository contains a complete Unity application used to test the library in Windows, Mac and OUYA. As a result there are a lot of files you can safely ignore (the ODK for example). Here is the list of files to copy into your own projects:
-
-* `Assets/InControl/*`
-* `ProjectSettings/InputManager.asset`
-
-The `InputManager.asset` file can also be generated through the editor menu:
-`Edit > Project Settings > InControl > Generate InputManager Asset`
-
 ## Meta
 
-Handcrafted by Patrick Hogan [[twitter](http://twitter.com/pbhogan) &bull; [github](http://github.com/pbhogan) &bull; [website](http://www.gallantgames.com)]
-
-I'm using [waffle.io to manage my github issues workflow](http://waffle.io/pbhogan/InControl) so you can see what I'm working on.
-
-Released under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
+Handcrafted by Patrick Hogan [[twitter](http://twitter.com/pbhogan) &bull; [website](http://www.gallantgames.com)]

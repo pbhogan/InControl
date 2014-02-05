@@ -19,7 +19,7 @@ public class SimpleExample : MonoBehaviour
 		// Get the starting position of the object.
 		targetPosition = target.transform.position;
 
-		Debug.Log( "Ready!" );
+		Debug.Log( "InControl (version " + InputManager.Version + ")" );
 	}
 
 
