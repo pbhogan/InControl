@@ -22,7 +22,8 @@ namespace InControl
 			{
 				"",
 				"Microsoft Wireless 360 Controller",
-				"Mad Catz, Inc. Mad Catz FPS Pro GamePad"
+				"Mad Catz, Inc. Mad Catz FPS Pro GamePad",
+				"Logitech Gamepad F310"
 			};
 
 			Sensitivity = 1.0f;
