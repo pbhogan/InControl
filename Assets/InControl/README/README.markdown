@@ -16,10 +16,12 @@ InControl is an input manager for Unity3D that standardizes input mappings acros
 * Playstation 3 controller support for Windows, Mac and OUYA.
 * Playstation 4 controller support for Windows, Mac and Linux.
 * OUYA controller support on OUYA and Windows.
+* Logitech F310 support on Windows and Mac.
+* Mad Catz FPS Pro support on Mac.
 * GameStick support.
 * Keyboard and Mouse support on Windows, Mac and Linux.
 
-**Note:** New device profiles are simple to create. Please feel free to submit profiles for any controller/platform not currently in the list, but do ensure it correctly supports all the standardized inputs (see below).
+**Note:** New device profiles are dead simple to create. Please feel free to submit profiles for any controller/platform not currently in the list, but do ensure it correctly supports all the standardized inputs (see below).
 
 ## Standardized Inputs
 
@@ -32,7 +34,7 @@ Device profiles map supported controllers on various platforms to a strict set o
 * `LeftTrigger, RightTrigger`
 * `LeftBumper, RightBumper`
 
-![Illustration: Standardized Inputs](Images/Controller.png)
+![Illustration: Standardized Inputs](http://www.gallantgames.com/assets/InControl/Controller.png)
 
 **Note:** the API makes little distinction between analog and button controls, so both a `float` value and `bool` state can be queried for any input.
 
@@ -139,12 +141,14 @@ InputManager.OnActiveDeviceChanged += inputDevice => Debug.Log( "Switched: " + i
 
 ## To-do List
 
+* XInput support on Windows.
 * Support Apple MFi controllers on Mac and iOS.
 * Support Android controllers like the Moga Pro.
 * Support more controllers on Linux.
 
 ## Known Issues
 
+* Weird trigger behavior on Windows with multiple Xbox 360 controllers.
 * Not all platforms trigger the `DeviceAttached` event correctly. If Unity's `Input.GetJoystickNames()` is updated by the platform while the app is running, it will work. Every platform does, however, report all newly connected devices once the app is relaunched.
 * Some controller specific buttons (like Start, Select, Back, OUYA, Xbox Guide, PS3, etc.) are not part of the standardized set of supported inputs simply because they do not work on every platform. You should not be using these buttons in a generalized cross-platform capacity.
 

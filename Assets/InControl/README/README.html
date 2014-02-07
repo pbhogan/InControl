@@ -168,7 +168,7 @@ pre .tex .formula {
   <div id="wrapper">
       <h2 id="description">Description</h2>
 
-<p>InControl is an input manager for Unity3D (version 4+) that tames the cross-platform controller beast.</p>
+<p>InControl is an input manager for Unity3D that standardizes input mappings across various platforms for common controllers.</p>
 
 <h2 id="features">Features</h2>
 
@@ -187,11 +187,13 @@ pre .tex .formula {
 <li>Playstation 3 controller support for Windows, Mac and OUYA.</li>
 <li>Playstation 4 controller support for Windows, Mac and Linux.</li>
 <li>OUYA controller support on OUYA and Windows.</li>
+<li>Logitech F310 support on Windows and Mac.</li>
+<li>Mad Catz FPS Pro support on Mac.</li>
 <li>GameStick support.</li>
 <li>Keyboard and Mouse support on Windows, Mac and Linux.</li>
 </ul>
 
-<p><strong>Note:</strong> New device profiles are simple to create. Please feel free to submit profiles for any controller/platform not currently in the list, but do ensure it correctly supports all the standardized inputs (see below).</p>
+<p><strong>Note:</strong> New device profiles are dead simple to create. Please feel free to submit profiles for any controller/platform not currently in the list, but do ensure it correctly supports all the standardized inputs (see below).</p>
 
 <h2 id="standardizedinputs">Standardized Inputs</h2>
 
@@ -207,7 +209,7 @@ pre .tex .formula {
 </ul>
 
 <figure>
-<img src="Images/Controller.png" alt="Illustration: Standardized Inputs" />
+<img src="http://www.gallantgames.com/assets/InControl/Controller.png" alt="Illustration: Standardized Inputs" />
 <figcaption>Illustration: Standardized Inputs</figcaption></figure>
 
 
@@ -225,81 +227,102 @@ pre .tex .formula {
 
 <p>The project is namespaced under <code>InControl</code>. The entry point is the <code>InputManager</code> class. You&#8217;ll need to call <code>InputManager.Setup()</code> once and <code>InputManager.Update()</code> every tick (or whenever you wish to poll for new input state).</p>
 
-<pre><code class="csharp">using UnityEngine;
-using InControl;
+<p>```csharp
+using UnityEngine;
+using InControl;</p>
 
-public class UpdateInputManager : MonoBehaviour
+<p>public class UpdateInputManager : MonoBehaviour
 {
-	void Start()
-	{
-		InputManager.Setup();
-	}
+ void Start()
+ {
+ InputManager.Setup();
+ }</p>
 
-	void Update()
-	{
-		InputManager.Update();
-	}
-}</code></pre>
+<pre><code>void Update()
+{
+    InputManager.Update();
+}
+</code></pre>
+
+<p>}
+```</p>
 
 <p><strong>Note:</strong> It is a good idea to alter the <a href="http://docs.unity3d.com/Documentation/Components/class-ScriptExecution.html">execution order</a> of the script responsible for calling <code>InputManager.Update()</code> so that every other object which queries the input state gets a consistent value for the duration of the frame, otherwise the update may be called mid-frame and some objects will get the input state from the previous frame while others get the state for the current frame.</p>
 
 <p>By default, InControl reports the Y-axis as positive pointing up to match Unity. You can invert this behavior if you wish:</p>
 
-<pre><code class="csharp">InputManager.InvertYAxis = true;
-InputManager.Setup();</code></pre>
+<p><code>csharp
+InputManager.InvertYAxis = true;
+InputManager.Setup();
+</code></p>
 
 <p>Now that you have everything set up, you can query for devices and controls. The active device is the device that last received input.</p>
 
-<pre><code class="csharp">InputDevice device = InputManager.ActiveDevice;
-InputControl control = device.GetControl( InputControlType.Action1 )</code></pre>
+<p><code>csharp
+InputDevice device = InputManager.ActiveDevice;
+InputControl control = device.GetControl( InputControlType.Action1 )
+</code></p>
 
 <p>Query an indexed device when multiple devices are present like so:</p>
 
-<pre><code class="csharp">var player1 = InputManager.Devices[0];</code></pre>
+<p><code>csharp
+var player1 = InputManager.Devices[0];
+</code></p>
 
 <p>Given a control, there are several properties to query:</p>
 
-<pre><code class="csharp">control.IsPressed;   // bool, is currently pressed
+<p><code>csharp
+control.IsPressed;   // bool, is currently pressed
 control.WasPressed;  // bool, pressed since previous tick
 control.WasReleased; // bool, released since previous tick
 control.HasChanged;  // bool, has changed since previous tick
 control.State;       // bool, is currently pressed (same as IsPressed)
 control.Value;       // float, in range -1..1 for axes, 0..1 for buttons / triggers
 control.LastState;   // bool, previous tick state
-control.LastValue;   // float, previous tick value</code></pre>
+control.LastValue;   // float, previous tick value
+</code></p>
 
 <p>Controls also implement implicit conversion operators for <code>bool</code> and <code>float</code> which allows for slightly simpler syntax:</p>
 
-<pre><code class="csharp">if (InputManager.ActiveDevice.GetControl( InputControlType.Action3 ))
+<p><code>csharp
+if (InputManager.ActiveDevice.GetControl( InputControlType.Action3 ))
 {
-	player.Boost();
-}</code></pre>
+    player.Boost();
+}
+</code></p>
 
 <p>The <code>InputDevice</code> class provides handy shortcut properties to the standardized inputs:</p>
 
-<pre><code class="csharp">if (InputManager.ActiveDevice.Action1.WasPressed)
+<p><code>csharp
+if (InputManager.ActiveDevice.Action1.WasPressed)
 {
-	player.Jump();
-}</code></pre>
+    player.Jump();
+}
+</code></p>
 
 <p>It also provides four properties that each return a directional <code>Vector2</code>:</p>
 
-<pre><code class="csharp">Vector2 lsv = device.LeftStickVector;
+<p><code>csharp
+Vector2 lsv = device.LeftStickVector;
 Vector2 rsv = device.RightStickVector;
 Vector2 dpv = device.DPadVector;
-Vector2 dir = device.Direction;</code></pre>
+Vector2 dir = device.Direction;
+</code></p>
 
 <p>The fourth, <code>Direction</code>, is a combination of the D-Pad and Left Stick, where the D-Pad takes precedence. That is, if there is any input on the D-Pad, the Left Stick will be ignored.</p>
 
 <p>Finally, you can subscribe to events to be notified when the active device changes, or devices are attached/detached:</p>
 
-<pre><code class="csharp">InputManager.OnDeviceAttached += inputDevice =&gt; Debug.Log( &quot;Attached: &quot; + inputDevice.Name );
+<p><code>csharp
+InputManager.OnDeviceAttached += inputDevice =&gt; Debug.Log( &quot;Attached: &quot; + inputDevice.Name );
 InputManager.OnDeviceDetached += inputDevice =&gt; Debug.Log( &quot;Detached: &quot; + inputDevice.Name );
-InputManager.OnActiveDeviceChanged += inputDevice =&gt; Debug.Log( &quot;Switched: &quot; + inputDevice.Name );</code></pre>
+InputManager.OnActiveDeviceChanged += inputDevice =&gt; Debug.Log( &quot;Switched: &quot; + inputDevice.Name );
+</code></p>
 
 <h2 id="to-dolist">To-do List</h2>
 
 <ul>
+<li>XInput support on Windows.</li>
 <li>Support Apple MFi controllers on Mac and iOS.</li>
 <li>Support Android controllers like the Moga Pro.</li>
 <li>Support more controllers on Linux.</li>
@@ -308,6 +331,7 @@ InputManager.OnActiveDeviceChanged += inputDevice =&gt; Debug.Log( &quot;Switche
 <h2 id="knownissues">Known Issues</h2>
 
 <ul>
+<li>Weird trigger behavior on Windows with multiple Xbox 360 controllers.</li>
 <li>Not all platforms trigger the <code>DeviceAttached</code> event correctly. If Unity&#8217;s <code>Input.GetJoystickNames()</code> is updated by the platform while the app is running, it will work. Every platform does, however, report all newly connected devices once the app is relaunched.</li>
 <li>Some controller specific buttons (like Start, Select, Back, OUYA, Xbox Guide, PS3, etc.) are not part of the standardized set of supported inputs simply because they do not work on every platform. You should not be using these buttons in a generalized cross-platform capacity.</li>
 </ul>
