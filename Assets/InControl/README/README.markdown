@@ -141,7 +141,8 @@ InputManager.OnActiveDeviceChanged += inputDevice => Debug.Log( "Switched: " + i
 
 ## To-do List
 
-* XInput support on Windows.
+* XInput.NET support on Windows.
+* Allow players to custom bind controls.
 * Support Apple MFi controllers on Mac and iOS.
 * Support Android controllers like the Moga Pro.
 * Support more controllers on Linux.
