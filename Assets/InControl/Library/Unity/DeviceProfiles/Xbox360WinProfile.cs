@@ -172,20 +172,6 @@ namespace InControl
 					TargetRange = InputControlMapping.Range.Negative,
 					Invert = true
 				}
-				/*
-				new InputControlMapping
-				{
-					Handle = "Left Trigger",
-					Target = InputControlType.LeftTrigger,
-					Source = Analog8
-				},
-				new InputControlMapping
-				{
-					Handle = "Right Trigger",
-					Target = InputControlType.RightTrigger,
-					Source = Analog9
-				}
-				*/
 			};
 		}
 	}

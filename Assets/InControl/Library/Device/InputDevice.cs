@@ -8,10 +8,11 @@ namespace InControl
 	{
 		public static readonly InputDevice Null = new InputDevice( "NullInputDevice" );
 
+		public int SortOrder = int.MaxValue;
+
 		public string Name { get; protected set; }
 		public string Meta { get; protected set; }
 
-		// TODO: Unify Analogs and Buttons. Use polymorphism.
 		public InputControl[] Analogs { get; protected set; }
 		public InputControl[] Buttons { get; protected set; }
 

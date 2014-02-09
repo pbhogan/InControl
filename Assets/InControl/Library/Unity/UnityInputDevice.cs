@@ -37,7 +37,8 @@ namespace InControl
 
 			if (joystickId != 0)
 			{
-				Meta += " [id: " + joystickId + "]";
+				SortOrder = 100 + joystickId;
+				Meta += " [id: " + joystickId + ", so: " + SortOrder + "]";
 			}
 		}
 

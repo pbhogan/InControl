@@ -159,6 +159,7 @@ namespace InControl
 			AssertIsSetup();
 
 			Devices.Add( inputDevice );
+			Devices.Sort( ( d1, d2 ) => d1.SortOrder.CompareTo( d2.SortOrder ) );
 
 			if (OnDeviceAttached != null)
 			{

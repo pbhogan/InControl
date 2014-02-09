@@ -116,6 +116,9 @@ public class TestInputManager : MonoBehaviour
 			GUI.Label( new Rect( x, y, x + w, y + 10 ), inputDevice.Name, style );
 			y += lineHeight;
 
+			GUI.Label( new Rect( x, y, x + w, y + 10 ), "SortOrder: " + inputDevice.SortOrder, style );
+			y += lineHeight;
+
 			GUI.Label( new Rect( x, y, x + w, y + 10 ), "LastChangeTime: " + inputDevice.LastChangeTime, style );
 			y += lineHeight;
 
@@ -198,6 +201,7 @@ public class TestInputManager : MonoBehaviour
 			Invert      = invert
 		};
 
+		float input;
 		float value;
 
 		string sr = "Complete";
@@ -214,22 +218,26 @@ public class TestInputManager : MonoBehaviour
 		if (targetRange == InputControlMapping.Range.Positive)
 			tr = "Positive";
 
-		value = mapping.MapValue( -1.0f );
+
+		input = -1.0f;
+		value = mapping.MapValue( input );
 		if (Mathf.Abs( value - expectA ) > Single.Epsilon)
 		{
-			Debug.LogError( "Got unexpected value A " + value + " instead of " + expectA + " (SR = " + sr + ", TR = " + tr + ")" );
+			Debug.LogError( "Input of " + input + " got value of " + value + " instead of " + expectA + " (SR = " + sr + ", TR = " + tr + ")" );
 		}
 
-		value = mapping.MapValue( 0.0f );
+		input = 0.0f;
+		value = mapping.MapValue( input );
 		if (Mathf.Abs( value - expectB ) > Single.Epsilon)
 		{
-			Debug.LogError( "Got unexpected value B " + value + " instead of " + expectB + " (SR = " + sr + ", TR = " + tr + ")" );
+			Debug.LogError( "Input of " + input + " got value of " + value + " instead of " + expectB + " (SR = " + sr + ", TR = " + tr + ")" );
 		}
 
-		value = mapping.MapValue( 1.0f );
+		input = 1.0f;
+		value = mapping.MapValue( input );
 		if (Mathf.Abs( value - expectC ) > Single.Epsilon)
 		{
-			Debug.LogError( "Got unexpected value C " + value + " instead of " + expectC + " (SR = " + sr + ", TR = " + tr + ")" );
+			Debug.LogError( "Input of " + input + " got value of " + value + " instead of " + expectC + " (SR = " + sr + ", TR = " + tr + ")" );
 		}
 	}
 }
