@@ -21,6 +21,7 @@ namespace InControl
 		public InputControlType Target;
 
 		public bool Invert;
+		public bool Normal;
 
 		// Raw inputs won't be range remapped, smoothed or filtered.
 		public bool Raw;
@@ -41,20 +42,36 @@ namespace InControl
 			}
 			else
 			{
-				if (value < SourceRange.Minimum || value > SourceRange.Maximum)
+//				var minimum = SourceRange.Minimum == 0.0f ?  float.Epsilon : SourceRange.Minimum;
+//				var maximum = SourceRange.Maximum == 0.0f ? -float.Epsilon : SourceRange.Minimum;
+
+				if (Mathf.Abs(value) < float.Epsilon)
 				{
-					// Values outside of source range are considered invalid.
-					return 0.0f;
+					targetValue = 0.0f;
 				}
-			
-				var sourceValue = Mathf.InverseLerp( SourceRange.Minimum, SourceRange.Maximum, value );
-				targetValue = Mathf.Lerp( TargetRange.Minimum, TargetRange.Maximum, sourceValue );
+				else
+				{
+					if (value < SourceRange.Minimum || value > SourceRange.Maximum)
+					{
+						// Values outside of source range are considered invalid.
+						return 0.0f;
+					}
+
+					var sourceValue = Mathf.InverseLerp( SourceRange.Minimum, SourceRange.Maximum, value );
+					targetValue = Mathf.Lerp( TargetRange.Minimum, TargetRange.Maximum, sourceValue );
+				}
 			}
 
 			// Invert value if necessary.
 			if (Invert ^ (IsYAxis && InputManager.InvertYAxis))
 			{
 				targetValue = -targetValue;
+			}
+
+			// Normal means value must be -1, 0 or 1
+			if (Normal && Math.Abs(targetValue) > float.Epsilon)
+			{
+				targetValue = Mathf.Sign( targetValue );
 			}
 
 			return targetValue;
@@ -74,12 +91,12 @@ namespace InControl
 		}
 
 
-		bool IsYAxis 
+		bool IsYAxis
 		{
-			get 
-			{ 
-				return Target == InputControlType.LeftStickY   || 
-					   Target == InputControlType.RightStickY; 
+			get
+			{
+				return Target == InputControlType.LeftStickY   ||
+					   Target == InputControlType.RightStickY;
 			}
 		}
 	}
