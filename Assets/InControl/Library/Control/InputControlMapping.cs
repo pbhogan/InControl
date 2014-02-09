@@ -20,8 +20,11 @@ namespace InControl
 		public InputControlSource Source;
 		public InputControlType Target;
 
+		// Invert the final mapped value.
 		public bool Invert;
-		public bool Normal;
+
+		// Button means non-zero value will be snapped to -1 or 1.
+		public bool Button;
 
 		// Raw inputs won't be range remapped, smoothed or filtered.
 		public bool Raw;
@@ -34,6 +37,7 @@ namespace InControl
 
 		public float MapValue( float value )
 		{
+			float sourceValue;
 			float targetValue;
 
 			if (Raw)
@@ -45,33 +49,26 @@ namespace InControl
 //				var minimum = SourceRange.Minimum == 0.0f ?  float.Epsilon : SourceRange.Minimum;
 //				var maximum = SourceRange.Maximum == 0.0f ? -float.Epsilon : SourceRange.Minimum;
 
-				if (Mathf.Abs(value) < float.Epsilon)
+				if (value < SourceRange.Minimum || value > SourceRange.Maximum)
 				{
-					targetValue = 0.0f;
+					return 0.0f;
 				}
-				else
-				{
-					if (value < SourceRange.Minimum || value > SourceRange.Maximum)
-					{
-						// Values outside of source range are considered invalid.
-						return 0.0f;
-					}
 
-					var sourceValue = Mathf.InverseLerp( SourceRange.Minimum, SourceRange.Maximum, value );
-					targetValue = Mathf.Lerp( TargetRange.Minimum, TargetRange.Maximum, sourceValue );
-				}
+//				value = Mathf.Clamp( value, SourceRange.Minimum, SourceRange.Maximum );
+//				if (Mathf.Abs(value) < float.Epsilon)
+
+				sourceValue = Mathf.InverseLerp( SourceRange.Minimum, SourceRange.Maximum, value );
+				targetValue = Mathf.Lerp( TargetRange.Minimum, TargetRange.Maximum, sourceValue );
 			}
 
-			// Invert value if necessary.
+			if (Button && Math.Abs(targetValue) > float.Epsilon)
+			{
+				targetValue = Mathf.Sign( targetValue );
+			}
+
 			if (Invert ^ (IsYAxis && InputManager.InvertYAxis))
 			{
 				targetValue = -targetValue;
-			}
-
-			// Normal means value must be -1, 0 or 1
-			if (Normal && Math.Abs(targetValue) > float.Epsilon)
-			{
-				targetValue = Mathf.Sign( targetValue );
 			}
 
 			return targetValue;
