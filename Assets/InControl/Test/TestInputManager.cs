@@ -27,7 +27,8 @@ public class TestInputManager : MonoBehaviour
 
 		Logger.OnLogMessage += logMessage => logMessages.Add( logMessage );
 
-		InputManager.Setup();
+		// InputManager.HideDevicesWithProfile( typeof( Xbox360MacProfile ) );
+		InputManager.Setup( enableXInput: true );
 		// InputManager.InvertYAxis = true;
 
 		InputManager.OnDeviceAttached += inputDevice => Debug.Log( "Attached: " + inputDevice.Name );

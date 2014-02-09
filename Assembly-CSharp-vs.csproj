@@ -79,8 +79,10 @@
      <Compile Include="Assets\InControl\Library\Unity\UnityInputDevice.cs" />
      <Compile Include="Assets\InControl\Library\Unity\UnityInputDeviceManager.cs" />
      <Compile Include="Assets\InControl\Library\Unity\UnityInputDeviceProfile.cs" />
-     <Compile Include="Assets\InControl\Library\Unity\UnknownDeviceProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\UnityUnknownDeviceProfile.cs" />
      <Compile Include="Assets\InControl\Library\VersionInfo.cs" />
+     <Compile Include="Assets\InControl\Library\XInput\XInputDevice.cs" />
+     <Compile Include="Assets\InControl\Library\XInput\XInputDeviceManager.cs" />
      <Compile Include="Assets\InControl\Test\TestInputManager.cs" />
      <Compile Include="Assets\Ouya\LitJson\IJsonWrapper.cs" />
      <Compile Include="Assets\Ouya\LitJson\JsonData.cs" />
@@ -100,6 +102,9 @@
      <None Include="Assets\Ouya\LitJson\license.txt" />
      <None Include="Assets\Plugins\Android\res\layout\main.xml" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
+ <Reference Include="Assets\InControl\Library\XInput\Plugins\XInputDotNetPure">
+ <HintPath>Assets\InControl\Library\XInput\Plugins\XInputDotNetPure.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

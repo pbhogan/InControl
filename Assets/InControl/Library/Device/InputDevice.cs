@@ -46,9 +46,15 @@ namespace InControl
 		}
 
 
-		public void AddAnalogControl( Enum target, string handle = "" )
+		public void AddAnalogControl( Enum target, string handle )
 		{
 			SetAnalogControl( filledAnalogCount++, target, handle );
+		}
+
+
+		public void AddAnalogControl( Enum target )
+		{
+			SetAnalogControl( filledAnalogCount++, target, target.ToString() );
 		}
 
 
@@ -60,9 +66,15 @@ namespace InControl
 		}
 
 
-		public void AddButtonControl( Enum target, string handle = "" )
+		public void AddButtonControl( Enum target, string handle )
 		{
 			SetButtonControl( filledButtonCount++, target, handle );
+		}
+
+
+		public void AddButtonControl( Enum target )
+		{
+			SetButtonControl( filledButtonCount++, target, target.ToString() );
 		}
 
 
@@ -76,6 +88,17 @@ namespace InControl
 
 		public virtual void Update( float updateTime, float deltaTime )
 		{
+		}
+
+
+		public virtual void Vibrate( float leftMotor, float rightMotor )
+		{
+		}
+
+
+		public void Vibrate( float intensity )
+		{
+			Vibrate( intensity, intensity );
 		}
 
 

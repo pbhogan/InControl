@@ -22,9 +22,11 @@ namespace InControl
 
 		public InputControlMapping[] AnalogMappings { get; protected set; }
 		public InputControlMapping[] ButtonMappings { get; protected set; }
-		
+
 		protected string[] SupportedPlatforms;
 		protected string[] JoystickNames;
+
+		static HashSet<Type> hideList = new HashSet<Type>();
 
 
 		public UnityInputDeviceProfile()
@@ -78,6 +80,18 @@ namespace InControl
 			}
 
 			return JoystickNames.Contains( joystickName, StringComparer.OrdinalIgnoreCase );
+		}
+
+
+		public static void Hide( Type type )
+		{
+			hideList.Add( type );
+		}
+		
+		
+		public bool IsHidden
+		{
+			get { return hideList.Contains( GetType() ); }
 		}
 
 

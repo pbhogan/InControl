@@ -109,7 +109,7 @@ namespace InControl
 
 			if (matchedDeviceProfile == null)
 			{
-				deviceProfile = new UnknownDeviceProfile( unityJoystickName );
+				deviceProfile = new UnityUnknownDeviceProfile( unityJoystickName );
 				deviceProfiles.Add( deviceProfile );
 			}
 			else
@@ -129,16 +129,23 @@ namespace InControl
 				}
 			}
 
-			var joystickDevice = new UnityInputDevice( deviceProfile, unityJoystickId );
-			AttachDevice( joystickDevice );
-
-			if (matchedDeviceProfile == null)
+			if (!deviceProfile.IsHidden)
 			{
-				Logger.LogWarning( "Attached device has no matching profile: \"" + unityJoystickName + "\"" );
+				var joystickDevice = new UnityInputDevice( deviceProfile, unityJoystickId );
+				AttachDevice( joystickDevice );
+
+				if (matchedDeviceProfile == null)
+				{
+					Logger.LogWarning( "Device " + unityJoystickId + " with name \"" + unityJoystickName + "\" does not match any known profiles." );
+				}
+				else
+				{
+					Logger.LogInfo( "Device " + unityJoystickId + " matched profile " + deviceProfile.GetType().Name + " (" + deviceProfile.Name + ")" );
+				}
 			}
 			else
 			{
-				Logger.LogInfo( "Attached device \"" + unityJoystickName + "\" matched profile: " + deviceProfile.Name );
+				Logger.LogInfo( "Device " + unityJoystickId + " matching profile " + deviceProfile.GetType().Name + " (" + deviceProfile.Name + ")" + " is hidden and will not be attached." );
 			}
 		}
 
@@ -160,7 +167,6 @@ namespace InControl
 				    !inputDevice.Profile.HasJoystickName( joystickNames[inputDevice.JoystickId - 1] ))
 				{
 					devices.Remove( inputDevice );
-
 					InputManager.DetachDevice( inputDevice );
 
 					Logger.LogInfo( "Detached device: " + inputDevice.Profile.Name );

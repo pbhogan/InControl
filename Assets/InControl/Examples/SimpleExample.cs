@@ -27,19 +27,26 @@ public class SimpleExample : MonoBehaviour
 	{
 		InputManager.Update();
 
-		if (InputManager.ActiveDevice.Action1.IsPressed)
+		// Use last device which provided input.
+		var inputDevice = InputManager.ActiveDevice;
+
+		// Set target object material color based on which action is pressed.
+		if (inputDevice.Action1)
 		{
 			target.renderer.material.color = Color.green;
 		}
-		else if (InputManager.ActiveDevice.Action2.IsPressed)
+		else 
+		if (inputDevice.Action2)
 		{
 			target.renderer.material.color = Color.red;
 		}
-		else if (InputManager.ActiveDevice.Action3.IsPressed)
+		else 
+		if (inputDevice.Action3)
 		{
 			target.renderer.material.color = Color.blue;
 		}
-		else if (InputManager.ActiveDevice.Action4.IsPressed)
+		else 
+		if (inputDevice.Action4)
 		{
 			target.renderer.material.color = Color.yellow;
 		}
@@ -48,14 +55,19 @@ public class SimpleExample : MonoBehaviour
 			target.renderer.material.color = Color.white;
 		}
 
-		target.transform.Rotate( Vector3.down,  500.0f * Time.deltaTime * InputManager.ActiveDevice.Direction.x, Space.World );
-		target.transform.Rotate( Vector3.right, 500.0f * Time.deltaTime * InputManager.ActiveDevice.Direction.y, Space.World );
-		target.transform.Rotate( Vector3.down,  500.0f * Time.deltaTime * InputManager.ActiveDevice.RightStickX, Space.World );
-		target.transform.Rotate( Vector3.right, 500.0f * Time.deltaTime * InputManager.ActiveDevice.RightStickY, Space.World );
+		// Rotate target object with both sticks and d-pad.
+		target.transform.Rotate( Vector3.down,  500.0f * Time.deltaTime * inputDevice.Direction.x, Space.World );
+		target.transform.Rotate( Vector3.right, 500.0f * Time.deltaTime * inputDevice.Direction.y, Space.World );
+		target.transform.Rotate( Vector3.down,  500.0f * Time.deltaTime * inputDevice.RightStickX, Space.World );
+		target.transform.Rotate( Vector3.right, 500.0f * Time.deltaTime * inputDevice.RightStickY, Space.World );
 
-		var z = InputManager.ActiveDevice.GetControl( InputControlType.ScrollWheel );
+		// Zoom target object with scroll wheel.
+		var z = inputDevice.GetControl( InputControlType.ScrollWheel );
 		targetPosition.z = Mathf.Clamp( targetPosition.z + z, -10.0f, 25.0f );
 		target.transform.position = Vector3.MoveTowards( target.transform.position, targetPosition, Time.deltaTime * 25.0f );
+
+		// Only supported on Windows with XInput and Xbox 360 controllers.
+		InputManager.ActiveDevice.Vibrate( inputDevice.LeftTrigger, inputDevice.RightTrigger );
 	}
 }
 

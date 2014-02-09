@@ -32,7 +32,7 @@ namespace InControl
 		static float lastUpdateTime;
 
 
-		public static void Setup()
+		public static void Setup( bool enableXInput = false )
 		{
 			isSetup = false;
 
@@ -53,6 +53,16 @@ namespace InControl
 			OnActiveDeviceChanged = null;
 
 			isSetup = true;
+
+			if (enableXInput)
+			{
+				if (Application.platform == RuntimePlatform.WindowsPlayer ||
+				    Application.platform == RuntimePlatform.WindowsEditor)
+				{
+					HideDevicesWithProfile( typeof( Xbox360WinProfile ) );
+					InputManager.AddDeviceManager( new XInputDeviceManager() );
+				}
+			}
 
 			AddDeviceManager( new UnityInputDeviceManager() );
 		}
@@ -178,6 +188,7 @@ namespace InControl
 			AssertIsSetup();
 
 			Devices.Remove( inputDevice );
+			Devices.Sort( ( d1, d2 ) => d1.SortOrder.CompareTo( d2.SortOrder ) );
 
 			if (ActiveDevice == inputDevice)
 			{
@@ -187,6 +198,15 @@ namespace InControl
 			if (OnDeviceDetached != null)
 			{
 				OnDeviceDetached( inputDevice );
+			}
+		}
+
+
+		public static void HideDevicesWithProfile( Type type )
+		{
+			if (type.IsSubclassOf( typeof( UnityInputDeviceProfile ) ))
+			{
+				UnityInputDeviceProfile.Hide( type );
 			}
 		}
 

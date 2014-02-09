@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace InControl
 {
-	public class UnknownDeviceProfile : UnityInputDeviceProfile
+	public class UnityUnknownDeviceProfile : UnityInputDeviceProfile
 	{
-		public UnknownDeviceProfile( string joystickName )
+		public UnityUnknownDeviceProfile( string joystickName )
 		{
 			Name = "Unknown Device";
 			if (joystickName != "")

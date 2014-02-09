@@ -59,11 +59,11 @@ namespace InControl
 				if (!analogMapping.Raw)
 				{
 
-					if (analogMapping.TargetRangeIsNotComplete && 
-					    Mathf.Abs(unityValue) < Mathf.Epsilon && 
-					    Analogs[i].UpdateTime < Mathf.Epsilon)
+					if (analogMapping.TargetRangeIsNotComplete &&
+						Mathf.Abs(unityValue) < Mathf.Epsilon &&
+						Analogs[i].UpdateTime < Mathf.Epsilon)
 					{
-						// Ignore initial input stream for triggers, because they report 
+						// Ignore initial input stream for triggers, because they report
 						// zero incorrectly until the value changes for the first time.
 						// Example: wired Xbox controller on Mac.
 						continue;
@@ -84,7 +84,7 @@ namespace InControl
 			{
 				var buttonMapping = Profile.ButtonMappings[i];
 				var buttonState = buttonMapping.Source.GetState( this );
-				
+
 				Buttons[i].UpdateWithState( buttonState, updateTime );
 			}
 		}
@@ -101,7 +101,7 @@ namespace InControl
 				float maxDelta = deltaTime * Profile.Sensitivity * 100.0f;
 
 				// Move faster towards zero when changing direction.
-				if (Mathf.Sign( lastValue ) != Mathf.Sign( thisValue )) 
+				if (Mathf.Sign( lastValue ) != Mathf.Sign( thisValue ))
 				{
 					maxDelta *= 2;
 				}
