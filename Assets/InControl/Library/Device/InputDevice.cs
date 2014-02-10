@@ -18,23 +18,35 @@ namespace InControl
 
 		public float LastChangeTime { get; protected set; }
 
-		readonly InputControl[] controlTable;
+		InputControl[] controlTable;
 		int filledAnalogCount;
 		int filledButtonCount;
 
 
-		public InputDevice( string name, int analogCount = 0, int buttonCount = 0 )
+		public InputDevice( string name, int analogCount, int buttonCount )
+		{
+			Initialize( name, analogCount, buttonCount );
+		}
+
+
+		public InputDevice( string name )
+		{
+			Initialize( name, 0, 0 );
+		}
+
+
+		void Initialize( string name, int analogCount, int buttonCount )
 		{
 			Name = name;
 			Meta = "";
 
-			Analogs = new InputControl[ analogCount ];
-			Buttons = new InputControl[ buttonCount ];
+			Analogs = new InputControl[analogCount];
+			Buttons = new InputControl[buttonCount];
 
 			LastChangeTime = 0.0f;
 
 			const int numInputControlTypes = (int) InputControlType.Count + 1;
-			controlTable = new InputControl[ numInputControlTypes ];
+			controlTable = new InputControl[numInputControlTypes];
 		}
 
 
@@ -58,7 +70,7 @@ namespace InControl
 		}
 
 
-		public void SetAnalogControl( int i, Enum target, string handle = "" )
+		public void SetAnalogControl( int i, Enum target, string handle )
 		{
 			Analogs[i] = new InputControl( handle, target.ToString() );
 			var controlIndex = Convert.ToInt32( target );
@@ -78,7 +90,7 @@ namespace InControl
 		}
 
 
-		public void SetButtonControl( int i, Enum target, string handle = "" )
+		public void SetButtonControl( int i, Enum target, string handle )
 		{
 			Buttons[i] = new InputControl( handle, target.ToString() );
 			var controlIndex = Convert.ToInt32( target );

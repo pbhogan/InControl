@@ -46,16 +46,10 @@ namespace InControl
 			}
 			else
 			{
-//				var minimum = SourceRange.Minimum == 0.0f ?  float.Epsilon : SourceRange.Minimum;
-//				var maximum = SourceRange.Maximum == 0.0f ? -float.Epsilon : SourceRange.Minimum;
-
 				if (value < SourceRange.Minimum || value > SourceRange.Maximum)
 				{
 					return 0.0f;
 				}
-
-//				value = Mathf.Clamp( value, SourceRange.Minimum, SourceRange.Maximum );
-//				if (Mathf.Abs(value) < float.Epsilon)
 
 				sourceValue = Mathf.InverseLerp( SourceRange.Minimum, SourceRange.Maximum, value );
 				targetValue = Mathf.Lerp( TargetRange.Minimum, TargetRange.Maximum, sourceValue );

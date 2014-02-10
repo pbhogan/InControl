@@ -11,6 +11,7 @@ public class SimpleExample : MonoBehaviour
 
 	void Start()
 	{
+		InputManager.EnableXInput = true;
 		InputManager.Setup();
 
 		// Add a custom device profile.

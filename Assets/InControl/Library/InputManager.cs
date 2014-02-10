@@ -24,21 +24,20 @@ namespace InControl
 
 		public static string Platform { get; private set; }
 
-		static bool invertYAxis; // default to y-axis up.
-		static bool isSetup;
+		static bool invertYAxis = false; // default to y-axis up.
+		static bool enableXInput = false;
+		static bool isSetup = false;
 
 		static float initialTime;
 		static float currentTime;
 		static float lastUpdateTime;
 
 
-		public static void Setup( bool enableXInput = false )
+		public static void Setup()
 		{
 			isSetup = false;
 
 			Platform = (SystemInfo.operatingSystem + " " + SystemInfo.deviceModel).ToUpper();
-
-			invertYAxis = false; // default to y-axis up.
 
 			initialTime = 0.0f;
 			currentTime = 0.0f;
@@ -57,7 +56,7 @@ namespace InControl
 			if (enableXInput)
 			{
 				if (Application.platform == RuntimePlatform.WindowsPlayer ||
-				    Application.platform == RuntimePlatform.WindowsEditor)
+					Application.platform == RuntimePlatform.WindowsEditor)
 				{
 					HideDevicesWithProfile( typeof( Xbox360WinProfile ) );
 					InputManager.AddDeviceManager( new XInputDeviceManager() );
@@ -236,8 +235,25 @@ namespace InControl
 			get { return invertYAxis; }
 			set 
 			{ 
-				AssertIsSetup();
+				if (isSetup)
+				{
+					throw new Exception( "InputManager.InvertYAxis must be set before calling InputManager.Setup()." );
+				}
 				invertYAxis = value; 
+			}
+		}
+
+
+		public static bool EnableXInput
+		{
+			get { return enableXInput; }
+			set 
+			{ 
+				if (isSetup)
+				{
+					throw new Exception( "InputManager.EnableXInput must be set before calling InputManager.Setup()." );
+				}
+				enableXInput = value; 
 			}
 		}
 	}

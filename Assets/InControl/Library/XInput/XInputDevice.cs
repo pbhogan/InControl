@@ -14,7 +14,7 @@ namespace InControl
 
 
 		public XInputDevice( int deviceIndex )
-			: base( "Xbox 360 Controller (XInput)", 6, 15 )
+			: base( "Xbox 360 Controller (XInput)", 6, 14 )
 		{
 			DeviceIndex = deviceIndex;
 			SortOrder   = deviceIndex;

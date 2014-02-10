@@ -59,7 +59,7 @@ namespace InControl
 		static void PutFileContents( string filePath, string content )
 		{
 			StreamWriter streamWriter = new StreamWriter( filePath );
-			streamWriter.WriteLine( content );
+			streamWriter.Write( content );
 			streamWriter.Flush();
 			streamWriter.Close();
 		}

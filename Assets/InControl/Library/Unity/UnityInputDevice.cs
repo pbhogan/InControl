@@ -16,11 +16,23 @@ namespace InControl
 		public UnityInputDeviceProfile Profile { get; protected set; }
 
 
-		public UnityInputDevice( UnityInputDeviceProfile profile, int joystickId = 0 )
+		public UnityInputDevice( UnityInputDeviceProfile profile, int joystickId )
 			: base( profile.Name, profile.AnalogMappings.Length, profile.ButtonMappings.Length )
 		{
-			Profile = profile;
+			Initialize( profile, joystickId );
+		}
 
+
+		public UnityInputDevice( UnityInputDeviceProfile profile )
+			: base( profile.Name, profile.AnalogMappings.Length, profile.ButtonMappings.Length )
+		{
+			Initialize( profile, 0 );
+		}
+
+
+		void Initialize( UnityInputDeviceProfile profile, int joystickId )
+		{
+			Profile = profile;
 			Meta = Profile.Meta;
 
 			foreach (var analogMapping in Profile.AnalogMappings)
@@ -34,11 +46,10 @@ namespace InControl
 			}
 
 			JoystickId = joystickId;
-
 			if (joystickId != 0)
 			{
 				SortOrder = 100 + joystickId;
-				Meta += " [id: " + joystickId + ", so: " + SortOrder + "]";
+				Meta += " [id: " + joystickId + "]";
 			}
 		}
 
