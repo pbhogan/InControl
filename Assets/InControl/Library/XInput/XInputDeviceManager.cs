@@ -24,7 +24,8 @@ namespace InControl
 
 
 		public override void Update( float updateTime, float deltaTime )
-		{
+        {
+            UpdateUnconnectedDevices(updateTime, deltaTime);
 			RefreshDevices();
 		}
 
@@ -50,6 +51,17 @@ namespace InControl
 				}
 			}
 		}
+
+        void UpdateUnconnectedDevices(float updateTime, float deltaTime)
+        {
+            for (int deviceIndex = 0; deviceIndex < 4; deviceIndex++)
+            {
+                var device = devices[deviceIndex] as XInputDevice;
+
+                if (!device.IsConnected)
+                    device.Update(updateTime, deltaTime);
+            }
+        }
 	}
 }
 
