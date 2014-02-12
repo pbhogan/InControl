@@ -12,12 +12,14 @@ InControl is an input manager for Unity3D that standardizes input mappings acros
 
 ## Supported Controllers
 
-* Xbox 360 controller support for Windows, Mac and OUYA.
-* Playstation 3 controller support for Windows, Mac and OUYA.
-* Playstation 4 controller support for Windows, Mac and Linux.
+* Xbox 360 controller on Windows, Mac and OUYA.
+* Playstation 3 controller on Windows, Mac and OUYA.
+* Playstation 4 controller on Windows, Mac and Linux.
 * OUYA controller support on OUYA and Windows.
 * Logitech F310 support on Windows and Mac.
 * Mad Catz FPS Pro support on Mac.
+* Logitech Dual Action on Windows.
+* Executioner X Controller on Mac.
 * GameStick support.
 * Keyboard and Mouse support on Windows, Mac and Linux.
 
