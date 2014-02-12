@@ -13,9 +13,10 @@ namespace InControl
 		public static readonly VersionInfo Version = new VersionInfo();
 
 		public delegate void DeviceEventHandler( InputDevice device );
-		public static event DeviceEventHandler OnDeviceAttached;
-		public static event DeviceEventHandler OnDeviceDetached;
-		public static event DeviceEventHandler OnActiveDeviceChanged;
+
+	    public static event DeviceEventHandler OnDeviceAttached = null;
+        public static event DeviceEventHandler OnDeviceDetached = null;
+        public static event DeviceEventHandler OnActiveDeviceChanged = null;
 
 		static List<InputDeviceManager> inputDeviceManagers = new List<InputDeviceManager>();
 
@@ -28,29 +29,13 @@ namespace InControl
 		static bool enableXInput = false;
 		static bool isSetup = false;
 
-		static float initialTime;
-		static float currentTime;
-		static float lastUpdateTime;
+        static float initialTime = 0.0f;
+        static float currentTime = 0.0f;
+        static float lastUpdateTime = 0.0f;
 
 
 		public static void Setup()
 		{
-			isSetup = false;
-
-			Platform = (SystemInfo.operatingSystem + " " + SystemInfo.deviceModel).ToUpper();
-
-			initialTime = 0.0f;
-			currentTime = 0.0f;
-			lastUpdateTime = 0.0f;
-
-			inputDeviceManagers.Clear();
-			Devices.Clear();
-			activeDevice = InputDevice.Null;
-
-			OnDeviceAttached = null;
-			OnDeviceDetached = null;
-			OnActiveDeviceChanged = null;
-
 			isSetup = true;
 
 			if (enableXInput)
@@ -66,6 +51,24 @@ namespace InControl
 			AddDeviceManager( new UnityInputDeviceManager() );
 		}
 
+        public static void Reset()
+        {
+            isSetup = false;
+
+            Platform = (SystemInfo.operatingSystem + " " + SystemInfo.deviceModel).ToUpper();
+
+            initialTime = 0.0f;
+            currentTime = 0.0f;
+            lastUpdateTime = 0.0f;
+
+            inputDeviceManagers.Clear();
+            Devices.Clear();
+            activeDevice = InputDevice.Null;
+
+            OnDeviceAttached = null;
+            OnDeviceDetached = null;
+            OnActiveDeviceChanged = null;
+        }
 
 		static void AssertIsSetup()
 		{
