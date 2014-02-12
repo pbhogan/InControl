@@ -23,7 +23,8 @@ namespace InControl
 				"Controller (XBOX 360 For Windows)",
 				"Controller (XBOX 360 Wireless Receiver for Windows)",
 				"XBOX 360 For Windows (Controller)",
-				"Controller (Gamepad F310)"
+				"Controller (Gamepad F310)",
+				"Controller (MLG GamePad for Xbox 360)"
 			};
 
 			Sensitivity = 1.0f;
