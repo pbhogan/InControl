@@ -110,8 +110,8 @@ namespace InControl
 
 			if (Profile.IsJoystick)
 			{
-				// Apply lower dead zone, and for now a mandatory upper deadzone.
-				return Mathf.InverseLerp( Profile.DeadZone, 0.9f, Mathf.Abs( value ) ) * Mathf.Sign( value );
+				// Apply dead zones.
+				return Mathf.InverseLerp( Profile.LowerDeadZone, Profile.UpperDeadZone, Mathf.Abs( value ) ) * Mathf.Sign( value );
 			}
 
 			return value;
@@ -123,7 +123,7 @@ namespace InControl
 			if (Profile.IsJoystick)
 			{
 				// 1.0f and above is instant (no smoothing).
-				if (Profile.Sensitivity >= 1.0f)
+				if (Mathf.Approximately( Profile.Sensitivity, 1.0f ))
 				{
 					return thisValue;
 				}

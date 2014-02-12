@@ -17,7 +17,7 @@ namespace InControl
 
 			Meta = "";
 			Sensitivity = 1.0f;
-			DeadZone = 0.2f;
+			LowerDeadZone = 0.2f;
 
 			SupportedPlatforms = null;
 			JoystickNames = new[] { joystickName };

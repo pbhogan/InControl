@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -24,7 +24,7 @@ namespace InControl
 			};
 
 			Sensitivity = 1.0f;
-			DeadZone = 0.2f;
+			LowerDeadZone = 0.2f;
 
 			ButtonMappings = new[]
 			{
