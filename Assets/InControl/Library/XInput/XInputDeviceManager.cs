@@ -19,21 +19,21 @@ namespace InControl
 				devices.Add( new XInputDevice( deviceIndex ) );
 			}
 
-			RefreshDevices();
+			Update( 0.0f, 0.0f );
 		}
 
 
 		public override void Update( float updateTime, float deltaTime )
 		{
-			RefreshDevices();
-		}
-
-
-		void RefreshDevices()
-		{
 			for (int deviceIndex = 0; deviceIndex < 4; deviceIndex++)
 			{
 				var device = devices[deviceIndex] as XInputDevice;
+
+				// Unconnected devices won't be updated otherwise, so poll here.
+				if (!device.IsConnected)
+				{
+					device.Update( updateTime, deltaTime );
+				}
 
 				if (device.IsConnected != deviceConnected[deviceIndex])
 				{
@@ -45,7 +45,7 @@ namespace InControl
 					{
 						InputManager.DetachDevice( device );
 					}
-
+					
 					deviceConnected[deviceIndex] = device.IsConnected;
 				}
 			}
