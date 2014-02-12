@@ -1,4 +1,6 @@
 using System;
+using UnityEngine;
+
 #pragma warning disable 0660, 0661
 
 
@@ -38,13 +40,13 @@ namespace InControl
 
 		public static bool operator ==( InputControlState a, InputControlState b )
 		{
-			return a.Value == b.Value;
+			return Mathf.Approximately( a.Value, b.Value );
 		}
 
 
 		public static bool operator !=( InputControlState a, InputControlState b )
 		{
-			return a.Value != b.Value;
+			return !Mathf.Approximately( a.Value, b.Value );
 		}
 	}
 }

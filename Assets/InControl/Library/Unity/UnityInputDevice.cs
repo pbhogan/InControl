@@ -80,9 +80,11 @@ namespace InControl
 						continue;
 					}
 
-					var smoothValue = SmoothAnalogValue( unityValue, Analogs[i].LastValue, deltaTime );
-					var mappedValue = analogMapping.MapValue( smoothValue );
-					Analogs[i].UpdateWithValue( mappedValue, updateTime );
+					unityValue = ApplyDeadZone( unityValue );
+					unityValue = analogMapping.MapValue( unityValue );
+					unityValue = SmoothAnalogValue( unityValue, Analogs[i].LastValue, deltaTime );
+
+					Analogs[i].UpdateWithValue( unityValue, updateTime );
 				}
 				else
 				{
@@ -101,28 +103,44 @@ namespace InControl
 		}
 
 
+		float ApplyDeadZone( float value )
+		{
+			// Make sure the value is sane.
+			value = Mathf.Clamp( value, -1.0f, 1.0f );
+
+			if (Profile.IsJoystick)
+			{
+				// Apply lower dead zone, and for now a mandatory upper deadzone.
+				return Mathf.InverseLerp( Profile.DeadZone, 0.9f, Mathf.Abs( value ) ) * Mathf.Sign( value );
+			}
+
+			return value;
+		}
+
+
 		float SmoothAnalogValue( float thisValue, float lastValue, float deltaTime )
 		{
 			if (Profile.IsJoystick)
 			{
-				// Apply lower dead zone, and for now a mandatory upper deadzone.
-				thisValue = Mathf.InverseLerp( Profile.DeadZone, 0.9f, Mathf.Abs( thisValue ) ) * Mathf.Sign( thisValue );
-
-				// Apply sensitivity (how quickly the value adapts to changes).
-				float maxDelta = deltaTime * Profile.Sensitivity * 100.0f;
-
-				// Move faster towards zero when changing direction.
-				if (Mathf.Sign( lastValue ) != Mathf.Sign( thisValue ))
+				// 1.0f and above is instant (no smoothing).
+				if (Profile.Sensitivity >= 1.0f)
 				{
-					maxDelta *= 2;
+					return thisValue;
 				}
 
-				return Mathf.Clamp( lastValue + Mathf.Clamp( thisValue - lastValue, -maxDelta, maxDelta ), -1.0f, 1.0f );
+				// Apply sensitivity (how quickly the value adapts to changes).
+				var maxDelta = deltaTime * Profile.Sensitivity * 100.0f;
+
+				// Snap to zero when changing direction quickly.
+				if (Mathf.Sign( lastValue ) != Mathf.Sign( thisValue ))
+				{
+					lastValue = 0.0f;
+				}
+
+				return Mathf.MoveTowards( lastValue, thisValue, maxDelta );
 			}
-			else
-			{
-				return thisValue;
-			}
+
+			return thisValue;
 		}
 
 
