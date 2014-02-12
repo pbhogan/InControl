@@ -55,7 +55,7 @@ namespace InControl
 				targetValue = Mathf.Lerp( TargetRange.Minimum, TargetRange.Maximum, sourceValue );
 			}
 
-			if (Button && Math.Abs(targetValue) > float.Epsilon)
+			if (Button && Mathf.Abs(targetValue) > float.Epsilon)
 			{
 				targetValue = Mathf.Sign( targetValue );
 			}

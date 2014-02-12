@@ -97,8 +97,8 @@ namespace InControl
 			for (int i = 0; i < deviceCount; i++)
 			{
 				var inputDevice = Devices[i];
-				if (ActiveDevice == InputDevice.Null || 
-				    inputDevice.LastChangedAfter( ActiveDevice ))
+				if (ActiveDevice == InputDevice.Null ||
+					inputDevice.LastChangedAfter( ActiveDevice ))
 				{
 					ActiveDevice = inputDevice;
 				}
@@ -125,14 +125,14 @@ namespace InControl
 
 		static void UpdateCurrentTime()
 		{
-			// Have to do this hack since Time.realtimeSinceStartup 
+			// Have to do this hack since Time.realtimeSinceStartup
 			// is not updated until AFTER Awake().
 			if (initialTime == 0.0f)
 			{
 				initialTime = Time.realtimeSinceStartup;
 			}
 
-			currentTime = Math.Max( 0.0f, Time.realtimeSinceStartup - initialTime );
+			currentTime = Mathf.Max( 0.0f, Time.realtimeSinceStartup - initialTime );
 		}
 
 
@@ -233,13 +233,13 @@ namespace InControl
 		public static bool InvertYAxis
 		{
 			get { return invertYAxis; }
-			set 
-			{ 
+			set
+			{
 				if (isSetup)
 				{
 					throw new Exception( "InputManager.InvertYAxis must be set before calling InputManager.Setup()." );
 				}
-				invertYAxis = value; 
+				invertYAxis = value;
 			}
 		}
 
@@ -247,13 +247,13 @@ namespace InControl
 		public static bool EnableXInput
 		{
 			get { return enableXInput; }
-			set 
-			{ 
+			set
+			{
 				if (isSetup)
 				{
 					throw new Exception( "InputManager.EnableXInput must be set before calling InputManager.Setup()." );
 				}
-				enableXInput = value; 
+				enableXInput = value;
 			}
 		}
 	}
