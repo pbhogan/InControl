@@ -20,6 +20,7 @@ namespace InControl
 
 			JoystickNames = new[]
 			{
+				"/.+?x\\-?box 360.+?/",
 				"Controller (XBOX 360 For Windows)",
 				"Controller (XBOX 360 Wireless Receiver for Windows)",
 				"XBOX 360 For Windows (Controller)",
