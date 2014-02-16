@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 
@@ -103,7 +104,24 @@ namespace InControl
 				return false;
 			}
 
-			return JoystickNames.Contains( joystickName, StringComparer.OrdinalIgnoreCase );
+			foreach(string joystick in JoystickNames)
+			{
+				if(joystick.First() == '/' && joystick.Last() == '/')
+				{
+					string joystickRegex = joystick.Split('/')[0];
+					
+					if(Regex.IsMatch(joystickName, joystickRegex, RegexOptions.IgnoreCase))
+					{
+						return true;
+					}
+				}
+				else if(joystick == joystickName)
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 
