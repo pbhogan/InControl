@@ -64,10 +64,12 @@
      <Compile Include="Assets\InControl\Library\Unity\ControlSources\UnityKeyCodeSource.cs" />
      <Compile Include="Assets\InControl\Library\Unity\ControlSources\UnityMouseAxisSource.cs" />
      <Compile Include="Assets\InControl\Library\Unity\ControlSources\UnityMouseButtonSource.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\AppleMFiProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\ExecutionerXMacProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\GameStickProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\LogitechDualActionWinProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\LogitechRumblePad2MacProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\NVidiaShieldAndroidProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\OuyaProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\OuyaWinProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Playstation3MacProfile.cs" />

@@ -2,6 +2,8 @@
 
 InControl is an input manager for Unity3D that standardizes input mappings across various platforms for common controllers.
 
+A video introduction and overview is available here: [http://www.gallantgames.com/incontrol](http://www.gallantgames.com/incontrol)
+
 ## Features
 
 * Standardizes input mappings across various platforms.
@@ -10,18 +12,20 @@ InControl is an input manager for Unity3D that standardizes input mappings acros
 * Events for attached and detached devices.
 * Events for active device switches.
 
-## Supported Controllers
+## Supported
 
-* Xbox 360 controller on Windows, Mac and OUYA.
-* Playstation 3 controller on Windows, Mac and OUYA.
-* Playstation 4 controller on Windows, Mac and Linux.
+* Xbox 360 controller support for Windows, Mac and OUYA.
+* Playstation 3 controller support for Windows, Mac and OUYA.
+* Playstation 4 controller support for Windows, Mac and Linux.
+* Apple MFi controller support on iOS 7 and above.
 * OUYA controller support on OUYA and Windows.
 * Logitech F310 support on Windows and Mac.
 * Mad Catz FPS Pro support on Mac.
-* Logitech Dual Action on Windows.
-* Executioner X Controller on Mac.
 * GameStick support.
+* NVIDIA Shield support on Android.
 * Keyboard and Mouse support on Windows, Mac and Linux.
+* Various other Xbox 360 clones are supported also.
+* XInput support on Windows (rumble!)
 
 **Note:** New device profiles are dead simple to create. Please feel free to submit profiles for any controller/platform not currently in the list, but do ensure it correctly supports all the standardized inputs (see below).
 
@@ -143,15 +147,12 @@ InputManager.OnActiveDeviceChanged += inputDevice => Debug.Log( "Switched: " + i
 
 ## To-do List
 
-* XInput.NET support on Windows.
 * Allow players to custom bind controls.
-* Support Apple MFi controllers on Mac and iOS.
 * Support Android controllers like the Moga Pro.
 * Support more controllers on Linux.
 
 ## Known Issues
 
-* Weird trigger behavior on Windows with multiple Xbox 360 controllers.
 * Not all platforms trigger the `DeviceAttached` event correctly. If Unity's `Input.GetJoystickNames()` is updated by the platform while the app is running, it will work. Every platform does, however, report all newly connected devices once the app is relaunched.
 * Some controller specific buttons (like Start, Select, Back, OUYA, Xbox Guide, PS3, etc.) are not part of the standardized set of supported inputs simply because they do not work on every platform. You should not be using these buttons in a generalized cross-platform capacity.
 
