@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,21 +6,23 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class LogitechDualAction : UnityInputDeviceProfile
+	public class LogitechDualActionProfile : UnityInputDeviceProfile
 	{
-		public LogitechDualAction()
+		public LogitechDualActionProfile()
 		{
 			Name = "Logitech Dual Action";
-			Meta = "Logitech Dual Action on Windows";
+			Meta = "Logitech Dual Action";
 
 			SupportedPlatforms = new[]
 			{
-				"Windows"
+				"Windows",
+				"OS X"
 			};
 
 			JoystickNames = new[]
 			{
-				"Logitech Dual Action"
+				"Logitech Dual Action",
+				"Logitech Logitech Dual Action"
 			};
 
 			Sensitivity = 1.0f;
