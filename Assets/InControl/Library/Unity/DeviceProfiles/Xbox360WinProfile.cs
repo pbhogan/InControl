@@ -29,6 +29,8 @@ namespace InControl
 				"Controller (Rock Candy Gamepad for Xbox 360)"
 			};
 
+			RegexName = "360";
+
 			Sensitivity = 1.0f;
 			LowerDeadZone = 0.2f;
 

@@ -31,6 +31,8 @@ namespace InControl
 				"MICROSOFT WIRELESS 360 CONTROLLER"
 			};
 
+			RegexName = "360";
+
 			Sensitivity = 1.0f;
 			LowerDeadZone = 0.2f;
 

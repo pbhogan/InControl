@@ -26,6 +26,8 @@ namespace InControl
 				"Logitech Gamepad F310"
 			};
 
+			RegexName = "360";
+
 			Sensitivity = 1.0f;
 			LowerDeadZone = 0.3f;
 
