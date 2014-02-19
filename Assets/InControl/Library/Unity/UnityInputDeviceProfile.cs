@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 
@@ -22,6 +23,8 @@ namespace InControl
 
 		protected string[] SupportedPlatforms;
 		protected string[] JoystickNames;
+
+		protected string RegexName;
 
 		static HashSet<Type> hideList = new HashSet<Type>();
 
@@ -86,13 +89,16 @@ namespace InControl
 
 		public bool IsJoystick 
 		{ 
-			get { return JoystickNames != null && JoystickNames.Length > 0; } 
+			get 
+			{ 
+				return (RegexName != null) || (JoystickNames != null && JoystickNames.Length > 0); 
+			} 
 		}
 
 
 		public bool IsNotJoystick
 		{ 
-			get { return JoystickNames == null || JoystickNames.Length == 0; } 
+			get { return !IsJoystick; } 
 		}
 
 
@@ -103,7 +109,34 @@ namespace InControl
 				return false;
 			}
 
+			if (JoystickNames == null)
+			{
+				return false;
+			}
+
 			return JoystickNames.Contains( joystickName, StringComparer.OrdinalIgnoreCase );
+		}
+
+
+		public bool HasRegexName( string joystickName )
+		{
+			if (IsNotJoystick)
+			{
+				return false;
+			}
+
+			if (RegexName == null)
+			{
+				return false;
+			}
+
+			return Regex.IsMatch( joystickName, RegexName, RegexOptions.IgnoreCase );
+		}
+
+
+		public bool HasJoystickOrRegexName( string joystickName )
+		{
+			return HasJoystickName( joystickName ) || HasRegexName( joystickName );
 		}
 
 

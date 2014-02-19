@@ -105,6 +105,12 @@ namespace InControl
 		void DetectAttachedJoystickDevice( int unityJoystickId, string unityJoystickName )
 		{
 			var matchedDeviceProfile = deviceProfiles.Find( config => config.HasJoystickName( unityJoystickName ) );
+
+			if (matchedDeviceProfile == null)
+			{
+				matchedDeviceProfile = deviceProfiles.Find( config => config.HasRegexName( unityJoystickName ) );
+			}
+
 			UnityInputDeviceProfile deviceProfile = null;
 
 			if (matchedDeviceProfile == null)
@@ -164,7 +170,7 @@ namespace InControl
 				}
 
 				if (joystickNames.Length < inputDevice.JoystickId || 
-				    !inputDevice.Profile.HasJoystickName( joystickNames[inputDevice.JoystickId - 1] ))
+				    !inputDevice.Profile.HasJoystickOrRegexName( joystickNames[inputDevice.JoystickId - 1] ))
 				{
 					devices.Remove( inputDevice );
 					InputManager.DetachDevice( inputDevice );
