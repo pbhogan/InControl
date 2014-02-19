@@ -167,6 +167,11 @@ namespace InControl
 		{
 			AssertIsSetup();
 
+			if (!inputDevice.IsSupportedOnThisPlatform)
+			{
+				return;
+			}
+
 			Devices.Add( inputDevice );
 			Devices.Sort( ( d1, d2 ) => d1.SortOrder.CompareTo( d2.SortOrder ) );
 

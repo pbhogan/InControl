@@ -148,5 +148,11 @@ namespace InControl
 		{
 			return Profile == deviceProfile && JoystickId == joystickId;
 		}
+
+
+		public override bool IsSupportedOnThisPlatform
+		{
+			get { return Profile.IsSupportedOnThisPlatform; }
+		}
 	}
 }
