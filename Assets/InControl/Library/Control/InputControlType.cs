@@ -39,6 +39,8 @@ namespace InControl
 		Start,
 		Select,
 		System,
+		Pause,
+		Menu,
 		TiltX,
 		TiltY,
 		TiltZ,
