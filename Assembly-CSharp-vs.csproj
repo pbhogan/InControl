@@ -67,7 +67,7 @@
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\AppleMFiProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\ExecutionerXMacProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\GameStickProfile.cs" />
-     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\LogitechDualActionWinProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\LogitechDualActionProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\LogitechRumblePad2MacProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\NVidiaShieldAndroidProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\OuyaProfile.cs" />
@@ -103,6 +103,7 @@
      <Compile Include="Assets\Ouya\SDK\Scripts\OuyaControllerMapping.cs" />
      <Compile Include="Assets\Ouya\SDK\Scripts\OuyaGameObject.cs" />
      <Compile Include="Assets\Ouya\SDK\Scripts\OuyaInputManager.cs" />
+     <None Include="Assets\InControl\README\README.txt" />
      <None Include="Assets\Plugins\Android\res\values\strings.xml" />
      <None Include="Assets\Ouya\LitJson\license.txt" />
      <None Include="Assets\Plugins\Android\res\layout\main.xml" />

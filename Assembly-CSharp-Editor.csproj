@@ -52,6 +52,7 @@
      <Compile Include="Assets\Ouya\SDK\Editor\OuyaMenuAdmin.cs" />
      <Compile Include="Assets\Ouya\SDK\Editor\OuyaPanel.cs" />
      <Compile Include="Assets\Ouya\SDK\Editor\OuyaPostProcessor.cs" />
+     <None Include="Assets\InControl\README\README.txt" />
      <None Include="Assets\Plugins\Android\res\values\strings.xml" />
      <None Include="Assets\Ouya\LitJson\license.txt" />
      <None Include="Assets\Plugins\Android\res\layout\main.xml" />

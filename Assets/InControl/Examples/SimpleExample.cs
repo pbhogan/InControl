@@ -11,7 +11,11 @@ public class SimpleExample : MonoBehaviour
 
 	void Start()
 	{
-		InputManager.EnableXInput = true;
+		// XInput support is Windows only. Requirement:
+		// Library/XInput/XInputInterface.dll must be placed
+		// in your project root and next to your built .exe files.
+//		InputManager.EnableXInput = true;
+
 		InputManager.Setup();
 
 		// Add a custom device profile.

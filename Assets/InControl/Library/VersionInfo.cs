@@ -6,9 +6,9 @@ namespace InControl
 	public struct VersionInfo
 	{
 		public const int Major = 1;
-		public const int Minor = 0;
-		public const int Patch = 1;
-		public const int Build = 1244;
+		public const int Minor = 1;
+		public const int Patch = 0;
+		public const int Build = 1248;
 
 
 		public override string ToString()
