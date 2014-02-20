@@ -6,26 +6,26 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class ExecutionerXMacProfile : UnityInputDeviceProfile
+	public class SpeedlinkStrikeWinProfile : UnityInputDeviceProfile
 	{
-		public ExecutionerXMacProfile()
+		public SpeedlinkStrikeWinProfile()
 		{
-			Name = "Executioner X Controller";
-			Meta = "Executioner X Controller on Mac";
-
+			Name = "Speedlink Strike Controller";
+			Meta = "Speedlink Strike Controller on Windows";
+			
 			SupportedPlatforms = new[]
 			{
-				"OS X"
+				"Win"
 			};
-
+			
 			JoystickNames = new[]
 			{
-				"Zeroplus PS Vibration Feedback Converter "
+				"SPEEDLINK STRIKE Gamepad"
 			};
-
+			
 			Sensitivity = 1.0f;
 			LowerDeadZone = 0.2f;
-
+			
 			ButtonMappings = new[]
 			{
 				new InputControlMapping
@@ -56,23 +56,23 @@ namespace InControl
 				{
 					Handle = "Left Bumper",
 					Target = InputControlType.LeftBumper,
-					Source = Button6
+					Source = Button4
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Bumper",
 					Target = InputControlType.RightBumper,
-					Source = Button7
+					Source = Button5
 				},
 				new InputControlMapping
 				{
-					Handle = "Start",
+					Handle = "10",
 					Target = InputControlType.Start,
-					Source = Button11
+					Source = Button9
 				},
 				new InputControlMapping
 				{
-					Handle = "Options",
+					Handle = "9",
 					Target = InputControlType.Select,
 					Source = Button8
 				},
@@ -80,25 +80,25 @@ namespace InControl
 				{
 					Handle = "Left Trigger",
 					Target = InputControlType.LeftTrigger,
-					Source = Button4
+					Source = Button6
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Trigger",
 					Target = InputControlType.RightTrigger,
-					Source = Button5
+					Source = Button7
 				},
 				new InputControlMapping
 				{
 					Handle = "Left Stick Button",
 					Target = InputControlType.LeftStickButton,
-					Source = Button9
+					Source = Button10
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Stick Button",
 					Target = InputControlType.RightStickButton,
-					Source = Button10
+					Source = Button11
 				}
 			};
 
@@ -134,7 +134,7 @@ namespace InControl
 				{
 					Handle = "DPad Left",
 					Target = InputControlType.DPadLeft,
-					Source = Analog6,
+					Source = Analog4,
 					SourceRange = InputControlMapping.Range.Negative,
 					TargetRange = InputControlMapping.Range.Negative,
 					Invert = true
@@ -143,7 +143,7 @@ namespace InControl
 				{
 					Handle = "DPad Right",
 					Target = InputControlType.DPadRight,
-					Source = Analog6,
+					Source = Analog4,
 					SourceRange = InputControlMapping.Range.Positive,
 					TargetRange = InputControlMapping.Range.Positive
 				},
@@ -151,7 +151,7 @@ namespace InControl
 				{
 					Handle = "DPad Down",
 					Target = InputControlType.DPadDown,
-					Source = Analog7,
+					Source = Analog5,
 					SourceRange = InputControlMapping.Range.Positive,
 					TargetRange = InputControlMapping.Range.Positive
 				},
@@ -159,7 +159,7 @@ namespace InControl
 				{
 					Handle = "DPad Up",
 					Target = InputControlType.DPadUp,
-					Source = Analog7,
+					Source = Analog5,
 					SourceRange = InputControlMapping.Range.Negative,
 					TargetRange = InputControlMapping.Range.Negative,
 					Invert = true
