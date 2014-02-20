@@ -2,7 +2,7 @@
 
 InControl is an input manager for Unity3D that standardizes input mappings across various platforms for common controllers.
 
-Documentation is available at: [http://www.gallantgames.com/incontrol](http://www.gallantgames.com/incontrol).
+Documentation is available at: [http://www.gallantgames.com/incontrol](http://www.gallantgames.com/incontrol)
 
 InControl is also [available on the Unity Asset Store](http://u3d.as/content/gallant-games/in-control) for a modest price. If you find this project beneficial, please consider supporting its ongoing development. You'll also have the convenience of easy installation and updates right from the Unity Editor.
 
