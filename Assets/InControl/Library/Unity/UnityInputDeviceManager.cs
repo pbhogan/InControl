@@ -196,7 +196,7 @@ namespace InControl
 					}
 					else
 					{
-						Logger.LogInfo( "Ignored profile: " + type.Name + " (" + deviceProfile.Name + ")" );
+//						Logger.LogInfo( "Ignored profile: " + type.Name + " (" + deviceProfile.Name + ")" );
 					}
 				}
 			}

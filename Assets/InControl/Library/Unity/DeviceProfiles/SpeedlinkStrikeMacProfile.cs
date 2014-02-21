@@ -12,20 +12,20 @@ namespace InControl
 		{
 			Name = "Speedlink Strike Controller";
 			Meta = "Speedlink Strike Controller on Mac";
-			
+
 			SupportedPlatforms = new[]
 			{
 				"OS X"
 			};
-			
+
 			JoystickNames = new[]
 			{
 				"DragonRise Inc.   Generic   USB  Joystick  "
 			};
-			
+
 			Sensitivity = 1.0f;
 			LowerDeadZone = 0.2f;
-			
+
 			ButtonMappings = new[]
 			{
 				new InputControlMapping

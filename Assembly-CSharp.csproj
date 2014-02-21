@@ -65,7 +65,7 @@
      <Compile Include="Assets\InControl\Library\Unity\ControlSources\UnityMouseAxisSource.cs" />
      <Compile Include="Assets\InControl\Library\Unity\ControlSources\UnityMouseButtonSource.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\AppleMFiProfile.cs" />
-     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\ExecutionerXMacProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\ExecutionerXProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\GameStickProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\LogitechDualActionProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\LogitechRumblePad2MacProfile.cs" />
@@ -78,6 +78,8 @@
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Playstation4LinuxProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Playstation4MacProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Playstation4WinProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\SpeedlinkStrikeMacProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\SpeedlinkStrikeWinProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Xbox360MacProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Xbox360OuyaProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Xbox360WinProfile.cs" />
