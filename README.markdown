@@ -4,7 +4,7 @@ InControl is an input manager for Unity3D that standardizes input mappings acros
 
 Documentation is available at: [http://www.gallantgames.com/incontrol](http://www.gallantgames.com/incontrol)
 
-InControl is also [available on the Unity Asset Store](http://u3d.as/content/gallant-games/in-control) for a modest price. If you find this project beneficial, please consider supporting its ongoing development. You'll also have the convenience of easy installation and updates right from the Unity Editor.
+InControl is also [available on the Unity Asset Store](http://u3d.as/6mr) for a modest price. If you find this project beneficial, please consider supporting its ongoing development. You'll also have the convenience of easy installation and updates right from the Unity Editor.
 
 ## Features
 
@@ -28,7 +28,7 @@ InControl is also [available on the Unity Asset Store](http://u3d.as/content/gal
 * NVIDIA Shield support on Android.
 * Keyboard and Mouse support on Windows, Mac and Linux.
 * Various other Xbox 360 clones are supported also.
-* [XInput](#xinput) support on Windows (with rumble!)
+* XInput support on Windows (with haptic feedback!)
 
 ## Meta
 
