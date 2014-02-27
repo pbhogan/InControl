@@ -53,6 +53,7 @@ namespace InControl
 
 			isSetup = true;
 
+			#if UNITY_STANDALONE_WIN
 			if (enableXInput)
 			{
 				if (Application.platform == RuntimePlatform.WindowsPlayer ||
@@ -62,6 +63,7 @@ namespace InControl
 					InputManager.AddDeviceManager( new XInputDeviceManager() );
 				}
 			}
+			#endif
 
 			AddDeviceManager( new UnityInputDeviceManager() );
 		}

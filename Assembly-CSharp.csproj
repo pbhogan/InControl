@@ -67,8 +67,13 @@
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\AppleMFiProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\ExecutionerXProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\GameStickProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\GenericAndroidProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\GenericBlackberryProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\LogitechDualActionProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\LogitechRumblePad2MacProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\MogaProMacProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\MogaProOuyaProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\MogaProWinProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\NVidiaShieldAndroidProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\OuyaProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\OuyaWinProfile.cs" />
@@ -80,6 +85,9 @@
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Playstation4WinProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\SpeedlinkStrikeMacProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\SpeedlinkStrikeWinProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\SteelSeriesFreeMacProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\SteelSeriesFreeOuyaProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\SteelSeriesFreeWinProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Xbox360MacProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Xbox360OuyaProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Xbox360WinProfile.cs" />
@@ -90,6 +98,8 @@
      <Compile Include="Assets\InControl\Library\VersionInfo.cs" />
      <Compile Include="Assets\InControl\Library\XInput\XInputDevice.cs" />
      <Compile Include="Assets\InControl\Library\XInput\XInputDeviceManager.cs" />
+     <Compile Include="Assets\InControl\Library\XInput\XInputDotNetPure\GamePad.cs" />
+     <Compile Include="Assets\InControl\Library\XInput\XInputDotNetPure\Utils.cs" />
      <Compile Include="Assets\InControl\Test\TestInputManager.cs" />
      <Compile Include="Assets\Ouya\LitJson\IJsonWrapper.cs" />
      <Compile Include="Assets\Ouya\LitJson\JsonData.cs" />
@@ -110,9 +120,6 @@
      <None Include="Assets\Ouya\LitJson\license.txt" />
      <None Include="Assets\Plugins\Android\res\layout\main.xml" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
- <Reference Include="Assets\InControl\Library\XInput\XInputDotNetPure">
- <HintPath>Assets\InControl\Library\XInput\XInputDotNetPure.dll</HintPath>
- </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

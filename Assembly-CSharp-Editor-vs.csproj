@@ -63,9 +63,6 @@
  <Reference Include="Assets\AssetStoreTools\Editor\AssetStoreToolsExtra">
  <HintPath>Assets\AssetStoreTools\Editor\AssetStoreToolsExtra.dll</HintPath>
  </Reference>
- <Reference Include="Assets\InControl\Library\XInput\XInputDotNetPure">
- <HintPath>Assets\InControl\Library\XInput\XInputDotNetPure.dll</HintPath>
- </Reference>
  <Reference Include="\Applications\Unity\Unity.app\Contents\Frameworks\Managed\UnityEditor.Graphs">
  <HintPath>\Applications\Unity\Unity.app\Contents\Frameworks\Managed\UnityEditor.Graphs.dll</HintPath>
  </Reference>

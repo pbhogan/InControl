@@ -14,7 +14,7 @@ public class SimpleExample : MonoBehaviour
 		// XInput support is Windows only. Requirement:
 		// Library/XInput/XInputInterface.dll must be placed
 		// in your project root and next to your built .exe files.
-//		InputManager.EnableXInput = true;
+		// InputManager.EnableXInput = true;
 
 		InputManager.Setup();
 
