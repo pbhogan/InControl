@@ -15,7 +15,7 @@ namespace InControl
 		public void Set( float value )
 		{
 			Value = value;
-			State = value != 0.0f;
+			State = !Mathf.Approximately( value, 0.0f );
 		}
 
 

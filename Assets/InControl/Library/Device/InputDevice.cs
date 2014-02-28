@@ -193,19 +193,30 @@ namespace InControl
 		}
 
 
+		public float DPadX
+		{
+			get
+			{
+				return DPadLeft.State ? -DPadLeft.Value : DPadRight.Value;
+			}
+		}
+
+
+		public float DPadY
+		{
+			get
+			{
+				var y = DPadUp.State ? DPadUp.Value : -DPadDown.Value;
+				return InputManager.InvertYAxis ? -y : y;
+			}
+		}
+
+
 		public Vector2 DPadVector
 		{
 			get
 			{
-				var l = DPadLeft;
-				var r = DPadRight;
-				var u = DPadUp;
-				var d = DPadDown;
-
-				var x = l.State ? -l.Value : r.Value;
-				var y = u.State ? u.Value : -d.Value;
-
-				return new Vector2( x, InputManager.InvertYAxis ? -y : y ).normalized;
+				return new Vector2( DPadX, DPadY ).normalized;
 			}
 		}
 
@@ -214,8 +225,9 @@ namespace InControl
 		{
 			get
 			{
-				var dpv = DPadVector;
-				return dpv == Vector2.zero ? LeftStickVector : dpv;
+				var dpad = DPadVector;
+				var zero = Mathf.Approximately( dpad.x, 0.0f ) && Mathf.Approximately( dpad.y, 0.0f );
+				return zero ? LeftStickVector : dpad;
 			}
 		}
 	}
