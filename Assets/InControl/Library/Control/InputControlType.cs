@@ -10,11 +10,11 @@ namespace InControl
 		//
 		LeftStickX,
 		LeftStickY,
-		LeftStickButton,
+		LeftStickButton, // TODO: This may be non-standard?
 
 		RightStickX,
 		RightStickY,
-		RightStickButton,
+		RightStickButton, // TODO: This may be non-standard?
 
 		DPadUp,
 		DPadDown,
@@ -93,6 +93,7 @@ namespace InControl
 		Button17,
 		Button18,
 		Button19,
+
 
 		// Internal. Must be last.
 		//

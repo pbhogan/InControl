@@ -58,6 +58,23 @@ namespace InControl
 		}
 
 
+		// Warning: this is not efficient. Don't use it unless you have to, m'kay?
+		//
+		public InputControlType GetInputControlTypeByName( string inputControlName )
+		{
+			return (InputControlType) Enum.Parse( typeof(InputControlType), inputControlName );
+		}
+
+
+		// Warning: this is not efficient. Don't use it unless you have to, m'kay?
+		//
+		public InputControl GetControlByName( string inputControlName )
+		{
+			var inputControlType = GetInputControlTypeByName( inputControlName );
+			return GetControl( inputControlType );
+		}
+
+
 		public void AddAnalogControl( Enum target, string handle )
 		{
 			SetAnalogControl( filledAnalogCount++, target, handle );
