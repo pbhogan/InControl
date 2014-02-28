@@ -167,6 +167,12 @@ namespace InControl
 		}
 
 
+		public virtual bool IsKnown
+		{
+			get { return true; }
+		}
+
+
 		public InputControl LeftStickX { get { return GetControl( InputControlType.LeftStickX ); } }
 		public InputControl LeftStickY { get { return GetControl( InputControlType.LeftStickY ); } }
 		public InputControl LeftStickButton { get { return GetControl( InputControlType.LeftStickButton ); } }

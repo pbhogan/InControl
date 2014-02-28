@@ -152,6 +152,12 @@ namespace InControl
 		}
 
 
+		public virtual bool IsKnown
+		{
+			get { return true; }
+		}
+
+
 		#region InputControlSource Helpers
 
 		protected static InputControlSource Button( int index )

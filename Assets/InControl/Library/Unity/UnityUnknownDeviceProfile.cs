@@ -44,6 +44,12 @@ namespace InControl
 				};
 			}
 		}
-	}
+
+
+		public override bool IsKnown
+		{
+			get { return false; }
+		}
+	}	
 }
 

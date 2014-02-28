@@ -154,5 +154,12 @@ namespace InControl
 		{
 			get { return Profile.IsSupportedOnThisPlatform; }
 		}
+
+
+		public override bool IsKnown
+		{
+			get { return Profile.IsKnown; }
+		}
 	}
 }
+

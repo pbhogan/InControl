@@ -20,7 +20,7 @@ namespace InControl
 
 			JoystickNames = new[]
 			{
-				"",
+				"", // *sigh*
 				"Microsoft Wireless 360 Controller",
 				"Mad Catz, Inc. Mad Catz FPS Pro GamePad",
 				"Logitech Gamepad F310"
