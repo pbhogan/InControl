@@ -15,6 +15,8 @@ namespace InControl
 		public int JoystickId { get; private set; }
 		public UnityInputDeviceProfile Profile { get; protected set; }
 
+        private Dictionary<InputControlType, InputControlMapping> circularDeadZoneHelper = new Dictionary<InputControlType,InputControlMapping>();
+
 
 		public UnityInputDevice( UnityInputDeviceProfile profile, int joystickId )
 			: base( profile.Name, profile.AnalogMappings.Length, profile.ButtonMappings.Length )
@@ -38,6 +40,12 @@ namespace InControl
 			foreach (var analogMapping in Profile.AnalogMappings)
 			{
 				AddAnalogControl( analogMapping.Target, analogMapping.Handle );
+
+                // store mapping for "same type" but opposite dimension, e.g. mapping LeftStickX for LeftStickY
+                if (analogMapping.IsStick)
+                {
+                    circularDeadZoneHelper.Add(analogMapping.Opposite.Value, analogMapping);
+                }
 			}
 
 			foreach (var buttonMapping in Profile.ButtonMappings)
@@ -62,6 +70,7 @@ namespace InControl
 			}
 
 			var analogMappingCount = Profile.AnalogMappings.Length;
+
 			for (int i = 0; i < analogMappingCount; i++)
 			{
 				var analogMapping = Profile.AnalogMappings[i];
@@ -80,7 +89,17 @@ namespace InControl
 						continue;
 					}
 
-					unityValue = ApplyDeadZone( unityValue );
+                    if (circularDeadZoneHelper.ContainsKey(analogMapping.Target))
+                    {
+                        // if helper contains an 'opposite' mapping, get value to apply the circular dead zone
+                        var otherValue = circularDeadZoneHelper[analogMapping.Target].Source.GetValue(this);
+                        unityValue = ApplyCircularDeadZone(unityValue, otherValue);
+                    }
+                    else
+                    {
+                        unityValue = ApplyDeadZone(unityValue);
+                    }
+
 					unityValue = analogMapping.MapValue( unityValue );
 					unityValue = SmoothAnalogValue( unityValue, Analogs[i].LastValue, deltaTime );
 
@@ -101,6 +120,14 @@ namespace InControl
 				Buttons[i].UpdateWithState( buttonState, updateTime );
 			}
 		}
+
+
+        float ApplyCircularDeadZone(float value, float othervalue)
+        {
+            Vector2 vec = new Vector2(value, othervalue);
+            float magnitude = Mathf.InverseLerp(Profile.LowerDeadZone, Profile.UpperDeadZone, vec.magnitude);
+            return (vec.normalized * magnitude).x;
+        }
 
 
 		float ApplyDeadZone( float value )
