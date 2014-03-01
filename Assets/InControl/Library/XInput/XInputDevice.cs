@@ -82,8 +82,8 @@ namespace InControl
 
 
 		void QueryState()
-		{
-			state = GamePad.GetState( (PlayerIndex) DeviceIndex );
+        {
+            state = GamePad.GetState((PlayerIndex)DeviceIndex, GamePadDeadZone.Circular);
 		}
 
 

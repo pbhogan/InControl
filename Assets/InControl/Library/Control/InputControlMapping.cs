@@ -90,5 +90,34 @@ namespace InControl
 					   Target == InputControlType.RightStickY;
 			}
 		}
+
+        public bool IsStick
+        {
+            get
+            {
+                return Opposite.HasValue;
+            }
+        }
+
+        // for 2d circular deadzone check
+        public InputControlType? Opposite
+        {
+            get
+            {
+                switch (Target)
+                {
+                    case InputControlType.LeftStickX:
+                        return InputControlType.LeftStickY;
+                    case InputControlType.LeftStickY:
+                        return InputControlType.LeftStickX;
+                    case InputControlType.RightStickX:
+                        return InputControlType.RightStickY;
+                    case InputControlType.RightStickY:
+                        return InputControlType.RightStickX;
+                    default: // TODO: incomplete?
+                        return null;
+                }
+            }
+        }
 	}
 }
