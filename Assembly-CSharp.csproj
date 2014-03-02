@@ -77,8 +77,10 @@
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\NVidiaShieldAndroidProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\OuyaProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\OuyaWinProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Playstation3LinuxProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Playstation3MacProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Playstation3OuyaProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Playstation3ShenghicWinProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Playstation3WinProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Playstation4LinuxProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Playstation4MacProfile.cs" />
@@ -88,6 +90,7 @@
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\SteelSeriesFreeMacProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\SteelSeriesFreeOuyaProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\SteelSeriesFreeWinProfile.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Xbox360LinuxProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Xbox360MacProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Xbox360OuyaProfile.cs" />
      <Compile Include="Assets\InControl\Library\Unity\DeviceProfiles\Xbox360WinProfile.cs" />

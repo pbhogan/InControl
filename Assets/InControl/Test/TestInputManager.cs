@@ -161,6 +161,14 @@ public class TestInputManager : MonoBehaviour
 	}
 
 
+	void OnDrawGizmos()
+	{
+		Vector3 delta = InputManager.ActiveDevice.Direction * 2.0f;
+		Gizmos.color = Color.yellow;
+		Gizmos.DrawSphere( transform.position + delta, 1 );
+	}
+
+
 	void TestInputMappings()
 	{
 		var complete = InputControlMapping.Range.Complete;

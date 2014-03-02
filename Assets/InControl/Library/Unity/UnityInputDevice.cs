@@ -62,36 +62,59 @@ namespace InControl
 			}
 
 			var analogMappingCount = Profile.AnalogMappings.Length;
+
+			// First set all the analog raw values. This is done so
+			// sticks axes can refer to their obverse axis values.
 			for (int i = 0; i < analogMappingCount; i++)
 			{
 				var analogMapping = Profile.AnalogMappings[i];
-				var unityValue = analogMapping.Source.GetValue( this );
+				var analogValue = analogMapping.Source.GetValue( this );
+
+				Analogs[i].RawValue = analogValue;
+			}
+
+			// Now do processing for analogs values.
+			for (int i = 0; i < analogMappingCount; i++)
+			{
+				var analogMapping = Profile.AnalogMappings[i];
+				var analogValue = Analogs[i].RawValue;
 
 				if (!analogMapping.Raw)
 				{
-
 					if (analogMapping.TargetRangeIsNotComplete &&
-						Mathf.Abs(unityValue) < Mathf.Epsilon &&
-						Analogs[i].UpdateTime < Mathf.Epsilon)
+					    Mathf.Abs(analogValue) < Mathf.Epsilon &&
+					    Analogs[i].UpdateTime < Mathf.Epsilon)
 					{
-						// Ignore initial input stream for triggers, because they report
+						// Ignore initial input stream for triggers, because they could report
 						// zero incorrectly until the value changes for the first time.
 						// Example: wired Xbox controller on Mac.
 						continue;
 					}
 
-					unityValue = ApplyDeadZone( unityValue );
-					unityValue = analogMapping.MapValue( unityValue );
-					unityValue = SmoothAnalogValue( unityValue, Analogs[i].LastValue, deltaTime );
+					// Axes with obverse axes (like sticks) should use circular deadzones to avoid snapping.
+					var obverseTarget = analogMapping.Obverse;
+					if (obverseTarget.HasValue)
+					{
+						var obverseControl = GetControl( obverseTarget );
+						analogValue = ApplyCircularDeadZone( analogValue, obverseControl.RawValue );
+					}
+					else
+					{
+						analogValue = ApplyDeadZone( analogValue );
+					}
 
-					Analogs[i].UpdateWithValue( unityValue, updateTime );
+					analogValue = analogMapping.MapValue( analogValue );
+					analogValue = SmoothAnalogValue( analogValue, Analogs[i].LastValue, deltaTime );
+
+					Analogs[i].UpdateWithValue( analogValue, updateTime );
 				}
 				else
 				{
-					Analogs[i].UpdateWithValue( unityValue, updateTime );
+					Analogs[i].UpdateWithValue( analogValue, updateTime );
 				}
 			}
 
+			// Buttons are easy: just update the control state.
 			var buttonMappingCount = Profile.ButtonMappings.Length;
 			for (int i = 0; i < buttonMappingCount; i++)
 			{
@@ -115,6 +138,14 @@ namespace InControl
 			}
 
 			return value;
+		}
+
+
+		float ApplyCircularDeadZone( float axisValue1, float axisValue2 )
+		{
+			var axisVector = new Vector2( axisValue1, axisValue2 );
+			var magnitude = Mathf.InverseLerp( Profile.LowerDeadZone, Profile.UpperDeadZone, axisVector.magnitude );
+			return (axisVector.normalized * magnitude).x;
 		}
 
 

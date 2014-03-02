@@ -90,5 +90,34 @@ namespace InControl
 					   Target == InputControlType.RightStickY;
 			}
 		}
+
+
+		internal InputControlType? Obverse
+		{
+			get
+			{
+				if (Target == InputControlType.LeftStickX)
+				{
+					return InputControlType.LeftStickY;
+				}
+
+				if (Target == InputControlType.LeftStickY)
+				{
+					return InputControlType.LeftStickX;
+				}
+
+				if (Target == InputControlType.RightStickX)
+				{
+					return InputControlType.RightStickY;
+				}
+
+				if (Target == InputControlType.RightStickY)
+				{
+					return InputControlType.RightStickX;
+				}
+				
+				return null;
+			}
+		}
 	}
 }

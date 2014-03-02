@@ -87,11 +87,11 @@ namespace InControl
 		}
 
 
-		public void SetAnalogControl( int i, Enum target, string handle )
+		public void SetAnalogControl( int analogIndex, Enum target, string handle )
 		{
-			Analogs[i] = new InputControl( handle, target.ToString() );
+			Analogs[analogIndex] = new InputControl( handle, target.ToString() );
 			var controlIndex = Convert.ToInt32( target );
-			controlTable[controlIndex] = Analogs[i];
+			controlTable[controlIndex] = Analogs[analogIndex];
 		}
 
 
@@ -107,11 +107,11 @@ namespace InControl
 		}
 
 
-		public void SetButtonControl( int i, Enum target, string handle )
+		public void SetButtonControl( int buttonIndex, Enum target, string handle )
 		{
-			Buttons[i] = new InputControl( handle, target.ToString() );
+			Buttons[buttonIndex] = new InputControl( handle, target.ToString() );
 			var controlIndex = Convert.ToInt32( target );
-			controlTable[controlIndex] = Buttons[i];
+			controlTable[controlIndex] = Buttons[buttonIndex];
 		}
 
 

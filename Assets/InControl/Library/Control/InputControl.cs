@@ -133,5 +133,13 @@ namespace InControl
 		{
 			return control.Value;
 		}
+
+
+		// This is for internal use only and is not always set.
+		internal float RawValue
+		{
+			get;
+			set;
+		}
 	}
 }
