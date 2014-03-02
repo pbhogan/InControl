@@ -20,7 +20,8 @@ namespace InControl
 
 			JoystickNames = new[]
 			{
-				"Sony PLAYSTATION(R)3 Controller"
+				"Sony PLAYSTATION(R)3 Controller",
+                "SHENGHIC 2009/0708ZXW-V1Inc. PLAYSTATION(R)3Conteroller" // works in Editor, not in Player ??
 			};
 
 			Sensitivity = 1.0f;
