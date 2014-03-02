@@ -6,30 +6,28 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class Xbox360MacProfile : UnityInputDeviceProfile
+	public class Xbox360LinuxProfile : UnityInputDeviceProfile
 	{
-		public Xbox360MacProfile()
+		public Xbox360LinuxProfile()
 		{
 			Name = "XBox 360 Controller";
-			Meta = "XBox 360 Controller on Mac";
+			Meta = "XBox 360 Controller on Linux";
 
 			SupportedPlatforms = new[]
 			{
-				"OS X"
+				"Linux"
 			};
 
 			JoystickNames = new[]
 			{
-				"", // Yes, really.
-				"Microsoft Wireless 360 Controller",
-				"Mad Catz, Inc. Mad Catz FPS Pro GamePad",
-				"Logitech Gamepad F310"
+				"Controller (XBOX 360 For Windows)",
+				"Controller (XBOX 360 Wireless Receiver for Windows)"
 			};
 
 			RegexName = "360";
 
 			Sensitivity = 1.0f;
-			LowerDeadZone = 0.3f;
+			LowerDeadZone = 0.2f;
 
 			ButtonMappings = new[]
 			{
@@ -37,91 +35,93 @@ namespace InControl
 				{
 					Handle = "A",
 					Target = InputControlType.Action1,
-					Source = Button16
+					Source = Button0
 				},
 				new InputControlMapping
 				{
 					Handle = "B",
 					Target = InputControlType.Action2,
-					Source = Button17
+					Source = Button1
 				},
 				new InputControlMapping
 				{
 					Handle = "X",
 					Target = InputControlType.Action3,
-					Source = Button18
+					Source = Button2
 				},
 				new InputControlMapping
 				{
 					Handle = "Y",
 					Target = InputControlType.Action4,
-					Source = Button19
-				},
-				new InputControlMapping
-				{
-					Handle = "DPad Up",
-					Target = InputControlType.DPadUp,
-					Source = Button5
-				},
-				new InputControlMapping
-				{
-					Handle = "DPad Down",
-					Target = InputControlType.DPadDown,
-					Source = Button6
-				},
-				new InputControlMapping
-				{
-					Handle = "DPad Left",
-					Target = InputControlType.DPadLeft,
-					Source = Button7
-				},
-				new InputControlMapping
-				{
-					Handle = "DPad Right",
-					Target = InputControlType.DPadRight,
-					Source = Button8
+					Source = Button3
 				},
 				new InputControlMapping
 				{
 					Handle = "Left Bumper",
 					Target = InputControlType.LeftBumper,
-					Source = Button13
+					Source = Button4
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Bumper",
 					Target = InputControlType.RightBumper,
-					Source = Button14
+					Source = Button5
 				},
 				new InputControlMapping
 				{
 					Handle = "Left Stick Button",
 					Target = InputControlType.LeftStickButton,
-					Source = Button11
+					Source = Button9
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Stick Button",
 					Target = InputControlType.RightStickButton,
-					Source = Button12
+					Source = Button10
 				},
 				new InputControlMapping
 				{
-					Handle = "Start",
-					Target = InputControlType.Start,
-					Source = Button9
+					Handle = "DPad Left",
+					Target = InputControlType.DPadLeft,
+					Source = Button11,
+					Invert = true
+				},
+				new InputControlMapping
+				{
+					Handle = "DPad Right",
+					Target = InputControlType.DPadRight,
+					Source = Button12,
+				},
+				new InputControlMapping
+				{
+					Handle = "DPad Up",
+					Target = InputControlType.DPadUp,
+					Source = Button13,
+					Invert = true
+				},
+				new InputControlMapping
+				{
+					Handle = "DPad Down",
+					Target = InputControlType.DPadDown,
+					Source = Button14,
 				},
 				new InputControlMapping
 				{
 					Handle = "Back",
 					Target = InputControlType.Select,
-					Source = Button10
+					Source = Button6
+				},
+				new InputControlMapping
+				{
+					Handle = "Start",
+					Target = InputControlType.Start,
+					Source = Button7
 				},
 				new InputControlMapping
 				{
 					Handle = "System",
 					Target = InputControlType.System,
-					Source = Button15
+					Source = Button8
 				}
 			};
 
@@ -144,28 +144,26 @@ namespace InControl
 				{
 					Handle = "Right Stick X",
 					Target = InputControlType.RightStickX,
-					Source = Analog2
+					Source = Analog3
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Stick Y",
 					Target = InputControlType.RightStickY,
-					Source = Analog3,
+					Source = Analog4,
 					Invert = true
 				},
 				new InputControlMapping
 				{
 					Handle = "Left Trigger",
 					Target = InputControlType.LeftTrigger,
-					Source = Analog4,
-					TargetRange = InputControlMapping.Range.Positive
+					Source = Analog2
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Trigger",
 					Target = InputControlType.RightTrigger,
-					Source = Analog5,
-					TargetRange = InputControlMapping.Range.Positive
+					Source = Analog5
 				}
 			};
 		}
