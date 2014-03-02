@@ -6,22 +6,22 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class Playstation3MacProfile : UnityInputDeviceProfile
+	public class Playstation3LinuxProfile : UnityInputDeviceProfile
 	{
-		public Playstation3MacProfile()
+		public Playstation3LinuxProfile()
 		{
 			Name = "Playstation 3 Controller";
-			Meta = "Playstation 3 Controller on Mac";
+			Meta = "Playstation 3 Controller on Linux";
 
 			SupportedPlatforms = new[]
 			{
-				"OS X"
+				"Linux"
 			};
 
 			JoystickNames = new[]
 			{
 				"Sony PLAYSTATION(R)3 Controller",
-				"SHENGHIC 2009/0708ZXW-V1Inc. PLAYSTATION(R)3Conteroller" // Works in editor, not in player?
+				"SHENGHIC 2009/0708ZXW-V1Inc. PLAYSTATION(R)3Conteroller" // Not a typo.
 			};
 
 			Sensitivity = 1.0f;
@@ -124,6 +124,12 @@ namespace InControl
 					Handle = "Right Stick Button",
 					Target = InputControlType.RightStickButton,
 					Source = Button2
+				},
+				new InputControlMapping
+				{
+					Handle = "System",
+					Target = InputControlType.System,
+					Source = Button16
 				}
 			};
 

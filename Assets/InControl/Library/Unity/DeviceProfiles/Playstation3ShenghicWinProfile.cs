@@ -6,22 +6,21 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class Playstation3MacProfile : UnityInputDeviceProfile
+	public class Playstation3ShenghicWinProfile : UnityInputDeviceProfile
 	{
-		public Playstation3MacProfile()
+		public Playstation3ShenghicWinProfile()
 		{
 			Name = "Playstation 3 Controller";
-			Meta = "Playstation 3 Controller on Mac";
+			Meta = "Shenghic Playstation 3 Controller on Windows (not MotionInJoy)";
 
 			SupportedPlatforms = new[]
 			{
-				"OS X"
+				"Windows"
 			};
 
 			JoystickNames = new[]
 			{
-				"Sony PLAYSTATION(R)3 Controller",
-				"SHENGHIC 2009/0708ZXW-V1Inc. PLAYSTATION(R)3Conteroller" // Works in editor, not in player?
+				"PLAYSTATION(R)3Conteroller" // Not a typo.
 			};
 
 			Sensitivity = 1.0f;
@@ -91,18 +90,6 @@ namespace InControl
 				},
 				new InputControlMapping
 				{
-					Handle = "Start",
-					Target = InputControlType.Start,
-					Source = Button3
-				},
-				new InputControlMapping
-				{
-					Handle = "Select",
-					Target = InputControlType.Select,
-					Source = Button0
-				},
-				new InputControlMapping
-				{
 					Handle = "Left Trigger",
 					Target = InputControlType.LeftTrigger,
 					Source = Button8
@@ -115,6 +102,12 @@ namespace InControl
 				},
 				new InputControlMapping
 				{
+					Handle = "Select",
+					Target = InputControlType.Select,
+					Source = Button3
+				},
+				new InputControlMapping
+				{
 					Handle = "Left Stick Button",
 					Target = InputControlType.LeftStickButton,
 					Source = Button1
@@ -124,6 +117,18 @@ namespace InControl
 					Handle = "Right Stick Button",
 					Target = InputControlType.RightStickButton,
 					Source = Button2
+				},
+				new InputControlMapping
+				{
+					Handle = "Start",
+					Target = InputControlType.Start,
+					Source = Button3
+				},
+				new InputControlMapping
+				{
+					Handle = "System",
+					Target = InputControlType.System,
+					Source = Button16
 				}
 			};
 

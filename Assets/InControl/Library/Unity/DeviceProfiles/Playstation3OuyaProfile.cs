@@ -21,8 +21,9 @@ namespace InControl
 
 			JoystickNames = new[]
 			{
-				"", // Meh... thanks OUYA
-				"PLAYSTATION(R)3 Controller"
+				"", // Yes, really.
+				"PLAYSTATION(R)3 Controller",
+				"SHENGHIC 2009/0708ZXW-V1Inc. PLAYSTATION(R)3Conteroller" // Not a typo.
 			};
 
 			Sensitivity = 1.0f;
