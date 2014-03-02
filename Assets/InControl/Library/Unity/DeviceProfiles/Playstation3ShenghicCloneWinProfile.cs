@@ -6,22 +6,22 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class Playstation3MacProfile : UnityInputDeviceProfile
+    public class Playstation3ShenghicCloneWinProfile : UnityInputDeviceProfile
 	{
-		public Playstation3MacProfile()
+        public Playstation3ShenghicCloneWinProfile()
 		{
 			Name = "Playstation 3 Controller";
-			Meta = "Playstation 3 Controller on Mac";
+			Meta = "Shenghic Playstation 3 Controller (clone) on Windows (direct, no MotioninJoy)";
 
 			SupportedPlatforms = new[]
 			{
-				"OS X"
+				"Windows",
+                "OS X"
 			};
 
 			JoystickNames = new[]
 			{
-				"Sony PLAYSTATION(R)3 Controller",
-                "SHENGHIC 2009/0708ZXW-V1Inc. PLAYSTATION(R)3Conteroller" // works in Editor, not in Player ??
+                "PLAYSTATION(R)3Conteroller"          // 'Conteroller', not a typo
 			};
 
 			Sensitivity = 1.0f;
@@ -52,31 +52,31 @@ namespace InControl
 					Handle = "Triangle",
 					Target = InputControlType.Action4,
 					Source = Button12
-				},
-				new InputControlMapping
-				{
-					Handle = "DPad Up",
-					Target = InputControlType.DPadUp,
-					Source = Button4
-				},
-				new InputControlMapping
-				{
-					Handle = "DPad Down",
-					Target = InputControlType.DPadDown,
-					Source = Button6
-				},
-				new InputControlMapping
-				{
-					Handle = "DPad Left",
-					Target = InputControlType.DPadLeft,
-					Source = Button7
-				},
-				new InputControlMapping
-				{
-					Handle = "DPad Right",
-					Target = InputControlType.DPadRight,
-					Source = Button5
-				},
+                },
+                new InputControlMapping
+                {
+                    Handle = "DPad Up",
+                    Target = InputControlType.DPadUp,
+                    Source = Button4
+                },
+                new InputControlMapping
+                {
+                    Handle = "DPad Down",
+                    Target = InputControlType.DPadDown,
+                    Source = Button6
+                },
+                new InputControlMapping
+                {
+                    Handle = "DPad Left",
+                    Target = InputControlType.DPadLeft,
+                    Source = Button7
+                },
+                new InputControlMapping
+                {
+                    Handle = "DPad Right",
+                    Target = InputControlType.DPadRight,
+                    Source = Button5
+                },
 				new InputControlMapping
 				{
 					Handle = "Left Bumper",
@@ -88,18 +88,6 @@ namespace InControl
 					Handle = "Right Bumper",
 					Target = InputControlType.RightBumper,
 					Source = Button11
-				},
-				new InputControlMapping
-				{
-					Handle = "Start",
-					Target = InputControlType.Start,
-					Source = Button3
-				},
-				new InputControlMapping
-				{
-					Handle = "Select",
-					Target = InputControlType.Select,
-					Source = Button0
 				},
 				new InputControlMapping
 				{
@@ -115,6 +103,12 @@ namespace InControl
 				},
 				new InputControlMapping
 				{
+					Handle = "Select",
+					Target = InputControlType.Select,
+					Source = Button3
+				},
+				new InputControlMapping
+				{
 					Handle = "Left Stick Button",
 					Target = InputControlType.LeftStickButton,
 					Source = Button1
@@ -124,7 +118,19 @@ namespace InControl
 					Handle = "Right Stick Button",
 					Target = InputControlType.RightStickButton,
 					Source = Button2
-				}
+				},
+				new InputControlMapping
+				{
+					Handle = "Start",
+					Target = InputControlType.Start,
+					Source = Button3
+				},
+				new InputControlMapping
+				{
+					Handle = "System",
+					Target = InputControlType.System,
+					Source = Button16
+                }
 			};
 
 			AnalogMappings = new[]
