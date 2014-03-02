@@ -155,12 +155,19 @@ namespace InControl
 		{
 			var deltaTime = currentTime - lastUpdateTime;
 
+			MenuWasPressed = false;
+
 			int deviceCount = Devices.Count;
 			for (int i = 0; i < deviceCount; i++)
 			{
 				var device = Devices[i];
 				device.Update( currentTime, deltaTime );
 				device.UpdateLastChangeTime( currentTime );
+
+				if (device.MenuWasPressed)
+				{
+					MenuWasPressed = true;
+				}
 			}
 		}
 
@@ -262,6 +269,13 @@ namespace InControl
 				}
 				enableXInput = value;
 			}
+		}
+
+
+		public static bool MenuWasPressed
+		{
+			get;
+			private set;
 		}
 	}
 }

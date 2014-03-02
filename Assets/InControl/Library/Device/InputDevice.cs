@@ -173,6 +173,20 @@ namespace InControl
 		}
 
 
+		public bool MenuWasPressed
+		{
+			get
+			{
+				return GetControl( InputControlType.Back ).WasPressed ||
+					GetControl( InputControlType.Start ).WasPressed ||
+					GetControl( InputControlType.Select ).WasPressed ||
+					GetControl( InputControlType.System ).WasPressed ||
+					GetControl( InputControlType.Pause ).WasPressed ||
+					GetControl( InputControlType.Menu ).WasPressed;
+			}
+		}
+
+
 		public InputControl LeftStickX { get { return GetControl( InputControlType.LeftStickX ); } }
 		public InputControl LeftStickY { get { return GetControl( InputControlType.LeftStickY ); } }
 		public InputControl LeftStickButton { get { return GetControl( InputControlType.LeftStickButton ); } }

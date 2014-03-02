@@ -47,6 +47,7 @@ public class TestInputManager : MonoBehaviour
 	void FixedUpdate()
 	{
 		InputManager.Update();
+		CheckForPauseButton();
 
 		if (InputManager.ActiveDevice.Action1.WasPressed)
 		{
@@ -60,15 +61,19 @@ public class TestInputManager : MonoBehaviour
 		if (isPaused)
 		{
 			InputManager.Update();
+			CheckForPauseButton();
 		}
 
 		if (Input.GetKeyDown( KeyCode.R ))
 		{
 			Application.LoadLevel( "TestInputManager" );
 		}
+	}
 
-		if (Input.GetKeyDown( KeyCode.P ) || 
-		    InputManager.ActiveDevice.GetControl( InputControlType.Start ).WasPressed)
+
+	void CheckForPauseButton()
+	{
+		if (Input.GetKeyDown( KeyCode.P ) || InputManager.MenuWasPressed)
 		{
 			Time.timeScale = isPaused ? 1.0f : 0.0f;
 			isPaused = !isPaused;
