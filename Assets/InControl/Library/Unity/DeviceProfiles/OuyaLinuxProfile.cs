@@ -1,17 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 
 namespace InControl
 {
 	[AutoDiscover]
-	public class Xbox360LinuxProfile : UnityInputDeviceProfile
+	public class OuyaLinuxProfile : UnityInputDeviceProfile
 	{
-		public Xbox360LinuxProfile()
+		public OuyaLinuxProfile()
 		{
-			Name = "XBox 360 Controller";
-			Meta = "XBox 360 Controller on Linux";
+			Name = "OUYA Controller";
+			Meta = "OUYA Controller on Linux";
 
 			SupportedPlatforms = new[]
 			{
@@ -20,39 +21,37 @@ namespace InControl
 
 			JoystickNames = new[]
 			{
-				"Microsoft X-Box 360 pad",
+				"OUYA Game Controller"
 			};
 
-			RegexName = "360";
-
 			Sensitivity = 1.0f;
-			LowerDeadZone = 0.2f;
+			LowerDeadZone = 0.3f;
 
 			ButtonMappings = new[]
 			{
 				new InputControlMapping
 				{
-					Handle = "A",
+					Handle = "O",
 					Target = InputControlType.Action1,
 					Source = Button0
 				},
 				new InputControlMapping
 				{
-					Handle = "B",
+					Handle = "A",
 					Target = InputControlType.Action2,
-					Source = Button1
+					Source = Button3
 				},
 				new InputControlMapping
 				{
-					Handle = "X",
+					Handle = "U",
 					Target = InputControlType.Action3,
-					Source = Button2
+					Source = Button1
 				},
 				new InputControlMapping
 				{
 					Handle = "Y",
 					Target = InputControlType.Action4,
-					Source = Button3
+					Source = Button2
 				},
 				new InputControlMapping
 				{
@@ -70,32 +69,51 @@ namespace InControl
 				{
 					Handle = "Left Stick Button",
 					Target = InputControlType.LeftStickButton,
-					Source = Button9
+					Source = Button6
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Stick Button",
 					Target = InputControlType.RightStickButton,
-					Source = Button10
-				},
-				new InputControlMapping
-				{
-					Handle = "Back",
-					Target = InputControlType.Select,
-					Source = Button6
-				},
-				new InputControlMapping
-				{
-					Handle = "Start",
-					Target = InputControlType.Start,
 					Source = Button7
 				},
 				new InputControlMapping
 				{
-					Handle = "Menu",
-					Target = InputControlType.Menu,
-					Source = Button8
-				}
+					Handle = "System",
+					Target = InputControlType.System,
+					Source = KeyCodeButton( KeyCode.Menu )
+				},
+				new InputControlMapping
+				{
+					Handle = "TouchPad Tap",
+					Target = InputControlType.TouchPadTap,
+					Source = MouseButton0
+				},
+                // Linux reports ouya DPAD as buttons
+                new InputControlMapping
+                {
+                    Handle = "DPad Left",
+                    Target = InputControlType.DPadLeft,
+                    Source = Button10,
+                },
+                new InputControlMapping
+                {
+                    Handle = "DPad Right",
+                    Target = InputControlType.DPadRight,
+                    Source = Button11,
+                },
+                new InputControlMapping
+                {
+                    Handle = "DPad Up",
+                    Target = InputControlType.DPadUp,
+                    Source = Button8,
+                },
+                new InputControlMapping
+                {
+                    Handle = "DPad Down",
+                    Target = InputControlType.DPadDown,
+                    Source = Button9,
+                },
 			};
 
 			AnalogMappings = new[]
@@ -110,7 +128,7 @@ namespace InControl
 				{
 					Handle = "Left Stick Y",
 					Target = InputControlType.LeftStickY,
-					Source = Analog1
+					Source = Analog1,
 				},
 				new InputControlMapping
 				{
@@ -122,41 +140,7 @@ namespace InControl
 				{
 					Handle = "Right Stick Y",
 					Target = InputControlType.RightStickY,
-					Source = Analog4
-				},
-				new InputControlMapping
-				{
-					Handle = "DPad Left",
-					Target = InputControlType.DPadLeft,
-					Source = Analog6,
-					SourceRange = InputControlMapping.Range.Negative,
-					TargetRange = InputControlMapping.Range.Negative,
-					Invert = true
-				},
-				new InputControlMapping
-				{
-					Handle = "DPad Right",
-					Target = InputControlType.DPadRight,
-					Source = Analog6,
-					SourceRange = InputControlMapping.Range.Positive,
-					TargetRange = InputControlMapping.Range.Positive
-				},
-				new InputControlMapping
-				{
-					Handle = "DPad Up",
-					Target = InputControlType.DPadUp,
-					Source = Analog7,
-					SourceRange = InputControlMapping.Range.Negative,
-					TargetRange = InputControlMapping.Range.Negative,
-					Invert = true
-				},
-				new InputControlMapping
-				{
-					Handle = "DPad Down",
-					Target = InputControlType.DPadDown,
-					Source = Analog7,
-					SourceRange = InputControlMapping.Range.Positive,
-					TargetRange = InputControlMapping.Range.Positive
+					Source = Analog4,
 				},
 				new InputControlMapping
 				{
@@ -169,6 +153,20 @@ namespace InControl
 					Handle = "Right Trigger",
 					Target = InputControlType.RightTrigger,
 					Source = Analog5
+				},
+				new InputControlMapping
+				{
+					Handle = "TouchPad X Axis",
+					Target = InputControlType.TouchPadXAxis,
+					Source = MouseXAxis,
+					Raw    = true
+				},
+				new InputControlMapping
+				{
+					Handle = "TouchPad Y Axis",
+					Target = InputControlType.TouchPadYAxis,
+					Source = MouseYAxis,
+					Raw    = true
 				}
 			};
 		}
