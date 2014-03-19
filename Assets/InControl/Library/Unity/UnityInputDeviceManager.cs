@@ -71,7 +71,7 @@ namespace InControl
 
 
 		void AttachKeyboardDeviceWithConfig( UnityInputDeviceProfile config )
-		{		
+		{
 			if (keyboardDevicesAttached)
 			{
 				return;
@@ -169,8 +169,8 @@ namespace InControl
 					continue;
 				}
 
-				if (joystickNames.Length < inputDevice.JoystickId || 
-				    !inputDevice.Profile.HasJoystickOrRegexName( joystickNames[inputDevice.JoystickId - 1] ))
+				if (joystickNames.Length < inputDevice.JoystickId ||
+					!inputDevice.Profile.HasJoystickOrRegexName( joystickNames[inputDevice.JoystickId - 1] ))
 				{
 					devices.Remove( inputDevice );
 					InputManager.DetachDevice( inputDevice );
@@ -183,9 +183,9 @@ namespace InControl
 
 		void AutoDiscoverDeviceProfiles()
 		{
-			foreach (var type in GetType().Assembly.GetTypes()) 
+			foreach (var type in GetType().Assembly.GetTypes())
 			{
-				if (type.GetCustomAttributes( typeof(AutoDiscover), true ).Length > 0) 
+				if (type.GetCustomAttributes( typeof(AutoDiscover), true ).Length > 0)
 				{
 					var deviceProfile = (UnityInputDeviceProfile) Activator.CreateInstance( type );
 

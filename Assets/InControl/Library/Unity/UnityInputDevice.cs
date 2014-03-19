@@ -82,8 +82,8 @@ namespace InControl
 				if (!analogMapping.Raw)
 				{
 					if (analogMapping.TargetRangeIsNotComplete &&
-					    Mathf.Abs(analogValue) < Mathf.Epsilon &&
-					    Analogs[i].UpdateTime < Mathf.Epsilon)
+						Mathf.Abs(analogValue) < Mathf.Epsilon &&
+						Analogs[i].UpdateTime < Mathf.Epsilon)
 					{
 						// Ignore initial input stream for triggers, because they could report
 						// zero incorrectly until the value changes for the first time.
