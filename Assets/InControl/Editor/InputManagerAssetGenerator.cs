@@ -2,178 +2,91 @@
 using System;
 using UnityEditor;
 using UnityEngine;
+using System.Collections.Generic;
 
 
 namespace InControl
 {
 	[InitializeOnLoad]
-	public class InputManagerAssetGenerator
+	internal class InputManagerAssetGenerator
 	{
+		static List<AxisPreset> axisPresets = new List<AxisPreset>();
+
+
 		static InputManagerAssetGenerator()
 		{
+			SetupAxisPresets();
 			CheckInputManagerAsset();
 		}
 
 
-		[MenuItem("Edit/Project Settings/InControl/Generate InputManager Asset")]
+		[MenuItem("Edit/Project Settings/InControl/Setup Input Manager")]
 		static void GenerateInputManagerAsset()
 		{
-			ActuallyGenerateInputManagerAsset();
-			EditorUtility.DisplayDialog( "Success", "InputManager asset has been generated.", "OK" );
+			ApplyAxisPresets();
+			EditorUtility.DisplayDialog( "Success", "Input Manager settings have been configured.", "OK" );
 		}
 
 
-		static void ActuallyGenerateInputManagerAsset()
+		[MenuItem("Edit/Project Settings/InControl/Check Input Manager")]
+		static void CheckInputManagerAsset()
+		{
+			if (!CheckAxisPresets())
+			{
+				Debug.LogError( "InControl has detected an invalid Input Manager setup. To fix, execute 'Edit > Project Settings > InControl > Setup Input Manager'." );
+			}
+		}
+
+
+		static void SetupAxisPresets()
+		{
+			axisPresets.Clear();
+
+			for (int device = 1; device <= UnityInputDevice.MaxDevices; device++)
+			{
+				for (int analog = 0; analog < UnityInputDevice.MaxAnalogs; analog++)
+				{
+					axisPresets.Add( new AxisPreset( device, analog ) );
+				}
+			}
+
+			axisPresets.Add( new AxisPreset( "mouse x", 1, 0, 0.1f ) );
+			axisPresets.Add( new AxisPreset( "mouse y", 1, 1, 0.1f ) );
+			axisPresets.Add( new AxisPreset( "mouse z", 1, 2, 0.1f ) );
+		}
+
+
+		static void ApplyAxisPresets()
 		{
 			var inputManagerAsset = AssetDatabase.LoadAllAssetsAtPath( "ProjectSettings/InputManager.asset" )[0];
 			var serializedObject = new SerializedObject( inputManagerAsset );
 			var axisArray = serializedObject.FindProperty( "m_Axes" );
 			
-			axisArray.arraySize = (UnityInputDevice.MaxDevices * UnityInputDevice.MaxAnalogs) + 3;
+			axisArray.arraySize = Mathf.Max( axisPresets.Count, axisArray.arraySize );
 			serializedObject.ApplyModifiedProperties();
-			
-			int axisIndex = 0;
-			for (int joystick = 1; joystick <= UnityInputDevice.MaxDevices; joystick++)
+
+			for (int i = 0; i < axisPresets.Count; i++)
 			{
-				for (int analog = 0; analog < UnityInputDevice.MaxAnalogs; analog++)
-				{
-					var axis = axisArray.GetArrayElementAtIndex( axisIndex++ );
-					
-					GetChildProperty( axis, "m_Name" ).stringValue = string.Format( "joystick {0} analog {1}", joystick, analog );
-					GetChildProperty( axis, "descriptiveName" ).stringValue = "";
-					GetChildProperty( axis, "descriptiveNegativeName" ).stringValue = "";
-					GetChildProperty( axis, "negativeButton" ).stringValue = "";
-					GetChildProperty( axis, "positiveButton" ).stringValue = "";
-					GetChildProperty( axis, "altNegativeButton" ).stringValue = "";
-					GetChildProperty( axis, "altPositiveButton" ).stringValue = "";
-					GetChildProperty( axis, "gravity" ).floatValue = 10.0f;
-					GetChildProperty( axis, "dead" ).floatValue = 0.001f;
-					GetChildProperty( axis, "sensitivity" ).floatValue = 1.0f;
-					GetChildProperty( axis, "snap" ).boolValue = false;
-					GetChildProperty( axis, "invert" ).boolValue = false;
-					GetChildProperty( axis, "type" ).intValue = 2;
-					GetChildProperty( axis, "axis" ).intValue = analog;
-					GetChildProperty( axis, "joyNum" ).intValue = joystick;
-				}
+				var axisEntry = axisArray.GetArrayElementAtIndex( i );
+				axisPresets[i].ApplyTo( ref axisEntry );
 			}
-			
-			{
-				var axis = axisArray.GetArrayElementAtIndex( axisIndex++ );
-				GetChildProperty( axis, "m_Name" ).stringValue = "mouse x";
-				GetChildProperty( axis, "descriptiveName" ).stringValue = "";
-				GetChildProperty( axis, "descriptiveNegativeName" ).stringValue = "";
-				GetChildProperty( axis, "negativeButton" ).stringValue = "";
-				GetChildProperty( axis, "positiveButton" ).stringValue = "";
-				GetChildProperty( axis, "altNegativeButton" ).stringValue = "";
-				GetChildProperty( axis, "altPositiveButton" ).stringValue = "";
-				GetChildProperty( axis, "gravity" ).floatValue = 10.0f;
-				GetChildProperty( axis, "dead" ).floatValue = 0.001f;
-				GetChildProperty( axis, "sensitivity" ).floatValue = 0.1f;
-				GetChildProperty( axis, "snap" ).boolValue = false;
-				GetChildProperty( axis, "invert" ).boolValue = false;
-				GetChildProperty( axis, "type" ).intValue = 1;
-				GetChildProperty( axis, "axis" ).intValue = 0;
-				GetChildProperty( axis, "joyNum" ).intValue = 0;
-			}
-			
-			{
-				var axis = axisArray.GetArrayElementAtIndex( axisIndex++ );
-				GetChildProperty( axis, "m_Name" ).stringValue = "mouse y";
-				GetChildProperty( axis, "descriptiveName" ).stringValue = "";
-				GetChildProperty( axis, "descriptiveNegativeName" ).stringValue = "";
-				GetChildProperty( axis, "negativeButton" ).stringValue = "";
-				GetChildProperty( axis, "positiveButton" ).stringValue = "";
-				GetChildProperty( axis, "altNegativeButton" ).stringValue = "";
-				GetChildProperty( axis, "altPositiveButton" ).stringValue = "";
-				GetChildProperty( axis, "gravity" ).floatValue = 10.0f;
-				GetChildProperty( axis, "dead" ).floatValue = 0.001f;
-				GetChildProperty( axis, "sensitivity" ).floatValue = 0.1f;
-				GetChildProperty( axis, "snap" ).boolValue = false;
-				GetChildProperty( axis, "invert" ).boolValue = false;
-				GetChildProperty( axis, "type" ).intValue = 1;
-				GetChildProperty( axis, "axis" ).intValue = 1;
-				GetChildProperty( axis, "joyNum" ).intValue = 0;
-			}
-			
-			{
-				var axis = axisArray.GetArrayElementAtIndex( axisIndex++ );
-				GetChildProperty( axis, "m_Name" ).stringValue = "mouse z";
-				GetChildProperty( axis, "descriptiveName" ).stringValue = "";
-				GetChildProperty( axis, "descriptiveNegativeName" ).stringValue = "";
-				GetChildProperty( axis, "negativeButton" ).stringValue = "";
-				GetChildProperty( axis, "positiveButton" ).stringValue = "";
-				GetChildProperty( axis, "altNegativeButton" ).stringValue = "";
-				GetChildProperty( axis, "altPositiveButton" ).stringValue = "";
-				GetChildProperty( axis, "gravity" ).floatValue = 10.0f;
-				GetChildProperty( axis, "dead" ).floatValue = 0.001f;
-				GetChildProperty( axis, "sensitivity" ).floatValue = 0.1f;
-				GetChildProperty( axis, "snap" ).boolValue = false;
-				GetChildProperty( axis, "invert" ).boolValue = false;
-				GetChildProperty( axis, "type" ).intValue = 1;
-				GetChildProperty( axis, "axis" ).intValue = 2;
-				GetChildProperty( axis, "joyNum" ).intValue = 0;
-			}
-			
+
 			serializedObject.ApplyModifiedProperties();
 			
 			AssetDatabase.Refresh();
 		}
 
 
-		static void CheckInputManagerAsset()
-		{
-			if (!InputManagerAssetIsOK())
-			{
-				ActuallyGenerateInputManagerAsset();
-				Debug.LogWarning( "Automatically configured ProjectSettings/InputManager.asset for InControl. You can do this manually at any time via 'Edit > Project Settings > InControl > Generate InputManager Asset'" );
-			}
-		}
-
-
-		static bool InputManagerAssetIsOK()
+		static bool CheckAxisPresets()
 		{
 			var inputManagerAsset = AssetDatabase.LoadAllAssetsAtPath( "ProjectSettings/InputManager.asset" )[0];
 			var serializedObject = new SerializedObject( inputManagerAsset );
 			var axisArray = serializedObject.FindProperty( "m_Axes" );
-			
-			if (axisArray.arraySize != (UnityInputDevice.MaxDevices * UnityInputDevice.MaxAnalogs) + 3)
+						
+			for (int i = 0; i < axisPresets.Count; i++)
 			{
-				return false;
-			}
-			
-			int axisIndex = 0;
-			for (int joystick = 1; joystick <= UnityInputDevice.MaxDevices; joystick++)
-			{
-				for (int analog = 0; analog < UnityInputDevice.MaxAnalogs; analog++)
-				{
-					var axis = axisArray.GetArrayElementAtIndex( axisIndex++ );
-					
-					if (GetChildProperty( axis, "m_Name" ).stringValue != string.Format( "joystick {0} analog {1}", joystick, analog ))
-					{
-						return false;
-					}
-				}
-			}
-			
-			{
-				var axis = axisArray.GetArrayElementAtIndex( axisIndex++ );
-				if (GetChildProperty( axis, "m_Name" ).stringValue != "mouse x")
-				{
-					return false;
-				}
-			}
-
-			{
-				var axis = axisArray.GetArrayElementAtIndex( axisIndex++ );
-				if (GetChildProperty( axis, "m_Name" ).stringValue != "mouse y")
-				{
-					return false;
-				}
-			}
-
-			{
-				var axis = axisArray.GetArrayElementAtIndex( axisIndex++ );
-				if (GetChildProperty( axis, "m_Name" ).stringValue != "mouse z")
+				var axisEntry = axisArray.GetArrayElementAtIndex( i );
+				if (!axisPresets[i].Check( ref axisEntry ))
 				{
 					return false;
 				}
@@ -198,6 +111,69 @@ namespace InControl
 			while (child.Next( false ));
 
 			return null;
+		}
+
+
+		internal class AxisPreset
+		{
+			public string name;
+			public int type;
+			public int axis;
+			public int joyNum;
+			public float sensitivity;
+			
+			
+			public AxisPreset( string name, int type, int axis, float sensitivity )
+			{
+				this.name = name;
+				this.type = type;
+				this.axis = axis;
+				this.joyNum = 0;
+				this.sensitivity = sensitivity;
+			}
+			
+			
+			public AxisPreset( int device, int analog )
+			{
+				this.name = string.Format( "joystick {0} analog {1}", device, analog );
+				this.type = 2;
+				this.axis = analog;
+				this.joyNum = device;
+				this.sensitivity = 1.0f;
+			}
+			
+			
+			public void ApplyTo( ref SerializedProperty axisPreset )
+			{
+				GetChildProperty( axisPreset, "m_Name" ).stringValue = this.name;
+				GetChildProperty( axisPreset, "type" ).intValue = this.type;
+				GetChildProperty( axisPreset, "axis" ).intValue = this.axis;
+				GetChildProperty( axisPreset, "joyNum" ).intValue = this.joyNum;
+				GetChildProperty( axisPreset, "sensitivity" ).floatValue = sensitivity;
+				
+				GetChildProperty( axisPreset, "descriptiveName" ).stringValue = "";
+				GetChildProperty( axisPreset, "descriptiveNegativeName" ).stringValue = "";
+				GetChildProperty( axisPreset, "negativeButton" ).stringValue = "";
+				GetChildProperty( axisPreset, "positiveButton" ).stringValue = "";
+				GetChildProperty( axisPreset, "altNegativeButton" ).stringValue = "";
+				GetChildProperty( axisPreset, "altPositiveButton" ).stringValue = "";
+				GetChildProperty( axisPreset, "gravity" ).floatValue = 10.0f;
+				GetChildProperty( axisPreset, "dead" ).floatValue = 0.001f;
+				GetChildProperty( axisPreset, "snap" ).boolValue = false;
+				GetChildProperty( axisPreset, "invert" ).boolValue = false;
+			}
+			
+			
+			public bool Check( ref SerializedProperty axisPreset )
+			{
+				if (GetChildProperty( axisPreset, "m_Name" ).stringValue != this.name) return false;
+				if (GetChildProperty( axisPreset, "type" ).intValue != this.type) return false;
+				if (GetChildProperty( axisPreset, "axis" ).intValue != this.axis) return false;
+				if (GetChildProperty( axisPreset, "joyNum" ).intValue != this.joyNum) return false;
+				if (!Mathf.Approximately( GetChildProperty( axisPreset, "sensitivity" ).floatValue, this.sensitivity)) return false;
+				
+				return true;
+			}
 		}
 	}
 }
