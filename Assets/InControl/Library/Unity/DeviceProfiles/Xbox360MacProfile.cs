@@ -29,7 +29,7 @@ namespace InControl
 			RegexName = "360";
 
 			Sensitivity = 1.0f;
-			LowerDeadZone = 0.3f;
+			LowerDeadZone = 0.2f;
 
 			ButtonMappings = new[]
 			{
@@ -158,14 +158,16 @@ namespace InControl
 					Handle = "Left Trigger",
 					Target = InputControlType.LeftTrigger,
 					Source = Analog4,
-					TargetRange = InputControlMapping.Range.Positive
+					TargetRange = InputControlMapping.Range.Positive,
+					IgnoreInitialZeroValue = true
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Trigger",
 					Target = InputControlType.RightTrigger,
 					Source = Analog5,
-					TargetRange = InputControlMapping.Range.Positive
+					TargetRange = InputControlMapping.Range.Positive,
+					IgnoreInitialZeroValue = true
 				}
 			};
 		}

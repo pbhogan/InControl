@@ -136,10 +136,7 @@ namespace InControl
 
 
 		// This is for internal use only and is not always set.
-		internal float RawValue
-		{
-			get;
-			set;
-		}
+		internal float RawValue { get; set; }
+		internal float PreValue { get; set; }
 	}
 }

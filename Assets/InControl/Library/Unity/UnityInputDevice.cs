@@ -63,54 +63,62 @@ namespace InControl
 
 			var analogMappingCount = Profile.AnalogMappings.Length;
 
-			// First set all the analog raw values. This is done so
-			// sticks axes can refer to their obverse axis values.
+			// Preprocess all analog values. This is done so
+			// stick axes can refer to their obverse axes later.
 			for (int i = 0; i < analogMappingCount; i++)
 			{
 				var analogMapping = Profile.AnalogMappings[i];
 				var analogValue = analogMapping.Source.GetValue( this );
 
-				Analogs[i].RawValue = analogValue;
+				if (analogMapping.IgnoreInitialZeroValue &&
+				    Mathf.Abs(analogValue) < Mathf.Epsilon &&
+				    Analogs[i].UpdateTime < Mathf.Epsilon)
+				{
+					Analogs[i].RawValue = 0.0f;
+				}
+				else
+				{
+					Analogs[i].RawValue = analogValue;
+					Analogs[i].PreValue = analogMapping.MapValue( analogValue );
+				}
 			}
 
-			// Now do processing for analogs values.
+			// Do final processing for analogs values.
 			for (int i = 0; i < analogMappingCount; i++)
 			{
 				var analogMapping = Profile.AnalogMappings[i];
-				var analogValue = Analogs[i].RawValue;
 
 				if (!analogMapping.Raw)
 				{
-					if (analogMapping.TargetRangeIsNotComplete &&
-						Mathf.Abs(analogValue) < Mathf.Epsilon &&
-						Analogs[i].UpdateTime < Mathf.Epsilon)
-					{
-						// Ignore initial input stream for triggers, because they could report
-						// zero incorrectly until the value changes for the first time.
-						// Example: wired Xbox controller on Mac.
-						continue;
-					}
+					var analogValue = Analogs[i].PreValue;
+
+//					if (analogMapping.IgnoreInitialZeroValue &&
+//						Mathf.Abs(analogValue) < Mathf.Epsilon &&
+//						Analogs[i].UpdateTime < Mathf.Epsilon)
+//					{
+//						continue;
+//					}
 
 					// Axes with obverse axes (like sticks) should use circular deadzones to avoid snapping.
 					var obverseTarget = analogMapping.Obverse;
 					if (obverseTarget.HasValue)
 					{
 						var obverseControl = GetControl( obverseTarget );
-						analogValue = ApplyCircularDeadZone( analogValue, obverseControl.RawValue );
+						analogValue = ApplyCircularDeadZone( analogValue, obverseControl.PreValue );
 					}
 					else
 					{
 						analogValue = ApplyDeadZone( analogValue );
 					}
 
-					analogValue = analogMapping.MapValue( analogValue );
+					// Apply smoothing.
 					analogValue = SmoothAnalogValue( analogValue, Analogs[i].LastValue, deltaTime );
 
 					Analogs[i].UpdateWithValue( analogValue, updateTime );
 				}
 				else
 				{
-					Analogs[i].UpdateWithValue( analogValue, updateTime );
+					Analogs[i].UpdateWithValue( Analogs[i].RawValue, updateTime );
 				}
 			}
 
@@ -128,9 +136,6 @@ namespace InControl
 
 		float ApplyDeadZone( float value )
 		{
-			// Make sure the value is sane.
-			value = Mathf.Clamp( value, -1.0f, 1.0f );
-
 			if (Profile.IsJoystick)
 			{
 				// Apply dead zones.
