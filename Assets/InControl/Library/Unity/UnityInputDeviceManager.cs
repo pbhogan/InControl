@@ -24,7 +24,7 @@ namespace InControl
 		}
 
 
-		public override void Update( float updateTime, float deltaTime )
+		public override void Update( ulong updateTick, float deltaTime )
 		{
 			deviceRefreshTimer += deltaTime;
 			if (string.IsNullOrEmpty( joystickHash ) || deviceRefreshTimer >= deviceRefreshInterval)

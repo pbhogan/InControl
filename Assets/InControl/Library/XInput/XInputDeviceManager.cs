@@ -24,7 +24,7 @@ namespace InControl
 		}
 
 
-		public override void Update( float updateTime, float deltaTime )
+		public override void Update( ulong updateTick, float deltaTime )
 		{
 			for (int deviceIndex = 0; deviceIndex < 4; deviceIndex++)
 			{
@@ -33,7 +33,7 @@ namespace InControl
 				// Unconnected devices won't be updated otherwise, so poll here.
 				if (!device.IsConnected)
 				{
-					device.Update( updateTime, deltaTime );
+					device.Update( updateTick, deltaTime );
 				}
 
 				if (device.IsConnected != deviceConnected[deviceIndex])

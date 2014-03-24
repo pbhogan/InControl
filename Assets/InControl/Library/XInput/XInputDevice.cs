@@ -48,31 +48,31 @@ namespace InControl
 		}
 
 
-		public override void Update( float updateTime, float deltaTime )
+		public override void Update( ulong updateTick, float deltaTime )
 		{
 			QueryState();
 
-			Analogs[0].UpdateWithValue( state.ThumbSticks.Left.X, updateTime );
-			Analogs[1].UpdateWithValue( state.ThumbSticks.Left.Y, updateTime );
-			Analogs[2].UpdateWithValue( state.ThumbSticks.Right.X, updateTime );
-			Analogs[3].UpdateWithValue( state.ThumbSticks.Right.Y, updateTime );
-			Analogs[4].UpdateWithValue( state.Triggers.Left, updateTime );
-			Analogs[5].UpdateWithValue( state.Triggers.Right, updateTime );
+			Analogs[0].UpdateWithValue( state.ThumbSticks.Left.X, updateTick );
+			Analogs[1].UpdateWithValue( state.ThumbSticks.Left.Y, updateTick );
+			Analogs[2].UpdateWithValue( state.ThumbSticks.Right.X, updateTick );
+			Analogs[3].UpdateWithValue( state.ThumbSticks.Right.Y, updateTick );
+			Analogs[4].UpdateWithValue( state.Triggers.Left, updateTick );
+			Analogs[5].UpdateWithValue( state.Triggers.Right, updateTick );
 
-			Buttons[0].UpdateWithState( state.DPad.Up == ButtonState.Pressed, updateTime );
-			Buttons[1].UpdateWithState( state.DPad.Down == ButtonState.Pressed, updateTime );
-			Buttons[2].UpdateWithState( state.DPad.Left == ButtonState.Pressed, updateTime );
-			Buttons[3].UpdateWithState( state.DPad.Right == ButtonState.Pressed, updateTime );
-			Buttons[4].UpdateWithState( state.Buttons.A == ButtonState.Pressed, updateTime );
-			Buttons[5].UpdateWithState( state.Buttons.B == ButtonState.Pressed, updateTime );
-			Buttons[6].UpdateWithState( state.Buttons.X == ButtonState.Pressed, updateTime );
-			Buttons[7].UpdateWithState( state.Buttons.Y == ButtonState.Pressed, updateTime );
-			Buttons[8].UpdateWithState( state.Buttons.LeftShoulder == ButtonState.Pressed, updateTime );
-			Buttons[9].UpdateWithState( state.Buttons.RightShoulder == ButtonState.Pressed, updateTime );
-			Buttons[10].UpdateWithState( state.Buttons.LeftStick == ButtonState.Pressed, updateTime );
-			Buttons[11].UpdateWithState( state.Buttons.RightStick == ButtonState.Pressed, updateTime );
-			Buttons[12].UpdateWithState( state.Buttons.Start == ButtonState.Pressed, updateTime );
-			Buttons[13].UpdateWithState( state.Buttons.Back == ButtonState.Pressed, updateTime );
+			Buttons[0].UpdateWithState( state.DPad.Up == ButtonState.Pressed, updateTick );
+			Buttons[1].UpdateWithState( state.DPad.Down == ButtonState.Pressed, updateTick );
+			Buttons[2].UpdateWithState( state.DPad.Left == ButtonState.Pressed, updateTick );
+			Buttons[3].UpdateWithState( state.DPad.Right == ButtonState.Pressed, updateTick );
+			Buttons[4].UpdateWithState( state.Buttons.A == ButtonState.Pressed, updateTick );
+			Buttons[5].UpdateWithState( state.Buttons.B == ButtonState.Pressed, updateTick );
+			Buttons[6].UpdateWithState( state.Buttons.X == ButtonState.Pressed, updateTick );
+			Buttons[7].UpdateWithState( state.Buttons.Y == ButtonState.Pressed, updateTick );
+			Buttons[8].UpdateWithState( state.Buttons.LeftShoulder == ButtonState.Pressed, updateTick );
+			Buttons[9].UpdateWithState( state.Buttons.RightShoulder == ButtonState.Pressed, updateTick );
+			Buttons[10].UpdateWithState( state.Buttons.LeftStick == ButtonState.Pressed, updateTick );
+			Buttons[11].UpdateWithState( state.Buttons.RightStick == ButtonState.Pressed, updateTick );
+			Buttons[12].UpdateWithState( state.Buttons.Start == ButtonState.Pressed, updateTick );
+			Buttons[13].UpdateWithState( state.Buttons.Back == ButtonState.Pressed, updateTick );
 		}
 
 

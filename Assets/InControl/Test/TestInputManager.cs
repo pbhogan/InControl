@@ -126,7 +126,7 @@ public class TestInputManager : MonoBehaviour
 			GUI.Label( new Rect( x, y, x + w, y + 10 ), "SortOrder: " + inputDevice.SortOrder, style );
 			y += lineHeight;
 
-			GUI.Label( new Rect( x, y, x + w, y + 10 ), "LastChangeTime: " + inputDevice.LastChangeTime, style );
+			GUI.Label( new Rect( x, y, x + w, y + 10 ), "LastChangeTick: " + inputDevice.LastChangeTick, style );
 			y += lineHeight;
 
 			foreach (var analog in inputDevice.Analogs)

@@ -12,7 +12,7 @@ namespace InControl
 		protected List<InputDevice> devices = new List<InputDevice>();
 
 
-		public virtual void Update( float updateTime, float deltaTime )
+		public virtual void Update( ulong updateTick, float deltaTime )
 		{
 		}
 	}

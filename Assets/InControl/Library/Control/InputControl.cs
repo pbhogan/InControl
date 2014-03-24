@@ -10,7 +10,7 @@ namespace InControl
 		public string Handle { get; private set; }
 		public string Target { get; private set; }
 
-		public float UpdateTime { get; private set; }
+		public ulong UpdateTick { get; private set; }
 
 		InputControlState thisState;
 		InputControlState lastState;
@@ -23,7 +23,7 @@ namespace InControl
 		}
 
 
-		public void UpdateWithState( bool state, float updateTime )
+		public void UpdateWithState( bool state, ulong updateTick )
 		{
 			if (IsNull)
 			{
@@ -34,13 +34,13 @@ namespace InControl
 
 			if (thisState != state)
 			{
-				UpdateTime = updateTime;
+				UpdateTick = updateTick;
 				thisState.Set( state );
 			}
 		}
 
 
-		public void UpdateWithValue( float value, float updateTime )
+		public void UpdateWithValue( float value, ulong updateTick )
 		{
 			if (IsNull)
 			{
@@ -51,7 +51,7 @@ namespace InControl
 
 			if (thisState != value)
 			{
-				UpdateTime = updateTime;
+				UpdateTick = updateTick;
 				thisState.Set( value );
 			}
 		}

@@ -16,7 +16,7 @@ namespace InControl
 		public InputControl[] Analogs { get; protected set; }
 		public InputControl[] Buttons { get; protected set; }
 
-		public float LastChangeTime { get; protected set; }
+		public ulong LastChangeTick { get; protected set; }
 
 		InputControl[] controlTable;
 		int filledAnalogCount;
@@ -43,7 +43,7 @@ namespace InControl
 			Analogs = new InputControl[analogCount];
 			Buttons = new InputControl[buttonCount];
 
-			LastChangeTime = 0.0f;
+			LastChangeTick = 0;
 
 			const int numInputControlTypes = (int) InputControlType.Count + 1;
 			controlTable = new InputControl[numInputControlTypes];
@@ -115,7 +115,7 @@ namespace InControl
 		}
 
 
-		public virtual void Update( float updateTime, float deltaTime )
+		public virtual void Update( ulong updateTick, float deltaTime )
 		{
 		}
 
@@ -131,14 +131,14 @@ namespace InControl
 		}
 
 
-		public void UpdateLastChangeTime( float updateTime )
+		public void UpdateLastChangeTick( ulong updateTick )
 		{
 			int analogCount = Analogs.GetLength( 0 );
 			for (int i = 0; i < analogCount; i++)
 			{
 				if (Analogs[i].HasChanged)
 				{
-					LastChangeTime = updateTime;
+					LastChangeTick = updateTick;
 					return;
 				}
 			}
@@ -148,7 +148,7 @@ namespace InControl
 			{
 				if (Buttons[i].HasChanged)
 				{
-					LastChangeTime = updateTime;
+					LastChangeTick = updateTick;
 					return;
 				}
 			}
@@ -157,7 +157,7 @@ namespace InControl
 
 		public bool LastChangedAfter( InputDevice otherDevice )
 		{
-			return LastChangeTime > otherDevice.LastChangeTime;
+			return LastChangeTick > otherDevice.LastChangeTick;
 		}
 
 

@@ -54,7 +54,7 @@ namespace InControl
 		}
 
 
-		public override void Update( float updateTime, float deltaTime )
+		public override void Update( ulong updateTick, float deltaTime )
 		{
 			if (Profile == null)
 			{
@@ -71,16 +71,14 @@ namespace InControl
 				var analogValue = analogMapping.Source.GetValue( this );
 
 				if (analogMapping.IgnoreInitialZeroValue &&
-				    Mathf.Abs(analogValue) < Mathf.Epsilon &&
-				    Analogs[i].UpdateTime < Mathf.Epsilon)
+				    Analogs[i].UpdateTick == 0 &&
+				    Mathf.Abs(analogValue) < Mathf.Epsilon)
 				{
-					Analogs[i].RawValue = 0.0f;
+					continue;
 				}
-				else
-				{
-					Analogs[i].RawValue = analogValue;
-					Analogs[i].PreValue = analogMapping.MapValue( analogValue );
-				}
+
+				Analogs[i].RawValue = analogValue;
+				Analogs[i].PreValue = analogMapping.MapValue( analogValue );
 			}
 
 			// Do final processing for analogs values.
@@ -92,12 +90,12 @@ namespace InControl
 				{
 					var analogValue = Analogs[i].PreValue;
 
-//					if (analogMapping.IgnoreInitialZeroValue &&
-//						Mathf.Abs(analogValue) < Mathf.Epsilon &&
-//						Analogs[i].UpdateTime < Mathf.Epsilon)
-//					{
-//						continue;
-//					}
+					if (analogMapping.IgnoreInitialZeroValue &&
+					    Analogs[i].UpdateTick == 0 &&
+					    Mathf.Abs(analogValue) < Mathf.Epsilon)
+					{
+						continue;
+					}
 
 					// Axes with obverse axes (like sticks) should use circular deadzones to avoid snapping.
 					var obverseTarget = analogMapping.Obverse;
@@ -114,11 +112,11 @@ namespace InControl
 					// Apply smoothing.
 					analogValue = SmoothAnalogValue( analogValue, Analogs[i].LastValue, deltaTime );
 
-					Analogs[i].UpdateWithValue( analogValue, updateTime );
+					Analogs[i].UpdateWithValue( analogValue, updateTick );
 				}
 				else
 				{
-					Analogs[i].UpdateWithValue( Analogs[i].RawValue, updateTime );
+					Analogs[i].UpdateWithValue( Analogs[i].RawValue, updateTick );
 				}
 			}
 
@@ -129,7 +127,7 @@ namespace InControl
 				var buttonMapping = Profile.ButtonMappings[i];
 				var buttonState = buttonMapping.Source.GetState( this );
 
-				Buttons[i].UpdateWithState( buttonState, updateTime );
+				Buttons[i].UpdateWithState( buttonState, updateTick );
 			}
 		}
 

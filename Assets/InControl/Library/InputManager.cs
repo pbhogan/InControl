@@ -32,6 +32,8 @@ namespace InControl
 		static float currentTime;
 		static float lastUpdateTime;
 
+		static ulong currentTick;
+
 
 		public static void Setup()
 		{
@@ -42,6 +44,8 @@ namespace InControl
 			initialTime = 0.0f;
 			currentTime = 0.0f;
 			lastUpdateTime = 0.0f;
+
+			currentTick = 0;
 
 			inputDeviceManagers.Clear();
 			Devices.Clear();
@@ -82,6 +86,8 @@ namespace InControl
 		{
 			AssertIsSetup();
 
+			currentTick++;
+
 			UpdateCurrentTime();
 			UpdateDeviceManagers();
 			UpdateDevices();
@@ -121,15 +127,14 @@ namespace InControl
 			AssertIsSetup();
 
 			inputDeviceManagers.Add( inputDeviceManager );
-			inputDeviceManager.Update( currentTime, currentTime - lastUpdateTime );
+			inputDeviceManager.Update( currentTick, currentTime - lastUpdateTime );
 		}
 
 
 		static void UpdateCurrentTime()
 		{
-			// Have to do this hack since Time.realtimeSinceStartup
-			// is not updated until AFTER Awake().
-			if (initialTime == 0.0f)
+			// Have to do this hack since Time.realtimeSinceStartup is not set until AFTER Awake().
+			if (initialTime < float.Epsilon)
 			{
 				initialTime = Time.realtimeSinceStartup;
 			}
@@ -146,7 +151,7 @@ namespace InControl
 			for (int i = 0; i < inputDeviceManagerCount; i++)
 			{
 				var inputDeviceManager = inputDeviceManagers[i];
-				inputDeviceManager.Update( currentTime, deltaTime );
+				inputDeviceManager.Update( currentTick, deltaTime );
 			}
 		}
 
@@ -161,8 +166,8 @@ namespace InControl
 			for (int i = 0; i < deviceCount; i++)
 			{
 				var device = Devices[i];
-				device.Update( currentTime, deltaTime );
-				device.UpdateLastChangeTime( currentTime );
+				device.Update( currentTick, deltaTime );
+				device.UpdateLastChangeTick( currentTick );
 
 				if (device.MenuWasPressed)
 				{
