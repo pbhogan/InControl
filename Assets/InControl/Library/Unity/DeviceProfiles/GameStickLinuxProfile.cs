@@ -97,6 +97,7 @@ namespace InControl
 					Handle = "Left Stick Y",
 					Target = InputControlType.LeftStickY,
 					Source = Analog1,
+					Invert = true
 				},
 				new InputControlMapping
 				{
@@ -109,6 +110,7 @@ namespace InControl
 					Handle = "Right Stick Y",
 					Target = InputControlType.RightStickY,
 					Source = Analog3,
+					Invert = true
 				},
 				new InputControlMapping
 				{

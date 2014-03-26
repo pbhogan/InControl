@@ -89,7 +89,7 @@ namespace InControl
 					Target = InputControlType.TouchPadTap,
 					Source = MouseButton0
 				},
-                // Linux reports ouya DPAD as buttons
+			// Linux reports ouya DPAD as buttons
                 new InputControlMapping
                 {
                     Handle = "DPad Left",
@@ -129,6 +129,7 @@ namespace InControl
 					Handle = "Left Stick Y",
 					Target = InputControlType.LeftStickY,
 					Source = Analog1,
+					Invert = true
 				},
 				new InputControlMapping
 				{
@@ -141,6 +142,7 @@ namespace InControl
 					Handle = "Right Stick Y",
 					Target = InputControlType.RightStickY,
 					Source = Analog4,
+					Invert = true
 				},
 				new InputControlMapping
 				{

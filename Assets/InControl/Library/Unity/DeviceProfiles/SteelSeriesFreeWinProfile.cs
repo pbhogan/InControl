@@ -103,6 +103,7 @@ namespace InControl
 					Handle = "Left Stick Y",
 					Target = InputControlType.LeftStickY,
 					Source = Analog1,
+					Invert = true
 				},
 				new InputControlMapping
 				{

@@ -12,18 +12,18 @@ namespace InControl
 		{
 			Name = "Apple MFi Controller";
 			Meta = "Apple MFi Controller on iOS";
-			
+
 			SupportedPlatforms = new[]
 			{
-				"iPhone"			
+				"iPhone"
 			};
-			
+
 			RegexName = ""; // Match anything.
-			
+
 			Sensitivity = 1.0f;
 			LowerDeadZone = 0.05f;
 			UpperDeadZone = 0.95f;
-			
+
 			ButtonMappings = new[]
 			{
 				new InputControlMapping
@@ -105,7 +105,7 @@ namespace InControl
 					Source = Button11
 				}
 			};
-			
+
 			AnalogMappings = new[]
 			{
 				new InputControlMapping

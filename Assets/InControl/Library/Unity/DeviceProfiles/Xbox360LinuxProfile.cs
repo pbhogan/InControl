@@ -80,6 +80,32 @@ namespace InControl
 				},
 				new InputControlMapping
 				{
+					Handle = "DPad Left",
+					Target = InputControlType.DPadLeft,
+					Source = Button11,
+					Invert = true
+				},
+				new InputControlMapping
+				{
+					Handle = "DPad Right",
+					Target = InputControlType.DPadRight,
+					Source = Button12,
+				},
+				new InputControlMapping
+				{
+					Handle = "DPad Up",
+					Target = InputControlType.DPadUp,
+					Source = Button13,
+					Invert = true
+				},
+				new InputControlMapping
+				{
+					Handle = "DPad Down",
+					Target = InputControlType.DPadDown,
+					Source = Button14,
+				},
+				new InputControlMapping
+				{
 					Handle = "Back",
 					Target = InputControlType.Select,
 					Source = Button6
@@ -110,13 +136,15 @@ namespace InControl
 				{
 					Handle = "Left Stick Y",
 					Target = InputControlType.LeftStickY,
-					Source = Analog1
+					Source = Analog1,
+					Invert = true
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Stick X",
 					Target = InputControlType.RightStickX,
-					Source = Analog3
+					Source = Analog3,
+					Invert = true
 				},
 				new InputControlMapping
 				{
