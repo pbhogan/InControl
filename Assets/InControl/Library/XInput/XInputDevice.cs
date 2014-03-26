@@ -22,27 +22,27 @@ namespace InControl
 
 			Meta = "XInput Device #" + deviceIndex;
 
-			AddAnalogControl( InputControlType.LeftStickX );
-			AddAnalogControl( InputControlType.LeftStickY );
-			AddAnalogControl( InputControlType.RightStickX );
-			AddAnalogControl( InputControlType.RightStickY );
-			AddAnalogControl( InputControlType.LeftTrigger );
-			AddAnalogControl( InputControlType.RightTrigger );
+			AddControl( InputControlType.LeftStickX );
+			AddControl( InputControlType.LeftStickY );
+			AddControl( InputControlType.RightStickX );
+			AddControl( InputControlType.RightStickY );
+			AddControl( InputControlType.LeftTrigger );
+			AddControl( InputControlType.RightTrigger );
 			
-			AddButtonControl( InputControlType.DPadUp );
-			AddButtonControl( InputControlType.DPadDown );
-			AddButtonControl( InputControlType.DPadLeft );
-			AddButtonControl( InputControlType.DPadRight );
-			AddButtonControl( InputControlType.Action1 );
-			AddButtonControl( InputControlType.Action2 );
-			AddButtonControl( InputControlType.Action3 );
-			AddButtonControl( InputControlType.Action4 );
-			AddButtonControl( InputControlType.LeftBumper );
-			AddButtonControl( InputControlType.RightBumper );
-			AddButtonControl( InputControlType.LeftStickButton );
-			AddButtonControl( InputControlType.RightStickButton );
-			AddButtonControl( InputControlType.Start );
-			AddButtonControl( InputControlType.Back );
+			AddControl( InputControlType.DPadUp );
+			AddControl( InputControlType.DPadDown );
+			AddControl( InputControlType.DPadLeft );
+			AddControl( InputControlType.DPadRight );
+			AddControl( InputControlType.Action1 );
+			AddControl( InputControlType.Action2 );
+			AddControl( InputControlType.Action3 );
+			AddControl( InputControlType.Action4 );
+			AddControl( InputControlType.LeftBumper );
+			AddControl( InputControlType.RightBumper );
+			AddControl( InputControlType.LeftStickButton );
+			AddControl( InputControlType.RightStickButton );
+			AddControl( InputControlType.Start );
+			AddControl( InputControlType.Back );
 
 			QueryState();
 		}

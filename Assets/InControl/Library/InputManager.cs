@@ -166,8 +166,10 @@ namespace InControl
 			for (int i = 0; i < deviceCount; i++)
 			{
 				var device = Devices[i];
+
+				device.PreUpdate( currentTick, deltaTime );
 				device.Update( currentTick, deltaTime );
-				device.UpdateLastChangeTick( currentTick );
+				device.PostUpdate( currentTick, deltaTime );
 
 				if (device.MenuWasPressed)
 				{

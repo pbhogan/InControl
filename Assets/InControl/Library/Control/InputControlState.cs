@@ -12,6 +12,13 @@ namespace InControl
 		public float Value;
 
 
+		public void Reset()
+		{
+			Value = 0.0f;
+			State = false;
+		}
+
+
 		public void Set( float value )
 		{
 			Value = value;

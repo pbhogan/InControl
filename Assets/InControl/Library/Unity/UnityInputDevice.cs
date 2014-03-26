@@ -15,16 +15,19 @@ namespace InControl
 		public int JoystickId { get; private set; }
 		public UnityInputDeviceProfile Profile { get; protected set; }
 
+		public InputControl[] Analogs { get; protected set; }
+		public InputControl[] Buttons { get; protected set; }
+
 
 		public UnityInputDevice( UnityInputDeviceProfile profile, int joystickId )
-			: base( profile.Name, profile.AnalogMappings.Length, profile.ButtonMappings.Length )
+			: base( profile.Name )
 		{
 			Initialize( profile, joystickId );
 		}
 
 
 		public UnityInputDevice( UnityInputDeviceProfile profile )
-			: base( profile.Name, profile.AnalogMappings.Length, profile.ButtonMappings.Length )
+			: base( profile.Name )
 		{
 			Initialize( profile, 0 );
 		}
@@ -35,14 +38,26 @@ namespace InControl
 			Profile = profile;
 			Meta = Profile.Meta;
 
-			foreach (var analogMapping in Profile.AnalogMappings)
+			Analogs = new InputControl[profile.AnalogCount];
+			var analogMappingCount = Profile.AnalogCount;
+			for (int i = 0; i < analogMappingCount; i++)
 			{
-				AddAnalogControl( analogMapping.Target, analogMapping.Handle );
+				var analogMapping = Profile.AnalogMappings[i];
+				var analogControl = AddControl( analogMapping.Target, analogMapping.Handle );
+
+				analogControl.Sensitivity = Profile.Sensitivity;
+				analogControl.UpperDeadZone = Profile.UpperDeadZone;
+				analogControl.LowerDeadZone = Profile.LowerDeadZone;
+
+				Analogs[i] = analogControl;
 			}
 
-			foreach (var buttonMapping in Profile.ButtonMappings)
+			Buttons = new InputControl[profile.ButtonCount];
+			var buttonMappingCount = Profile.ButtonCount;
+			for (int i = 0; i < buttonMappingCount; i++)
 			{
-				AddButtonControl( buttonMapping.Target, buttonMapping.Handle );
+				var buttonMapping = Profile.ButtonMappings[i];
+				Buttons[i] = AddControl( buttonMapping.Target, buttonMapping.Handle );
 			}
 
 			JoystickId = joystickId;
@@ -61,120 +76,45 @@ namespace InControl
 				return;
 			}
 
-			var analogMappingCount = Profile.AnalogMappings.Length;
-
-			// Preprocess all analog values. This is done so
-			// stick axes can refer to their obverse axes later.
+			// Preprocess all analog values.
+			var analogMappingCount = Profile.AnalogCount;
 			for (int i = 0; i < analogMappingCount; i++)
 			{
 				var analogMapping = Profile.AnalogMappings[i];
+				var targetControl = GetControl( analogMapping.Target );
+
 				var analogValue = analogMapping.Source.GetValue( this );
 
 				if (analogMapping.IgnoreInitialZeroValue &&
-				    Analogs[i].UpdateTick == 0 &&
+				    targetControl.UpdateTick == 0 &&
 				    Mathf.Abs(analogValue) < Mathf.Epsilon)
 				{
-					continue;
+					targetControl.RawValue = null;
+					targetControl.PreValue = null;
 				}
-
-				Analogs[i].RawValue = analogValue;
-				Analogs[i].PreValue = analogMapping.MapValue( analogValue );
-			}
-
-			// Do final processing for analogs values.
-			for (int i = 0; i < analogMappingCount; i++)
-			{
-				var analogMapping = Profile.AnalogMappings[i];
-
-				if (!analogMapping.Raw)
-				{
-					var analogValue = Analogs[i].PreValue;
-
-					if (analogMapping.IgnoreInitialZeroValue &&
-					    Analogs[i].UpdateTick == 0 &&
-					    Mathf.Abs(analogValue) < Mathf.Epsilon)
+				else
+				{					
+					if (analogMapping.Raw)
 					{
-						continue;
-					}
-
-					// Axes with obverse axes (like sticks) should use circular deadzones to avoid snapping.
-					var obverseTarget = analogMapping.Obverse;
-					if (obverseTarget.HasValue)
-					{
-						var obverseControl = GetControl( obverseTarget );
-						analogValue = ApplyCircularDeadZone( analogValue, obverseControl.PreValue );
+						targetControl.RawValue = analogValue;
 					}
 					else
 					{
-						analogValue = ApplyDeadZone( analogValue );
+						targetControl.PreValue = analogMapping.MapValue( analogValue );
 					}
-
-					// Apply smoothing.
-					analogValue = SmoothAnalogValue( analogValue, Analogs[i].LastValue, deltaTime );
-
-					Analogs[i].UpdateWithValue( analogValue, updateTick );
-				}
-				else
-				{
-					Analogs[i].UpdateWithValue( Analogs[i].RawValue, updateTick );
 				}
 			}
 
+
 			// Buttons are easy: just update the control state.
-			var buttonMappingCount = Profile.ButtonMappings.Length;
+			var buttonMappingCount = Profile.ButtonCount;
 			for (int i = 0; i < buttonMappingCount; i++)
 			{
 				var buttonMapping = Profile.ButtonMappings[i];
 				var buttonState = buttonMapping.Source.GetState( this );
 
-				Buttons[i].UpdateWithState( buttonState, updateTick );
+				UpdateWithState( buttonMapping.Target, buttonState, updateTick );
 			}
-		}
-
-
-		float ApplyDeadZone( float value )
-		{
-			if (Profile.IsJoystick)
-			{
-				// Apply dead zones.
-				return Mathf.InverseLerp( Profile.LowerDeadZone, Profile.UpperDeadZone, Mathf.Abs( value ) ) * Mathf.Sign( value );
-			}
-
-			return value;
-		}
-
-
-		float ApplyCircularDeadZone( float axisValue1, float axisValue2 )
-		{
-			var axisVector = new Vector2( axisValue1, axisValue2 );
-			var magnitude = Mathf.InverseLerp( Profile.LowerDeadZone, Profile.UpperDeadZone, axisVector.magnitude );
-			return (axisVector.normalized * magnitude).x;
-		}
-
-
-		float SmoothAnalogValue( float thisValue, float lastValue, float deltaTime )
-		{
-			if (Profile.IsJoystick)
-			{
-				// 1.0f and above is instant (no smoothing).
-				if (Mathf.Approximately( Profile.Sensitivity, 1.0f ))
-				{
-					return thisValue;
-				}
-
-				// Apply sensitivity (how quickly the value adapts to changes).
-				var maxDelta = deltaTime * Profile.Sensitivity * 100.0f;
-
-				// Snap to zero when changing direction quickly.
-				if (Mathf.Sign( lastValue ) != Mathf.Sign( thisValue ))
-				{
-					lastValue = 0.0f;
-				}
-
-				return Mathf.MoveTowards( lastValue, thisValue, maxDelta );
-			}
-
-			return thisValue;
 		}
 
 

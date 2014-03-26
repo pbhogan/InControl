@@ -27,9 +27,15 @@ namespace InControl
 			{
 				new InputControlMapping
 				{
-					Handle = "Fire",
+					Handle = "Fire - Mouse",
 					Target = InputControlType.Action1,
 					Source = MouseButton0
+				},
+				new InputControlMapping
+				{
+					Handle = "Fire - Keyboard",
+					Target = InputControlType.Action1,
+					Source = KeyCodeButton( KeyCode.F )
 				},
 				new InputControlMapping
 				{
@@ -48,7 +54,7 @@ namespace InControl
 					Handle = "Jump",
 					Target = InputControlType.Action4,
 					Source = KeyCodeButton( KeyCode.Space )
-				}
+				},
 			};
 
 			AnalogMappings = new[]

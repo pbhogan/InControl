@@ -1,25 +1,40 @@
 using System;
+using UnityEngine;
 
 
 namespace InControl
 {
 	public class InputControl
 	{
-		public static readonly InputControl Null = new InputControl( "NullInputControl", "" );
+		public static readonly InputControl Null = new InputControl( "NullInputControl" );
 
 		public string Handle { get; private set; }
-		public string Target { get; private set; }
+
+		public InputControlType Target;
+		public string TargetName { get; private set; }
 
 		public ulong UpdateTick { get; private set; }
 
+		public float Sensitivity = 1.0f;
+		public float LowerDeadZone = 0.0f;
+		public float UpperDeadZone = 1.0f;
+
 		InputControlState thisState;
 		InputControlState lastState;
+		InputControlState tempState;
 
 
-		public InputControl( string handle, string target )
+		private InputControl( string handle )
+		{
+			Handle = handle;
+		}
+
+
+		public InputControl( string handle, InputControlType target )
 		{
 			Handle = handle;
 			Target = target;
+			TargetName = target.ToString();
 		}
 
 
@@ -30,13 +45,12 @@ namespace InControl
 				throw new InvalidOperationException( "A null control cannot be updated." );
 			}
 
-			lastState = thisState;
-
-			if (thisState != state)
+			if (UpdateTick > updateTick)
 			{
-				UpdateTick = updateTick;
-				thisState.Set( state );
+				throw new InvalidOperationException( "A control cannot be updated with an earlier tick." );
 			}
+
+			tempState.Set( state || tempState.State );
 		}
 
 
@@ -47,12 +61,31 @@ namespace InControl
 				throw new InvalidOperationException( "A null control cannot be updated." );
 			}
 
-			lastState = thisState;
+			if (UpdateTick > updateTick)
+			{
+				throw new InvalidOperationException( "A control cannot be updated with an earlier tick." );
+			}
 
-			if (thisState != value)
+			if (Mathf.Abs( value ) > Mathf.Abs( tempState.Value ))
+			{
+				tempState.Set( value );
+			}
+		}
+
+
+		public void PreUpdate( ulong updateTick )
+		{
+			lastState = thisState;
+			tempState.Reset();
+		}
+
+
+		public void PostUpdate( ulong updateTick )
+		{
+			thisState = tempState;
+			if (thisState != lastState)
 			{
 				UpdateTick = updateTick;
-				thisState.Set( value );
 			}
 		}
 
@@ -135,8 +168,29 @@ namespace InControl
 		}
 
 
+		public InputControlType? Obverse
+		{
+			get
+			{
+				switch (Target)
+				{
+				case InputControlType.LeftStickX:
+					return InputControlType.LeftStickY;
+				case InputControlType.LeftStickY:
+					return InputControlType.LeftStickX;
+				case InputControlType.RightStickX:
+					return InputControlType.RightStickY;
+				case InputControlType.RightStickY:
+					return InputControlType.RightStickX;
+				default:
+					return null;
+				}				
+			}
+		}
+
+
 		// This is for internal use only and is not always set.
-		internal float RawValue { get; set; }
-		internal float PreValue { get; set; }
+		internal float? RawValue;
+		internal float? PreValue;
 	}
 }

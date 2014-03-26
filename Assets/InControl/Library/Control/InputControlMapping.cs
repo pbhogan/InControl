@@ -23,16 +23,12 @@ namespace InControl
 		// Invert the final mapped value.
 		public bool Invert;
 
-		// Button means non-zero value will be snapped to -1 or 1.
-		public bool Button;
-
 		// Analog values will be multiplied by this number before processing.
 		public float Scale = 1.0f;
 
-		// Raw inputs won't be processed in any way.
+		// Raw inputs won't be processed in any way (mice and trackpads).
 		public bool Raw;
 
-		// Ignore initial value until it changes for the first time.
 		// This is primarily to fix a bug with the wired Xbox controller on Mac.
 		public bool IgnoreInitialZeroValue;
 
@@ -67,11 +63,6 @@ namespace InControl
 				targetValue = Mathf.Lerp( TargetRange.Minimum, TargetRange.Maximum, sourceValue );
 			}
 
-			if (Button && Mathf.Abs(targetValue) > float.Epsilon)
-			{
-				targetValue = Mathf.Sign( targetValue );
-			}
-
 			if (Invert ^ (IsYAxis && InputManager.InvertYAxis))
 			{
 				targetValue = -targetValue;
@@ -98,32 +89,33 @@ namespace InControl
 		}
 
 
-		internal InputControlType? Obverse
-		{
-			get
-			{
-				if (Target == InputControlType.LeftStickX)
-				{
-					return InputControlType.LeftStickY;
-				}
-
-				if (Target == InputControlType.LeftStickY)
-				{
-					return InputControlType.LeftStickX;
-				}
-
-				if (Target == InputControlType.RightStickX)
-				{
-					return InputControlType.RightStickY;
-				}
-
-				if (Target == InputControlType.RightStickY)
-				{
-					return InputControlType.RightStickX;
-				}
-				
-				return null;
-			}
-		}
+		// TODO: REMOVE
+//		internal InputControlType? Obverse
+//		{
+//			get
+//			{
+//				if (Target == InputControlType.LeftStickX)
+//				{
+//					return InputControlType.LeftStickY;
+//				}
+//
+//				if (Target == InputControlType.LeftStickY)
+//				{
+//					return InputControlType.LeftStickX;
+//				}
+//
+//				if (Target == InputControlType.RightStickX)
+//				{
+//					return InputControlType.RightStickY;
+//				}
+//
+//				if (Target == InputControlType.RightStickY)
+//				{
+//					return InputControlType.RightStickX;
+//				}
+//				
+//				return null;
+//			}
+//		}
 	}
 }
