@@ -1,4 +1,4 @@
-#if UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,7 +20,7 @@ namespace InControl
 				devices.Add( new XInputDevice( deviceIndex ) );
 			}
 
-			Update( 0.0f, 0.0f );
+			Update( 0, 0.0f );
 		}
 
 
@@ -46,7 +46,7 @@ namespace InControl
 					{
 						InputManager.DetachDevice( device );
 					}
-					
+
 					deviceConnected[deviceIndex] = device.IsConnected;
 				}
 			}

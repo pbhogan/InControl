@@ -1,4 +1,4 @@
-#if UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,34 +15,34 @@ namespace InControl
 
 
 		public XInputDevice( int deviceIndex )
-			: base( "Xbox 360 Controller (XInput)", 6, 14 )
+			: base( "Xbox 360 Controller (XInput)" )
 		{
 			DeviceIndex = deviceIndex;
 			SortOrder   = deviceIndex;
 
 			Meta = "XInput Device #" + deviceIndex;
 
-			AddControl( InputControlType.LeftStickX );
-			AddControl( InputControlType.LeftStickY );
-			AddControl( InputControlType.RightStickX );
-			AddControl( InputControlType.RightStickY );
-			AddControl( InputControlType.LeftTrigger );
-			AddControl( InputControlType.RightTrigger );
-			
-			AddControl( InputControlType.DPadUp );
-			AddControl( InputControlType.DPadDown );
-			AddControl( InputControlType.DPadLeft );
-			AddControl( InputControlType.DPadRight );
-			AddControl( InputControlType.Action1 );
-			AddControl( InputControlType.Action2 );
-			AddControl( InputControlType.Action3 );
-			AddControl( InputControlType.Action4 );
-			AddControl( InputControlType.LeftBumper );
-			AddControl( InputControlType.RightBumper );
-			AddControl( InputControlType.LeftStickButton );
-			AddControl( InputControlType.RightStickButton );
-			AddControl( InputControlType.Start );
-			AddControl( InputControlType.Back );
+			AddControl( InputControlType.LeftStickX, "LeftStickX" );
+			AddControl( InputControlType.LeftStickY, "LeftStickY" );
+			AddControl( InputControlType.RightStickX, "RightStickX" );
+			AddControl( InputControlType.RightStickY, "RightStickY" );
+			AddControl( InputControlType.LeftTrigger, "LeftTrigger" );
+			AddControl( InputControlType.RightTrigger, "RightTrigger" );
+
+			AddControl( InputControlType.DPadUp, "DPadUp" );
+			AddControl( InputControlType.DPadDown, "DPadDown" );
+			AddControl( InputControlType.DPadLeft, "DPadLeft" );
+			AddControl( InputControlType.DPadRight, "DPadRight" );
+			AddControl( InputControlType.Action1, "Action1" );
+			AddControl( InputControlType.Action2, "Action2" );
+			AddControl( InputControlType.Action3, "Action3" );
+			AddControl( InputControlType.Action4, "Action4" );
+			AddControl( InputControlType.LeftBumper, "LeftBumper" );
+			AddControl( InputControlType.RightBumper, "RightBumper" );
+			AddControl( InputControlType.LeftStickButton, "LeftStickButton" );
+			AddControl( InputControlType.RightStickButton, "RightStickButton" );
+			AddControl( InputControlType.Start, "Start" );
+			AddControl( InputControlType.Back, "Back" );
 
 			QueryState();
 		}
@@ -52,27 +52,27 @@ namespace InControl
 		{
 			QueryState();
 
-			Analogs[0].UpdateWithValue( state.ThumbSticks.Left.X, updateTick );
-			Analogs[1].UpdateWithValue( state.ThumbSticks.Left.Y, updateTick );
-			Analogs[2].UpdateWithValue( state.ThumbSticks.Right.X, updateTick );
-			Analogs[3].UpdateWithValue( state.ThumbSticks.Right.Y, updateTick );
-			Analogs[4].UpdateWithValue( state.Triggers.Left, updateTick );
-			Analogs[5].UpdateWithValue( state.Triggers.Right, updateTick );
+			UpdateWithValue( InputControlType.LeftStickX, state.ThumbSticks.Left.X, updateTick );
+			UpdateWithValue( InputControlType.LeftStickY, state.ThumbSticks.Left.Y, updateTick );
+			UpdateWithValue( InputControlType.RightStickX, state.ThumbSticks.Right.X, updateTick );
+			UpdateWithValue( InputControlType.RightStickY, state.ThumbSticks.Right.Y, updateTick );
+			UpdateWithValue( InputControlType.LeftTrigger, state.Triggers.Left, updateTick );
+			UpdateWithValue( InputControlType.RightTrigger, state.Triggers.Right, updateTick );
 
-			Buttons[0].UpdateWithState( state.DPad.Up == ButtonState.Pressed, updateTick );
-			Buttons[1].UpdateWithState( state.DPad.Down == ButtonState.Pressed, updateTick );
-			Buttons[2].UpdateWithState( state.DPad.Left == ButtonState.Pressed, updateTick );
-			Buttons[3].UpdateWithState( state.DPad.Right == ButtonState.Pressed, updateTick );
-			Buttons[4].UpdateWithState( state.Buttons.A == ButtonState.Pressed, updateTick );
-			Buttons[5].UpdateWithState( state.Buttons.B == ButtonState.Pressed, updateTick );
-			Buttons[6].UpdateWithState( state.Buttons.X == ButtonState.Pressed, updateTick );
-			Buttons[7].UpdateWithState( state.Buttons.Y == ButtonState.Pressed, updateTick );
-			Buttons[8].UpdateWithState( state.Buttons.LeftShoulder == ButtonState.Pressed, updateTick );
-			Buttons[9].UpdateWithState( state.Buttons.RightShoulder == ButtonState.Pressed, updateTick );
-			Buttons[10].UpdateWithState( state.Buttons.LeftStick == ButtonState.Pressed, updateTick );
-			Buttons[11].UpdateWithState( state.Buttons.RightStick == ButtonState.Pressed, updateTick );
-			Buttons[12].UpdateWithState( state.Buttons.Start == ButtonState.Pressed, updateTick );
-			Buttons[13].UpdateWithState( state.Buttons.Back == ButtonState.Pressed, updateTick );
+			UpdateWithState( InputControlType.DPadUp, state.DPad.Up == ButtonState.Pressed, updateTick );
+			UpdateWithState( InputControlType.DPadDown, state.DPad.Down == ButtonState.Pressed, updateTick );
+			UpdateWithState( InputControlType.DPadLeft, state.DPad.Left == ButtonState.Pressed, updateTick );
+			UpdateWithState( InputControlType.DPadRight, state.DPad.Right == ButtonState.Pressed, updateTick );
+			UpdateWithState( InputControlType.Action1, state.Buttons.A == ButtonState.Pressed, updateTick );
+			UpdateWithState( InputControlType.Action2, state.Buttons.B == ButtonState.Pressed, updateTick );
+			UpdateWithState( InputControlType.Action3, state.Buttons.X == ButtonState.Pressed, updateTick );
+			UpdateWithState( InputControlType.Action4, state.Buttons.Y == ButtonState.Pressed, updateTick );
+			UpdateWithState( InputControlType.LeftBumper, state.Buttons.LeftShoulder == ButtonState.Pressed, updateTick );
+			UpdateWithState( InputControlType.RightBumper, state.Buttons.RightShoulder == ButtonState.Pressed, updateTick );
+			UpdateWithState( InputControlType.LeftStickButton, state.Buttons.LeftStick == ButtonState.Pressed, updateTick );
+			UpdateWithState( InputControlType.RightStickButton, state.Buttons.RightStick == ButtonState.Pressed, updateTick );
+			UpdateWithState( InputControlType.Start, state.Buttons.Start == ButtonState.Pressed, updateTick );
+			UpdateWithState( InputControlType.Back, state.Buttons.Back == ButtonState.Pressed, updateTick );
 		}
 
 
