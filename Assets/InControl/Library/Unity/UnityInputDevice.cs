@@ -15,9 +15,6 @@ namespace InControl
 		public int JoystickId { get; private set; }
 		public UnityInputDeviceProfile Profile { get; protected set; }
 
-		public InputControl[] Analogs { get; protected set; }
-		public InputControl[] Buttons { get; protected set; }
-
 
 		public UnityInputDevice( UnityInputDeviceProfile profile, int joystickId )
 			: base( profile.Name )
@@ -38,7 +35,6 @@ namespace InControl
 			Profile = profile;
 			Meta = Profile.Meta;
 
-			Analogs = new InputControl[profile.AnalogCount];
 			var analogMappingCount = Profile.AnalogCount;
 			for (int i = 0; i < analogMappingCount; i++)
 			{
@@ -48,16 +44,13 @@ namespace InControl
 				analogControl.Sensitivity = Profile.Sensitivity;
 				analogControl.UpperDeadZone = Profile.UpperDeadZone;
 				analogControl.LowerDeadZone = Profile.LowerDeadZone;
-
-				Analogs[i] = analogControl;
 			}
 
-			Buttons = new InputControl[profile.ButtonCount];
 			var buttonMappingCount = Profile.ButtonCount;
 			for (int i = 0; i < buttonMappingCount; i++)
 			{
 				var buttonMapping = Profile.ButtonMappings[i];
-				Buttons[i] = AddControl( buttonMapping.Target, buttonMapping.Handle );
+				AddControl( buttonMapping.Target, buttonMapping.Handle );
 			}
 
 			JoystickId = joystickId;
