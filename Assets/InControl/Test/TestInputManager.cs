@@ -133,8 +133,19 @@ public class TestInputManager : MonoBehaviour
 			{
 				if (control != null)
 				{
+					string controlName;
+
+					if (inputDevice.IsKnown)
+					{
+						controlName = string.Format( "{0} ({1})", control.Target, control.Handle );
+					}
+					else
+					{
+						controlName = control.Handle;
+					}
+
 					SetColor( control.State ? Color.green : color );
-					var label = string.Format( "{0} ({1}) {2}", control.TargetName, control.Handle, control.State ? "= " + control.Value : "" );
+					var label = string.Format( "{0} {1}", controlName, control.State ? "= " + control.Value : "" );
 					GUI.Label( new Rect( x, y, x + w, y + 10 ), label, style );
 					y += lineHeight;
 				}
