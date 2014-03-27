@@ -39,7 +39,7 @@ namespace InControl
 
 
 		// Warning: this is not efficient. Don't use it unless you have to, m'kay?
-		public InputControlType GetInputControlTypeByName( string inputControlName )
+		public static InputControlType GetInputControlTypeByName( string inputControlName )
 		{
 			return (InputControlType) Enum.Parse( typeof(InputControlType), inputControlName );
 		}
@@ -55,7 +55,7 @@ namespace InControl
 
 		public InputControl AddControl( InputControlType target, string handle )
 		{
-			var controlIndex = Convert.ToInt32( target );
+			var controlIndex = (int) target;
 			var inputControl = new InputControl( handle, target );
 			Controls[controlIndex] = inputControl;
 			return inputControl;

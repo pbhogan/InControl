@@ -9,9 +9,7 @@ namespace InControl
 		public static readonly InputControl Null = new InputControl( "NullInputControl" );
 
 		public string Handle { get; private set; }
-
-		public InputControlType Target;
-		public string TargetName { get; private set; }
+		public InputControlType Target { get; private set; }
 
 		public ulong UpdateTick { get; private set; }
 
@@ -34,7 +32,6 @@ namespace InControl
 		{
 			Handle = handle;
 			Target = target;
-			TargetName = target.ToString();
 		}
 
 
@@ -73,14 +70,14 @@ namespace InControl
 		}
 
 
-		public void PreUpdate( ulong updateTick )
+		internal void PreUpdate( ulong updateTick )
 		{
 			lastState = thisState;
 			tempState.Reset();
 		}
 
 
-		public void PostUpdate( ulong updateTick )
+		internal void PostUpdate( ulong updateTick )
 		{
 			thisState = tempState;
 			if (thisState != lastState)
