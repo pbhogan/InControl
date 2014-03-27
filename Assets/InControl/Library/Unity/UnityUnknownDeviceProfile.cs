@@ -29,7 +29,7 @@ namespace InControl
 				{
 					Handle = "Analog " + i,
 					Source = Analog( i ),
-					Target = (InputControlType) i
+					Target = InputControlType.Analog0 + i
 				};
 			}
 
@@ -40,7 +40,7 @@ namespace InControl
 				{
 					Handle = "Button " + i,
 					Source = Button( i ),
-					Target = (InputControlType) i
+					Target = InputControlType.Button0 + i
 				};
 			}
 		}
