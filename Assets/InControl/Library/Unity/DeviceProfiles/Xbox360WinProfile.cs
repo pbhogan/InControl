@@ -26,7 +26,8 @@ namespace InControl
 				"Controller (Gamepad F310)",
 				"Controller (MLG GamePad for Xbox 360)",
 				"Controller (Gamepad for Xbox 360)",
-				"Controller (Rock Candy Gamepad for Xbox 360)"
+				"Controller (Rock Candy Gamepad for Xbox 360)",
+				"Controller (Mad Catz FPS Pro GamePad)"
 			};
 
 			RegexName = "360";
