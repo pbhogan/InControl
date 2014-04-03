@@ -21,7 +21,8 @@ namespace InControl
 			JoystickNames = new[]
 			{
 				"NVIDIA Corporation NVIDIA Controller v01",
-				"NVIDIA Corporation NVIDIA Controller v01.01"
+				"NVIDIA Corporation NVIDIA Controller v01.01",
+				"nvidia_Corporation nvidia_joypad"
 			};
 
 			Sensitivity = 1.0f;
