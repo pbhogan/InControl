@@ -104,6 +104,13 @@ namespace InControl
 
 		void DetectAttachedJoystickDevice( int unityJoystickId, string unityJoystickName )
 		{
+			if (unityJoystickName == "WIRED CONTROLLER" || 
+			    unityJoystickName == " WIRED CONTROLLER")
+			{
+				// Ignore Steam controller for now.
+				return;
+			}
+
 			var matchedDeviceProfile = deviceProfiles.Find( config => config.HasJoystickName( unityJoystickName ) );
 
 			if (matchedDeviceProfile == null)
