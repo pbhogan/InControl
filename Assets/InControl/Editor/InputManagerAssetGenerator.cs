@@ -50,9 +50,9 @@ namespace InControl
 				}
 			}
 
-			axisPresets.Add( new AxisPreset( "mouse x", 1, 0, 0.1f ) );
-			axisPresets.Add( new AxisPreset( "mouse y", 1, 1, 0.1f ) );
-			axisPresets.Add( new AxisPreset( "mouse z", 1, 2, 0.1f ) );
+			axisPresets.Add( new AxisPreset( "mouse x", 1, 0, 1.0f ) );
+			axisPresets.Add( new AxisPreset( "mouse y", 1, 1, 1.0f ) );
+			axisPresets.Add( new AxisPreset( "mouse z", 1, 2, 1.0f ) );
 		}
 
 

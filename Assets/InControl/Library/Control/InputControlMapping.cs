@@ -26,7 +26,7 @@ namespace InControl
 		// Analog values will be multiplied by this number before processing.
 		public float Scale = 1.0f;
 
-		// Raw inputs won't be processed in any way (mice and trackpads).
+		// Raw inputs won't be processed except for scaling (mice and trackpads).
 		public bool Raw;
 
 		// This is primarily to fix a bug with the wired Xbox controller on Mac.
@@ -45,7 +45,7 @@ namespace InControl
 
 			if (Raw)
 			{
-				targetValue = value;
+				targetValue = value * Scale;
 			}
 			else
 			{

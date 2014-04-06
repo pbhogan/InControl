@@ -86,10 +86,11 @@ namespace InControl
 					targetControl.PreValue = null;
 				}
 				else
-				{					
+				{		
+					// TODO: This can surely be done in a more elegant fashion.
 					if (analogMapping.Raw)
 					{
-						targetControl.RawValue = analogValue;
+						targetControl.RawValue = analogMapping.MapValue( analogValue );
 					}
 					else
 					{
