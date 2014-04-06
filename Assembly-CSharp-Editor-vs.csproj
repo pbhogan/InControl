@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Editor\PackageExporter.cs" />
      <Compile Include="Assets\Editor\VersionUpdater.cs" />
+     <Compile Include="Assets\InControl\Editor\CreateInputManagerObject.cs" />
      <Compile Include="Assets\InControl\Editor\InputManagerAssetGenerator.cs" />
      <Compile Include="Assets\Ouya\SDK\Editor\OuyaMenuAdmin.cs" />
      <Compile Include="Assets\Ouya\SDK\Editor\OuyaPanel.cs" />

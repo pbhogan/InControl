@@ -46,9 +46,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\InControl\Examples\CustomProfiles\BasicKeyboardProfile.cs" />
-     <Compile Include="Assets\InControl\Examples\CustomProfiles\FPSProfile.cs" />
-     <Compile Include="Assets\InControl\Examples\SimpleExample.cs" />
+     <Compile Include="Assets\InControl\Examples\Basic\CubeController.cs" />
+     <Compile Include="Assets\InControl\Examples\CustomProfile\CubeController.cs" />
+     <Compile Include="Assets\InControl\Examples\CustomProfile\KeyboardAndMouseProfile.cs" />
+     <Compile Include="Assets\InControl\Examples\Multiplayer\CubeController.cs" />
+     <Compile Include="Assets\InControl\Library\Components\InControlManager.cs" />
      <Compile Include="Assets\InControl\Library\Control\InputControl.cs" />
      <Compile Include="Assets\InControl\Library\Control\InputControlMapping.cs" />
      <Compile Include="Assets\InControl\Library\Control\InputControlSource.cs" />
