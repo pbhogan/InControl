@@ -30,10 +30,9 @@ namespace InControl
 		}
 
 
-		public InputControl GetControl( Enum inputControlType )
+		public InputControl GetControl( InputControlType inputControlType )
 		{
-			int controlIndex = Convert.ToInt32( inputControlType );
-			var control = Controls[controlIndex];
+			var control = Controls[ (int) inputControlType ];
 			return control ?? InputControl.Null;
 		}
 
@@ -53,11 +52,10 @@ namespace InControl
 		}
 
 
-		public InputControl AddControl( InputControlType target, string handle )
+		public InputControl AddControl( InputControlType inputControlType, string handle )
 		{
-			var controlIndex = (int) target;
-			var inputControl = new InputControl( handle, target );
-			Controls[controlIndex] = inputControl;
+			var inputControl = new InputControl( handle, inputControlType );
+			Controls[ (int) inputControlType ] = inputControl;
 			return inputControl;
 		}
 
@@ -131,7 +129,7 @@ namespace InControl
 			var obverseTarget = control.Obverse;
 			if (obverseTarget.HasValue)
 			{
-				var obverseControl = GetControl( obverseTarget );
+				var obverseControl = GetControl( obverseTarget.Value );
 				analogValue = ApplyCircularDeadZone( analogValue, obverseControl.PreValue.Value, control.LowerDeadZone, control.UpperDeadZone );
 			}
 			else
