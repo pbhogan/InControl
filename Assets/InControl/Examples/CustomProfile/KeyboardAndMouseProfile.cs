@@ -1,18 +1,23 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using InControl;
 
 
-namespace InControl
+namespace CustomProfileExample
 {
-	public class FPSProfile : UnityInputDeviceProfile
+	// This custom profile is enabled by adding it to the Custom Profiles list
+	// on the InControlManager script, which is attached to the InControl 
+	// game object in this example scene.
+	// 
+	public class KeyboardAndMouseProfile : UnityInputDeviceProfile
 	{
-		public FPSProfile()
+		public KeyboardAndMouseProfile()
 		{
-			Name = "FPS Keyboard/Mouse";
+			Name = "Keyboard/Mouse";
 			Meta = "A keyboard and mouse combination profile appropriate for FPS.";
 
+			// This profile only works on desktops.
 			SupportedPlatforms = new[]
 			{
 				"Windows",
@@ -22,6 +27,7 @@ namespace InControl
 
 			Sensitivity = 1.0f;
 			LowerDeadZone = 0.0f;
+			UpperDeadZone = 1.0f;
 
 			ButtonMappings = new[]
 			{
@@ -76,21 +82,24 @@ namespace InControl
 					Handle = "Look X",
 					Target = InputControlType.RightStickX,
 					Source = MouseXAxis,
-					Raw    = true
+					Raw    = true,
+					Scale  = 0.1f
 				},
 				new InputControlMapping
 				{
 					Handle = "Look Y",
 					Target = InputControlType.RightStickY,
 					Source = MouseYAxis,
-					Raw    = true
+					Raw    = true,
+					Scale  = 0.1f
 				},
 				new InputControlMapping
 				{
 					Handle = "Look Z",
 					Target = InputControlType.ScrollWheel,
 					Source = MouseScrollWheel,
-					Raw    = true
+					Raw    = true,
+					Scale  = 0.1f
 				}
 			};
 		}
