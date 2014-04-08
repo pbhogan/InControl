@@ -49,6 +49,8 @@
      <Compile Include="Assets\InControl\Examples\Basic\CubeController.cs" />
      <Compile Include="Assets\InControl\Examples\CustomProfile\CubeController.cs" />
      <Compile Include="Assets\InControl\Examples\CustomProfile\KeyboardAndMouseProfile.cs" />
+     <Compile Include="Assets\InControl\Examples\Gyro\CubeController.cs" />
+     <Compile Include="Assets\InControl\Examples\Gyro\GyroProfile.cs" />
      <Compile Include="Assets\InControl\Examples\Multiplayer\CubeController.cs" />
      <Compile Include="Assets\InControl\Library\Components\InControlManager.cs" />
      <Compile Include="Assets\InControl\Library\Control\InputControl.cs" />
@@ -62,6 +64,7 @@
      <Compile Include="Assets\InControl\Library\InputManager.cs" />
      <Compile Include="Assets\InControl\Library\Unity\ControlSources\UnityAnalogSource.cs" />
      <Compile Include="Assets\InControl\Library\Unity\ControlSources\UnityButtonSource.cs" />
+     <Compile Include="Assets\InControl\Library\Unity\ControlSources\UnityGyroAxisSource.cs" />
      <Compile Include="Assets\InControl\Library\Unity\ControlSources\UnityKeyCodeAxisSource.cs" />
      <Compile Include="Assets\InControl\Library\Unity\ControlSources\UnityKeyCodeSource.cs" />
      <Compile Include="Assets\InControl\Library\Unity\ControlSources\UnityMouseAxisSource.cs" />
@@ -114,6 +117,7 @@
      <Compile Include="Assets\InControl\Library\XInput\XInputDotNetPure\GamePad.cs" />
      <Compile Include="Assets\InControl\Library\XInput\XInputDotNetPure\Utils.cs" />
      <Compile Include="Assets\InControl\Test\TestInputManager.cs" />
+     <Compile Include="Assets\Ouya\IOuyaController.cs" />
      <Compile Include="Assets\Ouya\LitJson\IJsonWrapper.cs" />
      <Compile Include="Assets\Ouya\LitJson\JsonData.cs" />
      <Compile Include="Assets\Ouya\LitJson\JsonException.cs" />
@@ -122,15 +126,17 @@
      <Compile Include="Assets\Ouya\LitJson\JsonWriter.cs" />
      <Compile Include="Assets\Ouya\LitJson\Lexer.cs" />
      <Compile Include="Assets\Ouya\LitJson\ParserToken.cs" />
+     <Compile Include="Assets\Ouya\OuyaController.cs" />
+     <Compile Include="Assets\Ouya\OuyaControllerCommon.cs" />
      <Compile Include="Assets\Ouya\OuyaExampleCommon.cs" />
      <Compile Include="Assets\Ouya\OuyaKeyCodes.cs" />
      <Compile Include="Assets\Ouya\OuyaSDK.cs" />
-     <Compile Include="Assets\Ouya\SDK\Scripts\OuyaControllerMapping.cs" />
+     <Compile Include="Assets\Ouya\PS2Controller.cs" />
      <Compile Include="Assets\Ouya\SDK\Scripts\OuyaGameObject.cs" />
-     <Compile Include="Assets\Ouya\SDK\Scripts\OuyaInputManager.cs" />
+     <Compile Include="Assets\Ouya\XBox360Controller.cs" />
      <None Include="Assets\InControl\README\README.txt" />
-     <None Include="Assets\Plugins\Android\res\values\strings.xml" />
      <None Include="Assets\Ouya\LitJson\license.txt" />
+     <None Include="Assets\Plugins\Android\res\values\strings.xml" />
      <None Include="Assets\Plugins\Android\res\layout\main.xml" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
   </ItemGroup>

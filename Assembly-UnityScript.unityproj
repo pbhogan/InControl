@@ -46,10 +46,10 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\InControl\Examples\UnityScriptExample.js" />
+     <Compile Include="Assets\Ouya\Examples\Scripts\OuyaShowJavaScript.js" />
      <None Include="Assets\InControl\README\README.txt" />
-     <None Include="Assets\Plugins\Android\res\values\strings.xml" />
      <None Include="Assets\Ouya\LitJson\license.txt" />
+     <None Include="Assets\Plugins\Android\res\values\strings.xml" />
      <None Include="Assets\Plugins\Android\res\layout\main.xml" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
   </ItemGroup>
