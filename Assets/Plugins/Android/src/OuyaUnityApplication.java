@@ -23,8 +23,6 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.*;
 import android.content.res.Configuration;
-import android.hardware.input.InputManager; //API 16
-import android.hardware.input.InputManager.InputDeviceListener; //API 16
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -48,7 +46,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class OuyaUnityApplication extends Activity
-	implements InputDeviceListener
 {
 	//indicates the Unity player has loaded
 	private Boolean m_enableUnity = true;
@@ -56,10 +53,7 @@ public class OuyaUnityApplication extends Activity
 	//indicates use logging in one place
 	private Boolean m_enableLogging = false;
 
-	private InputManager m_inputManager = null;
-	private InputManager.InputDeviceListener m_inputDeviceListener = null;
-
-	protected void onCreate(Bundle savedInstanceState) 
+	protected void onCreate(Bundle savedInstanceState)
 	{
 		//make activity accessible to Unity
 		IOuyaActivity.SetActivity(this);
@@ -99,14 +93,8 @@ public class OuyaUnityApplication extends Activity
 
 		Context context = getBaseContext();
 
-		// listen for controller changes - http://developer.android.com/reference/android/hardware/input/InputManager.html#registerInputDeviceListener%28android.hardware.input.InputManager.InputDeviceListener,%20android.os.Handler%29
-		m_inputManager = (InputManager)context.getSystemService(Context.INPUT_SERVICE);
-		m_inputManager.registerInputDeviceListener (this, null);
-
 		// Init the controller
 		OuyaController.init(context);
-
-		sendDevices();		
 	}
 
     /**
@@ -116,10 +104,10 @@ public class OuyaUnityApplication extends Activity
     private BroadcastReceiver mAuthChangeReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-			TestOuyaFacade test = IOuyaActivity.GetTestOuyaFacade();
-			if (null != test)
+			UnityOuyaFacade unityOuyaFacade = IOuyaActivity.GetUnityOuyaFacade();
+			if (null != unityOuyaFacade)
 			{
-				test.requestReceipts();
+				unityOuyaFacade.requestReceipts();
 			}
         }
     };
@@ -187,15 +175,15 @@ public class OuyaUnityApplication extends Activity
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if(resultCode == RESULT_OK) {
-			TestOuyaFacade test = IOuyaActivity.GetTestOuyaFacade();
-			if (null != test)
+			UnityOuyaFacade unityOuyaFacade = IOuyaActivity.GetUnityOuyaFacade();
+			if (null != unityOuyaFacade)
 			{
 				switch (requestCode) {
-					case TestOuyaFacade.GAMER_UUID_AUTHENTICATION_ACTIVITY_ID:
-						test.fetchGamerUUID();
+					case UnityOuyaFacade.GAMER_UUID_AUTHENTICATION_ACTIVITY_ID:
+						unityOuyaFacade.fetchGamerInfo();
 						break;
-					case TestOuyaFacade.PURCHASE_AUTHENTICATION_ACTIVITY_ID:
-						test.restartInterruptedPurchase();
+					case UnityOuyaFacade.PURCHASE_AUTHENTICATION_ACTIVITY_ID:
+						unityOuyaFacade.restartInterruptedPurchase();
 						break;
 				}
             }
@@ -205,20 +193,20 @@ public class OuyaUnityApplication extends Activity
 	@Override
     protected void onSaveInstanceState(final Bundle outState)
 	{
-		TestOuyaFacade test = IOuyaActivity.GetTestOuyaFacade();
-		if (null != test)
+		UnityOuyaFacade unityOuyaFacade = IOuyaActivity.GetUnityOuyaFacade();
+		if (null != unityOuyaFacade)
 		{
-			test.onSaveInstanceState(outState);
+			unityOuyaFacade.onSaveInstanceState(outState);
 		}
 	}
 
 	@Override
     protected void onDestroy()
 	{
-		TestOuyaFacade test = IOuyaActivity.GetTestOuyaFacade();
-		if (null != test)
+		UnityOuyaFacade unityOuyaFacade = IOuyaActivity.GetUnityOuyaFacade();
+		if (null != unityOuyaFacade)
 		{
-			test.onDestroy();
+			unityOuyaFacade.onDestroy();
 		}
 
 		if (null != IOuyaActivity.GetUnityPlayer())
@@ -229,46 +217,13 @@ public class OuyaUnityApplication extends Activity
         super.onDestroy();
     }
 
-	/// Implements InputDeviceListener
-	public @Override void onInputDeviceAdded(int deviceId)
-	{
-		if (m_enableLogging)
-		{
-			Log.i("Unity", "void onInputDeviceAdded(int deviceId) " + deviceId);
-		}
-		sendDevices();
-	}
-	public @Override void onInputDeviceChanged(int deviceId)
-	{
-		if (m_enableLogging)
-		{
-			Log.i("Unity", "void onInputDeviceAdded(int deviceId) " + deviceId);
-		}
-		sendDevices();
-	}
-	public @Override void onInputDeviceRemoved(int deviceId)
-	{
-		if (m_enableLogging)
-		{
-			Log.i("Unity", "void onInputDeviceRemoved(int deviceId) " + deviceId);
-		}
-		sendDevices();
-	}
-
     @Override
     public void onResume()
 	{
-		if (null != m_inputManager)
-		{
-			m_inputManager.registerInputDeviceListener(this, null);
-		}
-
 		if (m_enableUnity)
 		{
 			UnityPlayer.UnitySendMessage("OuyaGameObject", "onResume", "");
 		}
-
-		sendDevices();
 
 		super.onResume();
 
@@ -278,11 +233,6 @@ public class OuyaUnityApplication extends Activity
     @Override
     public void onPause()
 	{
-		if (null != m_inputManager)
-		{
-			m_inputManager.unregisterInputDeviceListener(this);
-		}
-
 		if (m_enableUnity)
 		{
 			UnityPlayer.UnitySendMessage("OuyaGameObject", "onPause", "");
@@ -303,173 +253,6 @@ public class OuyaUnityApplication extends Activity
 		super.onPause();
     }
 
-	void sendDevices()
-	{
-		//Get a list of all device id's and assign them to players.
-		ArrayList<Device> devices = checkDevices();
-		GenericSendMessage("onSetDevices", devices);
-	}
-
-	void inputDeviceListener()
-	{
-		sendDevices();
-	}
-
-	private ArrayList<Device> checkDevices(){
-		//Get a list of all device id's and assign them to players.
-		ArrayList<Device> devices = new ArrayList<Device>();
-		int[] deviceIds = InputDevice.getDeviceIds();
-		
-		if (m_enableLogging)
-		{
-			//Log.i("Unity-Devices", "length:" + deviceIds.length );
-		}
-
-		int controllerCount = 1;
-		for (int count=0; count < deviceIds.length; count++)
-		{
-			InputDevice d = InputDevice.getDevice(deviceIds[count]);
-			if (!d.isVirtual())
-			{
-				if (d.getName().toUpperCase().indexOf("XBOX 360 WIRELESS RECEIVER") != -1 ||
-					d.getName().toUpperCase().indexOf("OUYA GAME CONTROLLER") != -1 ||
-					d.getName().toUpperCase().indexOf("MICROSOFT X-BOX 360 PAD") != -1 ||
-					d.getName().toUpperCase().indexOf("IDROID:CON") != -1 ||
-					d.getName().toUpperCase().indexOf("USB CONTROLLER") != -1)
-				{
-					Device device = new Device();
-					device.id = d.getId();
-					device.player = controllerCount;
-					device.name = d.getName();
-					device.playerNum = OuyaController.getPlayerNumByDeviceId(d.getId());
-					devices.add(device);
-					controllerCount++;
-				}
-				else
-				{
-					Device device = new Device();
-					device.id = d.getId();
-					device.player = 0;
-					device.playerNum = OuyaController.getPlayerNumByDeviceId(d.getId());
-					device.name = d.getName();
-					devices.add(device);
-				}
-			}
-		}
-		return devices;
-	}
-
-	private void ExtractDataMotionEvent (InputContainer box, MotionEvent event)
-	{
-		box.MotionEvent = event;
-		
-		box.ActionCode = event.getAction();
-		box.ActionIndex = event.getActionIndex();
-		box.ActionMasked = event.getActionMasked();
-		
-		box.AxisBrake = event.getAxisValue(MotionEvent.AXIS_BRAKE);
-        box.AxisDistance = event.getAxisValue(MotionEvent.AXIS_DISTANCE);
-        box.AxisGas = event.getAxisValue(MotionEvent.AXIS_GAS);
-		box.AxisGeneric1 = event.getAxisValue(MotionEvent.AXIS_GENERIC_1);
-		box.AxisGeneric2 = event.getAxisValue(MotionEvent.AXIS_GENERIC_2);
-		box.AxisGeneric3 = event.getAxisValue(MotionEvent.AXIS_GENERIC_3);
-		box.AxisGeneric4 = event.getAxisValue(MotionEvent.AXIS_GENERIC_4);
-		box.AxisGeneric5 = event.getAxisValue(MotionEvent.AXIS_GENERIC_5);
-		box.AxisGeneric6 = event.getAxisValue(MotionEvent.AXIS_GENERIC_6);
-		box.AxisGeneric7 = event.getAxisValue(MotionEvent.AXIS_GENERIC_7);
-		box.AxisGeneric8 = event.getAxisValue(MotionEvent.AXIS_GENERIC_8);
-		box.AxisGeneric9 = event.getAxisValue(MotionEvent.AXIS_GENERIC_9);
-		box.AxisGeneric10 = event.getAxisValue(MotionEvent.AXIS_GENERIC_10);
-		box.AxisGeneric11 = event.getAxisValue(MotionEvent.AXIS_GENERIC_11);
-		box.AxisGeneric12 = event.getAxisValue(MotionEvent.AXIS_GENERIC_12);
-		box.AxisGeneric13 = event.getAxisValue(MotionEvent.AXIS_GENERIC_13);
-		box.AxisGeneric14 = event.getAxisValue(MotionEvent.AXIS_GENERIC_14);
-		box.AxisGeneric15 = event.getAxisValue(MotionEvent.AXIS_GENERIC_15);
-		box.AxisGeneric16 = event.getAxisValue(MotionEvent.AXIS_GENERIC_16);
-		box.AxisHatX = event.getAxisValue(MotionEvent.AXIS_HAT_X);
-        box.AxisHatY = event.getAxisValue(MotionEvent.AXIS_HAT_Y);
-        box.AxisHScroll = event.getAxisValue(MotionEvent.AXIS_HSCROLL);
-        box.AxisLTrigger = event.getAxisValue(MotionEvent.AXIS_LTRIGGER);
-        box.AxisOrientation = event.getAxisValue(MotionEvent.AXIS_ORIENTATION);
-        box.AxisPressire = event.getAxisValue(MotionEvent.AXIS_PRESSURE);
-        box.AxisRTrigger = event.getAxisValue(MotionEvent.AXIS_RTRIGGER);
-        box.AxisRudder = event.getAxisValue(MotionEvent.AXIS_RUDDER);
-        box.AxisRX = event.getAxisValue(MotionEvent.AXIS_RX);
-        box.AxisRY = event.getAxisValue(MotionEvent.AXIS_RY);
-        box.AxisRZ = event.getAxisValue(MotionEvent.AXIS_RZ);
-        box.AxisSize = event.getAxisValue(MotionEvent.AXIS_SIZE);
-        box.AxisThrottle = event.getAxisValue(MotionEvent.AXIS_THROTTLE);
-        box.AxisTilt = event.getAxisValue(MotionEvent.AXIS_TILT);
-        box.AxisToolMajor = event.getAxisValue(MotionEvent.AXIS_TOUCH_MAJOR);
-        box.AxisToolMinor = event.getAxisValue(MotionEvent.AXIS_TOUCH_MINOR);
-        box.AxisVScroll = event.getAxisValue(MotionEvent.AXIS_VSCROLL);
-        box.AxisWheel = event.getAxisValue(MotionEvent.AXIS_WHEEL);
-        box.AxisX = event.getAxisValue(MotionEvent.AXIS_X);
-		box.AxisY = event.getAxisValue(MotionEvent.AXIS_Y);
-		box.AxisZ = event.getAxisValue(MotionEvent.AXIS_Z);
-
-		box.ButtonState = event.getButtonState();
-		box.EdgeFlags = event.getEdgeFlags();
-		box.Flags = event.getFlags();
-		box.DeviceId = event.getDeviceId();
-		InputDevice device = InputDevice.getDevice(box.DeviceId);
-		if (null != device)
-		{
-			box.DeviceName = device.getName();
-		}
-		box.MetaState = event.getMetaState();
-		box.PointerCount = event.getPointerCount();
-		box.Pressure = event.getPressure();
-		box.X = event.getX();
-		box.Y = event.getY();
-	}
-
-	private void ExtractDataKeyEvent (InputContainer box, KeyEvent event)
-	{
-		box.KeyEvent = event;
-		
-		box.ActionCode = event.getAction();
-		box.Flags = event.getFlags();
-		box.DeviceId = event.getDeviceId();
-		InputDevice device = InputDevice.getDevice(box.DeviceId);
-		if (null != device)
-		{
-			box.DeviceName = device.getName();
-		}
-		box.MetaState = event.getMetaState();
-	}
-
-	private void GenericSendMessage (String method, InputContainer box)
-	{
-		Gson gson = new Gson();
-		String jsonData = gson.toJson(box);
-
-		if (m_enableLogging)
-		{
-			//Log.i("Unity", method + " jsonData=" + jsonData);
-		}
-
-		if (m_enableUnity)
-		{
-			UnityPlayer.UnitySendMessage("OuyaGameObject", method, jsonData);
-		}
-	}
-
-	private void GenericSendMessage (String method, ArrayList<Device> devices)
-	{
-		Gson gson = new Gson();
-		String jsonData = gson.toJson(devices);
-
-		if (m_enableLogging)
-		{
-			Log.i("Unity", method + " jsonData=" + jsonData);
-		}
-		
-		if (m_enableUnity)
-		{
-			UnityPlayer.UnitySendMessage("OuyaGameObject", method, jsonData);
-		}
-	}
 	public void onConfigurationChanged(Configuration newConfig)
 	{
 		super.onConfigurationChanged(newConfig);
@@ -504,15 +287,6 @@ public class OuyaUnityApplication extends Activity
 	@Override
 	public boolean onKeyDown (int keyCode, KeyEvent event)
 	{
-		if (OuyaUnityPlugin.getUseLegacyInput())
-		{
-			InputContainer box = new InputContainer();
-			ExtractDataKeyEvent(box, event);
-			box.KeyCode = keyCode;
-			GenericSendMessage("onKeyDown", box);
-			return true;
-		}
-
 		if (null == IOuyaActivity.GetUnityPlayer())
 		{
 			Log.i("Unity", "IOuyaActivity.GetUnityPlayer() is null");
@@ -530,16 +304,7 @@ public class OuyaUnityApplication extends Activity
 			Log.i("Unity", "BroadcastReceiver tell Unity we see the menu button up");
 			UnityPlayer.UnitySendMessage("OuyaGameObject", "onMenuButtonUp", "");
 			Log.i("Unity", "BroadcastReceiver notified Unity onMenuButtonUp");
-			 
-		}
 
-		if (OuyaUnityPlugin.getUseLegacyInput())
-		{
-			InputContainer box = new InputContainer();
-			ExtractDataKeyEvent(box, event);
-			box.KeyCode = keyCode;
-			GenericSendMessage("onKeyUp", box);
-			return true;
 		}
 
 		if (null == IOuyaActivity.GetUnityPlayer())
@@ -547,21 +312,13 @@ public class OuyaUnityApplication extends Activity
 			Log.i("Unity", "IOuyaActivity.GetUnityPlayer() is null");
 			return false;
 		}
-		
+
 		return IOuyaActivity.GetUnityPlayer().onKeyUp(keyCode, event);
 	}
 
 	@Override
 	public boolean onGenericMotionEvent (MotionEvent event)
 	{
-		if (OuyaUnityPlugin.getUseLegacyInput())
-		{
-			InputContainer box = new InputContainer();
-			ExtractDataMotionEvent(box, event);
-			GenericSendMessage("onGenericMotionEvent", box);
-			return true;
-		}
-
 		if (null == IOuyaActivity.GetUnityPlayer())
 		{
 			Log.i("Unity", "IOuyaActivity.GetUnityPlayer() is null");
@@ -572,139 +329,29 @@ public class OuyaUnityApplication extends Activity
 
 		//rupert is awesome!!! workaround to not detecting axis input (3.5.7)
 		return IOuyaActivity.GetUnityPlayer().onTouchEvent(event);
-
-		/*
-
-		//yes we have the data
-
-		//Get the player #
-		int player = OuyaController.getPlayerNumByDeviceId(event.getDeviceId());    
-
-		//Get all the axis for the event
-		float LS_X = event.getAxisValue(OuyaController.AXIS_LS_X);
-		float LS_Y = event.getAxisValue(OuyaController.AXIS_LS_Y);
-		float RS_X = event.getAxisValue(OuyaController.AXIS_RS_X);
-		float RS_Y = event.getAxisValue(OuyaController.AXIS_RS_Y);
-		float L2 = event.getAxisValue(OuyaController.AXIS_L2);
-		float R2 = event.getAxisValue(OuyaController.AXIS_R2);
-
-		//Do something with the input
-		//updatePlayerInput(player, LS_X, LS_Y, RS_X, RS_Y, L2, R2);
-		Log.i("Unity", "LS_X="+LS_X+", LS_Y"+LS_Y+", RS_X="+RS_X+", RS_Y"+RS_Y+", L2="+L2+", R2"+R2);
-
-		return IOuyaActivity.GetUnityPlayer().onGenericMotionEvent(m);
-		*/
 	}
 
 	@Override
 	public boolean onTouchEvent (MotionEvent event)
 	{
-		if (OuyaUnityPlugin.getUseLegacyInput())
-		{
-			InputContainer box = new InputContainer();
-			ExtractDataMotionEvent(box, event);
-			GenericSendMessage("onTouchEvent", box);
-			return true;
-		}
-
 		if (null == IOuyaActivity.GetUnityPlayer())
 		{
 			Log.i("Unity", "IOuyaActivity.GetUnityPlayer() is null");
 			return false;
 		}
-		
+
 		return IOuyaActivity.GetUnityPlayer().onTouchEvent(event);
 	}
 
 	@Override
 	public boolean onTrackballEvent (MotionEvent event)
 	{
-		if (OuyaUnityPlugin.getUseLegacyInput())
-		{
-			InputContainer box = new InputContainer();
-			ExtractDataMotionEvent(box, event);
-			GenericSendMessage("onTrackballEvent", box);
-			return true;
-		}
-
 		if (null == IOuyaActivity.GetUnityPlayer())
 		{
 			Log.i("Unity", "IOuyaActivity.GetUnityPlayer() is null");
 			return false;
 		}
-		
+
 		return IOuyaActivity.GetUnityPlayer().onTrackballEvent(event);
-	}
-
-	public class Device
-	{
-		public int id;
-		public int player;
-		public int playerNum;
-		public String name;
-	}
-
-	public class InputContainer
-	{
-		public int KeyCode = 0;
-		public KeyEvent KeyEvent = null;
-		public MotionEvent MotionEvent = null;
-		
-		public int Action = 0;
-        public int ActionCode = 0;
-        public int ActionIndex = 0;
-        public int ActionMasked = 0;
-        
-		public float AxisBrake = 0;
-        public float AxisDistance = 0;
-        public float AxisGas = 0;
-        public float AxisGeneric1 = 0;
-        public float AxisGeneric2 = 0;
-        public float AxisGeneric3 = 0;
-        public float AxisGeneric4 = 0;
-        public float AxisGeneric5 = 0;
-        public float AxisGeneric6 = 0;
-        public float AxisGeneric7 = 0;
-        public float AxisGeneric8 = 0;
-        public float AxisGeneric9 = 0;
-        public float AxisGeneric10 = 0;
-        public float AxisGeneric11 = 0;
-        public float AxisGeneric12 = 0;
-        public float AxisGeneric13 = 0;
-        public float AxisGeneric14 = 0;
-        public float AxisGeneric15 = 0;
-        public float AxisGeneric16 = 0;
-        public float AxisHatX = 0;
-        public float AxisHatY = 0;
-        public float AxisHScroll = 0;
-        public float AxisLTrigger = 0;
-        public float AxisOrientation = 0;
-        public float AxisPressire = 0;
-        public float AxisRTrigger = 0;
-        public float AxisRudder = 0;
-        public float AxisRX = 0;
-        public float AxisRY = 0;
-        public float AxisRZ = 0;
-        public float AxisSize = 0;
-        public float AxisThrottle = 0;
-        public float AxisTilt = 0;
-        public float AxisToolMajor = 0;
-        public float AxisToolMinor = 0;
-        public float AxisVScroll = 0;
-        public float AxisWheel = 0;
-        public float AxisX = 0;
-        public float AxisY = 0;
-        public float AxisZ = 0;
-
-		public int ButtonState = 0;
-        public int DeviceId = 0;
-        public String DeviceName = "";
-        public int EdgeFlags = 0;
-        public int Flags = 0;
-        public int MetaState = 0;
-        public int PointerCount = 0;
-        public float Pressure = 0;
-        public float X = 0;
-        public float Y = 0;
 	}
 }

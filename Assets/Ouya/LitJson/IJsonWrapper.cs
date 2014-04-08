@@ -8,6 +8,7 @@
  * the COPYING file included with this distribution.
  **/
 
+#if !UNITY_WP8
 
 using System.Collections;
 using System.Collections.Specialized;
@@ -60,3 +61,5 @@ namespace LitJson
         void   ToJson (JsonWriter writer);
     }
 }
+
+#endif

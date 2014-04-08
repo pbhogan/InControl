@@ -6,6 +6,7 @@
  * the COPYING file included with this distribution.
  **/
 
+#if !UNITY_WP8
 
 namespace LitJson
 {
@@ -40,3 +41,5 @@ namespace LitJson
         Epsilon
     }
 }
+
+#endif

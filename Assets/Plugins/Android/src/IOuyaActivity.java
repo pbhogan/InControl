@@ -67,15 +67,15 @@ public class IOuyaActivity
 		m_layout = layout;
 	}
 
-	// save reference to the testFacade
-	protected static TestOuyaFacade m_testOuyaFacade = null;
-	public static TestOuyaFacade GetTestOuyaFacade()
+	// save reference to the UnityOuyaFacade
+	protected static UnityOuyaFacade m_unityOuyaFacade = null;
+	public static UnityOuyaFacade GetUnityOuyaFacade()
 	{
-		return m_testOuyaFacade;
+		return m_unityOuyaFacade;
 	}
-	public static void SetTestOuyaFacade(TestOuyaFacade testOuyaFacade)
+	public static void SetUnityOuyaFacade(UnityOuyaFacade unityOuyaFacade)
 	{
-		m_testOuyaFacade = testOuyaFacade;
+		m_unityOuyaFacade = unityOuyaFacade;
 	}
 
 	/*

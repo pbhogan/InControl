@@ -21,21 +21,77 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public static class OuyaSDK
 {
-    public const string VERSION = "1.0.6.1";
+    public const string VERSION = "1.0.10.12";
+
+    /// <summary>
+    /// Cache joysticks
+    /// </summary>
+    public static string[] Joysticks = null;
+
+    /// <summary>
+    /// Query joysticks every N seconds
+    /// </summary>
+    private static DateTime m_timerJoysticks = DateTime.MinValue;
+
+    /// <summary>
+    /// Update joysticks with a timer
+    /// </summary>
+    public static void UpdateJoysticks()
+    {
+#if !UNITY_WP8
+        if (m_timerJoysticks < DateTime.Now)
+        {
+            //check for new joysticks every N seconds
+            m_timerJoysticks = DateTime.Now + TimeSpan.FromSeconds(3);
+
+            string[] joysticks = Input.GetJoystickNames();
+
+            // look for changes
+            bool detectedChange = false;
+
+            if (null == Joysticks)
+            {
+                detectedChange = true;
+            }
+            else if (joysticks.Length != Joysticks.Length)
+            {
+                detectedChange = true;
+            }
+            else
+            {
+                for (int index = 0; index < joysticks.Length; ++index)
+                {
+                    if (joysticks[index] != Joysticks[index])
+                    {
+                        detectedChange = true;
+                        break;
+                    }
+                }
+            }
+
+            Joysticks = joysticks;
+
+            if (detectedChange)
+            {
+                foreach (OuyaSDK.IJoystickCalibrationListener listener in OuyaSDK.getJoystickCalibrationListeners())
+                {
+                    //Debug.Log("OuyaGameObject: Invoke OuyaOnJoystickCalibration");
+                    listener.OuyaOnJoystickCalibration();
+                }
+            }
+        }
+#endif
+    }
 
     /// <summary>
     /// The developer ID assigned by OuyaGameObject
     /// </summary>
     static private string m_developerId = string.Empty;
-
-    /// <summary>
-    /// Use legacy input assigned by OuyaGameObject
-    /// </summary>
-    private static bool m_useLegacyInput = false;
 
     /// <summary>
     /// Inidicates IAP has been setup and is ready for processing
@@ -55,6 +111,8 @@ public static class OuyaSDK
 
         return false;
     }
+
+    #region Controllers
 
     #region Key Codes
 
@@ -114,16 +172,6 @@ public static class OuyaSDK
     public const int BUTTON_DPAD_DOWN = KEYCODE_DPAD_DOWN;
     public const int BUTTON_DPAD_LEFT = KEYCODE_DPAD_LEFT;
     public const int BUTTON_DPAD_CENTER = KEYCODE_DPAD_CENTER;
-
-    public enum InputAction
-    {
-        None,
-        GenericMotionEvent,
-        KeyDown,
-        KeyUp,
-        TouchEvent,
-        TrackballEvent
-    }
 
     public enum KeyEnum
     {
@@ -202,48 +250,231 @@ public static class OuyaSDK
         none=0,
     }
 
+    /// <summary>
+    /// Array of supported controllers
+    /// </summary>
+    private static List<IOuyaController> m_supportedControllers = new List<IOuyaController>();
+
+    /// <summary>
+    /// Register a supported controllers
+    /// </summary>
+    static OuyaSDK()
+    {
+        // Log the ouya-unity-plugin version:
+        Debug.Log(string.Format("ouya-unity-plugin version: {0}", VERSION));
+
+        try
+        {
+            //Debug.Log("Accessing Assembly for IOuyaController");
+            Assembly assembly = Assembly.GetAssembly(typeof(IOuyaController));
+            //Debug.Log("Getting types");
+            foreach (Type type in assembly.GetTypes())
+            {
+                //Debug.Log(string.Format("Type={0}", type.Name));
+                if (type == typeof (IOuyaController))
+                {
+                    //Debug.Log(" skip...");
+                }
+                else if (typeof (IOuyaController).IsAssignableFrom(type))
+                {
+                    //Debug.Log(" Creating...");
+                    IOuyaController controller = (IOuyaController) Activator.CreateInstance(type);
+                    if (null != controller)
+                    {
+                        m_supportedControllers.Add(controller);
+                        /*
+                        Debug.Log(string.Format("Registered Controller: {0}", controller.GetType()));
+                        foreach (string joystick in controller.GetSupportedJoysicks())
+                        {
+                            Debug.Log(string.Format(" Supports: {0}", joystick));
+                        }
+                        */
+                    }
+                }
+            }
+        }
+        catch (Exception)
+        {
+            
+        }
+    }
+
+    /// <summary>
+    /// Check for a supported controller given the controller name
+    /// </summary>
+    /// <param name="controllerName"></param>
+    /// <returns></returns>
+    public static IOuyaController GetSupportedController(string controllerName)
+    {
+        foreach (IOuyaController controller in m_supportedControllers)
+        {
+            foreach (string name in controller.GetSupportedJoysicks())
+            {
+                if (controllerName.ToUpper().Contains(name.ToUpper()))
+                {
+                    return controller;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Check if the player has a supported controller
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
+    public static IOuyaController GetSupportedController(OuyaSDK.OuyaPlayer player)
+    {
+        if (null == OuyaSDK.Joysticks)
+        {
+            return null;
+        }
+        int playerIndex = (int) player - 1;
+        if (playerIndex >= OuyaSDK.Joysticks.Length)
+        {
+            return null;
+        }
+
+        string joystickName = OuyaSDK.Joysticks[playerIndex];
+        if (null == joystickName)
+        {
+            return null;
+        }
+
+        return GetSupportedController(joystickName);
+    }
+
+    /// <summary>
+    /// Return the supported axises
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
+    public static OuyaSDK.KeyEnum[] GetSupportedAxises(OuyaSDK.OuyaPlayer player)
+    {
+        IOuyaController controller = GetSupportedController(player);
+        if (null == controller)
+        {
+            return null;
+        }
+
+        return controller.GetSupportedAxises();
+    }
+
+    /// <summary>
+    /// Return the supported buttons
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
+    public static OuyaSDK.KeyEnum[] GetSupportedButtons(OuyaSDK.OuyaPlayer player)
+    {
+        IOuyaController controller = GetSupportedController(player);
+        if (null == controller)
+        {
+            return null;
+        }
+
+        return controller.GetSupportedButtons();
+    }
+
+    /// <summary>
+    /// Check if the controller axis is available
+    /// </summary>
+    /// <param name="keyCode"></param>
+    /// <param name="player"></param>
+    /// <returns></returns>
+    public static bool HasAxis(OuyaSDK.KeyEnum keyCode, OuyaSDK.OuyaPlayer player)
+    {
+        IOuyaController controller = GetSupportedController(player);
+        if (null == controller)
+        {
+            return false;
+        }
+
+        return controller.HasAxis(keyCode);
+    }
+
+    /// <summary>
+    /// Check if the controller button is available
+    /// </summary>
+    /// <param name="keyCode"></param>
+    /// <param name="player"></param>
+    /// <returns></returns>
+    public static bool HasButton(OuyaSDK.KeyEnum keyCode, OuyaSDK.OuyaPlayer player)
+    {
+        IOuyaController controller = GetSupportedController(player);
+        if (null == controller)
+        {
+            return false;
+        }
+
+        return controller.HasButton(keyCode);
+    }
+
+    /// <summary>
+    /// Check if the axis should be inverted after accessing the Unity API
+    /// </summary>
+    /// <param name="keyCode"></param>
+    /// <param name="player"></param>
+    /// <returns></returns>
+    public static bool GetAxisInverted(OuyaSDK.KeyEnum keyCode, OuyaSDK.OuyaPlayer player)
+    {
+        IOuyaController controller = GetSupportedController(player);
+        if (null == controller)
+        {
+            return false;
+        }
+
+        return controller.GetAxisInverted(keyCode);
+    }
+
+    /// <summary>
+    /// Get the AxisName to be used with the Unity API
+    /// </summary>
+    /// <param name="keyCode"></param>
+    /// <param name="player"></param>
+    /// <returns></returns>
+    public static string GetUnityAxisName(OuyaSDK.KeyEnum keyCode, OuyaSDK.OuyaPlayer player)
+    {
+        IOuyaController controller = GetSupportedController(player);
+        if (null == controller)
+        {
+            return string.Empty;
+        }
+
+        return controller.GetUnityAxisName(keyCode, player);
+    }
+
+    /// <summary>
+    /// Get the KeyCode to be used with the Unity API
+    /// </summary>
+    /// <param name="keyCode"></param>
+    /// <param name="player"></param>
+    /// <returns></returns>
+    public static KeyCode GetUnityKeyCode(OuyaSDK.KeyEnum keyCode, OuyaSDK.OuyaPlayer player)
+    {
+        IOuyaController controller = GetSupportedController(player);
+        if (null == controller)
+        {
+            return (KeyCode)(-1);
+        }
+
+        return controller.GetUnityKeyCode(keyCode, player);
+    }
+
     #endregion
 
-    /// <summary>
-    /// Listener for the input buttons
-    /// </summary>
-    private static OuyaSDK.InputButtonListener<OuyaSDK.InputButtonEvent> m_inputButtonListener = null;
-    public static OuyaSDK.InputButtonListener<OuyaSDK.InputButtonEvent> getInputButtonListener()
-    {
-        return m_inputButtonListener;
-    }
-    public static void registerInputButtonListener(OuyaSDK.InputButtonListener<OuyaSDK.InputButtonEvent> inputButtonListener)
-    {
-        m_inputButtonListener = inputButtonListener;
-    }
-
-    /// <summary>
-    /// Listener for the input axis
-    /// </summary>
-    private static OuyaSDK.InputAxisListener<OuyaSDK.InputAxisEvent> m_inputAxisListener = null;
-    public static OuyaSDK.InputAxisListener<OuyaSDK.InputAxisEvent> getInputAxisListener()
-    {
-        return m_inputAxisListener;
-    }
-    public static void registerInputAxisListener(OuyaSDK.InputAxisListener<OuyaSDK.InputAxisEvent> inputAxisListener)
-    {
-        m_inputAxisListener = inputAxisListener;
-    }
+    #endregion
 
     /// <summary>
     /// Initialized by OuyaGameObject
     /// </summary>
     /// <param name="developerId"></param>
-    public static void initialize(string developerId, bool useLegacyInput)
+    public static void initialize(string developerId)
     {
         m_developerId = developerId;
         OuyaSDK.OuyaJava.JavaSetDeveloperId();
-
-        m_useLegacyInput = useLegacyInput;
-        if (m_useLegacyInput)
-        {
-            OuyaSDK.OuyaJava.JavaUseLegacyInput();
-        }
 
         OuyaSDK.OuyaJava.JavaUnityInitialized();
     }
@@ -284,9 +515,24 @@ public static class OuyaSDK
     {
     }
 
-    public static void fetchGamerUUID()
+    public static void fetchGamerInfo()
     {
-        OuyaSDK.OuyaJava.JavaFetchGamerUUID();
+        OuyaSDK.OuyaJava.JavaFetchGamerInfo();
+    }
+
+    public static void showCursor(bool flag)
+    {
+        OuyaSDK.OuyaJava.JavaShowCursor(flag);
+    }
+
+    public static void putGameData(string key, string val)
+    {
+        OuyaSDK.OuyaJava.JavaPutGameData(key, val);
+    }
+
+    public static string getGameData(string key)
+    {
+        return OuyaSDK.OuyaJava.JavaGetGameData(key);
     }
 
     public static void requestProductList(List<Purchasable> purchasables)
@@ -327,176 +573,71 @@ public static class OuyaSDK
 
     #region Data containers
 
+    [Serializable]
+    public class GamerInfo
+    {
+        public string uuid = string.Empty;
+        public string username = string.Empty;
+    }
+
+    [Serializable]
     public class Purchasable
     {
         public string productId = string.Empty;
-        public Purchasable(string productId)
-        {
-            this.productId = productId;
-        }
-        public string getProductId()
-        {
-            return productId;
-        }
-        public static implicit operator string(Purchasable rhs)
-        {
-            return rhs.getProductId();
-        }
-        public static implicit operator Purchasable(string rhs)
-        {
-            return new Purchasable(rhs);
-        }
     }
 
     [Serializable]
     public class Product
     {
+        public string currencyCode = string.Empty;
+        public string description = string.Empty;
         public string identifier = string.Empty;
+        public float localPrice = 0f;
         public string name = string.Empty;
+        public float originalPrice = 0f;
+        public float percentOff = 0f;
         public int priceInCents = 0;
-
-        public string getIdentifier()
-        {
-            return identifier;
-        }
-
-        public string getName()
-        {
-            return name;
-        }
-
-        public int getPriceInCents()
-        {
-            return priceInCents;
-        }
-
-        public void setIdentifier(string identifier)
-        {
-            this.identifier = identifier;
-        }
-
-        public void setName(string name)
-        {
-            this.name = name;
-        }
-
-        public void setPriceInCents(int priceInCents)
-        {
-            this.priceInCents = priceInCents;
-        }
+        public int productVersionToBundle = 0;
     }
 
     [Serializable]
     public class Receipt
     {
+        public string currency = string.Empty;
+        public string gamer = string.Empty;
+        public DateTime generatedDate = DateTime.MinValue;
         public string identifier = string.Empty;
+        public float localPrice = 0f;
         public int priceInCents = 0;
         public DateTime purchaseDate = DateTime.MinValue;
-        public DateTime generatedDate = DateTime.MinValue;
+        public string uuid = string.Empty;
+    }
+    
+    #endregion
 
-        public string getIdentifier()
-        {
-            return identifier;
-        }
+    #region Joystick Callibration Listeners
 
-        public int getPriceInCents()
+    public interface IJoystickCalibrationListener
+    {
+        void OuyaOnJoystickCalibration();
+    }
+    private static List<IJoystickCalibrationListener> m_joystickCalibrationListeners = new List<IJoystickCalibrationListener>();
+    public static List<IJoystickCalibrationListener> getJoystickCalibrationListeners()
+    {
+        return m_joystickCalibrationListeners;
+    }
+    public static void registerJoystickCalibrationListener(IJoystickCalibrationListener listener)
+    {
+        if (!m_joystickCalibrationListeners.Contains(listener))
         {
-            return priceInCents;
-        }
-
-        public DateTime getPurchaseDate()
-        {
-            return purchaseDate;
-        }
-
-        public DateTime getGeneratedDate()
-        {
-            return generatedDate;
-        }
-
-        public void setIdentifier(string identifier)
-        {
-            this.identifier = identifier;
-        }
-
-        public void setPriceInCents(int priceInCents)
-        {
-            this.priceInCents = priceInCents;
-        }
-
-        public void setPurchaseDate(DateTime date)
-        {
-            purchaseDate = date;
-        }
-
-        public void setGeneratedDate(DateTime date)
-        {
-            generatedDate = date;
+            m_joystickCalibrationListeners.Add(listener);
         }
     }
-
-    public class InputButtonEvent
+    public static void unregisterJoystickCalibrationListener(IJoystickCalibrationListener listener)
     {
-        public InputButtonEvent(InputAction inputAction, KeyEnum keyCode, OuyaPlayer player)
+        if (m_joystickCalibrationListeners.Contains(listener))
         {
-            m_inputAction = inputAction;
-            m_keyCode = keyCode;
-            m_player = player;
-        }
-
-        private InputAction m_inputAction = InputAction.None;
-        public InputAction getKeyAction()
-        {
-            return m_inputAction;
-        }
-
-        private KeyEnum m_keyCode = 0;
-        public KeyEnum getKeyCode()
-        {
-            return m_keyCode;
-        }
-
-        private OuyaPlayer m_player;
-        public OuyaPlayer getPlayer()
-        {
-            return m_player;
-        }
-    }
-
-    public class InputAxisEvent
-    {
-        private int m_keyCode;
-
-        public InputAxisEvent(InputAction inputAction, OuyaSDK.AxisEnum axisEnum, float axis, OuyaPlayer player)
-        {
-            m_inputAction = inputAction;
-            m_axisCode = axisEnum;
-            m_axis = axis;
-            m_player = player;
-        }
-
-        private InputAction m_inputAction = InputAction.None;
-        public InputAction getInputAction()
-        {
-            return m_inputAction;
-        }
-
-        private AxisEnum m_axisCode = AxisEnum.NONE;
-        public AxisEnum getAxisCode()
-        {
-            return m_axisCode;
-        }
-
-        private float m_axis = 0f;
-        public float getAxis()
-        {
-            return m_axis;
-        }
-
-        private OuyaPlayer m_player;
-        public OuyaPlayer getPlayer()
-        {
-            return m_player;
+            m_joystickCalibrationListeners.Remove(listener);
         }
     }
 
@@ -616,29 +757,29 @@ public static class OuyaSDK
 
     #region Fetch Gamer UUID Listener
 
-    public interface IFetchGamerUUIDListener
+    public interface IFetchGamerInfoListener
     {
-        void OuyaFetchGamerUUIDOnSuccess(string gamerUUID);
-        void OuyaFetchGamerUUIDOnFailure(int errorCode, string errorMessage);
-        void OuyaFetchGamerUUIDOnCancel();
+        void OuyaFetchGamerInfoOnSuccess(string uuid, string username);
+        void OuyaFetchGamerInfoOnFailure(int errorCode, string errorMessage);
+        void OuyaFetchGamerInfoOnCancel();
     }
-    private static List<IFetchGamerUUIDListener> m_fetchGamerUUIDListeners = new List<IFetchGamerUUIDListener>();
-    public static List<IFetchGamerUUIDListener> getFetchGamerUUIDListeners()
+    private static List<IFetchGamerInfoListener> m_FetchGamerInfoListeners = new List<IFetchGamerInfoListener>();
+    public static List<IFetchGamerInfoListener> getFetchGamerInfoListeners()
     {
-        return m_fetchGamerUUIDListeners;
+        return m_FetchGamerInfoListeners;
     }
-    public static void registerFetchGamerUUIDListener(IFetchGamerUUIDListener listener)
+    public static void registerFetchGamerInfoListener(IFetchGamerInfoListener listener)
     {
-        if (!m_fetchGamerUUIDListeners.Contains(listener))
+        if (!m_FetchGamerInfoListeners.Contains(listener))
         {
-            m_fetchGamerUUIDListeners.Add(listener);
+            m_FetchGamerInfoListeners.Add(listener);
         }
     }
-    public static void unregisterFetchGamerUUIDListener(IFetchGamerUUIDListener listener)
+    public static void unregisterFetchGamerInfoListener(IFetchGamerInfoListener listener)
     {
-        if (m_fetchGamerUUIDListeners.Contains(listener))
+        if (m_FetchGamerInfoListeners.Contains(listener))
         {
-            m_fetchGamerUUIDListeners.Remove(listener);
+            m_FetchGamerInfoListeners.Remove(listener);
         }
     }
 
@@ -789,34 +930,6 @@ public static class OuyaSDK
 #endif
         }
 
-        public static void JavaUseLegacyInput()
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR && !UNITY_STANDALONE_OSX && !UNITY_STANDALONE_WIN && !UNITY_STANDALONE_LINUX
-
-            // again, make sure the thread is attached..
-            AndroidJNI.AttachCurrentThread();
-
-            AndroidJNI.PushLocalFrame(0);
-
-            try
-            {
-                Debug.Log("useLegacyInput");
-                using (AndroidJavaClass ajc = new AndroidJavaClass(JAVA_CLASS))
-                {
-                    ajc.CallStatic("useLegacyInput");
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError(string.Format("OuyaSDK.JavaUseLegacyInput exception={0}", ex));
-            }
-            finally
-            {
-                AndroidJNI.PopLocalFrame(IntPtr.Zero);
-            }
-#endif
-        }
-
         public static void JavaUnityInitialized()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR && !UNITY_STANDALONE_OSX && !UNITY_STANDALONE_WIN && !UNITY_STANDALONE_LINUX
@@ -873,7 +986,95 @@ public static class OuyaSDK
 #endif
         }
 
-        public static void JavaFetchGamerUUID()
+        public static void JavaShowCursor(bool flag)
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR && !UNITY_STANDALONE_OSX && !UNITY_STANDALONE_WIN && !UNITY_STANDALONE_LINUX
+
+            // again, make sure the thread is attached..
+            AndroidJNI.AttachCurrentThread();
+
+            AndroidJNI.PushLocalFrame(0);
+
+            try
+            {
+                //Debug.Log("JavaShowCursor");
+                using (AndroidJavaClass ajc = new AndroidJavaClass(JAVA_CLASS))
+                {
+                    ajc.CallStatic("showCursor", new object[] { flag.ToString() });
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(string.Format("OuyaSDK.JavaShowCursor exception={0}", ex));
+            }
+            finally
+            {
+                AndroidJNI.PopLocalFrame(IntPtr.Zero);
+            }
+#endif
+        }
+
+        public static void JavaPutGameData(string key, string val)
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR && !UNITY_STANDALONE_OSX && !UNITY_STANDALONE_WIN && !UNITY_STANDALONE_LINUX
+
+            // again, make sure the thread is attached..
+            AndroidJNI.AttachCurrentThread();
+
+            AndroidJNI.PushLocalFrame(0);
+
+            try
+            {
+                Debug.Log("JavaPutGameData");
+                using (AndroidJavaClass ajc = new AndroidJavaClass(JAVA_CLASS))
+                {
+                    ajc.CallStatic("putGameData", new object[] { key + "\0", val + "\0" });
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(string.Format("OuyaSDK.JavaPutGameData exception={0}", ex));
+            }
+            finally
+            {
+                AndroidJNI.PopLocalFrame(IntPtr.Zero);
+            }
+#endif
+        }
+
+        public static string JavaGetGameData(string key)
+        {
+            string result = string.Empty;
+
+#if UNITY_ANDROID && !UNITY_EDITOR && !UNITY_STANDALONE_OSX && !UNITY_STANDALONE_WIN && !UNITY_STANDALONE_LINUX
+
+            // again, make sure the thread is attached..
+            AndroidJNI.AttachCurrentThread();
+
+            AndroidJNI.PushLocalFrame(0);
+
+            try
+            {
+                Debug.Log("JavaGetGameData");
+                using (AndroidJavaClass ajc = new AndroidJavaClass(JAVA_CLASS))
+                {
+                    result = ajc.CallStatic<String>("getGameData", new object[] { key + "\0" });
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(string.Format("OuyaSDK.JavaGetGameData exception={0}", ex));
+            }
+            finally
+            {
+                AndroidJNI.PopLocalFrame(IntPtr.Zero);
+            }
+#endif
+
+            return result;
+        }
+
+        public static void JavaFetchGamerInfo()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR && !UNITY_STANDALONE_OSX && !UNITY_STANDALONE_WIN && !UNITY_STANDALONE_LINUX
             // again, make sure the thread is attached..
@@ -883,16 +1084,16 @@ public static class OuyaSDK
 
             try
             {
-                Debug.Log(string.Format("{0} OuyaSDK.JavaFetchGamerUUID", DateTime.Now));
+                Debug.Log(string.Format("{0} OuyaSDK.JavaFetchGamerInfo", DateTime.Now));
 
                 using (AndroidJavaClass ajc = new AndroidJavaClass(JAVA_CLASS))
                 {
-                    ajc.CallStatic("fetchGamerUUID");
+                    ajc.CallStatic("fetchGamerInfo");
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogError(string.Format("OuyaSDK.JavaFetchGamerUUID exception={0}", ex));
+                Debug.LogError(string.Format("OuyaSDK.JavaFetchGamerInfo exception={0}", ex));
             }
             finally
             {
@@ -915,7 +1116,7 @@ public static class OuyaSDK
 
                 using (AndroidJavaClass ajc = new AndroidJavaClass(JAVA_CLASS))
                 {
-                    ajc.CallStatic("addGetProduct", purchasable.getProductId());
+                    ajc.CallStatic("addGetProduct", purchasable.productId);
                 }
             }
             catch (Exception ex)
@@ -1023,11 +1224,11 @@ public static class OuyaSDK
 
             try
             {
-                Debug.Log(string.Format("JavaRequestPurchaseAsync purchasable: {0}", purchasable.getProductId()));
+                Debug.Log(string.Format("JavaRequestPurchaseAsync purchasable: {0}", purchasable.productId));
 
                 using (AndroidJavaClass ajc = new AndroidJavaClass(JAVA_CLASS))
                 {
-                    ajc.CallStatic<String>("requestPurchaseAsync", new object[] { purchasable.getProductId() + "\0" });
+                    ajc.CallStatic<String>("requestPurchaseAsync", new object[] { purchasable.productId + "\0" });
                 }
             }
             catch (Exception ex)

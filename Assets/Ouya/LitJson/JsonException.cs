@@ -6,6 +6,7 @@
  * the COPYING file included with this distribution.
  **/
 
+#if !UNITY_WP8
 
 using System;
 
@@ -56,3 +57,5 @@ namespace LitJson
         }
     }
 }
+
+#endif

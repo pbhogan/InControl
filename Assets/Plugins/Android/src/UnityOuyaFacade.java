@@ -51,13 +51,13 @@ import java.util.*;
 
 import com.unity3d.player.UnityPlayer;
 
-public class TestOuyaFacade
+public class UnityOuyaFacade
 {
     /**
      * The tag for log messages
      */
 
-    private static final String LOG_TAG = "IapSample";
+    private static final String LOG_TAG = "UnityOuyaFacade";
 
     /*
      * Before this app will run, you must define some purchasable items on the developer website. Once
@@ -79,7 +79,7 @@ public class TestOuyaFacade
      */
 
     private static final String RECEIPTS_INSTANCE_STATE_KEY = "Receipts";
-	
+
     /**
      * The ID used to track the activity started by an authentication intent during a purchase.
      */
@@ -111,7 +111,7 @@ public class TestOuyaFacade
      */
 
     private final Map<String, Product> mOutstandingPurchaseRequests = new HashMap<String, Product>();
-	
+
     /**
      * Broadcast listener to handle re-requesting the receipts when a user has re-authenticated
      */
@@ -137,19 +137,19 @@ public class TestOuyaFacade
 	private Context context;
 
 	// Custom-iap-code, listener for fetching gamer uuid
-	CancelIgnoringOuyaResponseListener<String> m_fetchGamerUUIDListener = null;
+	CancelIgnoringOuyaResponseListener<GamerInfo> m_fetchGamerInfoListener = null;
 
 	// Custom-iap-code, listener for getting products
 	CancelIgnoringOuyaResponseListener<ArrayList<Product>> m_productListListener = null;
 
-	public TestOuyaFacade(Context context, Bundle savedInstanceState, String developerId, byte[] applicationKey)
+	public UnityOuyaFacade(Context context, Bundle savedInstanceState, String developerId, byte[] applicationKey)
 	{
 		try
 		{
 			this.context = context;
 
-			Log.i("TestOuyaFacade", "TestOuyaFacade.Init(" + developerId + ");");
-			UnityPlayer.UnitySendMessage("OuyaGameObject", "DebugLog", "TestOuyaFacade.Init(" + developerId + ");");
+			Log.i(LOG_TAG, "UnityOuyaFacade.Init(" + developerId + ");");
+			UnityPlayer.UnitySendMessage("OuyaGameObject", "DebugLog", "UnityOuyaFacade.Init(" + developerId + ");");
 
 			ouyaFacade = OuyaFacade.getInstance();
 
@@ -166,7 +166,7 @@ public class TestOuyaFacade
         }
 		catch (Exception ex)
 		{
-            Log.e(LOG_TAG, "TestOuyaFacade constructor exception", ex);
+            Log.e(LOG_TAG, "UnityOuyaFacade constructor exception", ex);
         }
 	}
 
@@ -178,14 +178,14 @@ public class TestOuyaFacade
 
 	private void Init(String developerId)
 	{
-		Log.i("TestOuyaFacade", "OuyaFacade.init(context, " + developerId + ");");
+		Log.i(LOG_TAG, "OuyaFacade.init(context, " + developerId + ");");
 		UnityPlayer.UnitySendMessage("OuyaGameObject", "DebugLog", "ouyaFacade.init(context, " + developerId + ");");
         ouyaFacade.init(context, developerId);
 
 		// custom-iap-code
-		m_fetchGamerUUIDListener = new CancelIgnoringOuyaResponseListener<String>() {
+		m_fetchGamerInfoListener = new CancelIgnoringOuyaResponseListener<GamerInfo>() {
             @Override
-            public void onSuccess(String result) {
+            public void onSuccess(GamerInfo info) {
 				/*
                 new AlertDialog.Builder(IapSampleActivity.this)
                         .setTitle(getString(R.string.alert_title))
@@ -193,8 +193,12 @@ public class TestOuyaFacade
                         .setPositiveButton(R.string.ok, null)
                         .show();
 				*/
-				Log.i("TestOuyaFacade", "m_fetchGamerUUIDListener FetchGamerUUIDSuccessListener=" + result);
-				UnityPlayer.UnitySendMessage("OuyaGameObject", "FetchGamerUUIDSuccessListener", result);
+
+            	Gson gson = new Gson();
+				String jsonData = gson.toJson(info);
+
+				Log.i(LOG_TAG, "m_fetchGamerInfoListener FetchGamerInfoSuccessListener uuid=" + jsonData);
+				UnityPlayer.UnitySendMessage("OuyaGameObject", "FetchGamerInfoSuccessListener", jsonData);
             }
 
             @Override
@@ -203,7 +207,7 @@ public class TestOuyaFacade
                 boolean wasHandledByAuthHelper =
                         OuyaAuthenticationHelper.
                                 handleError(
-										//custom iap code										
+										//custom iap code
 										IOuyaActivity.GetActivity(), errorCode, errorMessage,
 
                                         //IapSampleActivity.this, errorCode, errorMessage,
@@ -211,7 +215,7 @@ public class TestOuyaFacade
                                         new OuyaResponseListener<Void>() {
                                             @Override
                                             public void onSuccess(Void result) {
-                                                fetchGamerUUID();   // Retry the fetch if the error was handled.
+                                                fetchGamerInfo();   // Retry the fetch if the error was handled.
                                             }
 
                                             @Override
@@ -224,15 +228,15 @@ public class TestOuyaFacade
 												er.errorMessage = errorMessage;
 												String jsonData = gson.toJson(er);
 
-												Log.i("TestOuyaFacade", "m_fetchGamerUUIDListener FetchGamerUUIDFailureListener=" + jsonData);
-												UnityPlayer.UnitySendMessage("OuyaGameObject", "FetchGamerUUIDFailureListener", jsonData);
+												Log.i(LOG_TAG, "m_fetchGamerInfoListener FetchGamerInfoFailureListener=" + jsonData);
+												UnityPlayer.UnitySendMessage("OuyaGameObject", "FetchGamerInfoFailureListener", jsonData);
                                             }
 
                                             @Override
                                             public void onCancel() {
                                                 //showError("Unable to fetch gamer UUID");
-												Log.i("TestOuyaFacade", "m_fetchGamerUUIDListener FetchGamerUUIDCancelListener");
-												UnityPlayer.UnitySendMessage("OuyaGameObject", "FetchGamerUUIDCancelListener", "");
+												Log.i(LOG_TAG, "m_fetchGamerInfoListener FetchGamerInfoCancelListener");
+												UnityPlayer.UnitySendMessage("OuyaGameObject", "FetchGamerInfoCancelListener", "");
                                             }
                                         });
 
@@ -245,8 +249,8 @@ public class TestOuyaFacade
 					er.errorMessage = errorMessage;
 					String jsonData = gson.toJson(er);
 
-					Log.i("TestOuyaFacade", "m_fetchGamerUUIDListener FetchGamerUUIDFailureListener=" + jsonData);
-					UnityPlayer.UnitySendMessage("OuyaGameObject", "FetchGamerUUIDFailureListener", jsonData);
+					Log.i(LOG_TAG, "m_fetchGamerInfoListener FetchGamerInfoFailureListener=" + jsonData);
+					UnityPlayer.UnitySendMessage("OuyaGameObject", "FetchGamerInfoFailureListener", jsonData);
                 }
             }
         };
@@ -261,7 +265,7 @@ public class TestOuyaFacade
 				// custom-iap-code
 
 				// clear the old list
-				Log.i("TestOuyaFacade", "m_productListListener ProductListClearListener");
+				Log.i(LOG_TAG, "m_productListListener ProductListClearListener");
 				UnityPlayer.UnitySendMessage("OuyaGameObject", "ProductListClearListener", "");
 
 				//send each item in the list
@@ -272,13 +276,13 @@ public class TestOuyaFacade
 						Gson gson = new Gson();
 						String jsonData = gson.toJson(product);
 
-						Log.i("TestOuyaFacade", "m_productListListener ProductListListener jsonData=" + jsonData);
+						Log.i(LOG_TAG, "m_productListListener ProductListListener jsonData=" + jsonData);
 						UnityPlayer.UnitySendMessage("OuyaGameObject", "ProductListListener", jsonData);
 					}
 				}
 
 				//send the complete message
-				Log.i("TestOuyaFacade", "m_productListListener ProductListCompleteListener");
+				Log.i(LOG_TAG, "m_productListListener ProductListCompleteListener");
 				UnityPlayer.UnitySendMessage("OuyaGameObject", "ProductListCompleteListener", "");
 
 			}
@@ -296,7 +300,7 @@ public class TestOuyaFacade
 				er.errorMessage = errorMessage;
 				String jsonData = gson.toJson(er);
 
-				Log.i("TestOuyaFacade", "m_productListListener ProductListFailureListener=" + jsonData);
+				Log.i(LOG_TAG, "m_productListListener ProductListFailureListener=" + jsonData);
 				UnityPlayer.UnitySendMessage("OuyaGameObject", "ProductListFailureListener", jsonData);
 			}
 		};
@@ -311,7 +315,7 @@ public class TestOuyaFacade
         if(resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case GAMER_UUID_AUTHENTICATION_ACTIVITY_ID:
-                    fetchGamerUUID();
+                    fetchGamerInfo();
                     break;
                 case PURCHASE_AUTHENTICATION_ACTIVITY_ID:
                     restartInterruptedPurchase();
@@ -373,31 +377,39 @@ public class TestOuyaFacade
 		//custom-iap-code
 		if (null != m_productListListener)
 		{
-			Log.i("TestOuyaFacade", "TestOuyaFacade.requestProducts m_productListListener is valid");
-			UnityPlayer.UnitySendMessage("OuyaGameObject", "DebugLog", "TestOuyaFacade.requestProducts m_productListListener is valid");
+			Log.i(LOG_TAG, "UnityOuyaFacade.requestProducts m_productListListener is valid");
+			UnityPlayer.UnitySendMessage("OuyaGameObject", "DebugLog", "UnityOuyaFacade.requestProducts m_productListListener is valid");
 			ouyaFacade.requestProductList(PRODUCT_IDENTIFIER_LIST, m_productListListener);
 		}
 		else
 		{
-			Log.i("TestOuyaFacade", "TestOuyaFacade.requestProducts m_productListListener is null");
-			UnityPlayer.UnitySendMessage("OuyaGameObject", "DebugLog", "TestOuyaFacade.requestProducts m_productListListener is null");
+			Log.i(LOG_TAG, "UnityOuyaFacade.requestProducts m_productListListener is null");
+			UnityPlayer.UnitySendMessage("OuyaGameObject", "DebugLog", "UnityOuyaFacade.requestProducts m_productListListener is null");
 		}
     }
 
-    public void fetchGamerUUID() {
+    public void fetchGamerInfo() {
 
 		//custom-iap-code
-		if (null != m_fetchGamerUUIDListener)
+		if (null != m_fetchGamerInfoListener)
 		{
-			Log.i("TestOuyaFacade", "TestOuyaFacade.fetchGamerUUID m_fetchGamerUUIDListener is valid");
-			UnityPlayer.UnitySendMessage("OuyaGameObject", "DebugLog", "TestOuyaFacade.fetchGamerUUID m_fetchGamerUUIDListener is valid");
-			ouyaFacade.requestGamerUuid(m_fetchGamerUUIDListener);
+			Log.i(LOG_TAG, "UnityOuyaFacade.fetchGamerInfo m_fetchGamerInfoListener is valid");
+			UnityPlayer.UnitySendMessage("OuyaGameObject", "DebugLog", "UnityOuyaFacade.fetchGamerInfo m_fetchGamerInfoListener is valid");
+			ouyaFacade.requestGamerInfo(m_fetchGamerInfoListener);
 		}
 		else
 		{
-			Log.i("TestOuyaFacade", "TestOuyaFacade.fetchGamerUUID m_fetchGamerUUIDListener is null");
-			UnityPlayer.UnitySendMessage("OuyaGameObject", "DebugLog", "TestOuyaFacade.fetchGamerUUID m_fetchGamerUUIDListener is null");
-		}        
+			Log.i(LOG_TAG, "UnityOuyaFacade.fetchGamerInfo m_fetchGamerInfoListener is null");
+			UnityPlayer.UnitySendMessage("OuyaGameObject", "DebugLog", "UnityOuyaFacade.fetchGamerInfo m_fetchGamerInfoListener is null");
+		}
+    }
+
+	public void putGameData(String key, String val) {
+		ouyaFacade.putGameData(key, val);
+    }
+
+	public String getGameData(String key) {
+		return ouyaFacade.getGameData(key);
     }
 
     /**
@@ -455,9 +467,9 @@ public class TestOuyaFacade
         }
 
 		//custom-iap-code
-		Log.i("TestOuyaFacade", "TestOuyaFacade.requestPurchase(" + product.getIdentifier() + ")");
-		UnityPlayer.UnitySendMessage("OuyaGameObject", "DebugLog", "TestOuyaFacade.requestPurchase(" + product.getIdentifier() + ")");
-        
+		Log.i(LOG_TAG, "UnityOuyaFacade.requestPurchase(" + product.getIdentifier() + ")");
+		UnityPlayer.UnitySendMessage("OuyaGameObject", "DebugLog", "UnityOuyaFacade.requestPurchase(" + product.getIdentifier() + ")");
+
 		ouyaFacade.requestPurchase(purchasable, new PurchaseListener(product));
     }
 
@@ -499,14 +511,14 @@ public class TestOuyaFacade
 			catch (ParseException e)
 			{
                 //throw new RuntimeException(e);
-				
+
 				Gson gson = new Gson();
 				ErrorResponse er = new ErrorResponse();
 				er.errorCode = 0;
 				er.errorMessage = "RuntimeException: " + e;
 				String jsonData = gson.toJson(er);
 
-				Log.i("TestOuyaFacade", "ReceiptListener ReceiptListFailureListener=" + jsonData);
+				Log.i(LOG_TAG, "ReceiptListener ReceiptListFailureListener=" + jsonData);
 				UnityPlayer.UnitySendMessage("OuyaGameObject", "ReceiptListFailureListener", jsonData);
 
 				return;
@@ -532,7 +544,7 @@ public class TestOuyaFacade
 						er.errorMessage = "IOException: " + ioe;
 						String jsonData = gson.toJson(er);
 
-						Log.i("TestOuyaFacade", "ReceiptListener ReceiptListFailureListener=" + jsonData);
+						Log.i(LOG_TAG, "ReceiptListener ReceiptListFailureListener=" + jsonData);
 						UnityPlayer.UnitySendMessage("OuyaGameObject", "ReceiptListFailureListener", jsonData);
 
 						return;
@@ -548,7 +560,7 @@ public class TestOuyaFacade
 					er.errorMessage = "RuntimeException: " + e;
 					String jsonData = gson.toJson(er);
 
-					Log.i("TestOuyaFacade", "ReceiptListener ReceiptListFailureListener=" + jsonData);
+					Log.i(LOG_TAG, "ReceiptListener ReceiptListFailureListener=" + jsonData);
 					UnityPlayer.UnitySendMessage("OuyaGameObject", "ReceiptListFailureListener", jsonData);
 
 					return;
@@ -564,7 +576,7 @@ public class TestOuyaFacade
 				er.errorMessage = "GeneralSecurityException: " + e;
 				String jsonData = gson.toJson(er);
 
-				Log.i("TestOuyaFacade", "ReceiptListener ReceiptListFailureListener=" + jsonData);
+				Log.i(LOG_TAG, "ReceiptListener ReceiptListFailureListener=" + jsonData);
 				UnityPlayer.UnitySendMessage("OuyaGameObject", "ReceiptListFailureListener", jsonData);
 
 				return;
@@ -572,14 +584,14 @@ public class TestOuyaFacade
 			catch (IOException e)
 			{
                 //throw new RuntimeException(e);
-				
+
 				Gson gson = new Gson();
 				ErrorResponse er = new ErrorResponse();
 				er.errorCode = 0;
 				er.errorMessage = "IOException: " + e;
 				String jsonData = gson.toJson(er);
 
-				Log.i("TestOuyaFacade", "ReceiptListener ReceiptListFailureListener=" + jsonData);
+				Log.i(LOG_TAG, "ReceiptListener ReceiptListFailureListener=" + jsonData);
 				UnityPlayer.UnitySendMessage("OuyaGameObject", "ReceiptListFailureListener", jsonData);
 
 				return;
@@ -596,7 +608,7 @@ public class TestOuyaFacade
 			// custom-iap-code
 
 			// clear the old list
-			Log.i("TestOuyaFacade", "ReceiptListener ReceiptListClearListener");
+			Log.i(LOG_TAG, "ReceiptListener ReceiptListClearListener");
 			UnityPlayer.UnitySendMessage("OuyaGameObject", "ReceiptListClearListener", "");
 
 			//send each item in the list
@@ -607,13 +619,13 @@ public class TestOuyaFacade
 					Gson gson = new Gson();
 					String jsonData = gson.toJson(receipt);
 
-					Log.i("TestOuyaFacade", "ReceiptListener ReceiptListListener jsonData=" + jsonData);
+					Log.i(LOG_TAG, "ReceiptListener ReceiptListListener jsonData=" + jsonData);
 					UnityPlayer.UnitySendMessage("OuyaGameObject", "ReceiptListListener", jsonData);
 				}
 			}
 
 			//send the complete message
-			Log.i("TestOuyaFacade", "ReceiptListener ReceiptListCompleteListener");
+			Log.i(LOG_TAG, "ReceiptListener ReceiptListCompleteListener");
 			UnityPlayer.UnitySendMessage("OuyaGameObject", "ReceiptListCompleteListener", "");
         }
 
@@ -644,7 +656,7 @@ public class TestOuyaFacade
 		{
 			showError("Fetch receipts was cancelled");
 
-			Log.i("TestOuyaFacade", "PurchaseListener Invoke ReceiptListCancelListener");
+			Log.i(LOG_TAG, "PurchaseListener Invoke ReceiptListCancelListener");
 			UnityPlayer.UnitySendMessage("OuyaGameObject", "ReceiptListCancelListener", "");
 		}
     }
@@ -768,7 +780,7 @@ public class TestOuyaFacade
 				Gson gson = new Gson();
 				String jsonData = gson.toJson(product);
 
-				Log.i("TestOuyaFacade", "PurchaseListener PurchaseSuccessListener jsonData=" + jsonData);
+				Log.i(LOG_TAG, "PurchaseListener PurchaseSuccessListener jsonData=" + jsonData);
 				UnityPlayer.UnitySendMessage("OuyaGameObject", "PurchaseSuccessListener", jsonData);
 			}
 			else if (null != storedProduct)
@@ -776,7 +788,7 @@ public class TestOuyaFacade
 				Gson gson = new Gson();
 				String jsonData = gson.toJson(storedProduct);
 
-				Log.i("TestOuyaFacade", "PurchaseListener PurchaseSuccessListener jsonData=" + jsonData);
+				Log.i(LOG_TAG, "PurchaseListener PurchaseSuccessListener jsonData=" + jsonData);
 				UnityPlayer.UnitySendMessage("OuyaGameObject", "PurchaseSuccessListener", jsonData);
 			}
         }
@@ -828,7 +840,7 @@ public class TestOuyaFacade
 											er.errorMessage = errorMessage;
 											String jsonData = gson.toJson(er);
 
-											Log.i("TestOuyaFacade", "PurchaseListener PurchaseFailureListener=" + jsonData);
+											Log.i(LOG_TAG, "PurchaseListener PurchaseFailureListener=" + jsonData);
 											UnityPlayer.UnitySendMessage("OuyaGameObject", "PurchaseFailureListener", jsonData);
 
 											return;
@@ -837,7 +849,7 @@ public class TestOuyaFacade
                                         @Override
                                         public void onCancel()
 										{
-											Log.i("TestOuyaFacade", "PurchaseListener PurchaseCancelListener=");
+											Log.i(LOG_TAG, "PurchaseListener PurchaseCancelListener=");
 											UnityPlayer.UnitySendMessage("OuyaGameObject", "PurchaseCancelListener", "");
 
 											return;
@@ -853,10 +865,10 @@ public class TestOuyaFacade
 				er.errorMessage = errorMessage;
 				String jsonData = gson.toJson(er);
 
-				Log.i("TestOuyaFacade", "PurchaseListener PurchaseFailureListener=" + jsonData);
+				Log.i(LOG_TAG, "PurchaseListener PurchaseFailureListener=" + jsonData);
 				UnityPlayer.UnitySendMessage("OuyaGameObject", "PurchaseFailureListener", jsonData);
 
-				return;				
+				return;
             }
         }
 
@@ -869,7 +881,7 @@ public class TestOuyaFacade
 		{
 			showError("Purchase was cancelled");
 
-			Log.i("TestOuyaFacade", "PurchaseListener Invoke PurchaseCancelListener");
+			Log.i(LOG_TAG, "PurchaseListener Invoke PurchaseCancelListener");
 			UnityPlayer.UnitySendMessage("OuyaGameObject", "PurchaseCancelListener", "");
 		}
     }
