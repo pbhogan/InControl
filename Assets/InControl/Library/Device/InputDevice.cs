@@ -17,6 +17,10 @@ namespace InControl
 
 		public InputControl[] Controls { get; protected set; }
 
+		public TwoAxisInputControl LeftStick { get; protected set; }
+		public TwoAxisInputControl RightStick { get; protected set; }
+		public TwoAxisInputControl DPad { get; protected set; }
+
 
 		public InputDevice( string name )
 		{
@@ -27,6 +31,10 @@ namespace InControl
 
 			const int numInputControlTypes = (int) InputControlType.Count + 1;
 			Controls = new InputControl[numInputControlTypes];
+
+			LeftStick = new TwoAxisInputControl();
+			RightStick = new TwoAxisInputControl();
+			DPad = new TwoAxisInputControl();
 		}
 
 
@@ -94,13 +102,13 @@ namespace InControl
 
 		public void PostUpdate( ulong updateTick, float deltaTime )
 		{
+			// Apply post-processing to controls.
 			int controlCount = Controls.GetLength( 0 );
 			for (int i = 0; i < controlCount; i++)
 			{
 				var control = Controls[i];
 				if (control != null)
 				{
-					// This only really applies to analog controls.
 					if (control.RawValue.HasValue)
 					{
 						control.UpdateWithValue( control.RawValue.Value, updateTick );
@@ -119,6 +127,13 @@ namespace InControl
 					}
 				}
 			}
+
+			// Update two-axis controls.
+			LeftStick.Update( LeftStickX, LeftStickY, updateTick );
+			RightStick.Update( RightStickX, RightStickY, updateTick );
+
+			var dpv = DPadVector;
+			DPad.Update( dpv.x, dpv.y, updateTick );
 		}
 
 
@@ -176,6 +191,18 @@ namespace InControl
 		}
 
 
+		Vector2 DPadVector
+		{
+			get 
+			{
+				var x = DPadLeft.State ? -DPadLeft.Value : DPadRight.Value;
+				var t = DPadUp.State ? DPadUp.Value : -DPadDown.Value;
+				var y = InputManager.InvertYAxis ? -t : t;
+				return new Vector2( x, y ).normalized;
+			}
+		}
+		
+		
 		public bool LastChangedAfter( InputDevice otherDevice )
 		{
 			return LastChangeTick > otherDevice.LastChangeTick;
@@ -244,60 +271,22 @@ namespace InControl
 		public InputControl RightBumper { get { return GetControl( InputControlType.RightBumper ); } }
 
 
-		public Vector2 LeftStickVector
-		{
-			get
-			{
-				return new Vector2( LeftStickX.Value, LeftStickY.Value );
-			}
-		}
-
-
-		public Vector2 RightStickVector
-		{
-			get
-			{
-				return new Vector2( RightStickX.Value, RightStickY.Value );
-			}
-		}
-
-
 		public float DPadX
 		{
-			get
-			{
-				return DPadLeft.State ? -DPadLeft.Value : DPadRight.Value;
-			}
+			get { return DPad.X; }
 		}
 
 
 		public float DPadY
 		{
-			get
-			{
-				var y = DPadUp.State ? DPadUp.Value : -DPadDown.Value;
-				return InputManager.InvertYAxis ? -y : y;
-			}
+			get { return DPad.Y; }
 		}
 
 
-		public Vector2 DPadVector
+		public TwoAxisInputControl Direction
 		{
-			get
-			{
-				return new Vector2( DPadX, DPadY ).normalized;
-			}
-		}
-
-
-		public Vector2 Direction
-		{
-			get
-			{
-				var dpad = DPadVector;
-				var zero = Mathf.Approximately( dpad.x, 0.0f ) && Mathf.Approximately( dpad.y, 0.0f );
-				return zero ? LeftStickVector : dpad;
-			}
+			get { return DPad.State ? DPad : LeftStick; }
 		}
 	}
 }
+

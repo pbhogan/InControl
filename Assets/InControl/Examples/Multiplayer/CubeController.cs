@@ -13,8 +13,7 @@ namespace MultiplayerExample
 		void Update()
 		{
 			var inputDevice = (InputManager.Devices.Count > playerNum) ? InputManager.Devices[playerNum] : null;
-			if (inputDevice == null)
-			{
+			if (inputDevice == null) {
 				// If no controller exists for this cube, just make it translucent.
 				renderer.material.color = new Color( 1.0f, 1.0f, 1.0f, 0.2f );
 			}
@@ -53,8 +52,8 @@ namespace MultiplayerExample
 			}
 			
 			// Rotate target object with both sticks and d-pad.
-			transform.Rotate( Vector3.down,  500.0f * Time.deltaTime * inputDevice.Direction.x, Space.World );
-			transform.Rotate( Vector3.right, 500.0f * Time.deltaTime * inputDevice.Direction.y, Space.World );
+			transform.Rotate( Vector3.down,  500.0f * Time.deltaTime * inputDevice.Direction.X, Space.World );
+			transform.Rotate( Vector3.right, 500.0f * Time.deltaTime * inputDevice.Direction.Y, Space.World );
 			transform.Rotate( Vector3.down,  500.0f * Time.deltaTime * inputDevice.RightStickX, Space.World );
 			transform.Rotate( Vector3.right, 500.0f * Time.deltaTime * inputDevice.RightStickY, Space.World );
 		}

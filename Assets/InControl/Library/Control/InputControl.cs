@@ -22,7 +22,7 @@ namespace InControl
 		InputControlState tempState;
 
 
-		private InputControl( string handle )
+		public InputControl( string handle )
 		{
 			Handle = handle;
 		}
@@ -181,7 +181,7 @@ namespace InControl
 					return InputControlType.RightStickX;
 				default:
 					return null;
-				}				
+				}
 			}
 		}
 

@@ -97,7 +97,7 @@ public class TestInputManager : MonoBehaviour
 		string info = "Devices:";
 		info += " (Platform: " + InputManager.Platform + ")";
 //		info += " (Joysticks " + InputManager.JoystickHash + ")";
-		info += " " + InputManager.ActiveDevice.Direction;
+		info += " " + InputManager.ActiveDevice.Direction.Vector;
 
 		if (isPaused)
 		{
@@ -149,6 +149,9 @@ public class TestInputManager : MonoBehaviour
 				}
 			}
 
+			var dir = string.Format( "{0}", inputDevice.Direction.Up.Value );
+			GUI.Label( new Rect( x, y, x + w, y + 10 ), dir, style );
+
 			x += 200;
 		}
 
@@ -172,9 +175,9 @@ public class TestInputManager : MonoBehaviour
 
 	void OnDrawGizmos()
 	{
-		Vector3 delta = InputManager.ActiveDevice.Direction * 2.0f;
+		Vector3 delta = InputManager.ActiveDevice.Direction.Vector * 4.0f;
 		Gizmos.color = Color.yellow;
-		Gizmos.DrawSphere( transform.position + delta, 1 );
+		Gizmos.DrawSphere( delta, 1 );
 	}
 
 
