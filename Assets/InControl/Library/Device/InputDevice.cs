@@ -248,11 +248,9 @@ namespace InControl
 
 		public InputControl LeftStickX { get { return GetControl( InputControlType.LeftStickX ); } }
 		public InputControl LeftStickY { get { return GetControl( InputControlType.LeftStickY ); } }
-		public InputControl LeftStickButton { get { return GetControl( InputControlType.LeftStickButton ); } }
 
 		public InputControl RightStickX { get { return GetControl( InputControlType.RightStickX ); } }
 		public InputControl RightStickY { get { return GetControl( InputControlType.RightStickY ); } }
-		public InputControl RightStickButton { get { return GetControl( InputControlType.RightStickButton ); } }
 
 		public InputControl DPadUp { get { return GetControl( InputControlType.DPadUp ); } }
 		public InputControl DPadDown { get { return GetControl( InputControlType.DPadDown ); } }
@@ -269,6 +267,12 @@ namespace InControl
 
 		public InputControl LeftBumper { get { return GetControl( InputControlType.LeftBumper ); } }
 		public InputControl RightBumper { get { return GetControl( InputControlType.RightBumper ); } }
+
+		[Obsolete( "LeftStickButton will be removed from the standard controls list.", false )]
+		public InputControl LeftStickButton { get { return GetControl( InputControlType.LeftStickButton ); } }
+
+		[Obsolete( "RightStickButton will be removed from the standard controls list.", false )]
+		public InputControl RightStickButton { get { return GetControl( InputControlType.RightStickButton ); } }
 
 
 		public float DPadX
