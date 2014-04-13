@@ -46,11 +46,6 @@ public class TestInputManager : MonoBehaviour
 	{
 		InputManager.Update();
 		CheckForPauseButton();
-
-		if (InputManager.ActiveDevice.Action1.WasPressed)
-		{
-			Debug.Log( "BOOM!" );
-		}
 	}
 
 
@@ -149,8 +144,12 @@ public class TestInputManager : MonoBehaviour
 				}
 			}
 
-			var dir = string.Format( "{0}", inputDevice.Direction.Up.Value );
-			GUI.Label( new Rect( x, y, x + w, y + 10 ), dir, style );
+			SetColor( Color.cyan );
+			var anyButton = inputDevice.AnyButton;
+			if (anyButton)
+			{
+				GUI.Label( new Rect( x, y, x + w, y + 10 ), "AnyButton = " + anyButton.Handle, style );
+			}
 
 			x += 200;
 		}

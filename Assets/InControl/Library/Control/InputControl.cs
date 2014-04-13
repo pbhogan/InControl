@@ -8,21 +8,23 @@ namespace InControl
 	{
 		public static readonly InputControl Null = new InputControl( "NullInputControl" );
 
-		public string Handle { get; private set; }
-		public InputControlType Target { get; private set; }
+		public string Handle { get; protected set; }
+		public InputControlType Target { get; protected set; }
 
-		public ulong UpdateTick { get; private set; }
+		public ulong UpdateTick { get; protected set; }
 
 		public float Sensitivity = 1.0f;
 		public float LowerDeadZone = 0.0f;
 		public float UpperDeadZone = 1.0f;
+
+		public bool IsButton { get; protected set; }
 
 		InputControlState thisState;
 		InputControlState lastState;
 		InputControlState tempState;
 
 
-		public InputControl( string handle )
+		private InputControl( string handle )
 		{
 			Handle = handle;
 		}
@@ -32,6 +34,9 @@ namespace InControl
 		{
 			Handle = handle;
 			Target = target;
+
+			IsButton = (target >= InputControlType.Action1 && target <= InputControlType.Action4) ||
+				(target >= InputControlType.Button0 && target <= InputControlType.Button19);
 		}
 
 
