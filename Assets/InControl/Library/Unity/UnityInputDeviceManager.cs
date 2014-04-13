@@ -111,6 +111,17 @@ namespace InControl
 				return;
 			}
 
+			if (Application.platform == RuntimePlatform.OSXEditor ||
+			    Application.platform == RuntimePlatform.OSXPlayer ||
+			    Application.platform == RuntimePlatform.OSXWebPlayer)
+			{
+				if (unityJoystickName == "Unknown Wireless Controller")
+				{
+					// Ignore PS4 controller in Bluetooth mode on Mac since it connects but does nothing.
+					return;
+				}
+			}
+
 			var matchedDeviceProfile = deviceProfiles.Find( config => config.HasJoystickName( unityJoystickName ) );
 
 			if (matchedDeviceProfile == null)
