@@ -1,12 +1,19 @@
-Temp/*
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
 Build/*
-obj/*
 
-*.pidb
-*.userprefs
+/*.csproj
+/*.unityproj
+/*.sln
+/*.suo
+/*.user
+/*.userprefs
+/*.pidb
+/*.booproj
+
 .DS_Store
-Library/metadata/*
-Library/*
+Thumbs.db
 
 /Assets/AssetStoreTools/
 /Assets/AssetStoreTools.meta
