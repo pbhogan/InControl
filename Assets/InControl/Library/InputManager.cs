@@ -58,11 +58,9 @@ namespace InControl
 			isSetup = true;
 
 			#if UNITY_STANDALONE_WIN || UNITY_EDITOR
-			if (enableXInput)
-			{
+			if (enableXInput) {
 				if (Application.platform == RuntimePlatform.WindowsPlayer ||
-					Application.platform == RuntimePlatform.WindowsEditor)
-				{
+					Application.platform == RuntimePlatform.WindowsEditor) {
 					HideDevicesWithProfile( typeof( Xbox360WinProfile ) );
 					HideDevicesWithProfile( typeof( LogitechF710ModeXWinProfile ) );
 					InputManager.AddDeviceManager( new XInputDeviceManager() );

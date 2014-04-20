@@ -1,7 +1,7 @@
-[Ll]ibrary/
-[Tt]emp/
-[Oo]bj/
-Build/*
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/Build/*
 
 /*.csproj
 /*.unityproj
@@ -19,3 +19,6 @@ Thumbs.db
 /Assets/AssetStoreTools.meta
 
 /Documentation/
+/.dropbox.attr
+
+/Dev References
