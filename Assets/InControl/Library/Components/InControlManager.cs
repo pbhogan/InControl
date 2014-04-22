@@ -41,7 +41,7 @@ namespace InControl
 
 		void Update()
 		{
-			if (!useFixedUpdate || Time.timeScale < 0.1f)
+			if (!useFixedUpdate || Mathf.Approximately( Time.timeScale, 0.0f ))
 			{
 				InputManager.Update();
 			}
@@ -54,6 +54,12 @@ namespace InControl
 			{
 				InputManager.Update();
 			}
+		}
+
+
+		void OnApplicationQuit()
+		{
+
 		}
 	}
 }
