@@ -25,7 +25,7 @@ public class TestInputManager : MonoBehaviour
 		isPaused = false;
 		Time.timeScale = 1.0f;
 
-		Logger.OnLogMessage += logMessage => logMessages.Add( logMessage );
+		InControl.Logger.OnLogMessage += logMessage => logMessages.Add( logMessage );
 
 //		InputManager.HideDevicesWithProfile( typeof( Xbox360MacProfile ) );
 //		InputManager.InvertYAxis = true;
