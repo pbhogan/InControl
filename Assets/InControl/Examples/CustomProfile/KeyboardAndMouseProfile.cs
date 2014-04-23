@@ -77,6 +77,16 @@ namespace CustomProfileExample
 					Target = InputControlType.LeftStickY,
 					Source = KeyCodeAxis( KeyCode.S, KeyCode.W )
 				},
+				new InputControlMapping {
+					Handle = "Move X Alternate",
+					Target = InputControlType.LeftStickX,
+					Source = KeyCodeAxis( KeyCode.LeftArrow, KeyCode.RightArrow )
+				},
+				new InputControlMapping {
+					Handle = "Move Y Alternate",
+					Target = InputControlType.LeftStickY,
+					Source = KeyCodeAxis( KeyCode.DownArrow, KeyCode.UpArrow )
+				},
 				new InputControlMapping
 				{
 					Handle = "Look X",

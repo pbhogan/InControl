@@ -36,7 +36,7 @@ namespace InControl
 			Target = target;
 
 			IsButton = (target >= InputControlType.Action1 && target <= InputControlType.Action4) ||
-				(target >= InputControlType.Button0 && target <= InputControlType.Button19);
+					   (target >= InputControlType.Button0 && target <= InputControlType.Button19);
 		}
 
 
@@ -77,6 +77,9 @@ namespace InControl
 
 		internal void PreUpdate( ulong updateTick )
 		{
+			RawValue = null;
+			PreValue = null;
+
 			lastState = thisState;
 			tempState.Reset();
 		}

@@ -87,14 +87,16 @@ namespace InControl
 				}
 				else
 				{		
+					var mappedValue = analogMapping.MapValue( analogValue );
+
 					// TODO: This can surely be done in a more elegant fashion.
 					if (analogMapping.Raw)
 					{
-						targetControl.RawValue = analogMapping.MapValue( analogValue );
+						targetControl.RawValue = Combine( targetControl.RawValue, mappedValue );
 					}
 					else
 					{
-						targetControl.PreValue = analogMapping.MapValue( analogValue );
+						targetControl.PreValue = Combine( targetControl.PreValue, mappedValue );
 					}
 				}
 			}
@@ -108,6 +110,19 @@ namespace InControl
 				var buttonState = buttonMapping.Source.GetState( this );
 
 				UpdateWithState( buttonMapping.Target, buttonState, updateTick );
+			}
+		}
+
+
+		float Combine( float? value1, float value2 )
+		{
+			if (value1.HasValue)
+			{
+				return Mathf.Abs( value1.Value ) > Mathf.Abs( value2 ) ? value1.Value : value2;
+			}
+			else
+			{
+				return value2;
 			}
 		}
 
