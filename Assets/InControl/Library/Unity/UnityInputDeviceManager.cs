@@ -111,6 +111,12 @@ namespace InControl
 				return;
 			}
 
+			if (unityJoystickName.IndexOf( "webcam", StringComparison.OrdinalIgnoreCase ) != -1)
+			{
+				// Unity thinks some webcams are joysticks. >_<
+				return;
+			}
+
 			if (Application.platform == RuntimePlatform.OSXEditor ||
 			    Application.platform == RuntimePlatform.OSXPlayer ||
 			    Application.platform == RuntimePlatform.OSXWebPlayer)
