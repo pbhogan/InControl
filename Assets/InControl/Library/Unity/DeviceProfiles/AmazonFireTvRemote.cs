@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 namespace InControl
 {
-    // CAVEAT: Not all of these mappings are tested yet
     [AutoDiscover]
     public class AmazonFireTvRemote : UnityInputDeviceProfile
     {
