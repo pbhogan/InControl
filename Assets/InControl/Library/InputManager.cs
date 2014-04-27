@@ -28,6 +28,8 @@ namespace InControl
 		static bool enableXInput = false;
 		static bool isSetup = false;
 
+		static string customProfilesPath = null;
+
 		static float initialTime;
 		static float currentTime;
 		static float lastUpdateTime;
@@ -276,6 +278,23 @@ namespace InControl
 					throw new Exception( "InputManager.EnableXInput must be set before calling InputManager.Setup()." );
 				}
 				enableXInput = value;
+			}
+		}
+
+		public static string CustomProfilesPath {
+			get { return customProfilesPath; }
+			set {
+				if (isSetup) {
+					throw new Exception("InputManager.CustomProfilePath must be set before calling InputManager.Setup().");
+				}
+
+				if (string.IsNullOrEmpty(value)) {
+					customProfilesPath = null;
+				} else if (value.EndsWith("/")) {
+					customProfilesPath = value;
+				} else {
+					customProfilesPath = value + "/";
+				}
 			}
 		}
 

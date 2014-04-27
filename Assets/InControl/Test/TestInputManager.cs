@@ -30,6 +30,7 @@ public class TestInputManager : MonoBehaviour
 //		InputManager.HideDevicesWithProfile( typeof( Xbox360MacProfile ) );
 //		InputManager.InvertYAxis = true;
 //		InputManager.EnableXInput = true;
+		InputManager.CustomProfilesPath = Application.dataPath + "/Profiles";
 		InputManager.Setup();
 
 		InputManager.OnDeviceAttached += inputDevice => Debug.Log( "Attached: " + inputDevice.Name );
