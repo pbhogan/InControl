@@ -281,7 +281,7 @@ namespace InControl
 			}
 		}
 
-		public static string CustomProfilePath {
+		public static string CustomProfilesPath {
 			get { return customProfilesPath; }
 			set {
 				if (isSetup) {

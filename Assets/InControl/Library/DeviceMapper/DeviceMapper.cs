@@ -83,7 +83,7 @@ public class DeviceMapper : MonoBehaviour {
 
 	void Awake() {
 		Debug.Log("Configuring InputManager");
-		InputManager.CustomProfilePath = Application.dataPath + "/Profiles";
+		InputManager.CustomProfilesPath = Application.dataPath + "/Profiles";
 		InputManager.Setup();
 		foreach (var device in InputManager.Devices) {
 			Debug.Log(string.Format("Detected device: {0} ({1} and {2})",
@@ -143,10 +143,7 @@ public class DeviceMapper : MonoBehaviour {
 			}
 		} else {
 			if (calibrating) {
-				if (calibrationStartTime + calibrationTime < Time.realtimeSinceStartup
-					|| Input.GetKeyDown(KeyCode.Escape)
-					|| Input.GetKeyDown(KeyCode.KeypadEnter)
-					|| Input.GetKeyDown(KeyCode.Return)) {
+				if (calibrationStartTime + calibrationTime < Time.realtimeSinceStartup) {
 
 					calibrating = false;
 					deviceDefaultValues.Clear();
@@ -275,7 +272,7 @@ public class DeviceMapper : MonoBehaviour {
 
 		writer.WriteObjectEnd();
 
-		string fileName = Application.dataPath + "/Profiles/" + actualName + " " + platformName + ".profile";
+		string fileName = InputManager.CustomProfilesPath + actualName + " " + platformName + ".profile";
 		if (File.Exists(fileName)) {
 			File.Delete(fileName);
 		}
@@ -347,15 +344,15 @@ public class DeviceMapper : MonoBehaviour {
 			}
 
 			if (calibrating) {
-				GUI.Label(new Rect(1010, 0, 500, 20), string.Format("Calibrating ({0:0.0}s). Please leave the gamepad controls free to detect initial values.", calibrationStartTime + calibrationTime - Time.realtimeSinceStartup));
-				GUI.Label(new Rect(1010, 20, 500, 20), "Wait or press Intro or Escape once the values are stable.");
+				GUI.Label(new Rect(500, 20, 500, 20), string.Format("Calibrating ({0:0.0}s). Please leave the gamepad controls free to detect initial values.", calibrationStartTime + calibrationTime - Time.realtimeSinceStartup));
+				GUI.Label(new Rect(500, 40, 500, 20), "Wait or press Intro or Escape once the values are stable.");
 			} else {
-				GUI.Label(new Rect(1010, 0, 500, 20), "Setting up mappings");
-				GUI.Label(new Rect(1010, 20, 500, 20), "Press " + mappingEnumerator.Current.name + " (or Escape if the pad has no equivalent control)");
+				GUI.Label(new Rect(500, 20, 500, 20), "Setting up mappings");
+				GUI.Label(new Rect(500, 40, 500, 20), "Press " + mappingEnumerator.Current.name + " (or Escape if the pad has no equivalent control)");
 
 				int i = 0;
 				foreach (var pair in controlMappings) {
-					GUI.Label(new Rect(1010, 50 + i * 20, 500, 20),
+					GUI.Label(new Rect(500, 70 + i * 20, 500, 20),
 							  string.Format("Mapped {0} [{1:0.00} : {2:0.00}] to {3} [{4:0.00} : {5:0.00}]",
 											pair.Value.controlType, pair.Value.startValue, pair.Value.endValue,
 											pair.Key.controlType, pair.Key.startValue, pair.Key.endValue));

@@ -20,8 +20,8 @@ namespace InControl
 		public UnityInputDeviceManager()
 		{
 			AutoDiscoverDeviceProfiles();
-			if (!string.IsNullOrEmpty(InputManager.CustomProfilePath)) {
-				LoadCustomDeviceProfiles(InputManager.CustomProfilePath);
+			if (!string.IsNullOrEmpty(InputManager.CustomProfilesPath)) {
+				LoadCustomDeviceProfiles(InputManager.CustomProfilesPath);
 			}
 			RefreshDevices();
 		}
