@@ -17,6 +17,9 @@ namespace InControl
 		bool thisState;
 		bool lastState;
 
+		public static float DefaultStateThreshold = 0.0f;
+		public float StateThreshold = DefaultStateThreshold;
+
 
 		internal TwoAxisInputControl()
 		{
@@ -34,21 +37,21 @@ namespace InControl
 			X = x;
 			Y = y;
 
-			Left.UpdateWithValue( Mathf.Clamp01( -X ), updateTick );
-			Right.UpdateWithValue( Mathf.Clamp01( X ), updateTick );
+			Left.UpdateWithValue( Mathf.Clamp01( -X ), updateTick, StateThreshold );
+			Right.UpdateWithValue( Mathf.Clamp01( X ), updateTick, StateThreshold );
 
 			if (InputManager.InvertYAxis)
 			{
-				Up.UpdateWithValue( Mathf.Clamp01( -Y ), updateTick );
-				Down.UpdateWithValue( Mathf.Clamp01( Y ), updateTick );
+				Up.UpdateWithValue( Mathf.Clamp01( -Y ), updateTick, StateThreshold );
+				Down.UpdateWithValue( Mathf.Clamp01( Y ), updateTick, StateThreshold );
 			}
 			else
 			{
-				Up.UpdateWithValue( Mathf.Clamp01( Y ), updateTick );
-				Down.UpdateWithValue( Mathf.Clamp01( -Y ), updateTick );
+				Up.UpdateWithValue( Mathf.Clamp01( Y ), updateTick, StateThreshold );
+				Down.UpdateWithValue( Mathf.Clamp01( -Y ), updateTick, StateThreshold );
 			}
 
-			thisState = !Mathf.Approximately( X, 0.0f ) || !Mathf.Approximately( Y, 0.0f );
+			thisState = Up.State || Down.State || Left.State || Right.State;
 		}
 
 

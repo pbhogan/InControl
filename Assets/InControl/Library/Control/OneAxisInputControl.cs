@@ -12,20 +12,21 @@ namespace InControl
 		InputControlState lastState;
 
 
-		public void UpdateWithValue( float value, ulong updateTick )
+		public void UpdateWithValue( float value, ulong updateTick, float stateThreshold )
 		{
 			if (UpdateTick > updateTick)
 			{
 				throw new InvalidOperationException( "A control cannot be updated with an earlier tick." );
 			}
 
+			lastState = thisState;
+
+			thisState.Set( value, stateThreshold );
+
 			if (thisState != lastState)
 			{
 				UpdateTick = updateTick;
 			}
-
-			lastState = thisState;
-			thisState.Set( value );
 		}
 
 

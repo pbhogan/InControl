@@ -26,6 +26,13 @@ namespace InControl
 		}
 
 
+		public void Set( float value, float threshold )
+		{
+			Value = value;
+			State = Mathf.Abs( value ) > threshold;
+		}
+
+
 		public void Set( bool state )
 		{
 			State = state;
