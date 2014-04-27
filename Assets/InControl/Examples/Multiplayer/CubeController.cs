@@ -13,7 +13,8 @@ namespace MultiplayerExample
 		void Update()
 		{
 			var inputDevice = (InputManager.Devices.Count > playerNum) ? InputManager.Devices[playerNum] : null;
-			if (inputDevice == null) {
+			if (inputDevice == null)
+			{
 				// If no controller exists for this cube, just make it translucent.
 				renderer.material.color = new Color( 1.0f, 1.0f, 1.0f, 0.2f );
 			}
@@ -32,17 +33,17 @@ namespace MultiplayerExample
 				renderer.material.color = Color.green;
 			}
 			else
-				if (inputDevice.Action2)
+			if (inputDevice.Action2)
 			{
 				renderer.material.color = Color.red;
 			}
 			else
-				if (inputDevice.Action3)
+			if (inputDevice.Action3)
 			{
 				renderer.material.color = Color.blue;
 			}
 			else
-				if (inputDevice.Action4)
+			if (inputDevice.Action4)
 			{
 				renderer.material.color = Color.yellow;
 			}
