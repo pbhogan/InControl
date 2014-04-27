@@ -11,7 +11,7 @@ namespace InterfaceMovement
 
 		void Awake()
 		{
-			TwoAxisInputControl.DefaultStateThreshold = 0.7f;
+			TwoAxisInputControl.StateThreshold = 0.7f;
 		}
 
 
