@@ -18,7 +18,7 @@ namespace InControl
 				"iPhone"
 			};
 
-			RegexName = ""; // Match anything.
+			LastResortRegex = ""; // Match anything.
 
 			Sensitivity = 1.0f;
 			LowerDeadZone = 0.05f;

@@ -132,7 +132,7 @@ namespace InControl
 
 			if (matchedDeviceProfile == null)
 			{
-				matchedDeviceProfile = deviceProfiles.Find( config => config.HasRegexName( unityJoystickName ) );
+				matchedDeviceProfile = deviceProfiles.Find( config => config.HasLastResortRegex( unityJoystickName ) );
 			}
 
 			UnityInputDeviceProfile deviceProfile = null;

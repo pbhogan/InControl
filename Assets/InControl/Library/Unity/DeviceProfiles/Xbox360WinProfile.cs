@@ -30,7 +30,7 @@ namespace InControl
 				"Controller (Mad Catz FPS Pro GamePad)"
 			};
 
-			RegexName = "360";
+			LastResortRegex = "360";
 
 			Sensitivity = 1.0f;
 			LowerDeadZone = 0.2f;

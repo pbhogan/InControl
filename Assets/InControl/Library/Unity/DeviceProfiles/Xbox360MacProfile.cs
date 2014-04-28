@@ -27,7 +27,7 @@ namespace InControl
 				Char.ConvertFromUtf32( 169 ) + "Microsoft Corporation Controller"
 			};
 
-			RegexName = "360";
+			LastResortRegex = "360";
 
 			Sensitivity = 1.0f;
 			LowerDeadZone = 0.2f;
