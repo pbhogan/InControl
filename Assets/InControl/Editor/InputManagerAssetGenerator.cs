@@ -53,6 +53,10 @@ namespace InControl
 			axisPresets.Add( new AxisPreset( "mouse x", 1, 0, 1.0f ) );
 			axisPresets.Add( new AxisPreset( "mouse y", 1, 1, 1.0f ) );
 			axisPresets.Add( new AxisPreset( "mouse z", 1, 2, 1.0f ) );
+
+			// To avoid conflicts with NGUI
+			axisPresets.Add( new AxisPreset( "Mouse ScrollWheel", 1, 2, 0.1f ) );
+			axisPresets.Add( new AxisPreset( "Vertical", 2, 1, 1.0f, 0.2f, true ) );
 		}
 
 
@@ -121,15 +125,19 @@ namespace InControl
 			public int axis;
 			public int joyNum;
 			public float sensitivity;
+			public float deadZone;
+			public bool invert;
 			
 			
-			public AxisPreset( string name, int type, int axis, float sensitivity )
+			public AxisPreset( string name, int type, int axis, float sensitivity, float deadZone = 0.001f, bool invert = false )
 			{
 				this.name = name;
 				this.type = type;
 				this.axis = axis;
 				this.joyNum = 0;
 				this.sensitivity = sensitivity;
+				this.deadZone = deadZone;
+				this.invert = invert;
 			}
 			
 			
@@ -140,6 +148,7 @@ namespace InControl
 				this.axis = analog;
 				this.joyNum = device;
 				this.sensitivity = 1.0f;
+				this.deadZone = 0.001f;
 			}
 			
 			
@@ -157,10 +166,10 @@ namespace InControl
 				GetChildProperty( axisPreset, "positiveButton" ).stringValue = "";
 				GetChildProperty( axisPreset, "altNegativeButton" ).stringValue = "";
 				GetChildProperty( axisPreset, "altPositiveButton" ).stringValue = "";
-				GetChildProperty( axisPreset, "gravity" ).floatValue = 10.0f;
-				GetChildProperty( axisPreset, "dead" ).floatValue = 0.001f;
+				GetChildProperty( axisPreset, "gravity" ).floatValue = 0.0f;
+				GetChildProperty( axisPreset, "dead" ).floatValue = this.deadZone;
 				GetChildProperty( axisPreset, "snap" ).boolValue = false;
-				GetChildProperty( axisPreset, "invert" ).boolValue = false;
+				GetChildProperty( axisPreset, "invert" ).boolValue = this.invert;
 			}
 			
 			
