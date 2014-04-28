@@ -41,6 +41,9 @@ namespace InControl
 			sensitivity = 1.0f;
 			lowerDeadZone = 0.2f;
 			upperDeadZone = 0.9f;
+
+			AnalogMappings = new InputControlMapping[0];
+			ButtonMappings = new InputControlMapping[0];
 		}
 
 
