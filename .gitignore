@@ -4,10 +4,6 @@ obj/*
 
 *.pidb
 *.userprefs
-*.csproj
-*.sln
-*.unityproj
-*.suo
 .DS_Store
 Library/metadata/*
 Library/*
