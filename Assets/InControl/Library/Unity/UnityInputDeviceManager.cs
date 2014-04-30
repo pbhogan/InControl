@@ -207,21 +207,39 @@ namespace InControl
 
 		void AutoDiscoverDeviceProfiles()
 		{
-			foreach (var type in GetType().Assembly.GetTypes())
-			{
-				if (type.GetCustomAttributes( typeof(AutoDiscover), true ).Length > 0)
-				{
-					var deviceProfile = (UnityInputDeviceProfile) Activator.CreateInstance( type );
+			/*
+			var unityInputDeviceProfileType = typeof(InControl.UnityInputDeviceProfile);
+			var autoDiscoverAttributeType = typeof(InControl.AutoDiscover);
 
-					if (deviceProfile.IsSupportedOnThisPlatform)
+			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+			{
+				foreach (var type in assembly.GetTypes())
+				{
+					if (type.IsSubclassOf( unityInputDeviceProfileType ))
 					{
-						Logger.LogInfo( "Adding profile: " + type.Name + " (" + deviceProfile.Name + ")" );
-						deviceProfiles.Add( deviceProfile );
+						var typeAttrs = type.GetCustomAttributes( autoDiscoverAttributeType, false );
+						if (typeAttrs != null && typeAttrs.Length > 0)
+						{
+							var deviceProfile = (UnityInputDeviceProfile) Activator.CreateInstance( type );
+							
+							if (deviceProfile.IsSupportedOnThisPlatform)
+							{
+								Logger.LogInfo( "Adding profile: " + type.Name + " (" + deviceProfile.Name + ")" );
+								deviceProfiles.Add( deviceProfile );
+							}
+						}
 					}
-					else
-					{
-//						Logger.LogInfo( "Ignored profile: " + type.Name + " (" + deviceProfile.Name + ")" );
-					}
+				}
+			}
+			*/
+
+			foreach (var typeName in UnityInputDeviceProfileList.Profiles)
+			{				
+				var deviceProfile = (UnityInputDeviceProfile) Activator.CreateInstance( Type.GetType( typeName ) );
+				if (deviceProfile.IsSupportedOnThisPlatform)
+				{
+					Logger.LogInfo( "Found profile: " + deviceProfile.GetType().Name + " (" + deviceProfile.Name + ")" );
+					deviceProfiles.Add( deviceProfile );
 				}
 			}
 		}
