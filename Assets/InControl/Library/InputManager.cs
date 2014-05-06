@@ -34,6 +34,8 @@ namespace InControl
 
 		static ulong currentTick;
 
+		static List<IModule> modules = new List<IModule>();
+
 
 		public static void Setup()
 		{
@@ -58,9 +60,11 @@ namespace InControl
 			isSetup = true;
 
 			#if UNITY_STANDALONE_WIN || UNITY_EDITOR
-			if (enableXInput) {
+			if (enableXInput)
+			{
 				if (Application.platform == RuntimePlatform.WindowsPlayer ||
-					Application.platform == RuntimePlatform.WindowsEditor) {
+					Application.platform == RuntimePlatform.WindowsEditor)
+				{
 					HideDevicesWithProfile( typeof( Xbox360WinProfile ) );
 					HideDevicesWithProfile( typeof( LogitechF710ModeXWinProfile ) );
 					InputManager.AddDeviceManager( new XInputDeviceManager() );
@@ -69,6 +73,14 @@ namespace InControl
 			#endif
 
 			AddDeviceManager( new UnityInputDeviceManager() );
+
+			var moduleType = Type.GetType( "InControl.Internal.TouchManager" );
+			if (moduleType != null)
+			{
+				var module = (IModule) moduleType.GetMethod( "CreateInstance" ).Invoke( null, null );
+				modules.Add( module );
+				//modules.Add( (IModule) Activator.CreateInstance( moduleType ) );
+			}
 		}
 
 
@@ -91,6 +103,12 @@ namespace InControl
 			UpdateDeviceManagers();
 			UpdateDevices();
 			UpdateActiveDevice();
+
+			int moduleCount = modules.Count;
+			for (int i = 0; i < moduleCount; i++)
+			{
+				modules[i].Update( currentTick, currentTime - lastUpdateTime );
+			}
 
 			lastUpdateTime = currentTime;
 		}
