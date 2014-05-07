@@ -192,6 +192,11 @@ namespace InControl
 			return new UnityKeyCodeAxisSource( negativeKeyCode, positiveKeyCode );
 		}
 
+		protected static InputControlSource KeyCodeAxes( KeyCode[] negativeKeyCodes, KeyCode[] positiveKeyCodes )
+		{
+			return new UnityKeyCodeAxesSource( negativeKeyCodes, positiveKeyCodes );
+		}
+
 		protected static InputControlSource Button0  = Button( 0 );
 		protected static InputControlSource Button1  = Button( 1 );
 		protected static InputControlSource Button2  = Button( 2 );
