@@ -23,8 +23,7 @@ namespace InControl
 				"", // Yes, really.
 				"Microsoft Wireless 360 Controller",
 				"Mad Catz, Inc. Mad Catz FPS Pro GamePad",
-				"Logitech Gamepad F310",
-				Char.ConvertFromUtf32( 169 ) + "Microsoft Corporation Controller"
+				"\u00A9Microsoft Corporation Controller"
 			};
 
 			LastResortRegex = "360";

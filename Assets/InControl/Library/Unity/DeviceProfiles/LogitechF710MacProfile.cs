@@ -11,7 +11,7 @@ namespace InControl
 		public LogitechF710MacProfile()
 		{
 			Name = "Logitech F710 Controller";
-			Meta = "Logitech F710 on Mac";
+			Meta = "Logitech F710 Controller on Mac";
 
 			SupportedPlatforms = new[]
 			{

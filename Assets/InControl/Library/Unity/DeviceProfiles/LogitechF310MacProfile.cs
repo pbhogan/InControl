@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,85 +6,120 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class AmazonFireGameController : UnityInputDeviceProfile
+	public class LogitechF310MacProfile : UnityInputDeviceProfile
 	{
-		public AmazonFireGameController()
+		public LogitechF310MacProfile()
 		{
-			Name = "Amazon Fire Game Controller";
-			Meta = "Amazon Fire Game Controller on Fire TV";
-
+			Name = "Logitech F310 Controller";
+			Meta = "Logitech F310 Controller on Mac";
+			
 			SupportedPlatforms = new[]
 			{
-				"Amazon AFTB",
-				"Android"
+				"OS X"
 			};
-
+			
 			JoystickNames = new[]
 			{
-				"Amazon Fire Game Controller",
+				"Logitech Gamepad F310"
 			};
 
 			Sensitivity = 1.0f;
-			LowerDeadZone = 0.1f;
-
+			LowerDeadZone = 0.2f;
+			
 			ButtonMappings = new[]
 			{
 				new InputControlMapping
 				{
 					Handle = "A",
 					Target = InputControlType.Action1,
-					Source = Button0
+					Source = Button16
 				},
 				new InputControlMapping
 				{
 					Handle = "B",
 					Target = InputControlType.Action2,
-					Source = Button1
+					Source = Button17
 				},
 				new InputControlMapping
 				{
 					Handle = "X",
 					Target = InputControlType.Action3,
-					Source = Button2
+					Source = Button18
 				},
 				new InputControlMapping
 				{
 					Handle = "Y",
 					Target = InputControlType.Action4,
-					Source = Button3
+					Source = Button19
+				},
+				new InputControlMapping
+				{
+					Handle = "DPad Up",
+					Target = InputControlType.DPadUp,
+					Source = Button5
+				},
+				new InputControlMapping
+				{
+					Handle = "DPad Down",
+					Target = InputControlType.DPadDown,
+					Source = Button6
+				},
+				new InputControlMapping
+				{
+					Handle = "DPad Left",
+					Target = InputControlType.DPadLeft,
+					Source = Button7
+				},
+				new InputControlMapping
+				{
+					Handle = "DPad Right",
+					Target = InputControlType.DPadRight,
+					Source = Button8
 				},
 				new InputControlMapping
 				{
 					Handle = "Left Bumper",
 					Target = InputControlType.LeftBumper,
-					Source = Button4
+					Source = Button13
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Bumper",
 					Target = InputControlType.RightBumper,
-					Source = Button5
+					Source = Button14
 				},
 				new InputControlMapping
 				{
 					Handle = "Left Stick Button",
 					Target = InputControlType.LeftStickButton,
-					Source = Button8
+					Source = Button11
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Stick Button",
 					Target = InputControlType.RightStickButton,
+					Source = Button12
+				},
+				new InputControlMapping
+				{
+					Handle = "Start",
+					Target = InputControlType.Start,
 					Source = Button9
 				},
 				new InputControlMapping
 				{
 					Handle = "Back",
 					Target = InputControlType.Select,
-					Source = KeyCodeButton( UnityEngine.KeyCode.Escape )
+					Source = Button10
+				},
+				new InputControlMapping
+				{
+					Handle = "System",
+					Target = InputControlType.System,
+					Source = Button15
 				}
 			};
-
+			
 			AnalogMappings = new[]
 			{
 				new InputControlMapping
@@ -115,49 +150,19 @@ namespace InControl
 				},
 				new InputControlMapping
 				{
-					Handle = "DPad Left",
-					Target = InputControlType.DPadLeft,
-					Source = Analog4,
-					SourceRange = InputControlMapping.Range.Negative,
-					TargetRange = InputControlMapping.Range.Negative,
-					Invert = true
-				},
-				new InputControlMapping
-				{
-					Handle = "DPad Right",
-					Target = InputControlType.DPadRight,
-					Source = Analog4,
-					SourceRange = InputControlMapping.Range.Positive,
-					TargetRange = InputControlMapping.Range.Positive
-				},
-				new InputControlMapping
-				{
-					Handle = "DPad Up",
-					Target = InputControlType.DPadUp,
-					Source = Analog5,
-					SourceRange = InputControlMapping.Range.Negative,
-					TargetRange = InputControlMapping.Range.Negative,
-					Invert = true
-				},
-				new InputControlMapping
-				{
-					Handle = "DPad Down",
-					Target = InputControlType.DPadDown,
-					Source = Analog5,
-					SourceRange = InputControlMapping.Range.Positive,
-					TargetRange = InputControlMapping.Range.Positive,
-				},
-				new InputControlMapping
-				{
 					Handle = "Left Trigger",
 					Target = InputControlType.LeftTrigger,
-					Source = Analog12,
+					Source = Analog4,
+					TargetRange = InputControlMapping.Range.Positive,
+					IgnoreInitialZeroValue = true
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Trigger",
 					Target = InputControlType.RightTrigger,
-					Source = Analog11,
+					Source = Analog5,
+					TargetRange = InputControlMapping.Range.Positive,
+					IgnoreInitialZeroValue = true
 				}
 			};
 		}

@@ -16,6 +16,7 @@ namespace InControl
 			SupportedPlatforms = new[]
 			{
 				"Amazon AFTB",
+				"Android"
 			};
 
 			JoystickNames = new[]
