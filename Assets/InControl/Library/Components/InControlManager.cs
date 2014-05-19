@@ -15,7 +15,7 @@ namespace InControl
 		public List<string> customProfiles = new List<string>();
 
 
-		void Start()
+		void OnEnable()
 		{
 			InputManager.InvertYAxis = invertYAxis;
 			InputManager.EnableXInput = enableXInput;
