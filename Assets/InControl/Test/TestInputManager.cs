@@ -21,8 +21,10 @@ namespace InControl
 		bool isPaused;
 
 
-		void Start()
+		void OnEnable()
 		{
+			Debug.Log( "InControl (version " + InputManager.Version + ")" );
+
 			isPaused = false;
 			Time.timeScale = 1.0f;
 
@@ -31,15 +33,14 @@ namespace InControl
 //			InputManager.HideDevicesWithProfile( typeof( Xbox360MacProfile ) );
 //			InputManager.InvertYAxis = true;
 //			InputManager.EnableXInput = true;
-			InputManager.Setup();
 
 			InputManager.OnDeviceAttached += inputDevice => Debug.Log( "Attached: " + inputDevice.Name );
 			InputManager.OnDeviceDetached += inputDevice => Debug.Log( "Detached: " + inputDevice.Name );
 			InputManager.OnActiveDeviceChanged += inputDevice => Debug.Log( "Active device changed to: " + inputDevice.Name );
 
-			TestInputMappings();
+			InputManager.Setup();
 
-			Debug.Log( "InControl (version " + InputManager.Version + ")" );
+			TestInputMappings();
 		}
 
 

@@ -12,10 +12,11 @@ namespace InControl
 	{
 		public static readonly VersionInfo Version = new VersionInfo();
 
-		public delegate void DeviceEventHandler( InputDevice device );
-		public static event DeviceEventHandler OnDeviceAttached;
-		public static event DeviceEventHandler OnDeviceDetached;
-		public static event DeviceEventHandler OnActiveDeviceChanged;
+		public static event Action OnSetup;
+		public static event Action<ulong,float> OnUpdate;
+		public static event Action<InputDevice> OnDeviceAttached;
+		public static event Action<InputDevice> OnDeviceDetached;
+		public static event Action<InputDevice> OnActiveDeviceChanged;
 
 		static List<InputDeviceManager> inputDeviceManagers = new List<InputDeviceManager>();
 
@@ -24,9 +25,9 @@ namespace InControl
 
 		public static string Platform { get; private set; }
 
-		static bool invertYAxis = false; // default to y-axis up.
-		static bool enableXInput = false;
-		static bool isSetup = false;
+		static bool invertYAxis;
+		static bool enableXInput;
+		static bool isSetup;
 
 		static float initialTime;
 		static float currentTime;
@@ -34,13 +35,9 @@ namespace InControl
 
 		static ulong currentTick;
 
-		static List<IModule> modules = new List<IModule>();
-
 
 		public static void Setup()
 		{
-			isSetup = false;
-
 			Platform = (SystemInfo.operatingSystem + " " + SystemInfo.deviceModel).ToUpper();
 
 			initialTime = 0.0f;
@@ -52,10 +49,6 @@ namespace InControl
 			inputDeviceManagers.Clear();
 			Devices.Clear();
 			activeDevice = InputDevice.Null;
-
-			OnDeviceAttached = null;
-			OnDeviceDetached = null;
-			OnActiveDeviceChanged = null;
 
 			isSetup = true;
 
@@ -74,12 +67,10 @@ namespace InControl
 
 			AddDeviceManager( new UnityInputDeviceManager() );
 
-			var moduleType = Type.GetType( "InControl.Internal.TouchManager" );
-			if (moduleType != null)
+			if (OnSetup != null)
 			{
-				var module = (IModule) moduleType.GetMethod( "CreateInstance" ).Invoke( null, null );
-				modules.Add( module );
-				//modules.Add( (IModule) Activator.CreateInstance( moduleType ) );
+				OnSetup.Invoke();
+				OnSetup = null;
 			}
 		}
 
@@ -96,6 +87,11 @@ namespace InControl
 		public static void Update()
 		{
 			AssertIsSetup();
+			if (OnSetup != null)
+			{
+				OnSetup.Invoke();
+				OnSetup = null;
+			}
 
 			currentTick++;
 
@@ -104,10 +100,9 @@ namespace InControl
 			UpdateDevices();
 			UpdateActiveDevice();
 
-			int moduleCount = modules.Count;
-			for (int i = 0; i < moduleCount; i++)
+			if (OnUpdate != null)
 			{
-				modules[i].Update( currentTick, currentTime - lastUpdateTime );
+				OnUpdate.Invoke( currentTick, currentTime - lastUpdateTime );
 			}
 
 			lastUpdateTime = currentTime;
