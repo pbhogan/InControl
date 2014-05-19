@@ -24,8 +24,9 @@ namespace InControl
 		public static List<InputDevice> Devices = new List<InputDevice>();
 
 		public static string Platform { get; private set; }
+		public static bool MenuWasPressed { get; private set; }
+		public static bool InvertYAxis;
 
-		static bool invertYAxis;
 		static bool enableXInput;
 		static bool isSetup;
 
@@ -245,7 +246,10 @@ namespace InControl
 
 		static InputDevice DefaultActiveDevice
 		{
-			get { return (Devices.Count > 0) ? Devices[0] : InputDevice.Null; }
+			get 
+			{ 
+				return (Devices.Count > 0) ? Devices[0] : InputDevice.Null; 
+			}
 		}
 
 
@@ -263,23 +267,13 @@ namespace InControl
 		}
 
 
-		public static bool InvertYAxis
-		{
-			get { return invertYAxis; }
-			set
-			{
-				if (isSetup)
-				{
-					throw new Exception( "InputManager.InvertYAxis must be set before calling InputManager.Setup()." );
-				}
-				invertYAxis = value;
-			}
-		}
-
-
 		public static bool EnableXInput
 		{
-			get { return enableXInput; }
+			get 
+			{ 
+				return enableXInput; 
+			}
+
 			set
 			{
 				if (isSetup)
@@ -288,13 +282,6 @@ namespace InControl
 				}
 				enableXInput = value;
 			}
-		}
-
-
-		public static bool MenuWasPressed
-		{
-			get;
-			private set;
 		}
 	}
 }
