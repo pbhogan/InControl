@@ -117,14 +117,18 @@ namespace InControl
 				return;
 			}
 
-			if (Application.platform == RuntimePlatform.OSXEditor ||
-			    Application.platform == RuntimePlatform.OSXPlayer ||
-			    Application.platform == RuntimePlatform.OSXWebPlayer)
+			// PS4 controller works properly as of Unity 4.5
+			if (InputManager.UnityVersion <= new VersionInfo( 4, 5 ))
 			{
-				if (unityJoystickName == "Unknown Wireless Controller")
+				if (Application.platform == RuntimePlatform.OSXEditor ||
+				    Application.platform == RuntimePlatform.OSXPlayer ||
+				    Application.platform == RuntimePlatform.OSXWebPlayer)
 				{
-					// Ignore PS4 controller in Bluetooth mode on Mac since it connects but does nothing.
-					return;
+					if (unityJoystickName == "Unknown Wireless Controller")
+					{
+						// Ignore PS4 controller in Bluetooth mode on Mac since it connects but does nothing.
+						return;
+					}
 				}
 			}
 
