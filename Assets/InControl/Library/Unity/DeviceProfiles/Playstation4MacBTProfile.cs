@@ -6,9 +6,9 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class Playstation4MacProfile : UnityInputDeviceProfile
+	public class Playstation4MacBTProfile : UnityInputDeviceProfile
 	{
-		public Playstation4MacProfile()
+		public Playstation4MacBTProfile()
 		{
 			Name = "Playstation 4 Controller";
 			Meta = "Playstation 4 Controller on Mac";
@@ -20,7 +20,7 @@ namespace InControl
 
 			JoystickNames = new[]
 			{
-				"Sony Computer Entertainment Wireless Controller"
+				"Unknown Wireless Controller" // Sigh.
 			};
 
 			Sensitivity = 1.0f;
@@ -66,15 +66,21 @@ namespace InControl
 				},
 				new InputControlMapping
 				{
-					Handle = "Start",
-					Target = InputControlType.Start,
-					Source = Button13
+					Handle = "System",
+					Target = InputControlType.System,
+					Source = Button12
 				},
 				new InputControlMapping
 				{
 					Handle = "Options",
 					Target = InputControlType.Select,
 					Source = Button9
+				},
+				new InputControlMapping
+				{
+					Handle = "Share",
+					Target = InputControlType.Share,
+					Source = Button8
 				},
 				new InputControlMapping
 				{
@@ -134,7 +140,7 @@ namespace InControl
 				{
 					Handle = "DPad Left",
 					Target = InputControlType.DPadLeft,
-					Source = Analog6,
+					Source = Analog10,
 					SourceRange = InputControlMapping.Range.Negative,
 					TargetRange = InputControlMapping.Range.Negative,
 					Invert = true
@@ -143,7 +149,7 @@ namespace InControl
 				{
 					Handle = "DPad Right",
 					Target = InputControlType.DPadRight,
-					Source = Analog6,
+					Source = Analog10,
 					SourceRange = InputControlMapping.Range.Positive,
 					TargetRange = InputControlMapping.Range.Positive
 				},
@@ -151,7 +157,7 @@ namespace InControl
 				{
 					Handle = "DPad Down",
 					Target = InputControlType.DPadDown,
-					Source = Analog7,
+					Source = Analog11,
 					SourceRange = InputControlMapping.Range.Positive,
 					TargetRange = InputControlMapping.Range.Positive
 				},
@@ -159,7 +165,7 @@ namespace InControl
 				{
 					Handle = "DPad Up",
 					Target = InputControlType.DPadUp,
-					Source = Analog7,
+					Source = Analog11,
 					SourceRange = InputControlMapping.Range.Negative,
 					TargetRange = InputControlMapping.Range.Negative,
 					Invert = true
