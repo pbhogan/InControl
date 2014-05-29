@@ -41,6 +41,7 @@ namespace InControl
 		System,
 		Pause,
 		Menu,
+		Share,
 		TiltX,
 		TiltY,
 		TiltZ,
