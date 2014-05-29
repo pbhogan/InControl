@@ -10,7 +10,8 @@ namespace InControl
 {
 	public class InputManager
 	{
-		public static readonly VersionInfo Version = new VersionInfo();
+		public static readonly VersionInfo Version = VersionInfo.InControlVersion();
+		public static readonly VersionInfo UnityVersion = VersionInfo.UnityVersion();
 
 		public static event Action OnSetup;
 		public static event Action<ulong,float> OnUpdate;
