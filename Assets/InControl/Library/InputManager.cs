@@ -96,16 +96,16 @@ namespace InControl
 			}
 
 			currentTick++;
-
 			UpdateCurrentTime();
-			UpdateDeviceManagers();
-			UpdateDevices();
-			UpdateActiveDevice();
+			var deltaTime = currentTime - lastUpdateTime;
 
-			if (OnUpdate != null)
-			{
-				OnUpdate.Invoke( currentTick, currentTime - lastUpdateTime );
-			}
+			UpdateDeviceManagers( deltaTime);
+
+			PreUpdateDevices( deltaTime );
+			UpdateDevices( deltaTime );
+			PostUpdateDevices( deltaTime );
+
+			UpdateActiveDevice();
 
 			lastUpdateTime = currentTime;
 		}
@@ -157,10 +157,8 @@ namespace InControl
 		}
 
 
-		static void UpdateDeviceManagers()
+		static void UpdateDeviceManagers( float deltaTime )
 		{
-			var deltaTime = currentTime - lastUpdateTime;
-
 			int inputDeviceManagerCount = inputDeviceManagers.Count;
 			for (int i = 0; i < inputDeviceManagerCount; i++)
 			{
@@ -170,21 +168,44 @@ namespace InControl
 		}
 
 
-		static void UpdateDevices()
+		static void PreUpdateDevices( float deltaTime )
 		{
-			var deltaTime = currentTime - lastUpdateTime;
-
 			MenuWasPressed = false;
-
+			
 			int deviceCount = Devices.Count;
 			for (int i = 0; i < deviceCount; i++)
 			{
 				var device = Devices[i];
-
 				device.PreUpdate( currentTick, deltaTime );
-				device.Update( currentTick, deltaTime );
-				device.PostUpdate( currentTick, deltaTime );
+			}
+		}
 
+
+		static void UpdateDevices( float deltaTime )
+		{
+			int deviceCount = Devices.Count;
+			for (int i = 0; i < deviceCount; i++)
+			{
+				var device = Devices[i];
+				device.Update( currentTick, deltaTime );
+			}
+
+			if (OnUpdate != null)
+			{
+				OnUpdate.Invoke( currentTick, deltaTime );
+			}
+		}
+
+
+		static void PostUpdateDevices( float deltaTime )
+		{			
+			int deviceCount = Devices.Count;
+			for (int i = 0; i < deviceCount; i++)
+			{
+				var device = Devices[i];
+				
+				device.PostUpdate( currentTick, deltaTime );
+				
 				if (device.MenuWasPressed)
 				{
 					MenuWasPressed = true;
