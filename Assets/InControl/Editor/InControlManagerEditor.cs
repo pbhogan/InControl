@@ -10,14 +10,14 @@ namespace InControl
 	[CustomEditor(typeof(InControlManager))]
 	public class InControlManagerEditor : Editor
 	{	
-		private SerializedProperty invertYAxis;
-		private SerializedProperty enableXInput;
-		private SerializedProperty useFixedUpdate;
-		private SerializedProperty customProfiles;
-		private Texture headerTexture;
+		SerializedProperty invertYAxis;
+		SerializedProperty enableXInput;
+		SerializedProperty useFixedUpdate;
+		SerializedProperty customProfiles;
+		Texture headerTexture;
 		
 
-		private void OnEnable()
+		void OnEnable()
 		{
 			invertYAxis = serializedObject.FindProperty( "invertYAxis" );
 			enableXInput = serializedObject.FindProperty( "enableXInput" );
@@ -33,8 +33,9 @@ namespace InControl
 		{
 			serializedObject.Update();
 
-			var headerRect = GUILayoutUtility.GetRect( 0.0f, 7.0f );
-			headerRect.y += 5.0f;
+			GUILayout.Space( 5.0f );
+
+			var headerRect = GUILayoutUtility.GetRect( 0.0f, 5.0f );
 			headerRect.width = headerTexture.width;
 			headerRect.height = headerTexture.height;
 			GUILayout.Space( headerRect.height );
@@ -46,6 +47,8 @@ namespace InControl
 
 			ReorderableListGUI.Title( "Custom Profiles" );
 			ReorderableListGUI.ListField( customProfiles );
+
+			GUILayout.Space( 3.0f );
 			
 			serializedObject.ApplyModifiedProperties();
 		}
