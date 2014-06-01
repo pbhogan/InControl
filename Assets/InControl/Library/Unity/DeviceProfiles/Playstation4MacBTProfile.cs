@@ -105,6 +105,12 @@ namespace InControl
 					Handle = "Right Stick Button",
 					Target = InputControlType.RightStickButton,
 					Source = Button11
+				},
+				new InputControlMapping
+				{
+					Handle = "TouchPad Button",
+					Target = InputControlType.TouchPadTap,
+					Source = Button13
 				}
 			};
 
