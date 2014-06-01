@@ -36,6 +36,7 @@ namespace InControl
 			"InControl.Playstation3OuyaProfile",
 			"InControl.Playstation3ShenghicWinProfile",
 			"InControl.Playstation3WinProfile",
+			"InControl.Playstation4AndroidProfile",
 			"InControl.Playstation4LinuxProfile",
 			"InControl.Playstation4MacBTProfile",
 			"InControl.Playstation4MacUSBProfile",
