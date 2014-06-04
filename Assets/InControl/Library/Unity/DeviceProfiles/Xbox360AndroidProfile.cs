@@ -20,10 +20,17 @@ namespace InControl
 			
 			JoystickNames = new[]
 			{
-				"Microsoft X-Box 360 pad",
+				"CONTROLLER (AFTERGLOW GAMEPAD FOR XBOX 360)",
+				"CONTROLLER (ROCK CANDY GAMEPAD FOR XBOX 360)",
+				"CONTROLLER (XBOX 360 WIRELESS RECEIVER FOR WINDOWS)",
+				"MICROSOFT X-BOX 360 PAD",
+				"CONTROLLER (XBOX 360 FOR WINDOWS)",
+				"CONTROLLER (XBOX360 GAMEPAD)",
+				"XBOX 360 FOR WINDOWS (CONTROLLER)",
+				"MICROSOFT WIRELESS 360 CONTROLLER"
 			};
 			
-			LastResortRegex = "360|xbox|catz";
+			LastResortRegex = "360";
 			
 			Sensitivity = 1.0f;
 			LowerDeadZone = 0.2f;
@@ -143,7 +150,8 @@ namespace InControl
 					Target = InputControlType.DPadUp,
 					Source = Analog5,
 					SourceRange = InputControlMapping.Range.Negative,
-					TargetRange = InputControlMapping.Range.Negative
+					TargetRange = InputControlMapping.Range.Negative,
+					Invert = true
 				},
 				new InputControlMapping
 				{
@@ -151,24 +159,19 @@ namespace InControl
 					Target = InputControlType.DPadDown,
 					Source = Analog5,
 					SourceRange = InputControlMapping.Range.Positive,
-					TargetRange = InputControlMapping.Range.Positive,
-					Invert = true
+					TargetRange = InputControlMapping.Range.Positive
 				},
 				new InputControlMapping
 				{
 					Handle = "Left Trigger",
 					Target = InputControlType.LeftTrigger,
-					Source = Analog6,
-					SourceRange = InputControlMapping.Range.Positive,
-					TargetRange = InputControlMapping.Range.Positive
+					Source = Analog6
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Trigger",
 					Target = InputControlType.RightTrigger,
-					Source = Analog7,
-					SourceRange = InputControlMapping.Range.Positive,
-					TargetRange = InputControlMapping.Range.Positive,
+					Source = Analog7
 				}
 			};
 		}
