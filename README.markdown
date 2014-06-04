@@ -16,7 +16,7 @@ InControl is also [available on the Unity Asset Store](http://u3d.as/6mr) for a 
 
 ## Supported Controllers
 
-* Xbox 360 controller on Windows, Mac, Linux and OUYA.
+* Xbox 360 controller on Windows, Mac, Linux, OUYA and Android.
 * Playstation 3 controller on Windows, Mac and OUYA.
 * Playstation 4 controller on Windows, Mac and Linux.
 * Apple MFi controller on iOS 7 and above.
