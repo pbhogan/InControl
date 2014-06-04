@@ -46,6 +46,7 @@ namespace InControl
 			"InControl.SteelSeriesFreeMacProfile",
 			"InControl.SteelSeriesFreeOuyaProfile",
 			"InControl.SteelSeriesFreeWinProfile",
+			"InControl.Xbox360AndroidProfile",
 			"InControl.Xbox360LinuxProfile",
 			"InControl.Xbox360MacProfile",
 			"InControl.Xbox360OuyaProfile",
