@@ -6,12 +6,12 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class Xbox360WinProfile : UnityInputDeviceProfile
+	public class LogitechF310WinProfile : UnityInputDeviceProfile
 	{
-		public Xbox360WinProfile()
+		public LogitechF310WinProfile()
 		{
-			Name = "XBox 360 Controller";
-			Meta = "XBox 360 Controller on Windows";
+			Name = "Logitech F310 Controller";
+			Meta = "Logitech F310 Controller on Windows";
 
 			SupportedPlatforms = new[]
 			{
@@ -20,22 +20,8 @@ namespace InControl
 
 			JoystickNames = new[]
 			{
-				"Controller (Afterglow Gamepad for Xbox 360)",
-				"Controller (Batarang wired controller (XBOX))",
-				"Controller (Gamepad for Xbox 360)",
-				"Controller (Infinity Controller 360)",
-				"Controller (Mad Catz FPS Pro GamePad)",
-				"Controller (MadCatz Call of Duty GamePad)",
-				"Controller (MadCatz GamePad)",
-				"Controller (MLG GamePad for Xbox 360)",
-				"Controller (Razer Sabertooth Elite)",
-				"Controller (Rock Candy Gamepad for Xbox 360)",
-				"Controller (Xbox 360 For Windows)",
-				"Controller (Xbox 360 Wireless Receiver for Windows)",
-				"XBOX 360 For Windows (Controller)",
+				"Controller (Gamepad F310)",
 			};
-
-			LastResortRegex = "360|xbox|catz";
 
 			Sensitivity = 1.0f;
 			LowerDeadZone = 0.2f;

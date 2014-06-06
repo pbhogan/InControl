@@ -18,6 +18,7 @@ namespace InControl
 			"InControl.GenericBlackBerryProfile",
 			"InControl.LogitechDualActionProfile",
 			"InControl.LogitechF310MacProfile",
+			"InControl.LogitechF310WinProfile",
 			"InControl.LogitechF710MacProfile",
 			"InControl.LogitechF710ModeDWinProfile",
 			"InControl.LogitechF710ModeXWinProfile",
