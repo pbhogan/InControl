@@ -66,18 +66,6 @@ namespace InControl
 				},
 				new InputControlMapping
 				{
-					Handle = "Left Trigger",
-					Target = InputControlType.LeftTrigger,
-					Source = Button6
-				},
-				new InputControlMapping
-				{
-					Handle = "Right Trigger",
-					Target = InputControlType.RightTrigger,
-					Source = Button7
-				},
-				new InputControlMapping
-				{
 					Handle = "Share",
 					Target = InputControlType.Share,
 					Source = Button8
@@ -144,6 +132,22 @@ namespace InControl
 				},
 				new InputControlMapping
 				{
+					Handle = "Left Trigger",
+					Target = InputControlType.LeftTrigger,
+					Source = Analog4,
+					TargetRange = InputControlMapping.Range.Positive,
+					IgnoreInitialZeroValue = true
+				},
+				new InputControlMapping
+				{
+					Handle = "Right Trigger",
+					Target = InputControlType.RightTrigger,
+					Source = Analog5,
+					TargetRange = InputControlMapping.Range.Positive,
+					IgnoreInitialZeroValue = true
+				},
+				new InputControlMapping
+				{
 					Handle = "DPad Left",
 					Target = InputControlType.DPadLeft,
 					Source = Analog6,
@@ -175,7 +179,7 @@ namespace InControl
 					SourceRange = InputControlMapping.Range.Negative,
 					TargetRange = InputControlMapping.Range.Negative,
 					Invert = true
-				}
+				},
 			};
 		}
 	}

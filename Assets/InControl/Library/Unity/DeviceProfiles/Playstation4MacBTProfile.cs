@@ -84,18 +84,6 @@ namespace InControl
 				},
 				new InputControlMapping
 				{
-					Handle = "Left Trigger",
-					Target = InputControlType.LeftTrigger,
-					Source = Button6
-				},
-				new InputControlMapping
-				{
-					Handle = "Right Trigger",
-					Target = InputControlType.RightTrigger,
-					Source = Button7
-				},
-				new InputControlMapping
-				{
 					Handle = "Left Stick Button",
 					Target = InputControlType.LeftStickButton,
 					Source = Button10
@@ -141,6 +129,22 @@ namespace InControl
 					Target = InputControlType.RightStickY,
 					Source = Analog3,
 					Invert = true
+				},
+				new InputControlMapping
+				{
+					Handle = "Left Trigger",
+					Target = InputControlType.LeftTrigger,
+					Source = Analog4,
+					TargetRange = InputControlMapping.Range.Positive,
+					IgnoreInitialZeroValue = true
+				},
+				new InputControlMapping
+				{
+					Handle = "Right Trigger",
+					Target = InputControlType.RightTrigger,
+					Source = Analog5,
+					TargetRange = InputControlMapping.Range.Positive,
+					IgnoreInitialZeroValue = true
 				},
 				new InputControlMapping
 				{
