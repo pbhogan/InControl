@@ -27,20 +27,21 @@ namespace InControl
 			return new VersionInfo() {
 				Major = 1,
 				Minor = 1,
-				Patch = 3,
-				Build = 2294
+				Patch = 4,
+				Build = 2324
 			};
 		}
 
 
 		public static VersionInfo UnityVersion()
 		{
-			var match = Regex.Match( Application.unityVersion, @"(\d+)\.(\d+)\.(\d+)[fp\.]?(\d+)?" );
+			var match = Regex.Match( Application.unityVersion, @"^(\d+)\.(\d+)\.(\d+)" );
+			var build = 0;
 			return new VersionInfo() {
 				Major = Convert.ToInt32( match.Groups[1].Value ),
 				Minor = Convert.ToInt32( match.Groups[2].Value ),
 				Patch = Convert.ToInt32( match.Groups[3].Value ),
-				Build = Convert.ToInt32( match.Groups[4].Value )
+				Build = build
 			};
 		}
 
@@ -97,6 +98,10 @@ namespace InControl
 
 		public override string ToString()
 		{
+			if (Build == 0)
+			{
+				return string.Format( "{0}.{1}.{2}", Major, Minor, Patch );
+			}
 			return string.Format( "{0}.{1}.{2} build {3}", Major, Minor, Patch, Build );
 		}
 
