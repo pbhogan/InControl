@@ -91,4 +91,19 @@ public class IOuyaActivity
 	{
 		m_applicationKey = applicationKey;
 	}
+
+	/*
+	* Control the flow of Input to Unity used in some cases
+	* like changing scenes and we want to stop the input
+	* going to Unity for a little bit.
+	*/
+	protected static boolean m_enableUnityInput = false;
+	public static boolean GetEnableUnityInput()
+	{
+		return m_enableUnityInput;
+	}
+	public static void SetEnableUnityInput(boolean enableUnityInput)
+	{
+		m_enableUnityInput = enableUnityInput;
+	}
 }

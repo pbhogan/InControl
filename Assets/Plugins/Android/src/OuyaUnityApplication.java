@@ -47,6 +47,8 @@ import java.util.ArrayList;
 
 public class OuyaUnityApplication extends Activity
 {
+	private static final String TAG = "OuyaUnityApplication";
+
 	//indicates the Unity player has loaded
 	private Boolean m_enableUnity = true;
 
@@ -95,6 +97,9 @@ public class OuyaUnityApplication extends Activity
 
 		// Init the controller
 		OuyaController.init(context);
+
+		// get dispatch events
+		takeKeyEvents(true);
 	}
 
     /**
@@ -353,5 +358,26 @@ public class OuyaUnityApplication extends Activity
 		}
 
 		return IOuyaActivity.GetUnityPlayer().onTrackballEvent(event);
+	}
+
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event)
+	{
+		if (!IOuyaActivity.GetEnableUnityInput())
+		{
+			return true; //eat the input
+		}
+
+		return super.dispatchKeyEvent(event);
+	}
+
+	@Override
+	public boolean dispatchGenericMotionEvent(MotionEvent motionEvent) {
+		if (!IOuyaActivity.GetEnableUnityInput())
+		{
+			return true; //eat the input
+		}
+
+		return super.dispatchGenericMotionEvent(motionEvent);
 	}
 }

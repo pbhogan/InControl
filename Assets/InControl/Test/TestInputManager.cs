@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
+using UnityEngine;
 using InControl;
 
-#if UNITY_EDITOR
-using UnityEngine;
-#endif
+//#if UNITY_EDITOR
+//using UnityEditor;
+//#endif
 
 
 /**
@@ -56,7 +56,7 @@ namespace InControl
 			if (InputManager.ActiveDevice.LeftStick.Left.WasPressed)
 				Debug.Log( "LeftStick.Left.WasPressed:  " + InputManager.ActiveDevice.LeftStick.Left.WasPressed );
 			if (InputManager.ActiveDevice.LeftStick.Left.WasReleased)
-			Debug.Log( "LeftStick.Left.WasReleased: " + InputManager.ActiveDevice.LeftStick.Left.WasReleased );
+				Debug.Log( "LeftStick.Left.WasReleased: " + InputManager.ActiveDevice.LeftStick.Left.WasReleased );
 		}
 
 
@@ -105,12 +105,12 @@ namespace InControl
 //			info += " (Joysticks " + InputManager.JoystickHash + ")";
 			info += " " + InputManager.ActiveDevice.Direction.Vector;
 
-			#if UNITY_EDITOR
-			if (EditorWindow.focusedWindow != null)
-			{
-				info += " " + EditorWindow.focusedWindow.ToString();
-			}
-			#endif
+//			#if UNITY_EDITOR
+//			if (EditorWindow.focusedWindow != null)
+//			{
+//				info += " " + EditorWindow.focusedWindow.ToString();
+//			}
+//			#endif
 
 			if (isPaused)
 			{

@@ -211,7 +211,7 @@ public class OuyaPanel : EditorWindow
                             applicationJavaPackageName = line;
                             break;
                         }
-                        
+
                     } while (null != line);
                 }
             }
@@ -641,7 +641,7 @@ public class OuyaPanel : EditorWindow
                     //Debug.Log(nodeManifest.Name);
 
                     XmlElement manifest = nodeManifest as XmlElement;
-                    
+
                     //Debug.Log(manifest.Name);
 
                     if (nodeManifest.Name.ToUpper() == "MANIFEST")
@@ -701,8 +701,8 @@ public class OuyaPanel : EditorWindow
     public const string KEY_PATH_UNITY_EDITOR = @"Unity Editor";
     public const string KEY_PATH_UNITY_PROJECT = @"Unity Project";
 
-    public const string PATH_UNITY_JAR_WIN = "Data/PlaybackEngines/androidplayer/bin/classes.jar";
-    public const string PATH_UNITY_JAR_MAC = "Contents/PlaybackEngines/AndroidPlayer/bin/classes.jar";
+    public const string PATH_UNITY_JAR_WIN = "Data/PlaybackEngines/androidplayer/release/bin/classes.jar";
+    public const string PATH_UNITY_JAR_MAC = "Contents/PlaybackEngines/AndroidPlayer/release/bin/classes.jar";
 
     private static string pathUnityJar = string.Empty;
     private static string pathUnityEditor = string.Empty;
@@ -1030,13 +1030,13 @@ public class OuyaPanel : EditorWindow
             m_toggleOpenAndroidSDK = false;
 
             string androidPath = string.Empty;
-            
+
             switch (Application.platform)
             {
                 case RuntimePlatform.OSXEditor:
                     androidPath = string.Format("{0}/tools/android", pathSDK);
                     break;
-                
+
                 case RuntimePlatform.WindowsEditor:
                     androidPath = string.Format("{0}/tools/android.bat", pathSDK);
                     break;
@@ -1483,7 +1483,7 @@ public class OuyaPanel : EditorWindow
                 EditorGUILayout.LabelField(title);
                 found = true;
             }
-             
+
             EditorGUILayout.LabelField(string.Format("[{1}] - {0}",texture2D.ToString(), textureSizes[i]));
             new GUIContent(texture2D);
             Rect pos = GUILayoutUtility.GetRect(textureSizes[i], textureSizes[i], EditorStyles.miniButton, GUILayout.ExpandWidth(false));
@@ -1549,9 +1549,9 @@ public class OuyaPanel : EditorWindow
     {
         EditorBuildSettings.scenes = scenes;
         m_nextScene = scenes[0].path;
-		
-		apkName = string.Format ("{0}.apk", productName);
-		EditorPrefs.SetString(KEY_APK_NAME, apkName);
+
+        apkName = string.Format ("{0}.apk", productName);
+        EditorPrefs.SetString(KEY_APK_NAME, apkName);
 
         PlayerSettings.bundleIdentifier = string.Format("tv.ouya.demo.{0}", productName);
         PlayerSettings.productName = productName;
@@ -1959,9 +1959,21 @@ public class OuyaPanel : EditorWindow
 
                 GUILayout.EndHorizontal();
 
-                if (GUILayout.Button("Download JDK 6 32-bit"))
+                GUILayout.Label("Java JDK Download Links (32bit)", EditorStyles.boldLabel);
+
+                if (GUILayout.Button("Windows XP, Vista, 7"))
                 {
                     Application.OpenURL("http://www.oracle.com/technetwork/java/javasebusiness/downloads/java-archive-downloads-javase6-419409.html#jdk-6u45-oth-JPR");
+                }
+
+                if (GUILayout.Button("Windows 8"))
+                {
+                    Application.OpenURL("http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html");
+                }
+
+                if (GUILayout.Button("OSX"))
+                {
+                    Application.OpenURL("http://support.apple.com/kb/DL1572?viewlocale=en_US");
                 }
 
                 break;
@@ -2733,7 +2745,7 @@ public class OuyaPanel : EditorWindow
                     ResetAndroidNDKPaths();
                 }
                 GUILayout.EndHorizontal();
-                
+
                 GUILayout.BeginHorizontal(GUILayout.MaxWidth(position.width));
                 if (GUILayout.Button("Select NDK Make Path..."))
                 {
@@ -2781,16 +2793,16 @@ public class OuyaPanel : EditorWindow
 
     private static LanguageDetails[] LanguageMap =
         {
-            new LanguageDetails() { Language = Languages.EnglishUnitedStates, PropertySystemLanguage="en", PropertySystemCountry="US"}, 
-            new LanguageDetails() { Language = Languages.EnglishUnitedAustralia, PropertySystemLanguage="en", PropertySystemCountry="AU"}, 
-            new LanguageDetails() { Language = Languages.EnglishUnitedCanada, PropertySystemLanguage="en", PropertySystemCountry="CA"}, 
-            new LanguageDetails() { Language = Languages.EnglishUnitedKingdom, PropertySystemLanguage="en", PropertySystemCountry="GB"}, 
-            new LanguageDetails() { Language = Languages.German, PropertySystemLanguage="de", PropertySystemCountry="de"}, 
-            new LanguageDetails() { Language = Languages.Spanish, PropertySystemLanguage="es", PropertySystemCountry="ES"}, 
-            new LanguageDetails() { Language = Languages.Korean, PropertySystemLanguage="ko", PropertySystemCountry="KR"}, 
-            new LanguageDetails() { Language = Languages.China, PropertySystemLanguage="zh", PropertySystemCountry="CN"}, 
-            new LanguageDetails() { Language = Languages.Taiwan, PropertySystemLanguage="zh", PropertySystemCountry="TW"}, 
-            new LanguageDetails() { Language = Languages.Japan, PropertySystemLanguage="ja", PropertySystemCountry="JP"}, 
+            new LanguageDetails() { Language = Languages.EnglishUnitedStates, PropertySystemLanguage="en", PropertySystemCountry="US"},
+            new LanguageDetails() { Language = Languages.EnglishUnitedAustralia, PropertySystemLanguage="en", PropertySystemCountry="AU"},
+            new LanguageDetails() { Language = Languages.EnglishUnitedCanada, PropertySystemLanguage="en", PropertySystemCountry="CA"},
+            new LanguageDetails() { Language = Languages.EnglishUnitedKingdom, PropertySystemLanguage="en", PropertySystemCountry="GB"},
+            new LanguageDetails() { Language = Languages.German, PropertySystemLanguage="de", PropertySystemCountry="de"},
+            new LanguageDetails() { Language = Languages.Spanish, PropertySystemLanguage="es", PropertySystemCountry="ES"},
+            new LanguageDetails() { Language = Languages.Korean, PropertySystemLanguage="ko", PropertySystemCountry="KR"},
+            new LanguageDetails() { Language = Languages.China, PropertySystemLanguage="zh", PropertySystemCountry="CN"},
+            new LanguageDetails() { Language = Languages.Taiwan, PropertySystemLanguage="zh", PropertySystemCountry="TW"},
+            new LanguageDetails() { Language = Languages.Japan, PropertySystemLanguage="ja", PropertySystemCountry="JP"},
         };
 
     private Languages m_language = Languages.EnglishUnitedStates;
@@ -2850,7 +2862,7 @@ public class OuyaPanel : EditorWindow
             p.StandardInput.WriteLine("exit");
             p.WaitForExit(1);
             p.Close();
-            
+
             Thread.Sleep(1000);
         }
     }
@@ -2927,7 +2939,7 @@ public class OuyaPanel : EditorWindow
                                     output, error, elapsed));
 
             //if (output.Length > 0 ) Debug.Log("Output: " + output);
-            //if (error.Length > 0 ) Debug.Log("Error: " + error); 
+            //if (error.Length > 0 ) Debug.Log("Error: " + error);
         }
         catch (System.Exception ex)
         {

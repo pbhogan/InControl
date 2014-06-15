@@ -14,7 +14,7 @@ using System.Collections;
 using System.Collections.Specialized;
 
 
-namespace LitJson
+namespace OuyaSDK_LitJson
 {
     public enum JsonType
     {

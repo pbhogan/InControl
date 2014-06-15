@@ -32,7 +32,7 @@ public class OuyaMenuAdmin : MonoBehaviour
         string[] paths =
             {
                 "ProjectSettings/InputManager.asset",
-                "Assets/Litjson",
+                "Assets/Ouya/LitJson",
                 "Assets/Ouya/SDK",
                 "Assets/Plugins",
             };

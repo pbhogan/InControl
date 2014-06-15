@@ -134,6 +134,27 @@ public class OuyaUnityPlugin
 		}
 	}
 
+	public static void enableUnityInput(String enabled)
+	{
+		Log.i(LOG_TAG, "OuyaUnityPlugin.showCursor: enabled=" + enabled);
+
+		try
+		{
+			Boolean useInput = false;
+			if (enabled.equals("True"))
+			{
+				useInput = true;
+			}
+			Log.i(LOG_TAG, "OuyaUnityPlugin.enableUnityInput: enabled=" + useInput);
+
+			IOuyaActivity.SetEnableUnityInput(useInput);
+		}
+		catch (Exception ex)
+		{
+			Log.e(LOG_TAG, "Failed to enableUnityInput=" + enabled + " Exception=" + ex.toString());
+		}
+	}
+
 	public static void putGameData(String key, String val)
 	{
 		//Log.i(LOG_TAG, "OuyaUnityPlugin.putGameData: key=" + key + " val=" + val);
@@ -393,7 +414,7 @@ public class OuyaUnityPlugin
 			else
 			{
 				Log.i(LOG_TAG, "OuyaUnityPlugin.getReceiptsAsync: m_unityOuyaFacade is valid");
-				Product product = new Product(sku, "", 0, 0, "", 0, 0, "");
+				Product product = new Product(sku, "", 0, 0, "", 0, 0, "", "");
 				m_unityOuyaFacade.requestPurchase(product);
 			}
 		}

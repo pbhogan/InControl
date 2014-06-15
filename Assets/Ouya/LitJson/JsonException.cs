@@ -11,7 +11,7 @@
 using System;
 
 
-namespace LitJson
+namespace OuyaSDK_LitJson
 {
     public class JsonException : ApplicationException
     {

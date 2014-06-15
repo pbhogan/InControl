@@ -8,7 +8,7 @@
 
 #if !UNITY_WP8
 
-namespace LitJson
+namespace OuyaSDK_LitJson
 {
     internal enum ParserToken
     {

@@ -14,7 +14,7 @@ using System.IO;
 using System.Text;
 
 
-namespace LitJson
+namespace OuyaSDK_LitJson
 {
     public enum JsonToken
     {

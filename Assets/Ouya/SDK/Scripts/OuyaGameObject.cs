@@ -17,7 +17,7 @@
 using System;
 
 #if !UNITY_WP8
-using LitJson;
+using OuyaSDK_LitJson;
 #endif
 
 using System.Collections.Generic;
@@ -28,18 +28,7 @@ public class OuyaGameObject : MonoBehaviour
     #region Public Visible Variables
 
     public string DEVELOPER_ID = "310a8f51-4d6e-4ae5-bda0-b93878e5f5d0";
-    public bool debugOff = false;
 
-    [@HideInInspector]
-    private static string m_inputData = null;
-    public static string InputData{
-        get{
-            return m_inputData;
-        }
-        set{
-            m_inputData = value;
-        }
-    }
     #endregion
 
     #region Private Variables
@@ -240,6 +229,7 @@ public class OuyaGameObject : MonoBehaviour
     void Awake()
     {
         m_instance = this;
+        OuyaSDK.enableUnityInput(true);
     }
     void Start()
     {

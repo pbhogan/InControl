@@ -16,7 +16,7 @@ using System.IO;
 using System.Reflection;
 
 
-namespace LitJson
+namespace OuyaSDK_LitJson
 {
     internal struct PropertyMetadata
     {

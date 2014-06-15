@@ -26,7 +26,14 @@ using UnityEngine;
 
 public static class OuyaSDK
 {
-    public const string VERSION = "1.0.10.12";
+    public const string VERSION = "1.0.11.1";
+
+    /// <summary>
+    /// Input starts out disabled and turns on once Unity has loaded,
+    /// turn off input between scene changes,
+    /// Toggle with OuyaSDK.enableInput(boolean)
+    /// </summary>
+    public static bool m_EnableUnityInput = false;
 
     /// <summary>
     /// Cache joysticks
@@ -44,6 +51,11 @@ public static class OuyaSDK
     public static void UpdateJoysticks()
     {
 #if !UNITY_WP8
+        if (!m_EnableUnityInput)
+        {
+            return;
+        }
+
         if (m_timerJoysticks < DateTime.Now)
         {
             //check for new joysticks every N seconds
@@ -523,6 +535,11 @@ public static class OuyaSDK
     public static void showCursor(bool flag)
     {
         OuyaSDK.OuyaJava.JavaShowCursor(flag);
+    }
+
+    public static void enableUnityInput(bool enabled)
+    {
+        OuyaSDK.OuyaJava.JavaEnableUnityInput(enabled);
     }
 
     public static void putGameData(string key, string val)
@@ -1006,6 +1023,36 @@ public static class OuyaSDK
             catch (Exception ex)
             {
                 Debug.LogError(string.Format("OuyaSDK.JavaShowCursor exception={0}", ex));
+            }
+            finally
+            {
+                AndroidJNI.PopLocalFrame(IntPtr.Zero);
+            }
+#endif
+        }
+
+        public static void JavaEnableUnityInput(bool enabled)
+        {
+            m_EnableUnityInput = enabled;
+
+#if UNITY_ANDROID && !UNITY_EDITOR && !UNITY_STANDALONE_OSX && !UNITY_STANDALONE_WIN && !UNITY_STANDALONE_LINUX
+
+            // again, make sure the thread is attached..
+            AndroidJNI.AttachCurrentThread();
+
+            AndroidJNI.PushLocalFrame(0);
+
+            try
+            {
+                //Debug.Log("JavaEnableUnityInput");
+                using (AndroidJavaClass ajc = new AndroidJavaClass(JAVA_CLASS))
+                {
+                    ajc.CallStatic("enableUnityInput", new object[] { enabled.ToString() });
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(string.Format("OuyaSDK.JavaEnableUnityInput exception={0}", ex));
             }
             finally
             {
