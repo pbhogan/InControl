@@ -28,14 +28,14 @@ namespace InControl
 				Major = 1,
 				Minor = 1,
 				Patch = 3,
-				Build = 2230
+				Build = 2294
 			};
 		}
 
 
 		public static VersionInfo UnityVersion()
 		{
-			var match = Regex.Match( Application.unityVersion, @"(\d+)\.(\d+)\.(\d+)[f\.]?(\d+)?" );
+			var match = Regex.Match( Application.unityVersion, @"(\d+)\.(\d+)\.(\d+)[fp\.]?(\d+)?" );
 			return new VersionInfo() {
 				Major = Convert.ToInt32( match.Groups[1].Value ),
 				Minor = Convert.ToInt32( match.Groups[2].Value ),
