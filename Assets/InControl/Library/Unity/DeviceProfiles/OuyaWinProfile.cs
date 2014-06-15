@@ -25,7 +25,7 @@ namespace InControl
 			};
 
 			Sensitivity = 1.0f;
-			LowerDeadZone = 0.3f;
+			LowerDeadZone = 0.2f;
 
 			ButtonMappings = new[]
 			{
@@ -105,7 +105,13 @@ namespace InControl
 				{
 					Handle = "System",
 					Target = InputControlType.System,
-					Source = KeyCodeButton( KeyCode.Menu )
+					Source = Button14
+				},
+				new InputControlMapping
+				{
+					Handle = "TouchPad Tap",
+					Target = InputControlType.TouchPadTap,
+					Source = MouseButton0
 				}
 			};
 
@@ -128,26 +134,44 @@ namespace InControl
 				{
 					Handle = "Right Stick X",
 					Target = InputControlType.RightStickX,
-					Source = Analog2
+					Source = Analog3
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Stick Y",
 					Target = InputControlType.RightStickY,
-					Source = Analog3,
+					Source = Analog4,
 					Invert = true
 				},
 				new InputControlMapping
 				{
 					Handle = "Left Trigger",
 					Target = InputControlType.LeftTrigger,
-					Source = Analog4
+					Source = Analog2,
+					SourceRange = InputControlMapping.Range.Positive,
+					TargetRange = InputControlMapping.Range.Positive
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Trigger",
 					Target = InputControlType.RightTrigger,
-					Source = Analog5
+					Source = Analog5,
+					SourceRange = InputControlMapping.Range.Positive,
+					TargetRange = InputControlMapping.Range.Positive
+				},
+				new InputControlMapping
+				{
+					Handle = "TouchPad X Axis",
+					Target = InputControlType.TouchPadXAxis,
+					Source = MouseXAxis,
+					Raw    = true
+				},
+				new InputControlMapping
+				{
+					Handle = "TouchPad Y Axis",
+					Target = InputControlType.TouchPadYAxis,
+					Source = MouseYAxis,
+					Raw    = true
 				}
 			};
 		}
