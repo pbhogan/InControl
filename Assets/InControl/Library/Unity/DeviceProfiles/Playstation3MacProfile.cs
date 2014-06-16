@@ -124,7 +124,13 @@ namespace InControl
 					Handle = "Right Stick Button",
 					Target = InputControlType.RightStickButton,
 					Source = Button2
-				}
+				},
+				new InputControlMapping
+				{
+					Handle = "System",
+					Target = InputControlType.System,
+					Source = Button16
+				},
 			};
 
 			AnalogMappings = new[]
