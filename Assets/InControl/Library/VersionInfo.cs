@@ -27,7 +27,7 @@ namespace InControl
 			return new VersionInfo() {
 				Major = 1,
 				Minor = 1,
-				Patch = 5,
+				Patch = 6,
 				Build = 2328
 			};
 		}
