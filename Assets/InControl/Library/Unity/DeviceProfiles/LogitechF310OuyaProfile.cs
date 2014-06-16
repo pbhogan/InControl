@@ -7,12 +7,12 @@ using UnityEngine;
 namespace InControl
 {
 	[AutoDiscover]
-	public class Playstation3OuyaProfile : UnityInputDeviceProfile
+	public class LogitechF310OuyaProfile : UnityInputDeviceProfile
 	{
-		public Playstation3OuyaProfile()
+		public LogitechF310OuyaProfile()
 		{
-			Name = "Playstation 3 Controller";
-			Meta = "Playstation 3 Controller on OUYA";
+			Name = "Logitech F310 Controller";
+			Meta = "Logitech F310 Controller on OUYA";
 
 			SupportedPlatforms = new[]
 			{
@@ -21,13 +21,8 @@ namespace InControl
 
 			JoystickNames = new[]
 			{
-				"", // Yes, really.
-				"PLAYSTATION(R)3 Controller",
-				"SHENGHIC 2009/0708ZXW-V1Inc. PLAYSTATION(R)3Conteroller", // Not a typo.
-				"Sony PLAYSTATION(R)3 Controller"
+				"Generic X-Box pad"
 			};
-
-			LastResortRegex = "PLAYSTATION(R)3";
 
 			Sensitivity = 1.0f;
 			LowerDeadZone = 0.2f;
@@ -36,25 +31,25 @@ namespace InControl
 			{
 				new InputControlMapping
 				{
-					Handle = "Cross",
+					Handle = "A",
 					Target = InputControlType.Action1,
 					Source = Button0
 				},
 				new InputControlMapping
 				{
-					Handle = "Circle",
+					Handle = "B",
 					Target = InputControlType.Action2,
 					Source = Button1
 				},
 				new InputControlMapping
 				{
-					Handle = "Square",
+					Handle = "X",
 					Target = InputControlType.Action3,
 					Source = Button2
 				},
 				new InputControlMapping
 				{
-					Handle = "Triangle",
+					Handle = "Y",
 					Target = InputControlType.Action4,
 					Source = Button3
 				},
@@ -87,12 +82,6 @@ namespace InControl
 					Handle = "Start",
 					Target = InputControlType.Start,
 					Source = Button10
-				},
-				new InputControlMapping
-				{
-					Handle = "System",
-					Target = InputControlType.System,
-					Source = KeyCodeButton( KeyCode.Menu )
 				}
 			};
 
