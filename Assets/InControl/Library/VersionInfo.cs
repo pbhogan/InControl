@@ -27,8 +27,8 @@ namespace InControl
 			return new VersionInfo() {
 				Major = 1,
 				Minor = 1,
-				Patch = 6,
-				Build = 2328
+				Patch = 7,
+				Build = 2334
 			};
 		}
 
@@ -60,37 +60,37 @@ namespace InControl
 		}
 
 
-		public static bool operator ==(VersionInfo a, VersionInfo b) 
+		public static bool operator ==(VersionInfo a, VersionInfo b)
 		{
 			return a.CompareTo(b) == 0;
 		}
 
 
-		public static bool operator !=(VersionInfo a, VersionInfo b) 
+		public static bool operator !=(VersionInfo a, VersionInfo b)
 		{
 			return a.CompareTo(b) != 0;
 		}
 
 
-		public static bool operator <=(VersionInfo a, VersionInfo b) 
+		public static bool operator <=(VersionInfo a, VersionInfo b)
 		{
 			return a.CompareTo(b) <= 0;
 		}
 
 
-		public static bool operator >=(VersionInfo a, VersionInfo b) 
+		public static bool operator >=(VersionInfo a, VersionInfo b)
 		{
 			return a.CompareTo(b) >= 0;
 		}
 
 
-		public static bool operator <(VersionInfo a, VersionInfo b) 
+		public static bool operator <(VersionInfo a, VersionInfo b)
 		{
 			return a.CompareTo(b) < 0;
 		}
 
 
-		public static bool operator >(VersionInfo a, VersionInfo b) 
+		public static bool operator >(VersionInfo a, VersionInfo b)
 		{
 			return a.CompareTo(b) > 0;
 		}
@@ -106,7 +106,7 @@ namespace InControl
 		}
 
 
-		public override bool Equals(object other) 
+		public override bool Equals(object other)
 		{
 			if (other is VersionInfo)
 			{
@@ -116,7 +116,7 @@ namespace InControl
 		}
 
 
-		public override int GetHashCode() 
+		public override int GetHashCode()
 		{
 			return Major.GetHashCode() ^ Minor.GetHashCode() ^ Patch.GetHashCode() ^ Build.GetHashCode();
 		}
