@@ -14,6 +14,8 @@ namespace InControl
 		public OneAxisInputControl Up { get; protected set; }
 		public OneAxisInputControl Down { get; protected set; }
 
+		public ulong UpdateTick { get; protected set; }
+
 		bool thisState;
 		bool lastState;
 
@@ -51,6 +53,11 @@ namespace InControl
 			}
 
 			thisState = Up.State || Down.State || Left.State || Right.State;
+
+			if (thisState != lastState)
+			{
+				UpdateTick = updateTick;
+			}
 		}
 
 

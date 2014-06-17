@@ -53,10 +53,15 @@ namespace InControl
 			InputManager.Update();
 			CheckForPauseButton();
 
-			if (InputManager.ActiveDevice.LeftStick.Left.WasPressed)
-				Debug.Log( "LeftStick.Left.WasPressed:  " + InputManager.ActiveDevice.LeftStick.Left.WasPressed );
-			if (InputManager.ActiveDevice.LeftStick.Left.WasReleased)
-				Debug.Log( "LeftStick.Left.WasReleased: " + InputManager.ActiveDevice.LeftStick.Left.WasReleased );
+			var inputDevice = InputManager.ActiveDevice;
+			if (inputDevice.Direction.Left.WasPressed)
+			{
+				Debug.Log( "Left.WasPressed" );
+			}
+			if (inputDevice.Direction.Left.WasReleased)
+			{
+				Debug.Log( "Left.WasReleased" );
+			}
 		}
 
 
