@@ -14,7 +14,8 @@ namespace InControl
 
 			SupportedPlatforms = new[]
 			{
-				"PSM UNITY FOR PSM"
+				"PSM UNITY FOR PSM",
+				"PSM ON PS VITA"
 			};
 
 			JoystickNames = new[]
