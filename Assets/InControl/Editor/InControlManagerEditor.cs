@@ -10,6 +10,7 @@ namespace InControl
 	[CustomEditor(typeof(InControlManager))]
 	public class InControlManagerEditor : Editor
 	{	
+		SerializedProperty logDebugInfo;
 		SerializedProperty invertYAxis;
 		SerializedProperty enableXInput;
 		SerializedProperty useFixedUpdate;
@@ -19,6 +20,7 @@ namespace InControl
 
 		void OnEnable()
 		{
+			logDebugInfo = serializedObject.FindProperty( "logDebugInfo" );
 			invertYAxis = serializedObject.FindProperty( "invertYAxis" );
 			enableXInput = serializedObject.FindProperty( "enableXInput" );
 			useFixedUpdate = serializedObject.FindProperty( "useFixedUpdate" );
@@ -41,6 +43,7 @@ namespace InControl
 			GUILayout.Space( headerRect.height );
 			GUI.DrawTexture( headerRect, headerTexture );
 
+			logDebugInfo.boolValue = EditorGUILayout.ToggleLeft( "Log Debug Info", logDebugInfo.boolValue );
 			invertYAxis.boolValue = EditorGUILayout.ToggleLeft( "Invert Y Axis", invertYAxis.boolValue );
 			enableXInput.boolValue = EditorGUILayout.ToggleLeft( "Enable XInput (Windows)", enableXInput.boolValue );
 			useFixedUpdate.boolValue = EditorGUILayout.ToggleLeft( "Use Fixed Update", useFixedUpdate.boolValue );
