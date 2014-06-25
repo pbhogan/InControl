@@ -23,8 +23,6 @@ namespace InControl
 				"Controller (XBOX One For Windows)"
 			};
 
-			RegexName = "360";
-
 			Sensitivity = 1.0f;
 			LowerDeadZone = 0.2f;
 

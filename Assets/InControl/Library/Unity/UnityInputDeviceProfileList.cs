@@ -56,6 +56,7 @@ namespace InControl
 			"InControl.Xbox360MacProfile",
 			"InControl.Xbox360OuyaProfile",
 			"InControl.Xbox360WinProfile",
+			"InControl.XboxOneWinProfile",
 		};
 	}
 }
