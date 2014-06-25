@@ -51,6 +51,50 @@ namespace InControl
 				}
 			}
 		}
+
+
+		public static bool CheckPlatformSupport( ICollection<string> errors )
+		{
+			if (Application.platform != RuntimePlatform.WindowsPlayer &&
+			    Application.platform != RuntimePlatform.WindowsEditor)
+			{
+				return false;
+			}
+
+			try
+			{
+				GamePad.GetState( PlayerIndex.One );
+			}
+			catch (DllNotFoundException e)
+			{
+				if (errors != null)
+				{
+					errors.Add( e.Message + ".dll could not be found or is missing a dependency." );
+				}
+				return false;
+			}
+			
+			return true;
+		}
+
+
+		public static void Enable()
+		{
+			var errors = new List<string>();
+			if (XInputDeviceManager.CheckPlatformSupport( errors ))
+			{
+				InputManager.HideDevicesWithProfile( typeof( Xbox360WinProfile ) );
+				InputManager.HideDevicesWithProfile( typeof( LogitechF710ModeXWinProfile ) );
+				InputManager.AddDeviceManager( new XInputDeviceManager() );
+			}
+			else
+			{
+				foreach (var error in errors)
+				{
+					Logger.LogError( error );
+				}
+			}
+		}
 	}
 }
 #endif
