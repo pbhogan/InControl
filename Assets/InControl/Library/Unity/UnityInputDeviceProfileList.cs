@@ -44,6 +44,7 @@ namespace InControl
 			"InControl.Playstation4MacUSBProfile",
 			"InControl.Playstation4WinProfile",
 			"InControl.PlaystationVitaPSMProfile",
+			"InControl.SamsungGP20AndroidProfile",
 			"InControl.SpeedlinkStrikeMacProfile",
 			"InControl.SpeedlinkStrikeWinProfile",
 			"InControl.SteelSeriesFreeLinuxProfile",
