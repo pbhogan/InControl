@@ -9,12 +9,13 @@ namespace InControl
 	{
 		public PlaystationVitaPSMProfile()
 		{
-			Name = "Playstion Mobile";
+			Name = "Playstation Mobile";
 			Meta = "Playstation Mobile on Vita";
 
 			SupportedPlatforms = new[]
 			{
-				"PSM UNITY FOR PSM"
+				"PSM UNITY FOR PSM",
+				"PSM ON PS VITA"
 			};
 
 			JoystickNames = new[]
