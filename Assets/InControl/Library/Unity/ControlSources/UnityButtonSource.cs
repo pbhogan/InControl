@@ -17,13 +17,13 @@ namespace InControl
 		}
 
 
-		public override float GetValue( InputDevice inputDevice )
+		public float GetValue( InputDevice inputDevice )
 		{
 			return GetState( inputDevice ) ? 1.0f : 0.0f;
 		}
 
 
-		public override bool GetState( InputDevice inputDevice )
+		public bool GetState( InputDevice inputDevice )
 		{
 			var joystickId = (inputDevice as UnityInputDevice).JoystickId;
 			var buttonKey = GetButtonKey( joystickId, buttonId );

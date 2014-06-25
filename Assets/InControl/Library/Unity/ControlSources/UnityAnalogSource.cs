@@ -17,7 +17,7 @@ namespace InControl
 		}
 
 
-		public override float GetValue( InputDevice inputDevice )
+		public float GetValue( InputDevice inputDevice )
 		{
 			var joystickId = (inputDevice as UnityInputDevice).JoystickId;
 			var analogKey = GetAnalogKey( joystickId, analogId );
@@ -25,7 +25,7 @@ namespace InControl
 		}
 
 
-		public override bool GetState( InputDevice inputDevice )
+		public bool GetState( InputDevice inputDevice )
 		{
 			return !Mathf.Approximately( GetValue( inputDevice ), 0.0f );
 		}
