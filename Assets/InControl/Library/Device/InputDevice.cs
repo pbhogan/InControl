@@ -145,7 +145,14 @@ namespace InControl
 			if (obverseTarget.HasValue)
 			{
 				var obverseControl = GetControl( obverseTarget.Value );
-				analogValue = ApplyCircularDeadZone( analogValue, obverseControl.PreValue.Value, control.LowerDeadZone, control.UpperDeadZone );
+				if (obverseControl.PreValue.HasValue)
+				{
+					analogValue = ApplyCircularDeadZone( analogValue, obverseControl.PreValue.Value, control.LowerDeadZone, control.UpperDeadZone );
+				}
+				else
+				{
+					analogValue = ApplyDeadZone( analogValue, control.LowerDeadZone, control.UpperDeadZone );
+				}
 			}
 			else
 			{
