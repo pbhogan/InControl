@@ -40,13 +40,13 @@ namespace InControl
 					var customProfileInstance = Activator.CreateInstance( classType ) as UnityInputDeviceProfile;
 					InputManager.AttachDevice( new UnityInputDevice( customProfileInstance ) );
 				}
-			}			
+			}
 		}
 
 
 		void Update()
 		{
-			if (!useFixedUpdate || Mathf.Approximately( Time.timeScale, 0.0f ))
+			if (!useFixedUpdate)
 			{
 				InputManager.Update();
 			}
@@ -55,7 +55,7 @@ namespace InControl
 
 		void FixedUpdate()
 		{
-			if (useFixedUpdate)
+			if (useFixedUpdate || Mathf.Approximately( Time.timeScale, 0.0f ))
 			{
 				InputManager.Update();
 			}
