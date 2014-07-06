@@ -17,6 +17,7 @@ namespace InControl
 			"InControl.GenericAndroidProfile",
 			"InControl.GenericBlackBerryProfile",
 			"InControl.LogitechDualActionProfile",
+			"InControl.LogitechF310LinuxProfile",
 			"InControl.LogitechF310MacProfile",
 			"InControl.LogitechF310OuyaProfile",
 			"InControl.LogitechF310WinProfile",
