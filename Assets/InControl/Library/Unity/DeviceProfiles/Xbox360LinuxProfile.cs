@@ -144,14 +144,14 @@ namespace InControl
 				{
 					Handle = "Right Stick X",
 					Target = InputControlType.RightStickX,
-					Source = Analog3,
-					Invert = true
+					Source = Analog3
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Stick Y",
 					Target = InputControlType.RightStickY,
-					Source = Analog4
+					Source = Analog4,
+					Invert = true
 				},
 				new InputControlMapping
 				{
