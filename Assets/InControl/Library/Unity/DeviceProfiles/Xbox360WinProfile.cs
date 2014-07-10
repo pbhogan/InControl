@@ -33,6 +33,7 @@ namespace InControl
 				"Controller (Xbox 360 For Windows)",
 				"Controller (Xbox 360 Wireless Receiver for Windows)",
 				"XBOX 360 For Windows (Controller)",
+				"Controller (XEOX Gamepad)",
 			};
 
 			LastResortRegex = "360|xbox|catz";
