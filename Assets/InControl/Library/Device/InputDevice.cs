@@ -294,10 +294,7 @@ namespace InControl
 		public InputControl LeftBumper { get { return GetControl( InputControlType.LeftBumper ); } }
 		public InputControl RightBumper { get { return GetControl( InputControlType.RightBumper ); } }
 
-		[Obsolete( "LeftStickButton will be removed from the standard controls list.", false )]
 		public InputControl LeftStickButton { get { return GetControl( InputControlType.LeftStickButton ); } }
-
-		[Obsolete( "RightStickButton will be removed from the standard controls list.", false )]
 		public InputControl RightStickButton { get { return GetControl( InputControlType.RightStickButton ); } }
 
 
