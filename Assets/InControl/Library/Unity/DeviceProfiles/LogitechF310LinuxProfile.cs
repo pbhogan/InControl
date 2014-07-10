@@ -122,17 +122,13 @@ namespace InControl
 				{
 					Handle = "Left Trigger",
 					Target = InputControlType.LeftTrigger,
-					Source = Analog2,
-					TargetRange = InputControlMapping.Range.Positive,
-					IgnoreInitialZeroValue = true
+					Source = Analog2
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Trigger",
 					Target = InputControlType.RightTrigger,
-					Source = Analog5,
-					TargetRange = InputControlMapping.Range.Positive,
-					IgnoreInitialZeroValue = true
+					Source = Analog5
 				},
 				new InputControlMapping
 				{
@@ -141,7 +137,6 @@ namespace InControl
 					Source = Analog6,
 					SourceRange = InputControlMapping.Range.Negative,
 					TargetRange = InputControlMapping.Range.Negative,
-					Invert = true
 				},
 				new InputControlMapping
 				{
@@ -166,7 +161,6 @@ namespace InControl
 					Source = Analog7,
 					SourceRange = InputControlMapping.Range.Positive,
 					TargetRange = InputControlMapping.Range.Positive,
-					Invert = true
 				}
 			};
 		}
