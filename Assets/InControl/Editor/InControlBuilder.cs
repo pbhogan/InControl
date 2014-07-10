@@ -7,17 +7,17 @@ using System.Collections.Generic;
 
 namespace InControl
 {
-	internal class CreateInputManagerObject
+	internal class InControlBuilder
 	{
-		[MenuItem("GameObject/Create Other/InControl/Manager")]
-		static void Execute()
+		[MenuItem("GameObject/Create Other/InControl/Manager", false, 1)]
+		static void CreateInputManager()
 		{
 			MonoBehaviour component;
 			if (component = GameObject.FindObjectOfType<InControlManager>())
 			{
 				Selection.activeGameObject = component.gameObject;
 
-				Debug.LogError( "InControlManager is already setup on selected object." );
+				Debug.LogError( "InControlManager component is already attached to selected object." );
 				return;
 			}
 
@@ -25,7 +25,7 @@ namespace InControl
 			gameObject.AddComponent<InControlManager>();
 			Selection.activeGameObject = gameObject;
 
-			Debug.Log( "InControlManager object has been created." );
+			Debug.Log( "InControl manager object has been created." );
 		}
 	}
 }
