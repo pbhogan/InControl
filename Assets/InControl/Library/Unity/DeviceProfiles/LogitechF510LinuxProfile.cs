@@ -6,12 +6,12 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class LogitechF310LinuxProfile : UnityInputDeviceProfile
+	public class LogitechF510LinuxProfile : UnityInputDeviceProfile
 	{
-		public LogitechF310LinuxProfile()
+		public LogitechF510LinuxProfile()
 		{
-			Name = "Logitech F310 Controller";
-			Meta = "Logitech F310 Controller on Linux";
+			Name = "Logitech F510 Controller";
+			Meta = "Logitech F510 Controller on Linux";
 			
 			SupportedPlatforms = new[]
 			{
@@ -20,7 +20,7 @@ namespace InControl
 			
 			JoystickNames = new[]
 			{
-				"Logitech Gamepad F310"
+				"Logitech Gamepad F510"
 			};
 
 			Sensitivity = 1.0f;
