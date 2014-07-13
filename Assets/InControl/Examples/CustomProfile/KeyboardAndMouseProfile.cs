@@ -7,8 +7,8 @@ using InControl;
 namespace CustomProfileExample
 {
 	// This custom profile is enabled by adding it to the Custom Profiles list
-	// on the InControlManager script, which is attached to the InControl 
-	// game object in this example scene.
+	// on the InControlManager component, or you can attach it yourself like so:
+	// InputManager.AttachDevice( new UnityInputDevice( "KeyboardAndMouseProfile" ) );
 	// 
 	public class KeyboardAndMouseProfile : UnityInputDeviceProfile
 	{
@@ -41,7 +41,8 @@ namespace CustomProfileExample
 				{
 					Handle = "Fire - Keyboard",
 					Target = InputControlType.Action1,
-					Source = KeyCodeButton( KeyCode.F )
+					// KeyCodeButton fires when any of the provided KeyCode params are down.
+					Source = KeyCodeButton( KeyCode.F, KeyCode.Return )
 				},
 				new InputControlMapping
 				{
@@ -61,6 +62,13 @@ namespace CustomProfileExample
 					Target = InputControlType.Action4,
 					Source = KeyCodeButton( KeyCode.Space )
 				},
+				new InputControlMapping
+				{
+					Handle = "Combo",
+					Target = InputControlType.LeftBumper,
+					// KeyCodeComboButton requires that all KeyCode params are down simultaneously.
+					Source = KeyCodeComboButton( KeyCode.LeftAlt, KeyCode.Alpha1 )
+				},
 			};
 
 			AnalogMappings = new[]
@@ -69,12 +77,14 @@ namespace CustomProfileExample
 				{
 					Handle = "Move X",
 					Target = InputControlType.LeftStickX,
+					// KeyCodeAxis splits the two KeyCodes over an axis. The first is negative, the second positive.
 					Source = KeyCodeAxis( KeyCode.A, KeyCode.D )
 				},
 				new InputControlMapping
 				{
 					Handle = "Move Y",
 					Target = InputControlType.LeftStickY,
+					// Notes that up is positive in Unity, therefore the order of KeyCodes is down, up.
 					Source = KeyCodeAxis( KeyCode.S, KeyCode.W )
 				},
 				new InputControlMapping {

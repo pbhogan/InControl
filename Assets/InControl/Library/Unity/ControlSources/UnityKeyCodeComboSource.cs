@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace InControl
 {
-	public class UnityKeyCodeSource : InputControlSource
+	public class UnityKeyCodeComboSource : InputControlSource
 	{
 		KeyCode[] keyCodeList;
-		
-		
-		public UnityKeyCodeSource( params KeyCode[] keyCodeList )
+
+
+		public UnityKeyCodeComboSource( params KeyCode[] keyCodeList )
 		{
 			this.keyCodeList = keyCodeList;
 		}
@@ -25,12 +25,12 @@ namespace InControl
 		{
 			for (int i = 0; i < keyCodeList.Length; i++)
 			{
-				if (Input.GetKey( keyCodeList[i] ))
+				if (!Input.GetKey( keyCodeList[i] ))
 				{
-					return true;
+					return false;
 				}
 			}
-			return false;
+			return true;
 		}
 	}
 }
