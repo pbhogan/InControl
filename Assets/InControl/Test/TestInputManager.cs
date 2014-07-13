@@ -20,6 +20,8 @@ namespace InControl
 {
 	public class TestInputManager : MonoBehaviour
 	{
+		public Font font;
+
 		GUIStyle style = new GUIStyle();
 		List<LogMessage> logMessages = new List<LogMessage>();
 		bool isPaused;
@@ -103,6 +105,7 @@ namespace InControl
 			var y = 10;
 			var lineHeight = 15;
 
+			GUI.skin.font = font;
 			SetColor( Color.white );
 
 			string info = "Devices:";
