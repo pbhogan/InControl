@@ -32,8 +32,7 @@ namespace InControl
 						var typeAttrs = type.GetCustomAttributes( autoDiscoverAttributeType, false );
 						if (typeAttrs != null && typeAttrs.Length > 0)
 						{
-							//code2 += "\t\t\tnew " + type.Name + "(),\n";
-							code2 += "\t\t\t\"" + type.FullName + "\",\n";
+							code2 += "\t\t\t\"" + type.FullName + "\"," + Environment.NewLine;
 						}
 					}
 				}
