@@ -114,7 +114,7 @@ namespace InControl
 				new InputControlMapping
 				{
 					Handle = "Back",
-					Target = InputControlType.Select,
+					Target = InputControlType.Back,
 					Source = Button10
 				},
 				new InputControlMapping
