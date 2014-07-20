@@ -79,7 +79,7 @@ namespace InControl
 				new InputControlMapping
 				{
 					Handle = "View",
-					Target = InputControlType.Select,
+					Target = InputControlType.View,
 					Source = Button6
 				},
 				new InputControlMapping
