@@ -152,17 +152,17 @@ namespace InControl
 					Handle = "DPad Up",
 					Target = InputControlType.DPadUp,
 					Source = Analog7,
-					SourceRange = InputControlMapping.Range.Positive,
-					TargetRange = InputControlMapping.Range.Positive
+					SourceRange = InputControlMapping.Range.Negative,
+					TargetRange = InputControlMapping.Range.Negative,
+					Invert = true
 				},
 				new InputControlMapping
 				{
 					Handle = "DPad Down",
 					Target = InputControlType.DPadDown,
 					Source = Analog7,
-					SourceRange = InputControlMapping.Range.Negative,
-					TargetRange = InputControlMapping.Range.Negative,
-					Invert = true
+					SourceRange = InputControlMapping.Range.Positive,
+					TargetRange = InputControlMapping.Range.Positive
 				}
 			};
 		}
