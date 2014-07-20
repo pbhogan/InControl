@@ -96,7 +96,7 @@ namespace InControl
 				},
 				new InputControlMapping
 				{
-					Handle = "TouchPad",
+					Handle = "TouchPad Button",
 					Target = InputControlType.TouchPadTap,
 					Source = Button13
 				}
