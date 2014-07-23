@@ -28,7 +28,7 @@ namespace InControl
 				Major = 1,
 				Minor = 2,
 				Patch = 0,
-				Build = 2596
+				Build = 2600
 			};
 		}
 
