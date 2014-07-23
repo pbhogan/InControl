@@ -6,12 +6,12 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class LogitechDualActionProfile : UnityInputDeviceProfile
+	public class LogitechF310ModeDWinProfile : UnityInputDeviceProfile
 	{
-		public LogitechDualActionProfile()
+		public LogitechF310ModeDWinProfile()
 		{
-			Name = "Logitech Dual Action";
-			Meta = "Logitech Dual Action";
+			Name = "Logitech F310 Controller";
+			Meta = "Logitech F310 Controller on Windows (DirectInput Mode)";
 
 			SupportedPlatforms = new[]
 			{
@@ -31,25 +31,25 @@ namespace InControl
 			{
 				new InputControlMapping
 				{
-					Handle = "2",
+					Handle = "A",
 					Target = InputControlType.Action1,
 					Source = Button1
 				},
 				new InputControlMapping
 				{
-					Handle = "3",
+					Handle = "B",
 					Target = InputControlType.Action2,
 					Source = Button2
 				},
 				new InputControlMapping
 				{
-					Handle = "1",
+					Handle = "X",
 					Target = InputControlType.Action3,
 					Source = Button0
 				},
 				new InputControlMapping
 				{
-					Handle = "4",
+					Handle = "Y",
 					Target = InputControlType.Action4,
 					Source = Button3
 				},
@@ -79,13 +79,13 @@ namespace InControl
 				},
 				new InputControlMapping
 				{
-					Handle = "9",
-					Target = InputControlType.Select,
+					Handle = "Back",
+					Target = InputControlType.Back,
 					Source = Button8
 				},
 				new InputControlMapping
 				{
-					Handle = "10",
+					Handle = "Start",
 					Target = InputControlType.Start,
 					Source = Button9
 				},

@@ -6,12 +6,12 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class LogitechF310WinProfile : UnityInputDeviceProfile
+	public class LogitechF310ModeXWinProfile : UnityInputDeviceProfile
 	{
-		public LogitechF310WinProfile()
+		public LogitechF310ModeXWinProfile()
 		{
 			Name = "Logitech F310 Controller";
-			Meta = "Logitech F310 Controller on Windows";
+			Meta = "Logitech F310 Controller on Windows (XInput Mode)";
 
 			SupportedPlatforms = new[]
 			{
