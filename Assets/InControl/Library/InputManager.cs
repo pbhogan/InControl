@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 
@@ -253,7 +254,11 @@ namespace InControl
 
 		public static void HideDevicesWithProfile( Type type )
 		{
+			#if !UNITY_EDITOR && UNITY_WINRT
+			if (type.GetTypeInfo().IsAssignableFrom( typeof( UnityInputDeviceProfile ).GetTypeInfo() ))
+			#else
 			if (type.IsSubclassOf( typeof( UnityInputDeviceProfile ) ))
+			#endif
 			{
 				UnityInputDeviceProfile.Hide( type );
 			}
