@@ -28,7 +28,7 @@ namespace InControl
 				Major = 1,
 				Minor = 2,
 				Patch = 1,
-				Build = 2707
+				Build = 2709
 			};
 		}
 
@@ -103,6 +103,16 @@ namespace InControl
 				return string.Format( "{0}.{1}.{2}", Major, Minor, Patch );
 			}
 			return string.Format( "{0}.{1}.{2} build {3}", Major, Minor, Patch, Build );
+		}
+
+
+		public string ToShortString()
+		{
+			if (Build == 0)
+			{
+				return string.Format( "{0}.{1}.{2}", Major, Minor, Patch );
+			}
+			return string.Format( "{0}.{1}.{2}b{3}", Major, Minor, Patch, Build );
 		}
 
 
