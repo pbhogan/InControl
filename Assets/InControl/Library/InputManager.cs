@@ -41,12 +41,16 @@ namespace InControl
 
 		public static void Setup()
 		{
+			if (isSetup)
+			{
+				return;
+			}
+
 			Platform = (SystemInfo.operatingSystem + " " + SystemInfo.deviceModel).ToUpper();
 
 			initialTime = 0.0f;
 			currentTime = 0.0f;
 			lastUpdateTime = 0.0f;
-
 			currentTick = 0;
 
 			inputDeviceManagers.Clear();
@@ -69,6 +73,22 @@ namespace InControl
 				OnSetup.Invoke();
 				OnSetup = null;
 			}
+		}
+
+
+		public static void Reset()
+		{
+			OnSetup = null;
+			OnUpdate = null;
+			OnActiveDeviceChanged = null;
+			OnDeviceAttached = null;
+			OnDeviceDetached = null;
+
+			inputDeviceManagers.Clear();
+			Devices.Clear();
+			activeDevice = InputDevice.Null;
+			
+			isSetup = false;
 		}
 
 
@@ -297,10 +317,6 @@ namespace InControl
 
 			set
 			{
-				if (isSetup)
-				{
-					throw new Exception( "InputManager.EnableXInput must be set before calling InputManager.Setup()." );
-				}
 				enableXInput = value;
 			}
 		}

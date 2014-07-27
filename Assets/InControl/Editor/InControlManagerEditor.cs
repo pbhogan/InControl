@@ -14,6 +14,7 @@ namespace InControl
 		SerializedProperty invertYAxis;
 		SerializedProperty enableXInput;
 		SerializedProperty useFixedUpdate;
+		SerializedProperty dontDestroyOnLoad;
 		SerializedProperty customProfiles;
 		Texture headerTexture;
 		
@@ -24,6 +25,7 @@ namespace InControl
 			invertYAxis = serializedObject.FindProperty( "invertYAxis" );
 			enableXInput = serializedObject.FindProperty( "enableXInput" );
 			useFixedUpdate = serializedObject.FindProperty( "useFixedUpdate" );
+			dontDestroyOnLoad = serializedObject.FindProperty( "dontDestroyOnLoad" );
 			customProfiles = serializedObject.FindProperty( "customProfiles" );
 
 			var path = AssetDatabase.GetAssetPath( MonoScript.FromScriptableObject( this ) );
@@ -47,6 +49,7 @@ namespace InControl
 			invertYAxis.boolValue = EditorGUILayout.ToggleLeft( "Invert Y Axis", invertYAxis.boolValue );
 			enableXInput.boolValue = EditorGUILayout.ToggleLeft( "Enable XInput (Windows)", enableXInput.boolValue );
 			useFixedUpdate.boolValue = EditorGUILayout.ToggleLeft( "Use Fixed Update", useFixedUpdate.boolValue );
+			dontDestroyOnLoad.boolValue = EditorGUILayout.ToggleLeft( "Don't Destroy On Load", dontDestroyOnLoad.boolValue );
 
 			ReorderableListGUI.Title( "Custom Profiles" );
 			ReorderableListGUI.ListField( customProfiles );
