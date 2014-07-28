@@ -1,0 +1,17 @@
+v1.2.1
+Better support for scene switching.
+Added space, header and range property attributes for Unity 4.3 compatibility.
+Fix for building Windows Store apps.
+Fix to Xbox One profile for split axes triggers.
+Improved Logitech F310 / Dual Action support.
+Added PlayStation 3 Android profile.
+Map Xbox back button to InputControlType.Back instead of InputControlType.Select
+Add InputControlType.View for Xbox One controller.
+Create system compatible newlines when generating profile list.
+Disable Xbox One profile if XInput is used.
+
+v1.2.0
+The long awaited touch control support has landed!
+Bug fixes for a few controllers.
+KeyCodeButton control source can take multiple KeyCodes now.
+New KeyCodeComboButton control source.

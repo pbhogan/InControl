@@ -20,6 +20,8 @@ namespace InControl
 {
 	public class TestInputManager : MonoBehaviour
 	{
+		public Font font;
+
 		GUIStyle style = new GUIStyle();
 		List<LogMessage> logMessages = new List<LogMessage>();
 		bool isPaused;
@@ -53,15 +55,15 @@ namespace InControl
 			InputManager.Update();
 			CheckForPauseButton();
 
-			var inputDevice = InputManager.ActiveDevice;
-			if (inputDevice.Direction.Left.WasPressed)
-			{
-				Debug.Log( "Left.WasPressed" );
-			}
-			if (inputDevice.Direction.Left.WasReleased)
-			{
-				Debug.Log( "Left.WasReleased" );
-			}
+//			var inputDevice = InputManager.ActiveDevice;
+//			if (inputDevice.Direction.Left.WasPressed)
+//			{
+//				Debug.Log( "Left.WasPressed" );
+//			}
+//			if (inputDevice.Direction.Left.WasReleased)
+//			{
+//				Debug.Log( "Left.WasReleased" );
+//			}
 		}
 
 
@@ -103,6 +105,7 @@ namespace InControl
 			var y = 10;
 			var lineHeight = 15;
 
+			GUI.skin.font = font;
 			SetColor( Color.white );
 
 			string info = "Devices:";

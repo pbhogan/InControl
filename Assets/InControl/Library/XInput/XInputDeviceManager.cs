@@ -84,7 +84,9 @@ namespace InControl
 			if (XInputDeviceManager.CheckPlatformSupport( errors ))
 			{
 				InputManager.HideDevicesWithProfile( typeof( Xbox360WinProfile ) );
+				InputManager.HideDevicesWithProfile( typeof( XboxOneWinProfile ) );
 				InputManager.HideDevicesWithProfile( typeof( LogitechF710ModeXWinProfile ) );
+				InputManager.HideDevicesWithProfile( typeof( LogitechF310ModeXWinProfile ) );
 				InputManager.AddDeviceManager( new XInputDeviceManager() );
 			}
 			else

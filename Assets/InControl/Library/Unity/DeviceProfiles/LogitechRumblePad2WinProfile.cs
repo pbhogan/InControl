@@ -8,7 +8,7 @@ namespace InControl
 	[AutoDiscover]
 	public class LogitechRumblePad2WinProfile : UnityInputDeviceProfile
 	{
-        public LogitechRumblePad2WinProfile()
+		public LogitechRumblePad2WinProfile()
 		{
 			Name = "Logitech RumblePad 2 Controller";
 			Meta = "Logitech RumblePad 2 on Windows";
@@ -135,36 +135,26 @@ namespace InControl
 					Handle = "DPad Left",
 					Target = InputControlType.DPadLeft,
 					Source = Analog4,
-					SourceRange = InputControlMapping.Range.Negative,
-					TargetRange = InputControlMapping.Range.Negative,
 					Invert = true
 				},
 				new InputControlMapping
 				{
 					Handle = "DPad Right",
 					Target = InputControlType.DPadRight,
-					Source = Analog4,
-					SourceRange = InputControlMapping.Range.Positive,
-					TargetRange = InputControlMapping.Range.Positive
-
+					Source = Analog4
 				},
 				new InputControlMapping
 				{
 					Handle = "DPad Up",
 					Target = InputControlType.DPadUp,
 					Source = Analog5,
-					SourceRange = InputControlMapping.Range.Negative,
-					TargetRange = InputControlMapping.Range.Negative,
 					Invert = true
 				},
 				new InputControlMapping
 				{
 					Handle = "DPad Down",
 					Target = InputControlType.DPadDown,
-					Source = Analog5,
-					SourceRange = InputControlMapping.Range.Positive,
-					TargetRange = InputControlMapping.Range.Positive
-
+					Source = Analog5
 				},
 			};
 		}
