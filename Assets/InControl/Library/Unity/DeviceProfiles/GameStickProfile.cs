@@ -20,11 +20,14 @@ namespace InControl
 
 			JoystickNames = new[]
 			{
-				"GameStick Controller 1"
+				"GameStick Controller 1",
+				"GameStick Controller 2",
+				"GameStick Controller 3",
+				"GameStick Controller 4"
 			};
 
 			Sensitivity = 1.0f;
-			LowerDeadZone = 0.015f;
+			LowerDeadZone = 0.2f;
 
 			ButtonMappings = new[]
 			{

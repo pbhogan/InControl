@@ -24,7 +24,7 @@ namespace InControl
 			};
 
 			Sensitivity = 1.0f;
-			LowerDeadZone = 0.015f;
+			LowerDeadZone = 0.2f;
 
 			ButtonMappings = new[]
 			{
