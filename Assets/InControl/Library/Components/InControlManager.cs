@@ -13,6 +13,7 @@ namespace InControl
 		public bool invertYAxis = false;
 		public bool enableXInput = false;
 		public bool useFixedUpdate = false;
+		public bool dontDestroyOnLoad = false;
 		public List<string> customProfiles = new List<string>();
 
 
@@ -41,6 +42,17 @@ namespace InControl
 					InputManager.AttachDevice( new UnityInputDevice( customProfileInstance ) );
 				}
 			}
+
+			if (dontDestroyOnLoad)
+			{
+				DontDestroyOnLoad( this );
+			}
+		}
+
+
+		void OnDisable()
+		{
+			InputManager.Reset();
 		}
 
 

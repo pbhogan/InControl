@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
@@ -32,8 +33,7 @@ namespace InControl
 						var typeAttrs = type.GetCustomAttributes( autoDiscoverAttributeType, false );
 						if (typeAttrs != null && typeAttrs.Length > 0)
 						{
-							//code2 += "\t\t\tnew " + type.Name + "(),\n";
-							code2 += "\t\t\t\"" + type.FullName + "\",\n";
+							code2 += "\t\t\t\"" + type.FullName + "\"," + Environment.NewLine;
 						}
 					}
 				}
@@ -59,8 +59,9 @@ namespace InControl
 @"		};
 	}
 }";
-			
-			if (PutFileContents( filePath, code1 + code2 + code3 ))
+
+			var code = Regex.Replace( code1 + code2 + code3, @"\r\n?|\n", Environment.NewLine );
+			if (PutFileContents( filePath, code ))
 			{
 				Debug.Log( "InControl has updated the autodiscover profiles list." );
 			}

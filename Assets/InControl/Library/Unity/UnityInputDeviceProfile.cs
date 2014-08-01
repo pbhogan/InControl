@@ -202,9 +202,14 @@ namespace InControl
 			return new UnityAnalogSource( index );
 		}
 
-		protected static InputControlSource KeyCodeButton( KeyCode keyCode )
+		protected static InputControlSource KeyCodeButton( params KeyCode[] keyCodeList )
 		{
-			return new UnityKeyCodeSource( keyCode );
+			return new UnityKeyCodeSource( keyCodeList );
+		}
+
+		protected static InputControlSource KeyCodeComboButton( params KeyCode[] keyCodeList )
+		{
+			return new UnityKeyCodeComboSource( keyCodeList );
 		}
 		
 		protected static InputControlSource KeyCodeAxis( KeyCode negativeKeyCode, KeyCode positiveKeyCode )

@@ -79,7 +79,7 @@ namespace InControl
 				new InputControlMapping
 				{
 					Handle = "View",
-					Target = InputControlType.Select,
+					Target = InputControlType.View,
 					Source = Button6
 				},
 				new InputControlMapping
@@ -156,18 +156,13 @@ namespace InControl
 				{
 					Handle = "Left Trigger",
 					Target = InputControlType.LeftTrigger,
-					Source = Analog2,
-					SourceRange = InputControlMapping.Range.Positive,
-					TargetRange = InputControlMapping.Range.Positive
+					Source = Analog8
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Trigger",
 					Target = InputControlType.RightTrigger,
-					Source = Analog2,
-					SourceRange = InputControlMapping.Range.Negative,
-					TargetRange = InputControlMapping.Range.Negative,
-					Invert = true
+					Source = Analog9
 				}
 			};
 		}

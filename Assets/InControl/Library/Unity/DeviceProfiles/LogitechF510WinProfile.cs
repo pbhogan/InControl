@@ -8,11 +8,10 @@ namespace InControl
 	[AutoDiscover]
 	public class LogitechF510WinProfile : UnityInputDeviceProfile
 	{
-        //Same as LogitechF310WinProfile, maybe combine into a LogitechFWinProfile?
-        public LogitechF510WinProfile()
+		public LogitechF510WinProfile()
 		{
 			Name = "Logitech F510 Controller";
-            Meta = "Logitech F510 Controller on Windows";
+			Meta = "Logitech F510 Controller on Windows";
 
 			SupportedPlatforms = new[]
 			{

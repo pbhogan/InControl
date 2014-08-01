@@ -25,7 +25,8 @@ Thumbs.db
 
 /Assets/WorkInProgress
 /Assets/WorkInProgress.meta
-/Assets/InControl/Examples/TouchExample.meta
-/Assets/InControl/Examples/TouchExample/
+/Assets/InControl/Examples/TouchControls.meta
+/Assets/InControl/Examples/TouchControls/
 /Assets/InControl/Library/Touch.meta
 /Assets/InControl/Library/Touch
+/Packages/*.unitypackage
