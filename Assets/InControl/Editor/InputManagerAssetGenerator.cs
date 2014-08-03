@@ -56,6 +56,7 @@ namespace InControl
 
 			// To avoid conflicts with NGUI
 			axisPresets.Add( new AxisPreset( "Mouse ScrollWheel", 1, 2, 0.1f ) );
+			axisPresets.Add( new AxisPreset( "Horizontal", 2, 0, 1.0f, 0.2f, true ) );
 			axisPresets.Add( new AxisPreset( "Vertical", 2, 1, 1.0f, 0.2f, true ) );
 		}
 
