@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -23,7 +24,8 @@ namespace InControl
 		static List<InputDeviceManager> inputDeviceManagers = new List<InputDeviceManager>();
 
 		static InputDevice activeDevice = InputDevice.Null;
-		public static List<InputDevice> Devices = new List<InputDevice>();
+		static List<InputDevice> devices = new List<InputDevice>();
+		public static ReadOnlyCollection<InputDevice> Devices;
 
 		public static string Platform { get; private set; }
 		public static bool MenuWasPressed { get; private set; }
@@ -54,7 +56,8 @@ namespace InControl
 			currentTick = 0;
 
 			inputDeviceManagers.Clear();
-			Devices.Clear();
+			devices.Clear();
+			Devices = new ReadOnlyCollection<InputDevice>( devices );
 			activeDevice = InputDevice.Null;
 
 			isSetup = true;
@@ -85,7 +88,7 @@ namespace InControl
 			OnDeviceDetached = null;
 
 			inputDeviceManagers.Clear();
-			Devices.Clear();
+			devices.Clear();
 			activeDevice = InputDevice.Null;
 			
 			isSetup = false;
@@ -130,10 +133,10 @@ namespace InControl
 		{
 			var lastActiveDevice = ActiveDevice;
 
-			int deviceCount = Devices.Count;
+			int deviceCount = devices.Count;
 			for (int i = 0; i < deviceCount; i++)
 			{
-				var inputDevice = Devices[i];
+				var inputDevice = devices[i];
 				if (ActiveDevice == InputDevice.Null ||
 					inputDevice.LastChangedAfter( ActiveDevice ))
 				{
@@ -187,10 +190,10 @@ namespace InControl
 		{
 			MenuWasPressed = false;
 			
-			int deviceCount = Devices.Count;
+			int deviceCount = devices.Count;
 			for (int i = 0; i < deviceCount; i++)
 			{
-				var device = Devices[i];
+				var device = devices[i];
 				device.PreUpdate( currentTick, deltaTime );
 			}
 		}
@@ -198,10 +201,10 @@ namespace InControl
 
 		static void UpdateDevices( float deltaTime )
 		{
-			int deviceCount = Devices.Count;
+			int deviceCount = devices.Count;
 			for (int i = 0; i < deviceCount; i++)
 			{
-				var device = Devices[i];
+				var device = devices[i];
 				device.Update( currentTick, deltaTime );
 			}
 
@@ -214,10 +217,10 @@ namespace InControl
 
 		static void PostUpdateDevices( float deltaTime )
 		{			
-			int deviceCount = Devices.Count;
+			int deviceCount = devices.Count;
 			for (int i = 0; i < deviceCount; i++)
 			{
-				var device = Devices[i];
+				var device = devices[i];
 				
 				device.PostUpdate( currentTick, deltaTime );
 				
@@ -238,8 +241,8 @@ namespace InControl
 				return;
 			}
 
-			Devices.Add( inputDevice );
-			Devices.Sort( ( d1, d2 ) => d1.SortOrder.CompareTo( d2.SortOrder ) );
+			devices.Add( inputDevice );
+			devices.Sort( ( d1, d2 ) => d1.SortOrder.CompareTo( d2.SortOrder ) );
 
 			if (OnDeviceAttached != null)
 			{
@@ -257,8 +260,8 @@ namespace InControl
 		{
 			AssertIsSetup();
 
-			Devices.Remove( inputDevice );
-			Devices.Sort( ( d1, d2 ) => d1.SortOrder.CompareTo( d2.SortOrder ) );
+			devices.Remove( inputDevice );
+			devices.Sort( ( d1, d2 ) => d1.SortOrder.CompareTo( d2.SortOrder ) );
 
 			if (ActiveDevice == inputDevice)
 			{
@@ -289,7 +292,7 @@ namespace InControl
 		{
 			get 
 			{ 
-				return (Devices.Count > 0) ? Devices[0] : InputDevice.Null; 
+				return (devices.Count > 0) ? devices[0] : InputDevice.Null; 
 			}
 		}
 
