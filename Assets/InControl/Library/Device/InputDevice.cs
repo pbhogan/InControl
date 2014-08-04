@@ -8,7 +8,7 @@ namespace InControl
 	{
 		public static readonly InputDevice Null = new InputDevice( "NullInputDevice" );
 
-		public int SortOrder = int.MaxValue;
+		internal int SortOrder = int.MaxValue;
 
 		public string Name { get; protected set; }
 		public string Meta { get; protected set; }
