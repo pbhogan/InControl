@@ -66,12 +66,6 @@ namespace InControl
 				},
 				new InputControlMapping
 				{
-					Handle = "Start",
-					Target = InputControlType.Start,
-					Source = Button13
-				},
-				new InputControlMapping
-				{
 					Handle = "Options",
 					Target = InputControlType.Select,
 					Source = Button9
@@ -99,7 +93,13 @@ namespace InControl
 					Handle = "Right Stick Button",
 					Target = InputControlType.RightStickButton,
 					Source = Button11
-				}
+				},
+				new InputControlMapping
+				{
+					Handle = "TouchPad Button",
+					Target = InputControlType.TouchPadTap,
+					Source = Button13
+				},
 			};
 
 			AnalogMappings = new[]
