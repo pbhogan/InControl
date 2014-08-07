@@ -129,6 +129,38 @@ namespace InControl
 		}
 
 
+		public static void OnApplicationFocus( bool focusState )
+		{
+			if (!focusState)
+			{
+				int deviceCount = devices.Count;
+				for (int i = 0; i < deviceCount; i++)
+				{
+					var inputControls = devices[i].Controls;
+					var inputControlCount = inputControls.Length;
+					for (int j = 0; j < inputControlCount; j++)
+					{
+						var inputControl = inputControls[j];
+						if (inputControl != null)
+						{
+							inputControl.SetZeroTick();
+						}
+					}
+				}
+			}
+		}
+
+
+		public static void OnApplicationPause( bool pauseState ) 
+		{
+		}
+
+
+		public static void OnApplicationQuit()
+		{
+		}
+
+
 		static void UpdateActiveDevice()
 		{
 			var lastActiveDevice = ActiveDevice;

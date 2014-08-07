@@ -23,6 +23,8 @@ namespace InControl
 		InputControlState lastState;
 		InputControlState tempState;
 
+		ulong zeroTick;
+
 
 		private InputControl( string handle )
 		{
@@ -92,6 +94,18 @@ namespace InControl
 			{
 				UpdateTick = updateTick;
 			}
+		}
+
+
+		internal void SetZeroTick() 
+		{ 
+			zeroTick = UpdateTick; 
+		}
+
+
+		internal bool IsOnZeroTick
+		{
+			get { return UpdateTick == zeroTick; }
 		}
 
 

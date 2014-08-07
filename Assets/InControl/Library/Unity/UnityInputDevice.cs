@@ -79,7 +79,7 @@ namespace InControl
 				var analogValue = analogMapping.Source.GetValue( this );
 
 				if (analogMapping.IgnoreInitialZeroValue &&
-				    targetControl.UpdateTick == 0 &&
+				    targetControl.IsOnZeroTick &&
 				    Mathf.Abs(analogValue) < Mathf.Epsilon)
 				{
 					targetControl.RawValue = null;
