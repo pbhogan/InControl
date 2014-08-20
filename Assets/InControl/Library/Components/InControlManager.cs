@@ -12,6 +12,7 @@ namespace InControl
 		public bool logDebugInfo = false;
 		public bool invertYAxis = false;
 		public bool enableXInput = false;
+		public bool enableOuyaEverywhere = false;
 		public bool useFixedUpdate = false;
 		public bool dontDestroyOnLoad = false;
 		public List<string> customProfiles = new List<string>();
@@ -27,6 +28,7 @@ namespace InControl
 
 			InputManager.InvertYAxis = invertYAxis;
 			InputManager.EnableXInput = enableXInput;
+			InputManager.EnableOuyaEverywhere = enableOuyaEverywhere;
 			InputManager.Setup();
 
 			foreach (var className in customProfiles)
@@ -74,13 +76,13 @@ namespace InControl
 		}
 
 
-		void OnApplicationFocus( bool focusState ) 
+		void OnApplicationFocus( bool focusState )
 		{
 			InputManager.OnApplicationFocus( focusState );
 		}
 
 
-		void OnApplicationPause( bool pauseState ) 
+		void OnApplicationPause( bool pauseState )
 		{
 			InputManager.OnApplicationPause( pauseState );
 		}
@@ -96,15 +98,15 @@ namespace InControl
 		{
 			switch (logMessage.type)
 			{
-			case LogMessageType.Info:
-				Debug.Log( logMessage.text );
-				break;
-			case LogMessageType.Warning:
-				Debug.LogWarning( logMessage.text );
-				break;
-			case LogMessageType.Error:
-				Debug.LogError( logMessage.text );
-				break;
+				case LogMessageType.Info:
+					Debug.Log( logMessage.text );
+					break;
+				case LogMessageType.Warning:
+					Debug.LogWarning( logMessage.text );
+					break;
+				case LogMessageType.Error:
+					Debug.LogError( logMessage.text );
+					break;
 			}
 		}
 	}

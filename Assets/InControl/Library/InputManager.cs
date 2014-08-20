@@ -32,6 +32,7 @@ namespace InControl
 		public static bool InvertYAxis;
 
 		static bool enableXInput;
+		static bool enableOuyaEverywhere;
 		static bool isSetup;
 
 		static float initialTime;
@@ -69,13 +70,20 @@ namespace InControl
 			}
 			#endif
 
-			AddDeviceManager( new UnityInputDeviceManager() );
+			#if true || UNITY_ANDROID && INCONTROL_OUYA && !UNITY_EDITOR
+			if (enableOuyaEverywhere)
+			{
+				OuyaEverywhereDeviceManager.Enable();
+			}
+			#endif
 
 			if (OnSetup != null)
 			{
 				OnSetup.Invoke();
 				OnSetup = null;
 			}
+
+			AddDeviceManager( new UnityInputDeviceManager() );
 		}
 
 
@@ -117,7 +125,7 @@ namespace InControl
 			UpdateCurrentTime();
 			var deltaTime = currentTime - lastUpdateTime;
 
-			UpdateDeviceManagers( deltaTime);
+			UpdateDeviceManagers( deltaTime );
 
 			PreUpdateDevices( deltaTime );
 			UpdateDevices( deltaTime );
@@ -151,7 +159,7 @@ namespace InControl
 		}
 
 
-		public static void OnApplicationPause( bool pauseState ) 
+		public static void OnApplicationPause( bool pauseState )
 		{
 		}
 
@@ -170,7 +178,7 @@ namespace InControl
 			{
 				var inputDevice = devices[i];
 				if (ActiveDevice == InputDevice.Null ||
-					inputDevice.LastChangedAfter( ActiveDevice ))
+				    inputDevice.LastChangedAfter( ActiveDevice ))
 				{
 					ActiveDevice = inputDevice;
 				}
@@ -312,7 +320,7 @@ namespace InControl
 			#if !UNITY_EDITOR && UNITY_WINRT
 			if (type.GetTypeInfo().IsAssignableFrom( typeof( UnityInputDeviceProfile ).GetTypeInfo() ))
 			#else
-			if (type.IsSubclassOf( typeof( UnityInputDeviceProfile ) ))
+			if (type.IsSubclassOf( typeof(UnityInputDeviceProfile) ))
 			#endif
 			{
 				UnityInputDeviceProfile.Hide( type );
@@ -322,7 +330,7 @@ namespace InControl
 
 		static InputDevice DefaultActiveDevice
 		{
-			get 
+			get
 			{ 
 				return (devices.Count > 0) ? devices[0] : InputDevice.Null; 
 			}
@@ -345,7 +353,7 @@ namespace InControl
 
 		public static bool EnableXInput
 		{
-			get 
+			get
 			{ 
 				return enableXInput; 
 			}
@@ -353,6 +361,20 @@ namespace InControl
 			set
 			{
 				enableXInput = value;
+			}
+		}
+
+
+		public static bool EnableOuyaEverywhere
+		{
+			get
+			{ 
+				return enableOuyaEverywhere; 
+			}
+
+			set
+			{
+				enableOuyaEverywhere = value;
 			}
 		}
 	}

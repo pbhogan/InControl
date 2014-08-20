@@ -7,12 +7,13 @@ using InControl.ReorderableList;
 
 namespace InControl
 {
-	[CustomEditor(typeof(InControlManager))]
+	[CustomEditor( typeof(InControlManager) )]
 	public class InControlManagerEditor : Editor
-	{	
+	{
 		SerializedProperty logDebugInfo;
 		SerializedProperty invertYAxis;
 		SerializedProperty enableXInput;
+		SerializedProperty enableOuyaEverywhere;
 		SerializedProperty useFixedUpdate;
 		SerializedProperty dontDestroyOnLoad;
 		SerializedProperty customProfiles;
@@ -24,6 +25,7 @@ namespace InControl
 			logDebugInfo = serializedObject.FindProperty( "logDebugInfo" );
 			invertYAxis = serializedObject.FindProperty( "invertYAxis" );
 			enableXInput = serializedObject.FindProperty( "enableXInput" );
+			enableOuyaEverywhere = serializedObject.FindProperty( "enableOuyaEverywhere" );
 			useFixedUpdate = serializedObject.FindProperty( "useFixedUpdate" );
 			dontDestroyOnLoad = serializedObject.FindProperty( "dontDestroyOnLoad" );
 			customProfiles = serializedObject.FindProperty( "customProfiles" );
@@ -48,6 +50,7 @@ namespace InControl
 			logDebugInfo.boolValue = EditorGUILayout.ToggleLeft( "Log Debug Info", logDebugInfo.boolValue );
 			invertYAxis.boolValue = EditorGUILayout.ToggleLeft( "Invert Y Axis", invertYAxis.boolValue );
 			enableXInput.boolValue = EditorGUILayout.ToggleLeft( "Enable XInput (Windows)", enableXInput.boolValue );
+			enableOuyaEverywhere.boolValue = EditorGUILayout.ToggleLeft( "Enable OUYA Everywhere (Android)", enableOuyaEverywhere.boolValue );
 			useFixedUpdate.boolValue = EditorGUILayout.ToggleLeft( "Use Fixed Update", useFixedUpdate.boolValue );
 			dontDestroyOnLoad.boolValue = EditorGUILayout.ToggleLeft( "Don't Destroy On Load", dontDestroyOnLoad.boolValue );
 
