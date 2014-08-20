@@ -29,48 +29,23 @@ namespace InControl
 
 		void OnEnable()
 		{
-			Debug.Log( "InControl (version " + InputManager.Version + ") on Unity " + InputManager.UnityVersion );
-
 			isPaused = false;
 			Time.timeScale = 1.0f;
 
 			Logger.OnLogMessage += logMessage => logMessages.Add( logMessage );
 
 //			InputManager.HideDevicesWithProfile( typeof( Xbox360MacProfile ) );
-//			InputManager.InvertYAxis = true;
-//			InputManager.EnableXInput = true;
 
 			InputManager.OnDeviceAttached += inputDevice => Debug.Log( "Attached: " + inputDevice.Name );
 			InputManager.OnDeviceDetached += inputDevice => Debug.Log( "Detached: " + inputDevice.Name );
 			InputManager.OnActiveDeviceChanged += inputDevice => Debug.Log( "Active device changed to: " + inputDevice.Name );
 
-			InputManager.Setup();
-
 			TestInputMappings();
-		}
-
-
-		void OnApplicationFocus( bool focusState ) 
-		{
-			InputManager.OnApplicationFocus( focusState );
-		}
-
-
-		void OnApplicationPause( bool pauseState ) 
-		{
-			InputManager.OnApplicationPause( pauseState );
-		}
-		
-		
-		void OnApplicationQuit()
-		{
-			InputManager.OnApplicationQuit();
 		}
 
 
 		void FixedUpdate()
 		{
-			InputManager.Update();
 			CheckForPauseButton();
 
 //			var inputDevice = InputManager.ActiveDevice;
@@ -89,7 +64,6 @@ namespace InControl
 		{
 			if (isPaused)
 			{
-				InputManager.Update();
 				CheckForPauseButton();
 			}
 
@@ -206,10 +180,10 @@ namespace InControl
 			for (int i = logMessages.Count - 1; i >= 0; i--)
 			{
 				var logMessage = logMessages[i];
-				SetColor( logColors[(int)logMessage.type] );
+				SetColor( logColors[(int) logMessage.type] );
 				foreach (var line in logMessage.text.Split('\n'))
 				{
-		        	GUI.Label( new Rect( x, y, Screen.width, y + 10 ), line, style );
+					GUI.Label( new Rect( x, y, Screen.width, y + 10 ), line, style );
 					y -= lineHeight;
 				}
 			}
@@ -263,7 +237,7 @@ namespace InControl
 			var mapping = new InputControlMapping() {
 				SourceRange = sourceRange,
 				TargetRange = targetRange,
-				Invert      = invert
+				Invert = invert
 			};
 
 			float input;
