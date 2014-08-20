@@ -51,6 +51,25 @@ public static class Utility
 	}
 
 
+	public static void DrawOvalGizmo( Vector2 center, Vector2 size )
+	{
+		var r = size / 2.0f;
+		var p = Vector2.Scale( circleVertexList[0], r ) + center;
+		var c = circleVertexList.Length;
+		for (int i = 1; i < c; i++)
+		{ 
+			Gizmos.DrawLine( p, p = Vector2.Scale( circleVertexList[i], r ) + center );
+		}
+	}
+
+
+	public static void DrawOvalGizmo( Vector2 center, Vector2 size, Color color )
+	{
+		Gizmos.color = color;
+		DrawOvalGizmo( center, size );
+	}
+
+
 	public static void DrawRectGizmo( Rect rect )
 	{
 		var p0 = new Vector3( rect.xMin, rect.yMin );
@@ -68,6 +87,28 @@ public static class Utility
 	{
 		Gizmos.color = color;
 		DrawRectGizmo( rect );
+	}
+
+
+	public static void DrawRectGizmo( Vector2 center, Vector2 size )
+	{
+		var hw = size.x / 2.0f;
+		var hh = size.y / 2.0f;
+		var p0 = new Vector3( center.x - hw, center.y - hh );
+		var p1 = new Vector3( center.x + hw, center.y - hh );
+		var p2 = new Vector3( center.x + hw, center.y + hh );
+		var p3 = new Vector3( center.x - hw, center.y + hh );
+		Gizmos.DrawLine( p0, p1 );
+		Gizmos.DrawLine( p1, p2 );
+		Gizmos.DrawLine( p2, p3 );
+		Gizmos.DrawLine( p3, p0 );
+	}
+
+
+	public static void DrawRectGizmo( Vector2 center, Vector2 size, Color color )
+	{
+		Gizmos.color = color;
+		DrawRectGizmo( center, size );
 	}
 
 
@@ -93,17 +134,17 @@ public static class Utility
 	}
 	
 	
-//	public static float ApplyCircularDeadZone( float axisValue1, float axisValue2, float lowerDeadZone, float upperDeadZone )
-//	{
-//		return ApplyCircularDeadZone( new Vector2( axisValue1, axisValue2 ), lowerDeadZone, upperDeadZone );
-//	}
-//
-//
-//	public static float ApplyCircularDeadZone( Vector2 axisVector, float lowerDeadZone, float upperDeadZone )
-//	{
-//		var magnitude = Mathf.InverseLerp( lowerDeadZone, upperDeadZone, axisVector.magnitude );
-//		return (axisVector.normalized * magnitude).x;
-//	}
+	//	public static float ApplyCircularDeadZone( float axisValue1, float axisValue2, float lowerDeadZone, float upperDeadZone )
+	//	{
+	//		return ApplyCircularDeadZone( new Vector2( axisValue1, axisValue2 ), lowerDeadZone, upperDeadZone );
+	//	}
+	//
+	//
+	//	public static float ApplyCircularDeadZone( Vector2 axisVector, float lowerDeadZone, float upperDeadZone )
+	//	{
+	//		var magnitude = Mathf.InverseLerp( lowerDeadZone, upperDeadZone, axisVector.magnitude );
+	//		return (axisVector.normalized * magnitude).x;
+	//	}
 
 
 	public static Vector2 ApplyCircularDeadZone( Vector2 axisVector, float lowerDeadZone, float upperDeadZone )
