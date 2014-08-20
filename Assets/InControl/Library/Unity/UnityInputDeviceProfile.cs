@@ -80,6 +80,16 @@ namespace InControl
 
 				foreach (var platform in SupportedPlatforms)
 				{
+					// Ignore Android profiles on OUYA.
+					// New OUYA Everywhere SDK takes care of OUYA controllers.
+					if (platform.ToUpper() == "ANDROID")
+					{
+						if (InputManager.Platform.Contains( "OUYA" ))
+						{
+							return false;
+						}
+					}
+
 					if (InputManager.Platform.Contains( platform.ToUpper() ))
 					{
 						return true;
@@ -91,13 +101,13 @@ namespace InControl
 		}
 
 
-		public bool IsJoystick 
+		public bool IsJoystick
 		{ 
-			get 
+			get
 			{ 
-				return (LastResortRegex != null) || 
-					   (JoystickNames != null && JoystickNames.Length > 0) ||
-					   (JoystickRegex != null && JoystickRegex.Length > 0);
+				return (LastResortRegex != null) ||
+				(JoystickNames != null && JoystickNames.Length > 0) ||
+				(JoystickRegex != null && JoystickRegex.Length > 0);
 			} 
 		}
 
@@ -217,16 +227,16 @@ namespace InControl
 			return new UnityKeyCodeAxisSource( negativeKeyCode, positiveKeyCode );
 		}
 
-		protected static InputControlSource Button0  = Button( 0 );
-		protected static InputControlSource Button1  = Button( 1 );
-		protected static InputControlSource Button2  = Button( 2 );
-		protected static InputControlSource Button3  = Button( 3 );
-		protected static InputControlSource Button4  = Button( 4 );
-		protected static InputControlSource Button5  = Button( 5 );
-		protected static InputControlSource Button6  = Button( 6 );
-		protected static InputControlSource Button7  = Button( 7 );
-		protected static InputControlSource Button8  = Button( 8 );
-		protected static InputControlSource Button9  = Button( 9 );
+		protected static InputControlSource Button0 = Button( 0 );
+		protected static InputControlSource Button1 = Button( 1 );
+		protected static InputControlSource Button2 = Button( 2 );
+		protected static InputControlSource Button3 = Button( 3 );
+		protected static InputControlSource Button4 = Button( 4 );
+		protected static InputControlSource Button5 = Button( 5 );
+		protected static InputControlSource Button6 = Button( 6 );
+		protected static InputControlSource Button7 = Button( 7 );
+		protected static InputControlSource Button8 = Button( 8 );
+		protected static InputControlSource Button9 = Button( 9 );
 		protected static InputControlSource Button10 = Button( 10 );
 		protected static InputControlSource Button11 = Button( 11 );
 		protected static InputControlSource Button12 = Button( 12 );
@@ -238,16 +248,16 @@ namespace InControl
 		protected static InputControlSource Button18 = Button( 18 );
 		protected static InputControlSource Button19 = Button( 19 );
 
-		protected static InputControlSource Analog0  = Analog( 0 );
-		protected static InputControlSource Analog1  = Analog( 1 );
-		protected static InputControlSource Analog2  = Analog( 2 );
-		protected static InputControlSource Analog3  = Analog( 3 );
-		protected static InputControlSource Analog4  = Analog( 4 );
-		protected static InputControlSource Analog5  = Analog( 5 );
-		protected static InputControlSource Analog6  = Analog( 6 );
-		protected static InputControlSource Analog7  = Analog( 7 );
-		protected static InputControlSource Analog8  = Analog( 8 );
-		protected static InputControlSource Analog9  = Analog( 9 );
+		protected static InputControlSource Analog0 = Analog( 0 );
+		protected static InputControlSource Analog1 = Analog( 1 );
+		protected static InputControlSource Analog2 = Analog( 2 );
+		protected static InputControlSource Analog3 = Analog( 3 );
+		protected static InputControlSource Analog4 = Analog( 4 );
+		protected static InputControlSource Analog5 = Analog( 5 );
+		protected static InputControlSource Analog6 = Analog( 6 );
+		protected static InputControlSource Analog7 = Analog( 7 );
+		protected static InputControlSource Analog8 = Analog( 8 );
+		protected static InputControlSource Analog9 = Analog( 9 );
 		protected static InputControlSource Analog10 = Analog( 10 );
 		protected static InputControlSource Analog11 = Analog( 11 );
 		protected static InputControlSource Analog12 = Analog( 12 );
@@ -259,12 +269,12 @@ namespace InControl
 		protected static InputControlSource Analog18 = Analog( 18 );
 		protected static InputControlSource Analog19 = Analog( 19 );
 
-		protected static InputControlSource MouseButton0     = new UnityMouseButtonSource( 0 );
-		protected static InputControlSource MouseButton1     = new UnityMouseButtonSource( 1 );
-		protected static InputControlSource MouseButton2     = new UnityMouseButtonSource( 2 );
+		protected static InputControlSource MouseButton0 = new UnityMouseButtonSource( 0 );
+		protected static InputControlSource MouseButton1 = new UnityMouseButtonSource( 1 );
+		protected static InputControlSource MouseButton2 = new UnityMouseButtonSource( 2 );
 
-		protected static InputControlSource MouseXAxis       = new UnityMouseAxisSource( "x" );
-		protected static InputControlSource MouseYAxis       = new UnityMouseAxisSource( "y" );
+		protected static InputControlSource MouseXAxis = new UnityMouseAxisSource( "x" );
+		protected static InputControlSource MouseYAxis = new UnityMouseAxisSource( "y" );
 		protected static InputControlSource MouseScrollWheel = new UnityMouseAxisSource( "z" );
 
 		#endregion
