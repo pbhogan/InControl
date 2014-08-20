@@ -71,90 +71,6 @@ public class OuyaUnityPlugin
 		m_pluginAwake = true;
 	}
 
-	private static void changeResolution(final int width, final int height) {
-		if (null != IOuyaActivity.GetLayout()) {
-			IOuyaActivity.GetActivity().runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-
-					WindowManager.LayoutParams params = IOuyaActivity.GetActivity().getWindow().getAttributes();
-					params.width = width;
-					params.height = height;
-					IOuyaActivity.GetActivity().getWindow().setAttributes(params);
-
-
-					Log.i(LOG_TAG, "IOuyaActivity.GetLayout().layout(0, 0, width, height);");
-					IOuyaActivity.GetLayout().getLayoutParams().width = width;
-					IOuyaActivity.GetLayout().getLayoutParams().height = height;
-					IOuyaActivity.GetLayout().requestLayout();
-				}
-			});
-		}
-	}
-
-	public static void setResolution(String resolutionId)
-	{
-		if (null == IOuyaActivity.GetUnityPlayer())
-		{
-			Log.i(LOG_TAG, "IOuyaActivity.GetUnityPlayer() is null");
-			return;
-		}
-		if (resolutionId.equals("640x480"))
-		{
-			changeResolution(640, 480);
-		}
-		else if (resolutionId.equals("1280x720"))
-		{
-			changeResolution(1280, 720);
-		}
-		else if (resolutionId.equals("1920x1080"))
-		{
-			changeResolution(1920, 1080);
-		}
-	}
-
-	public static void showCursor(String flag)
-	{
-		//Log.i(LOG_TAG, "OuyaUnityPlugin.showCursor: flag=" + flag);
-
-		try
-		{
-			Boolean show = false;
-			if (flag.equals("True"))
-			{
-				show = true;
-			}
-			//Log.i(LOG_TAG, "OuyaUnityPlugin.showCursor: show=" + show);
-
-			OuyaController.showCursor(show);
-		}
-		catch (Exception ex)
-		{
-			Log.e(LOG_TAG, "Failed to showCursor=" + flag + " Exception=" + ex.toString());
-		}
-	}
-
-	public static void enableUnityInput(String enabled)
-	{
-		Log.i(LOG_TAG, "OuyaUnityPlugin.showCursor: enabled=" + enabled);
-
-		try
-		{
-			Boolean useInput = false;
-			if (enabled.equals("True"))
-			{
-				useInput = true;
-			}
-			Log.i(LOG_TAG, "OuyaUnityPlugin.enableUnityInput: enabled=" + useInput);
-
-			IOuyaActivity.SetEnableUnityInput(useInput);
-		}
-		catch (Exception ex)
-		{
-			Log.e(LOG_TAG, "Failed to enableUnityInput=" + enabled + " Exception=" + ex.toString());
-		}
-	}
-
 	public static void putGameData(String key, String val)
 	{
 		//Log.i(LOG_TAG, "OuyaUnityPlugin.putGameData: key=" + key + " val=" + val);
@@ -414,7 +330,7 @@ public class OuyaUnityPlugin
 			else
 			{
 				Log.i(LOG_TAG, "OuyaUnityPlugin.getReceiptsAsync: m_unityOuyaFacade is valid");
-				Product product = new Product(sku, "", 0, 0, "", 0, 0, "", "");
+				Product product = new Product(sku, "", 0, 0, "", 0, 0, "", "", Product.Type.ENTITLEMENT);
 				m_unityOuyaFacade.requestPurchase(product);
 			}
 		}
@@ -445,5 +361,28 @@ public class OuyaUnityPlugin
 		{
 			Log.i(LOG_TAG, "OuyaUnityPlugin: getProductsAsync exception: " + ex.toString());
 		}
+	}
+
+	public static boolean isRunningOnOUYASupportedHardware()
+	{
+		boolean result = false;
+		try
+		{
+			//Log.i(LOG_TAG, "OuyaUnityPlugin.isRunningOnOUYASupportedHardware");
+			if (null == m_unityOuyaFacade)
+			{
+				Log.i(LOG_TAG, "OuyaUnityPlugin.isRunningOnOUYASupportedHardware: m_unityOuyaFacade is null");
+			}
+			else
+			{
+				//Log.i(LOG_TAG, "OuyaUnityPlugin.isRunningOnOUYASupportedHardware: m_unityOuyaFacade is valid");
+				result = m_unityOuyaFacade.isRunningOnOUYASupportedHardware();
+			}
+		}
+		catch (Exception ex)
+		{
+			Log.i(LOG_TAG, "OuyaUnityPlugin: isRunningOnOUYASupportedHardware exception: " + ex.toString());
+		}
+		return result;
 	}
 }

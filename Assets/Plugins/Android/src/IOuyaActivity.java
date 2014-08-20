@@ -56,17 +56,6 @@ public class IOuyaActivity
 		m_savedInstanceState = savedInstanceState;
 	}
 
-	// save reference to the FrameLayout
-	protected static FrameLayout m_layout = null;
-	public static FrameLayout GetLayout()
-	{
-		return m_layout;
-	}
-	public static void SetLayout(FrameLayout layout)
-	{
-		m_layout = layout;
-	}
-
 	// save reference to the UnityOuyaFacade
 	protected static UnityOuyaFacade m_unityOuyaFacade = null;
 	public static UnityOuyaFacade GetUnityOuyaFacade()
@@ -90,20 +79,5 @@ public class IOuyaActivity
 	public static void SetApplicationKey(byte[] applicationKey)
 	{
 		m_applicationKey = applicationKey;
-	}
-
-	/*
-	* Control the flow of Input to Unity used in some cases
-	* like changing scenes and we want to stop the input
-	* going to Unity for a little bit.
-	*/
-	protected static boolean m_enableUnityInput = false;
-	public static boolean GetEnableUnityInput()
-	{
-		return m_enableUnityInput;
-	}
-	public static void SetEnableUnityInput(boolean enableUnityInput)
-	{
-		m_enableUnityInput = enableUnityInput;
 	}
 }

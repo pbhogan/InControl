@@ -30,13 +30,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
-//import android.widget.Toast;
-import org.json.JSONException;
-import org.json.JSONObject;
-import tv.ouya.console.api.*;
-import tv.ouya.console.internal.util.Strings;
-
-import com.google.gson.Gson;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -48,6 +41,12 @@ import java.security.*;
 import java.security.spec.X509EncodedKeySpec;
 import java.text.ParseException;
 import java.util.*;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import tv.ouya.console.api.*;
+import tv.ouya.console.internal.util.Strings;
+
 
 import com.unity3d.player.UnityPlayer;
 
@@ -194,8 +193,13 @@ public class UnityOuyaFacade
                         .show();
 				*/
 
-            	Gson gson = new Gson();
-				String jsonData = gson.toJson(info);
+            	JSONObject json = new JSONObject();
+				try {
+					json.put("uuid", info.getUuid());
+					json.put("username", info.getUsername());
+				} catch (JSONException e1) {
+				}
+				String jsonData = json.toString();
 
 				Log.i(LOG_TAG, "m_fetchGamerInfoListener FetchGamerInfoSuccessListener uuid=" + jsonData);
 				UnityPlayer.UnitySendMessage("OuyaGameObject", "FetchGamerInfoSuccessListener", jsonData);
@@ -222,11 +226,13 @@ public class UnityOuyaFacade
                                             public void onFailure(int errorCode, String errorMessage,
                                                                   Bundle optionalData) {
                                                 //showError("Unable to fetch gamer UUID (error " + errorCode + ": " + errorMessage + ")");
-												Gson gson = new Gson();
-												ErrorResponse er = new ErrorResponse();
-												er.errorCode = errorCode;
-												er.errorMessage = errorMessage;
-												String jsonData = gson.toJson(er);
+												JSONObject json = new JSONObject();
+												try {
+													json.put("errorCode", errorCode);
+													json.put("errorMessage", errorMessage);
+												} catch (JSONException e1) {
+												}
+												String jsonData = json.toString();
 
 												Log.i(LOG_TAG, "m_fetchGamerInfoListener FetchGamerInfoFailureListener=" + jsonData);
 												UnityPlayer.UnitySendMessage("OuyaGameObject", "FetchGamerInfoFailureListener", jsonData);
@@ -243,11 +249,13 @@ public class UnityOuyaFacade
                 if (!wasHandledByAuthHelper) {
                     showError("Unable to fetch gamer UUID (error " + errorCode + ": " + errorMessage + ")");
 
-					Gson gson = new Gson();
-					ErrorResponse er = new ErrorResponse();
-					er.errorCode = errorCode;
-					er.errorMessage = errorMessage;
-					String jsonData = gson.toJson(er);
+					JSONObject json = new JSONObject();
+					try {
+						json.put("errorCode", errorCode);
+						json.put("errorMessage", errorMessage);
+					} catch (JSONException e1) {
+					}
+					String jsonData = json.toString();
 
 					Log.i(LOG_TAG, "m_fetchGamerInfoListener FetchGamerInfoFailureListener=" + jsonData);
 					UnityPlayer.UnitySendMessage("OuyaGameObject", "FetchGamerInfoFailureListener", jsonData);
@@ -273,8 +281,19 @@ public class UnityOuyaFacade
 				{
 					for (Product product : mProductList)
 					{
-						Gson gson = new Gson();
-						String jsonData = gson.toJson(product);
+						JSONObject json = new JSONObject();
+						try {
+							json.put("currencyCode", product.getCurrencyCode());
+							json.put("description", product.getDescription());
+							json.put("identifier", product.getIdentifier());
+							json.put("localPrice", product.getLocalPrice());
+							json.put("name", product.getName());
+							json.put("originalPrice", product.getOriginalPrice());
+							json.put("percentOff", product.getPercentOff());
+							json.put("developerName", product.getDeveloperName());
+						} catch (JSONException e1) {
+						}
+						String jsonData = json.toString();
 
 						Log.i(LOG_TAG, "m_productListListener ProductListListener jsonData=" + jsonData);
 						UnityPlayer.UnitySendMessage("OuyaGameObject", "ProductListListener", jsonData);
@@ -294,11 +313,13 @@ public class UnityOuyaFacade
 				// something, the user won't know of the failure.
 				//Toast.makeText(IOuyaActivity.GetActivity(), "Could not fetch product information (error " + errorCode + ": " + errorMessage + ")", Toast.LENGTH_LONG).show();
 
-				Gson gson = new Gson();
-				ErrorResponse er = new ErrorResponse();
-				er.errorCode = errorCode;
-				er.errorMessage = errorMessage;
-				String jsonData = gson.toJson(er);
+				JSONObject json = new JSONObject();
+				try {
+					json.put("errorCode", errorCode);
+					json.put("errorMessage", errorMessage);
+				} catch (JSONException e1) {
+				}
+				String jsonData = json.toString();
 
 				Log.i(LOG_TAG, "m_productListListener ProductListFailureListener=" + jsonData);
 				UnityPlayer.UnitySendMessage("OuyaGameObject", "ProductListFailureListener", jsonData);
@@ -420,6 +441,10 @@ public class UnityOuyaFacade
         ouyaFacade.requestReceipts(new ReceiptListener());
     }
 
+	public Boolean isRunningOnOUYASupportedHardware() {
+		return ouyaFacade.isRunningOnOUYASupportedHardware();
+	}
+
     /*
      * This will be called when the user clicks on an item in the ListView.
      */
@@ -512,11 +537,13 @@ public class UnityOuyaFacade
 			{
                 //throw new RuntimeException(e);
 
-				Gson gson = new Gson();
-				ErrorResponse er = new ErrorResponse();
-				er.errorCode = 0;
-				er.errorMessage = "RuntimeException: " + e;
-				String jsonData = gson.toJson(er);
+				JSONObject json = new JSONObject();
+				try {
+					json.put("errorCode", 0);
+					json.put("errorMessage", "RuntimeException: " + e);
+				} catch (JSONException e1) {
+				}
+				String jsonData = json.toString();
 
 				Log.i(LOG_TAG, "ReceiptListener ReceiptListFailureListener=" + jsonData);
 				UnityPlayer.UnitySendMessage("OuyaGameObject", "ReceiptListFailureListener", jsonData);
@@ -538,11 +565,13 @@ public class UnityOuyaFacade
 					{
                         //throw new RuntimeException(ioe);
 
-						Gson gson = new Gson();
-						ErrorResponse er = new ErrorResponse();
-						er.errorCode = 0;
-						er.errorMessage = "IOException: " + ioe;
-						String jsonData = gson.toJson(er);
+						JSONObject json = new JSONObject();
+						try {
+							json.put("errorCode", 0);
+							json.put("errorMessage", "IOException: " + ioe);
+						} catch (JSONException e1) {
+						}
+						String jsonData = json.toString();
 
 						Log.i(LOG_TAG, "ReceiptListener ReceiptListFailureListener=" + jsonData);
 						UnityPlayer.UnitySendMessage("OuyaGameObject", "ReceiptListFailureListener", jsonData);
@@ -554,11 +583,13 @@ public class UnityOuyaFacade
 				else
 				{
                     //throw new RuntimeException(e);
-					Gson gson = new Gson();
-					ErrorResponse er = new ErrorResponse();
-					er.errorCode = 0;
-					er.errorMessage = "RuntimeException: " + e;
-					String jsonData = gson.toJson(er);
+					JSONObject json = new JSONObject();
+					try {
+						json.put("errorCode", 0);
+						json.put("errorMessage", "RuntimeException: " + e);
+					} catch (JSONException e1) {
+					}
+					String jsonData = json.toString();
 
 					Log.i(LOG_TAG, "ReceiptListener ReceiptListFailureListener=" + jsonData);
 					UnityPlayer.UnitySendMessage("OuyaGameObject", "ReceiptListFailureListener", jsonData);
@@ -569,12 +600,13 @@ public class UnityOuyaFacade
 			catch (GeneralSecurityException e)
 			{
                 //throw new RuntimeException(e);
-
-				Gson gson = new Gson();
-				ErrorResponse er = new ErrorResponse();
-				er.errorCode = 0;
-				er.errorMessage = "GeneralSecurityException: " + e;
-				String jsonData = gson.toJson(er);
+				JSONObject json = new JSONObject();
+				try {
+					json.put("errorCode", 0);
+					json.put("errorMessage", "GeneralSecurityException: " + e);
+				} catch (JSONException e1) {
+				}
+				String jsonData = json.toString();
 
 				Log.i(LOG_TAG, "ReceiptListener ReceiptListFailureListener=" + jsonData);
 				UnityPlayer.UnitySendMessage("OuyaGameObject", "ReceiptListFailureListener", jsonData);
@@ -584,12 +616,13 @@ public class UnityOuyaFacade
 			catch (IOException e)
 			{
                 //throw new RuntimeException(e);
-
-				Gson gson = new Gson();
-				ErrorResponse er = new ErrorResponse();
-				er.errorCode = 0;
-				er.errorMessage = "IOException: " + e;
-				String jsonData = gson.toJson(er);
+				JSONObject json = new JSONObject();
+				try {
+					json.put("errorCode", 0);
+					json.put("errorMessage", "IOException: " + e);
+				} catch (JSONException e1) {
+				}
+				String jsonData = json.toString();
 
 				Log.i(LOG_TAG, "ReceiptListener ReceiptListFailureListener=" + jsonData);
 				UnityPlayer.UnitySendMessage("OuyaGameObject", "ReceiptListFailureListener", jsonData);
@@ -616,8 +649,18 @@ public class UnityOuyaFacade
 			{
 				for (Receipt receipt : mReceiptList)
 				{
-					Gson gson = new Gson();
-					String jsonData = gson.toJson(receipt);
+					JSONObject json = new JSONObject();
+					try {
+						json.put("identifier", receipt.getIdentifier());
+						json.put("purchaseDate", receipt.getPurchaseDate());
+						json.put("gamer", receipt.getGamer());
+						json.put("uuid", receipt.getUuid());
+						json.put("localPrice", receipt.getLocalPrice());
+						json.put("currency", receipt.getCurrency());
+						json.put("generatedDate", receipt.getGeneratedDate());
+					} catch (JSONException e1) {
+					}
+					String jsonData = json.toString();
 
 					Log.i(LOG_TAG, "ReceiptListener ReceiptListListener jsonData=" + jsonData);
 					UnityPlayer.UnitySendMessage("OuyaGameObject", "ReceiptListListener", jsonData);
@@ -777,16 +820,38 @@ public class UnityOuyaFacade
 
 			if (null != product)
 			{
-				Gson gson = new Gson();
-				String jsonData = gson.toJson(product);
+				JSONObject json = new JSONObject();
+				try {
+					json.put("currencyCode", product.getCurrencyCode());
+					json.put("description", product.getDescription());
+					json.put("identifier", product.getIdentifier());
+					json.put("localPrice", product.getLocalPrice());
+					json.put("name", product.getName());
+					json.put("originalPrice", product.getOriginalPrice());
+					json.put("percentOff", product.getPercentOff());
+					json.put("developerName", product.getDeveloperName());
+				} catch (JSONException e1) {
+				}
+				String jsonData = json.toString();
 
 				Log.i(LOG_TAG, "PurchaseListener PurchaseSuccessListener jsonData=" + jsonData);
 				UnityPlayer.UnitySendMessage("OuyaGameObject", "PurchaseSuccessListener", jsonData);
 			}
 			else if (null != storedProduct)
 			{
-				Gson gson = new Gson();
-				String jsonData = gson.toJson(storedProduct);
+				JSONObject json = new JSONObject();
+				try {
+					json.put("currencyCode", storedProduct.getCurrencyCode());
+					json.put("description", storedProduct.getDescription());
+					json.put("identifier", storedProduct.getIdentifier());
+					json.put("localPrice", storedProduct.getLocalPrice());
+					json.put("name", storedProduct.getName());
+					json.put("originalPrice", storedProduct.getOriginalPrice());
+					json.put("percentOff", storedProduct.getPercentOff());
+					json.put("developerName", storedProduct.getDeveloperName());
+				} catch (JSONException e1) {
+				}
+				String jsonData = json.toString();
 
 				Log.i(LOG_TAG, "PurchaseListener PurchaseSuccessListener jsonData=" + jsonData);
 				UnityPlayer.UnitySendMessage("OuyaGameObject", "PurchaseSuccessListener", jsonData);
@@ -834,11 +899,13 @@ public class UnityOuyaFacade
                                         public void onFailure(int errorCode, String errorMessage,
                                                               Bundle optionalData)
 										{
-											Gson gson = new Gson();
-											ErrorResponse er = new ErrorResponse();
-											er.errorCode = errorCode;
-											er.errorMessage = errorMessage;
-											String jsonData = gson.toJson(er);
+											JSONObject json = new JSONObject();
+											try {
+												json.put("errorCode", errorCode);
+												json.put("errorMessage", errorMessage);
+											} catch (JSONException e1) {
+											}
+											String jsonData = json.toString();
 
 											Log.i(LOG_TAG, "PurchaseListener PurchaseFailureListener=" + jsonData);
 											UnityPlayer.UnitySendMessage("OuyaGameObject", "PurchaseFailureListener", jsonData);
@@ -859,11 +926,14 @@ public class UnityOuyaFacade
 
             if(!wasHandledByAuthHelper)
 			{
-				Gson gson = new Gson();
-				ErrorResponse er = new ErrorResponse();
-				er.errorCode = errorCode;
-				er.errorMessage = errorMessage;
-				String jsonData = gson.toJson(er);
+
+				JSONObject json = new JSONObject();
+				try {
+					json.put("errorCode", errorCode);
+					json.put("errorMessage", errorMessage);
+				} catch (JSONException e1) {
+				}
+				String jsonData = json.toString();
 
 				Log.i(LOG_TAG, "PurchaseListener PurchaseFailureListener=" + jsonData);
 				UnityPlayer.UnitySendMessage("OuyaGameObject", "PurchaseFailureListener", jsonData);
@@ -885,5 +955,4 @@ public class UnityOuyaFacade
 			UnityPlayer.UnitySendMessage("OuyaGameObject", "PurchaseCancelListener", "");
 		}
     }
-
 }

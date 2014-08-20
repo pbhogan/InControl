@@ -31,10 +31,34 @@ public class OuyaMenuAdmin : MonoBehaviour
     {
         string[] paths =
             {
-                "ProjectSettings/InputManager.asset",
-                "Assets/Ouya/LitJson",
                 "Assets/Ouya/SDK",
-                "Assets/Plugins",
+                "Assets/Plugins/Bitmap.cs",
+                "Assets/Plugins/BitmapDrawable.cs",
+                "Assets/Plugins/ByteArrayOutputStream.cs",
+                "Assets/Plugins/DebugInput.cs",
+                "Assets/Plugins/Drawable.cs",
+                "Assets/Plugins/JniHandleOwnership.cs",
+                "Assets/Plugins/JSONArray.cs",
+                "Assets/Plugins/JSONObject.cs",
+                "Assets/Plugins/OuyaController.cs",
+                "Assets/Plugins/OuyaSDK.cs",
+                "Assets/Plugins/OuyaUnityPlugin.cs",
+                "Assets/Plugins/UnityPlayer.cs",
+                "Assets/Plugins/Android/AndroidManifest.xml",
+                "Assets/Plugins/Android/assets/key.der",
+                "Assets/Plugins/Android/jni/Android.mk",
+                "Assets/Plugins/Android/jni/Application.mk",
+                "Assets/Plugins/Android/jni/jni.cpp",
+                "Assets/Plugins/Android/libs/ouya-sdk.jar",
+                "Assets/Plugins/Android/res/drawable/app_icon.png",
+                "Assets/Plugins/Android/res/drawable-xhdpi/ouya_icon.png",
+                "Assets/Plugins/Android/res/values/strings.xml",
+                "Assets/Plugins/Android/src/DebugInput.java",
+                "Assets/Plugins/Android/src/IOuyaActivity.java",
+                "Assets/Plugins/Android/src/MainActivity.java",
+                "Assets/Plugins/Android/src/OuyaUnityActivity.java",
+                "Assets/Plugins/Android/src/OuyaUnityPlugin.java",
+                "Assets/Plugins/Android/src/UnityOuyaFacade.java",
             };
         AssetDatabase.ExportPackage(paths, "OuyaSDK-Core.unitypackage", ExportPackageOptions.IncludeDependencies | ExportPackageOptions.Recurse | ExportPackageOptions.Interactive);
         Debug.Log(string.Format("Export OuyaSDK-Core.unitypackage success in: {0}", Directory.GetCurrentDirectory()));
@@ -113,10 +137,8 @@ public class OuyaMenuAdmin : MonoBehaviour
     private static string m_pathJar = string.Empty;
     private static string m_pathJavaC = string.Empty;
     private static string m_pathJavaP = string.Empty;
-    private static string m_pathSrc = string.Empty;
     private static string m_pathSDK = string.Empty;
     private static string m_pathOuyaSDKJar = string.Empty;
-    private static string m_pathGsonJar = string.Empty;
 
     private static void UpdatePaths()
     {
@@ -125,14 +147,14 @@ public class OuyaMenuAdmin : MonoBehaviour
         {
             case RuntimePlatform.OSXEditor:
 		        m_pathUnityEditor = EditorApplication.applicationPath;
-                m_pathUnityJar = string.Format("{0}/{1}", m_pathUnityEditor, OuyaPanel.PATH_UNITY_JAR_MAC);
+				OuyaPanel.FindFile(new DirectoryInfo(string.Format("{0}", EditorApplication.applicationPath)), OuyaPanel.FILE_UNITY_JAR, ref m_pathUnityJar);
+				m_pathUnityJar = m_pathUnityJar.Replace(@"\", "/");
                 break;
             case RuntimePlatform.WindowsEditor:
 		        m_pathUnityEditor = new FileInfo(EditorApplication.applicationPath).Directory.FullName;
-                m_pathUnityJar = string.Format("{0}/{1}", m_pathUnityEditor, OuyaPanel.PATH_UNITY_JAR_WIN);
+                OuyaPanel.FindFile(new DirectoryInfo(string.Format("{0}/{1}", m_pathUnityEditor, OuyaPanel.PATH_UNITY_JAR_WIN)), OuyaPanel.FILE_UNITY_JAR, ref m_pathUnityJar);
                 break;
         }
-        m_pathSrc = string.Format("{0}/Assets/Plugins/Android/src", m_pathUnityProject);
         m_pathSDK = EditorPrefs.GetString(OuyaPanel.KEY_PATH_ANDROID_SDK);
         m_pathJDK = EditorPrefs.GetString(OuyaPanel.KEY_PATH_JAVA_JDK);
         switch (Application.platform)
@@ -151,12 +173,41 @@ public class OuyaMenuAdmin : MonoBehaviour
                 break;
         }
         m_pathOuyaSDKJar = string.Format("{0}/Assets/Plugins/Android/libs/ouya-sdk.jar", m_pathUnityProject);
-        m_pathGsonJar = string.Format("{0}/Assets/Plugins/Android/libs/gson-2.2.2.jar", m_pathUnityProject);
     }
 
     private static string GetPathAndroidJar()
     {
         return string.Format("{0}/platforms/android-{1}/android.jar", m_pathSDK, (int)PlayerSettings.Android.minSdkVersion);
+    }
+
+    public static void GetAssets(string extension, Dictionary<string, string> files, DirectoryInfo directory)
+    {
+        if (null == directory)
+        {
+            return;
+        }
+        foreach (FileInfo file in directory.GetFiles(extension))
+        {
+            if (string.IsNullOrEmpty(file.FullName) ||
+                files.ContainsKey(file.FullName.ToLower()))
+            {
+                continue;
+            }
+            files.Add(file.FullName.ToLower(), file.FullName);
+        }
+        foreach (DirectoryInfo subDir in directory.GetDirectories())
+        {
+            if (null == subDir)
+            {
+                continue;
+            }
+            if (subDir.Name.ToUpper().Equals(".SVN"))
+            {
+                continue;
+            }
+            //Debug.Log(string.Format("Directory: {0}", subDir));
+            GetAssets(extension, files, subDir);
+        }
     }
 
     static bool CompileApplicationClasses()
@@ -167,7 +218,30 @@ public class OuyaMenuAdmin : MonoBehaviour
             Directory.CreateDirectory(pathClasses);
         }
 
-        string includeFiles = string.Format("\"{0}/OuyaUnityPlugin.java\" \"{0}/IOuyaActivity.java\" \"{0}/UnityOuyaFacade.java\"", m_pathSrc);
+        Dictionary<string, string> javaFiles = new Dictionary<string, string>();
+        GetAssets("*.java", javaFiles, new DirectoryInfo("Assets/Plugins/Android/src"));
+
+        string includeFiles = string.Empty;
+        int index = 0;
+        foreach (KeyValuePair<string, string> kvp in javaFiles)
+        {
+            //Debug.Log(string.Format("Found: {0}", kvp.Value));
+
+            if (index == 0)
+            {
+                includeFiles = string.Format("\"{0}\"", kvp.Value);
+            }
+            else
+            {
+                includeFiles += string.Format(" \"{0}\"", kvp.Value);
+            }
+
+            ++index;
+        }
+
+        Debug.Log(string.Format("includeFiles: {0}", includeFiles));
+
+
         string jars = string.Empty;
 
         if (File.Exists(m_pathToolsJar))
@@ -190,16 +264,6 @@ public class OuyaMenuAdmin : MonoBehaviour
             return false;
         }
 
-        if (File.Exists(m_pathGsonJar))
-        {
-            Debug.Log(string.Format("Found GJON jar: {0}", m_pathGsonJar));
-        }
-        else
-        {
-            Debug.LogError(string.Format("Failed to find GSON jar: {0}", m_pathGsonJar));
-            return false;
-        }
-
         if (File.Exists(m_pathUnityJar))
         {
             Debug.Log(string.Format("Found Unity jar: {0}", m_pathUnityJar));
@@ -216,7 +280,7 @@ public class OuyaMenuAdmin : MonoBehaviour
         switch (Application.platform)
         {
             case RuntimePlatform.OSXEditor:
-                jars = string.Format("\"{0}:{1}:{2}:{3}:{4}\"", m_pathToolsJar, GetPathAndroidJar(), m_pathGsonJar, m_pathUnityJar, m_pathOuyaSDKJar);
+                jars = string.Format("\"{0}:{1}:{2}:{3}\"", m_pathToolsJar, GetPathAndroidJar(), m_pathUnityJar, m_pathOuyaSDKJar);
 
                 OuyaPanel.RunProcess(m_pathJavaC, string.Empty, string.Format("-g -source 1.6 -target 1.6 {0} -classpath {1} -bootclasspath {1} -d \"{2}\"",
                     includeFiles,
@@ -226,7 +290,7 @@ public class OuyaMenuAdmin : MonoBehaviour
                     ref error);
                 break;
             case RuntimePlatform.WindowsEditor:
-                jars = string.Format("\"{0}\";\"{1}\";\"{2}\";\"{3}\";\"{4}\"", m_pathToolsJar, GetPathAndroidJar(), m_pathGsonJar, m_pathUnityJar, m_pathOuyaSDKJar);
+                jars = string.Format("\"{0}\";\"{1}\";\"{2}\";\"{3}\"", m_pathToolsJar, GetPathAndroidJar(), m_pathUnityJar, m_pathOuyaSDKJar);
 
                 OuyaPanel.RunProcess(m_pathJavaC, string.Empty, string.Format("-Xlint:deprecation -g -source 1.6 -target 1.6 {0} -classpath {1} -bootclasspath {1} -d \"{2}\"",
                     includeFiles,
@@ -254,10 +318,12 @@ public class OuyaMenuAdmin : MonoBehaviour
     static void BuildApplicationJar()
     {
         string pathClasses = string.Format("{0}/Assets/Plugins/Android/Classes", m_pathUnityProject);
-        OuyaPanel.RunProcess(m_pathJar, pathClasses, string.Format("cvfM OuyaUnityPlugin.jar tv/"));
-        OuyaPanel.RunProcess(m_pathJavaP, pathClasses, "-s tv.ouya.sdk.OuyaUnityPlugin");
-        OuyaPanel.RunProcess(m_pathJavaP, pathClasses, "-s tv.ouya.sdk.UnityOuyaFacade");
-        OuyaPanel.RunProcess(m_pathJavaP, pathClasses, "-s tv.ouya.sdk.IOuyaActivity");
+        OuyaPanel.RunProcess(m_pathJar, pathClasses, string.Format("cvfM OuyaUnityPlugin.jar tv/ {0}", OuyaPanel.GetBundlePrefix()));
+        OuyaPanel.RunProcess(m_pathJavaP, pathClasses, "-s tv.ouya.sdk.OuyaUnityPlugin", "OuyaUnityPlugin");
+        OuyaPanel.RunProcess(m_pathJavaP, pathClasses, "-s tv.ouya.sdk.UnityOuyaFacade", "UnityOuyaFacade");
+        OuyaPanel.RunProcess(m_pathJavaP, pathClasses, "-s tv.ouya.sdk.IOuyaActivity", "IOuyaActivity");
+        OuyaPanel.RunProcess(m_pathJavaP, pathClasses, "-s tv.ouya.sdk.OuyaUnityActivity", "OuyaUnityActivity");
+        OuyaPanel.RunProcess(m_pathJavaP, pathClasses, string.Format("-s {0}/{1}", OuyaPanel.GetBundleId().Replace(".", "/"), OuyaPanel.GetMainActivity()), OuyaPanel.GetMainActivity());
 
         string pathAppJar = string.Format("{0}/OuyaUnityPlugin.jar", pathClasses);
         string pathDest = string.Format("{0}/Assets/Plugins/Android/OuyaUnityPlugin.jar", m_pathUnityProject);

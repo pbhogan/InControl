@@ -14,28 +14,24 @@
  * limitations under the License.
  */
 
-using System;
-
-#if !UNITY_WP8
-using OuyaSDK_LitJson;
-#endif
-
 using System.Collections.Generic;
+#if UNITY_ANDROID && !UNITY_EDITOR
+using System.Threading;
+#endif
 using UnityEngine;
 
 public class OuyaGameObject : MonoBehaviour
 {
     #region Public Visible Variables
 
-    public string DEVELOPER_ID = "310a8f51-4d6e-4ae5-bda0-b93878e5f5d0";
+    public string m_developerId = "310a8f51-4d6e-4ae5-bda0-b93878e5f5d0";
+
+    public bool m_useInputThreading = false;
 
     #endregion
 
     #region Private Variables
     private static OuyaGameObject m_instance = null;
-#if UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3
-    private bool m_sentMenuButtonUp = false;
-#endif
     #endregion
 
     #region Singleton Accessor Class
@@ -60,24 +56,6 @@ public class OuyaGameObject : MonoBehaviour
     #endregion 
      
     #region Java To Unity Event Handlers
-
-    public void onMenuButtonUp(string ignore)
-    {
-#if UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3
-        if (m_sentMenuButtonUp)
-        {
-            return;
-        }
-        m_sentMenuButtonUp = true;
-#endif
-
-        //Debug.Log("OuyaGameObject: onMenuButtonUp");
-        foreach (OuyaSDK.IMenuButtonUpListener listener in OuyaSDK.getMenuButtonUpListeners())
-        {
-            //Debug.Log("OuyaGameObject: Invoke OuyaMenuButtonUp");
-            listener.OuyaMenuButtonUp();
-        }
-    }
 
     public void onMenuAppearing(string ignore)
     {
@@ -114,7 +92,7 @@ public class OuyaGameObject : MonoBehaviour
     {
 #if !UNITY_WP8
         //Debug.Log(string.Format("FetchGamerInfoSuccessListener jsonData={0}", jsonData));
-        OuyaSDK.GamerInfo gamerInfo = JsonMapper.ToObject<OuyaSDK.GamerInfo>(jsonData);
+        OuyaSDK.GamerInfo gamerInfo = OuyaSDK.GamerInfo.Parse(jsonData);
         InvokeOuyaFetchGamerInfoOnSuccess(gamerInfo.uuid, gamerInfo.username);
 #endif
     }
@@ -144,7 +122,7 @@ public class OuyaGameObject : MonoBehaviour
         }
 
         Debug.Log(string.Format("OuyaSDK.ProductListListener: jsonData={0}", jsonData));
-        OuyaSDK.Product product = JsonMapper.ToObject<OuyaSDK.Product>(jsonData);
+        OuyaSDK.Product product = OuyaSDK.Product.Parse(jsonData);
         m_products.Add(product);
 #endif
     }
@@ -158,7 +136,7 @@ public class OuyaGameObject : MonoBehaviour
         foreach (OuyaSDK.Product product in m_products)
         {
             Debug.Log(string.Format("ProductListCompleteListener Product id={0} name={1} price={2}",
-                product.identifier, product.name, product.priceInCents));
+                product.identifier, product.name, product.localPrice));
         }
         InvokeOuyaGetProductsOnSuccess(m_products);
     }
@@ -167,7 +145,7 @@ public class OuyaGameObject : MonoBehaviour
     {
 #if !UNITY_WP8
         Debug.Log(string.Format("PurchaseSuccessListener jsonData={0}", jsonData));
-        OuyaSDK.Product product = JsonMapper.ToObject<OuyaSDK.Product>(jsonData);
+        OuyaSDK.Product product = OuyaSDK.Product.Parse(jsonData);
         InvokeOuyaPurchaseOnSuccess(product);
 #endif
     }
@@ -197,7 +175,7 @@ public class OuyaGameObject : MonoBehaviour
         }
 
         Debug.Log(string.Format("OuyaSDK.ReceiptListListener: jsonData={0}", jsonData));
-        OuyaSDK.Receipt receipt = JsonMapper.ToObject<OuyaSDK.Receipt>(jsonData);
+        OuyaSDK.Receipt receipt = OuyaSDK.Receipt.Parse(jsonData);
         m_receipts.Add(receipt);
 #endif
     }
@@ -229,7 +207,6 @@ public class OuyaGameObject : MonoBehaviour
     void Awake()
     {
         m_instance = this;
-        OuyaSDK.enableUnityInput(true);
     }
     void Start()
     {
@@ -243,12 +220,25 @@ public class OuyaGameObject : MonoBehaviour
         {
             //Initialize OuyaSDK with your developer ID
             //Get your developer_id from the ouya developer portal @ http://developer.ouya.tv
-            OuyaSDK.initialize(DEVELOPER_ID);
+            OuyaSDK.initialize(m_developerId);
         }
         catch (System.Exception ex)
         {
             Debug.LogError(string.Format("Failed to initialize OuyaSDK exception={0}", ex));
         }
+
+        #endregion
+
+        #region Init Input
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+        if (m_useInputThreading)
+        {
+            ThreadStart ts = new ThreadStart(InputWorker);
+            Thread thread = new Thread(ts);
+            thread.Start();
+        }
+#endif
 
         #endregion
     }
@@ -258,7 +248,7 @@ public class OuyaGameObject : MonoBehaviour
 
     public void RequestUnityAwake(string ignore)
     {
-        OuyaSDK.initialize(DEVELOPER_ID);
+        OuyaSDK.initialize(m_developerId);
     }
 
     public void SendIAPInitComplete(string ignore)
@@ -398,30 +388,42 @@ public class OuyaGameObject : MonoBehaviour
 
     #region Controllers
 
-#if UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3
-
+#if UNITY_ANDROID && !UNITY_EDITOR
+    private bool m_waitForExit = true;
+    void OnDestroy()
+    {
+        m_waitForExit = false;
+    }
+    void OnApplicationQuit()
+    {
+        m_waitForExit = false;
+    }
+    private bool m_clearFrame = true;
     public void Update()
     {
-        Event e = Event.current;
-        if (null == e)
+        if (m_useInputThreading)
         {
-            return;
+            m_clearFrame = true;   
         }
-        
-        if (e.isKey &&
-            e.keyCode == KeyCode.Menu &&
-            e.type == EventType.KeyUp)
+        else
         {
-            onMenuButtonUp(string.Empty);
-            e.Use();
+            OuyaSDK.OuyaInput.UpdateInputFrame();
+            OuyaSDK.OuyaInput.ClearButtonStates();
         }
     }
-
-    public void LateUpdate()
+    private void InputWorker()
     {
-        m_sentMenuButtonUp = false;
+        while (m_waitForExit)
+        {
+            OuyaSDK.OuyaInput.UpdateInputFrame();
+            if (m_clearFrame)
+            {
+                m_clearFrame = false;
+                OuyaSDK.OuyaInput.ClearButtonStates();
+            }
+            Thread.Sleep(1);
+        }
     }
-
 #endif
 
     private void FixedUpdate()
