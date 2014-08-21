@@ -2,7 +2,7 @@
 /[Tt]emp/
 /[Oo]bj/
 /Build/*
-/[Uu]nityVS/*
+
 
 /*.csproj
 /*.unityproj
@@ -19,6 +19,9 @@ Thumbs.db
 
 /Assets/AssetStoreTools/
 /Assets/AssetStoreTools.meta
+
+/Assets/UnityVS/
+/Assets/UnityVS.meta
 
 /Documentation/
 /.dropbox.attr
