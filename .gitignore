@@ -2,6 +2,7 @@
 /[Tt]emp/
 /[Oo]bj/
 /Build/*
+/[Uu]nityVS/*
 
 /*.csproj
 /*.unityproj
@@ -11,6 +12,7 @@
 /*.userprefs
 /*.pidb
 /*.booproj
+/*.dotsettings
 
 .DS_Store
 Thumbs.db
