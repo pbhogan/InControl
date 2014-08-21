@@ -32,6 +32,7 @@ namespace InControl
 		public static bool InvertYAxis;
 
 		static bool enableXInput;
+		static bool enableOuyaEverywhereInput;
 		static bool isSetup;
 
 		static float initialTime;
@@ -66,6 +67,12 @@ namespace InControl
 			if (enableXInput)
 			{
 				XInputDeviceManager.Enable();
+			}
+			#endif
+
+			#if UNITY_ANDROID && !UNITY_EDITOR
+			if (enableOuyaEverywhereInput) {
+				OuyaEverywhereDeviceManager.Enable();
 			}
 			#endif
 
@@ -353,6 +360,18 @@ namespace InControl
 			set
 			{
 				enableXInput = value;
+			}
+		}
+
+		public static bool EnableOuyaEverywhereInput
+		{
+			get
+			{
+				return enableOuyaEverywhereInput;
+			}
+			set
+			{
+				enableOuyaEverywhereInput = value;
 			}
 		}
 	}
