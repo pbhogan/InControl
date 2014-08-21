@@ -88,7 +88,7 @@ namespace InControl
 			}
 
 			serializedObject.ApplyModifiedProperties();
-			
+
 			AssetDatabase.Refresh();
 		}
 
@@ -229,8 +229,8 @@ namespace InControl
 				this.axis = GetChildProperty( axisPreset, "axis" ).intValue;
 				this.joyNum = GetChildProperty( axisPreset, "joyNum" ).intValue;
 			}
-						
-			
+
+
 			public AxisPreset( string name, int type, int axis, float sensitivity, float deadZone = 0.001f, bool invert = false )
 			{
 				this.name = name;
@@ -249,8 +249,8 @@ namespace InControl
 				this.axis = axis;
 				this.joyNum = 0;
 			}
-			
-			
+
+
 			public AxisPreset( int device, int analog )
 			{
 				this.name = string.Format( "joystick {0} analog {1}", device, analog );
@@ -280,8 +280,8 @@ namespace InControl
 					return false;
 				}
 			}
-			
-			
+
+
 			public void ApplyTo( ref SerializedProperty axisPreset )
 			{
 				GetChildProperty( axisPreset, "m_Name" ).stringValue = name;
@@ -300,8 +300,8 @@ namespace InControl
 				GetChildProperty( axisPreset, "axis" ).intValue = axis;
 				GetChildProperty( axisPreset, "joyNum" ).intValue = joyNum;
 			}
-			
-			
+
+
 			public bool EqualTo( SerializedProperty axisPreset )
 			{
 				if (GetChildProperty( axisPreset, "m_Name" ).stringValue != name) return false;
