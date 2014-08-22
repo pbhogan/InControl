@@ -5,12 +5,12 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class PlaystationVitaPSMProfile : UnityInputDeviceProfile
+	public class PlayStationVitaPSMProfile : UnityInputDeviceProfile
 	{
-		public PlaystationVitaPSMProfile()
+		public PlayStationVitaPSMProfile()
 		{
-			Name = "Playstation Mobile";
-			Meta = "Playstation Mobile on Vita";
+			Name = "PlayStation Mobile";
+			Meta = "PlayStation Mobile on Vita";
 
 			SupportedPlatforms = new[]
 			{

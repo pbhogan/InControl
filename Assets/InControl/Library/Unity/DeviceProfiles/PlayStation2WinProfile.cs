@@ -10,7 +10,7 @@ namespace InControl
 		public PlayStation2WinProfile()
 		{
 			Name = "PlayStation DualShock 2 Controller";
-			Meta = "Compatible with Playstation 2 Controller to USB adapter.";
+			Meta = "Compatible with PlayStation 2 Controller to USB adapter.";
 
 			SupportedPlatforms = new[]
 			{

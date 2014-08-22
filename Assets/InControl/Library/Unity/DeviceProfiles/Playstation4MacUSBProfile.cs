@@ -6,12 +6,12 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class Playstation4MacUSBProfile : UnityInputDeviceProfile
+	public class PlayStation4MacUSBProfile : UnityInputDeviceProfile
 	{
-		public Playstation4MacUSBProfile()
+		public PlayStation4MacUSBProfile()
 		{
-			Name = "Playstation 4 Controller";
-			Meta = "Playstation 4 Controller on Mac";
+			Name = "PlayStation 4 Controller";
+			Meta = "PlayStation 4 Controller on Mac";
 
 			SupportedPlatforms = new[]
 			{

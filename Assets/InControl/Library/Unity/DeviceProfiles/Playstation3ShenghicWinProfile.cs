@@ -6,12 +6,12 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class Playstation3ShenghicWinProfile : UnityInputDeviceProfile
+	public class PlayStation3ShenghicWinProfile : UnityInputDeviceProfile
 	{
-		public Playstation3ShenghicWinProfile()
+		public PlayStation3ShenghicWinProfile()
 		{
-			Name = "Playstation 3 Controller";
-			Meta = "Shenghic Playstation 3 Controller on Windows (not MotionInJoy)";
+			Name = "PlayStation 3 Controller";
+			Meta = "Shenghic PlayStation 3 Controller on Windows (not MotionInJoy)";
 
 			SupportedPlatforms = new[]
 			{

@@ -6,12 +6,12 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class Playstation3MacProfile : UnityInputDeviceProfile
+	public class PlayStation3MacProfile : UnityInputDeviceProfile
 	{
-		public Playstation3MacProfile()
+		public PlayStation3MacProfile()
 		{
-			Name = "Playstation 3 Controller";
-			Meta = "Playstation 3 Controller on Mac";
+			Name = "PlayStation 3 Controller";
+			Meta = "PlayStation 3 Controller on Mac";
 
 			SupportedPlatforms = new[]
 			{

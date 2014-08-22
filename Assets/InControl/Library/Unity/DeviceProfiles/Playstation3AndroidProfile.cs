@@ -7,12 +7,12 @@ using UnityEngine;
 namespace InControl
 {
 	[AutoDiscover]
-	public class Playstation3AndroidProfile : UnityInputDeviceProfile
+	public class PlayStation3AndroidProfile : UnityInputDeviceProfile
 	{
-		public Playstation3AndroidProfile()
+		public PlayStation3AndroidProfile()
 		{
-			Name = "Playstation 3 Controller";
-			Meta = "Playstation 3 Controller on Android";
+			Name = "PlayStation 3 Controller";
+			Meta = "PlayStation 3 Controller on Android";
 
 			SupportedPlatforms = new[]
 			{

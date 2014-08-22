@@ -6,12 +6,12 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class Playstation3LinuxProfile : UnityInputDeviceProfile
+	public class PlayStation3LinuxProfile : UnityInputDeviceProfile
 	{
-		public Playstation3LinuxProfile()
+		public PlayStation3LinuxProfile()
 		{
-			Name = "Playstation 3 Controller";
-			Meta = "Playstation 3 Controller on Linux";
+			Name = "PlayStation 3 Controller";
+			Meta = "PlayStation 3 Controller on Linux";
 
 			SupportedPlatforms = new[]
 			{

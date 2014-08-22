@@ -6,12 +6,12 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class Playstation3WinProfile : UnityInputDeviceProfile
+	public class PlayStation3WinProfile : UnityInputDeviceProfile
 	{
-		public Playstation3WinProfile()
+		public PlayStation3WinProfile()
 		{
-			Name = "Playstation 3 Controller";
-			Meta = "Playstation 3 Controller on Windows (via MotioninJoy Gamepad Tool)";
+			Name = "PlayStation 3 Controller";
+			Meta = "PlayStation 3 Controller on Windows (via MotioninJoy Gamepad Tool)";
 
 			SupportedPlatforms = new[]
 			{

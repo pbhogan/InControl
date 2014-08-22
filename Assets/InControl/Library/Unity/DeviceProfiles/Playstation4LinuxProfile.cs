@@ -6,12 +6,12 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class Playstation4LinuxProfile : UnityInputDeviceProfile
+	public class PlayStation4LinuxProfile : UnityInputDeviceProfile
 	{
-		public Playstation4LinuxProfile()
+		public PlayStation4LinuxProfile()
 		{
-			Name = "Playstation 4 Controller";
-			Meta = "Playstation 4 Controller on Linux";
+			Name = "PlayStation 4 Controller";
+			Meta = "PlayStation 4 Controller on Linux";
 
 			SupportedPlatforms = new[]
 			{
