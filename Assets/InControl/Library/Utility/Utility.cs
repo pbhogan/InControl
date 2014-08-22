@@ -132,25 +132,18 @@ public static class Utility
 	{
 		return Mathf.InverseLerp( lowerDeadZone, upperDeadZone, Mathf.Abs( value ) ) * Mathf.Sign( value );
 	}
-	
-	
-	//	public static float ApplyCircularDeadZone( float axisValue1, float axisValue2, float lowerDeadZone, float upperDeadZone )
-	//	{
-	//		return ApplyCircularDeadZone( new Vector2( axisValue1, axisValue2 ), lowerDeadZone, upperDeadZone );
-	//	}
-	//
-	//
-	//	public static float ApplyCircularDeadZone( Vector2 axisVector, float lowerDeadZone, float upperDeadZone )
-	//	{
-	//		var magnitude = Mathf.InverseLerp( lowerDeadZone, upperDeadZone, axisVector.magnitude );
-	//		return (axisVector.normalized * magnitude).x;
-	//	}
 
 
 	public static Vector2 ApplyCircularDeadZone( Vector2 axisVector, float lowerDeadZone, float upperDeadZone )
 	{
 		var magnitude = Mathf.InverseLerp( lowerDeadZone, upperDeadZone, axisVector.magnitude );
 		return axisVector.normalized * magnitude;
+	}
+
+
+	public static Vector2 ApplyCircularDeadZone( float axisX, float axisY, float lowerDeadZone, float upperDeadZone )
+	{
+		return ApplyCircularDeadZone( new Vector2( axisX, axisY ), lowerDeadZone, upperDeadZone );
 	}
 }
 
