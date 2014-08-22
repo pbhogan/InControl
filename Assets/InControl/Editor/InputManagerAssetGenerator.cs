@@ -142,12 +142,101 @@ namespace InControl
 
 			if (!HasAxisPreset( "Horizontal" ))
 			{
-				axisPresets.Add( new AxisPreset( "Horizontal", 2, 0, 1.0f, 0.2f, true ) );
+				axisPresets.Add( new AxisPreset() {
+					name = "Horizontal",
+					negativeButton = "left",
+					positiveButton = "right",
+					altNegativeButton = "a",
+					altPositiveButton = "d",
+					gravity = 3.0f,
+					deadZone = 0.001f,
+					sensitivity = 3.0f,
+					snap = true,
+					type = 0,
+					axis = 0,
+					joyNum = 0
+				} );
+
+				axisPresets.Add( new AxisPreset() {
+					name = "Horizontal",
+					gravity = 0.0f,
+					deadZone = 0.19f,
+					sensitivity = 1.0f,
+					type = 2,
+					axis = 0,
+					joyNum = 0
+				} );
 			}
 
 			if (!HasAxisPreset( "Vertical" ))
 			{
-				axisPresets.Add( new AxisPreset( "Vertical", 2, 1, 1.0f, 0.2f, true ) );
+				axisPresets.Add( new AxisPreset() {
+					name = "Vertical",
+					negativeButton = "down",
+					positiveButton = "up",
+					altNegativeButton = "s",
+					altPositiveButton = "w",
+					gravity = 3.0f,
+					deadZone = 0.001f,
+					sensitivity = 3.0f,
+					snap = true,
+					type = 0,
+					axis = 0,
+					joyNum = 0
+				} );
+
+				axisPresets.Add( new AxisPreset() {
+					name = "Vertical",
+					gravity = 0.0f,
+					deadZone = 0.19f,
+					sensitivity = 1.0f,
+					type = 2,
+					axis = 0,
+					invert = true,
+					joyNum = 0
+				} );
+			}
+
+			if (!HasAxisPreset( "Submit" ))
+			{
+				axisPresets.Add( new AxisPreset() {
+					name = "Submit",
+					positiveButton = "return",
+					altPositiveButton = "joystick button 0",
+					gravity = 1000.0f,
+					deadZone = 0.001f,
+					sensitivity = 1000.0f,
+					type = 0,
+					axis = 0,
+					joyNum = 0
+				} );
+
+				axisPresets.Add( new AxisPreset() {
+					name = "Submit",
+					positiveButton = "enter",
+					altPositiveButton = "space",
+					gravity = 1000.0f,
+					deadZone = 0.001f,
+					sensitivity = 1000.0f,
+					type = 0,
+					axis = 0,
+					joyNum = 0
+				} );
+			}
+
+			if (!HasAxisPreset( "Cancel" ))
+			{
+				axisPresets.Add( new AxisPreset() {
+					name = "Cancel",
+					positiveButton = "escape",
+					altPositiveButton = "joystick button 1",
+					gravity = 1000.0f,
+					deadZone = 0.001f,
+					sensitivity = 1000.0f,
+					type = 0,
+					axis = 0,
+					joyNum = 0
+				} );
 			}
 		}
 
@@ -185,8 +274,7 @@ namespace InControl
 				{
 					return child;
 				}
-			}
-			while (child.Next( false ));
+			} while (child.Next( false ));
 
 			return null;
 		}
@@ -202,13 +290,18 @@ namespace InControl
 			public string altNegativeButton;
 			public string altPositiveButton;
 			public float gravity;
-			public float deadZone;
-			public float sensitivity;
+			public float deadZone = 0.001f;
+			public float sensitivity = 1.0f;
 			public bool snap;
 			public bool invert;
 			public int type;
 			public int axis;
 			public int joyNum;
+
+
+			public AxisPreset()
+			{
+			}
 
 
 			public AxisPreset( SerializedProperty axisPreset )
@@ -231,7 +324,7 @@ namespace InControl
 			}
 
 
-			public AxisPreset( string name, int type, int axis, float sensitivity, float deadZone = 0.001f, bool invert = false )
+			public AxisPreset( string name, int type, int axis, float sensitivity )
 			{
 				this.name = name;
 				this.descriptiveName = "";
@@ -241,10 +334,10 @@ namespace InControl
 				this.altNegativeButton = "";
 				this.altPositiveButton = "";
 				this.gravity = 0.0f;
-				this.deadZone = deadZone;
+				this.deadZone = 0.001f;
 				this.sensitivity = sensitivity;
 				this.snap = false;
-				this.invert = invert;
+				this.invert = false;
 				this.type = type;
 				this.axis = axis;
 				this.joyNum = 0;
@@ -275,8 +368,11 @@ namespace InControl
 			{
 				get
 				{
-					if (Regex.Match( name, @"^joystick \d+ analog \d+$" ).Success) return true;
-					if (Regex.Match( name, @"^mouse (x|y|z)$" ).Success) return true;
+					if (Regex.Match( name, @"^joystick \d+ analog \d+$" ).Success ||
+					    Regex.Match( name, @"^mouse (x|y|z)$" ).Success)
+					{
+						return true;
+					}
 					return false;
 				}
 			}
@@ -304,21 +400,36 @@ namespace InControl
 
 			public bool EqualTo( SerializedProperty axisPreset )
 			{
-				if (GetChildProperty( axisPreset, "m_Name" ).stringValue != name) return false;
-				if (GetChildProperty( axisPreset, "descriptiveName" ).stringValue != descriptiveName) return false;
-				if (GetChildProperty( axisPreset, "descriptiveNegativeName" ).stringValue != descriptiveNegativeName) return false;
-				if (GetChildProperty( axisPreset, "negativeButton" ).stringValue != negativeButton) return false;
-				if (GetChildProperty( axisPreset, "positiveButton" ).stringValue != positiveButton) return false;
-				if (GetChildProperty( axisPreset, "altNegativeButton" ).stringValue != altNegativeButton) return false;
-				if (GetChildProperty( axisPreset, "altPositiveButton" ).stringValue != altPositiveButton) return false;
-				if (!Mathf.Approximately( GetChildProperty( axisPreset, "gravity" ).floatValue, gravity )) return false;
-				if (!Mathf.Approximately( GetChildProperty( axisPreset, "dead" ).floatValue, deadZone )) return false;
-				if (!Mathf.Approximately( GetChildProperty( axisPreset, "sensitivity" ).floatValue, this.sensitivity )) return false;
-				if (GetChildProperty( axisPreset, "snap" ).boolValue != snap) return false;
-				if (GetChildProperty( axisPreset, "invert" ).boolValue != invert) return false;
-				if (GetChildProperty( axisPreset, "type" ).intValue != type) return false;
-				if (GetChildProperty( axisPreset, "axis" ).intValue != axis) return false;
-				if (GetChildProperty( axisPreset, "joyNum" ).intValue != joyNum) return false;
+				if (GetChildProperty( axisPreset, "m_Name" ).stringValue != name)
+					return false;
+				if (GetChildProperty( axisPreset, "descriptiveName" ).stringValue != descriptiveName)
+					return false;
+				if (GetChildProperty( axisPreset, "descriptiveNegativeName" ).stringValue != descriptiveNegativeName)
+					return false;
+				if (GetChildProperty( axisPreset, "negativeButton" ).stringValue != negativeButton)
+					return false;
+				if (GetChildProperty( axisPreset, "positiveButton" ).stringValue != positiveButton)
+					return false;
+				if (GetChildProperty( axisPreset, "altNegativeButton" ).stringValue != altNegativeButton)
+					return false;
+				if (GetChildProperty( axisPreset, "altPositiveButton" ).stringValue != altPositiveButton)
+					return false;
+				if (!Mathf.Approximately( GetChildProperty( axisPreset, "gravity" ).floatValue, gravity ))
+					return false;
+				if (!Mathf.Approximately( GetChildProperty( axisPreset, "dead" ).floatValue, deadZone ))
+					return false;
+				if (!Mathf.Approximately( GetChildProperty( axisPreset, "sensitivity" ).floatValue, this.sensitivity ))
+					return false;
+				if (GetChildProperty( axisPreset, "snap" ).boolValue != snap)
+					return false;
+				if (GetChildProperty( axisPreset, "invert" ).boolValue != invert)
+					return false;
+				if (GetChildProperty( axisPreset, "type" ).intValue != type)
+					return false;
+				if (GetChildProperty( axisPreset, "axis" ).intValue != axis)
+					return false;
+				if (GetChildProperty( axisPreset, "joyNum" ).intValue != joyNum)
+					return false;
 
 				return true;
 			}
