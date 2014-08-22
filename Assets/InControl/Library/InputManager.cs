@@ -70,7 +70,7 @@ namespace InControl
 			}
 			#endif
 
-			#if true || UNITY_ANDROID && INCONTROL_OUYA && !UNITY_EDITOR
+			#if UNITY_ANDROID && INCONTROL_OUYA && !UNITY_EDITOR
 			if (enableOuyaEverywhere)
 			{
 				OuyaEverywhereDeviceManager.Enable();
