@@ -3,6 +3,7 @@
 /[Oo]bj/
 /Build/*
 
+
 /*.csproj
 /*.unityproj
 /*.sln
@@ -11,12 +12,16 @@
 /*.userprefs
 /*.pidb
 /*.booproj
+/*.dotsettings
 
 .DS_Store
 Thumbs.db
 
 /Assets/AssetStoreTools/
 /Assets/AssetStoreTools.meta
+
+/Assets/UnityVS/
+/Assets/UnityVS.meta
 
 /Documentation/
 /.dropbox.attr
