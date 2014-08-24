@@ -1,5 +1,5 @@
 ﻿#if UNITY_ANDROID && !UNITY_EDITOR
-
+#pragma warning disable 0414
 using System;
 using UnityEngine;
 
