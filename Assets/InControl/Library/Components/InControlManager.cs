@@ -12,7 +12,6 @@ namespace InControl
 		public bool logDebugInfo = false;
 		public bool invertYAxis = false;
 		public bool enableXInput = false;
-		public bool enableOuyaEverywhere = false;
 		public bool useFixedUpdate = false;
 		public bool dontDestroyOnLoad = false;
 		public List<string> customProfiles = new List<string>();
@@ -28,7 +27,6 @@ namespace InControl
 
 			InputManager.InvertYAxis = invertYAxis;
 			InputManager.EnableXInput = enableXInput;
-			InputManager.EnableOuyaEverywhere = enableOuyaEverywhere;
 			InputManager.Setup();
 
 			foreach (var className in customProfiles)
@@ -56,6 +54,25 @@ namespace InControl
 		{
 			InputManager.Reset();
 		}
+
+
+		#if UNITY_ANDROID && INCONTROL_OUYA && !UNITY_EDITOR
+		void Start()
+		{
+			StartCoroutine( CheckForOuyaEverywhereSupport() );
+		}
+
+
+		IEnumerator CheckForOuyaEverywhereSupport()
+		{
+			while (!OuyaSDK.isIAPInitComplete())
+			{
+				yield return null;
+			}
+
+			OuyaEverywhereDeviceManager.Enable();
+		}
+		#endif
 
 
 		void Update()

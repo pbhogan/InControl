@@ -32,7 +32,6 @@ namespace InControl
 		public static bool InvertYAxis;
 
 		static bool enableXInput;
-		static bool enableOuyaEverywhere;
 		static bool isSetup;
 
 		static float initialTime;
@@ -70,20 +69,22 @@ namespace InControl
 			}
 			#endif
 
-			#if UNITY_ANDROID && INCONTROL_OUYA && !UNITY_EDITOR
-			if (enableOuyaEverywhere)
-			{
-				OuyaEverywhereDeviceManager.Enable();
-			}
-			#endif
-
 			if (OnSetup != null)
 			{
 				OnSetup.Invoke();
 				OnSetup = null;
 			}
 
-			AddDeviceManager( new UnityInputDeviceManager() );
+			var addUnityInputDeviceManager = true;
+
+			#if UNITY_ANDROID && INCONTROL_OUYA && !UNITY_EDITOR
+			addUnityInputDeviceManager = false;
+			#endif
+
+			if (addUnityInputDeviceManager)
+			{
+				AddDeviceManager<UnityInputDeviceManager>();
+			}
 		}
 
 
@@ -200,6 +201,30 @@ namespace InControl
 
 			inputDeviceManagers.Add( inputDeviceManager );
 			inputDeviceManager.Update( currentTick, currentTime - lastUpdateTime );
+		}
+
+
+		public static void AddDeviceManager<T>() where T : InputDeviceManager, new()
+		{
+			if (!HasDeviceManager<T>())
+			{
+				AddDeviceManager( new T() );
+			}
+		}
+
+
+		public static bool HasDeviceManager<T>() where T : InputDeviceManager
+		{
+			int inputDeviceManagerCount = inputDeviceManagers.Count;
+			for (int i = 0; i < inputDeviceManagerCount; i++)
+			{
+				if (inputDeviceManagers[i] is T)
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 
@@ -361,20 +386,6 @@ namespace InControl
 			set
 			{
 				enableXInput = value;
-			}
-		}
-
-
-		public static bool EnableOuyaEverywhere
-		{
-			get
-			{ 
-				return enableOuyaEverywhere; 
-			}
-
-			set
-			{
-				enableOuyaEverywhere = value;
 			}
 		}
 	}
