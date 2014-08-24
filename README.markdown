@@ -4,13 +4,20 @@ InControl is an input manager for Unity3D that standardizes input mappings acros
 
 Documentation is available at: [http://www.gallantgames.com/incontrol](http://www.gallantgames.com/incontrol)
 
-InControl is also [available on the Unity Asset Store](http://u3d.as/6mr) for a modest price. If you find this project beneficial, please consider supporting its ongoing development. You'll also have the convenience of easy installation and updates right from the Unity Editor. As development continues, a few additional "pro" features will be available on the Asset Store only, and will not be open source, and thus not included in the repository. The first of these is [touch controls](http://www.gallantgames.com/pages/incontrol-touch-controls).
+InControl is also [available on the Unity Asset Store](http://u3d.as/6mr) for a modest price. If you find this project beneficial, please consider supporting its ongoing development. You'll have the convenience of easy installation and updates right from the Unity Editor.
+
+As development continues, a few additional "pro" features will be available on the Asset Store only, and will not be open sourced in the repository.
+
+Current features available only in the Asset Store include:
+
+* [Touch controls](http://www.gallantgames.com/pages/incontrol-touch-controls).
+* OUYA Everywhere SDK support.
 
 ## Features
 
 * Support [many common controllers and platforms](http://www.gallantgames.com/pages/incontrol-supported-controllers) with ease.
 * Create virtual devices from keyboard and mouse input with [custom profiles](http://www.gallantgames.com/pages/incontrol-keyboard-mouse).
-* [Touch controls](http://www.gallantgames.com/pages/incontrol-touch-controls) as a virtual device feeds right into the existing controller API (v1.2.0+, [Asset Store](http://u3d.as/6mr) only).
+* [Touch controls](http://www.gallantgames.com/pages/incontrol-touch-controls) as a virtual device feeds right into the existing controller API ([Asset Store](http://u3d.as/6mr) only).
 * Events for attached and detached devices.
 * Events for active device switches.
 
