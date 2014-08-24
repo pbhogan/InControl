@@ -142,7 +142,6 @@ namespace InControl
 					Handle = "DPad Right",
 					Target = InputControlType.DPadRight,
 					Source = Analog4
-
 				},
 				new InputControlMapping
 				{

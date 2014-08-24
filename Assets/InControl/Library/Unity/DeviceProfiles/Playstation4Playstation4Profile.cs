@@ -6,38 +6,26 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class Xbox360WinProfile : UnityInputDeviceProfile
+	public class Playstation4Playstation4Profile : UnityInputDeviceProfile
 	{
-		public Xbox360WinProfile()
+        public Playstation4Playstation4Profile()
 		{
-			Name = "XBox 360 Controller";
-			Meta = "XBox 360 Controller on Windows";
+			Name = "Playstation 4 Controller";
+			Meta = "Playstation 4 Controller on Playstation 4";
 
 			SupportedPlatforms = new[]
 			{
-				"Windows"
+				"ORBISOS"
 			};
 
 			JoystickNames = new[]
 			{
-				"Controller (Afterglow Gamepad for Xbox 360)",
-				"Controller (Batarang wired controller (XBOX))",
-				"Controller (Gamepad for Xbox 360)",
-				"Controller (Infinity Controller 360)",
-				"Controller (Mad Catz FPS Pro GamePad)",
-				"Controller (MadCatz Call of Duty GamePad)",
-				"Controller (MadCatz GamePad)",
-				"Controller (MLG GamePad for Xbox 360)",
-				"Controller (Razer Sabertooth Elite)",
-				"Controller (Rock Candy Gamepad for Xbox 360)",
-				"Controller (Xbox 360 For Windows)",
-				"Controller (Xbox 360 Wireless Receiver for Windows)",
-				"XBOX 360 For Windows (Controller)",
-				"Controller (XEOX Gamepad)",
+				"Blue controller",
+				"Red controller",
+				"Green controller",
+				"Pink controller"
 			};
-
-			LastResortRegex = "360|xbox|catz";
-
+                
 			Sensitivity = 1.0f;
 			LowerDeadZone = 0.2f;
 
@@ -45,25 +33,25 @@ namespace InControl
 			{
 				new InputControlMapping
 				{
-					Handle = "A",
+					Handle = "Cross",
 					Target = InputControlType.Action1,
 					Source = Button0
 				},
 				new InputControlMapping
 				{
-					Handle = "B",
+					Handle = "Circle",
 					Target = InputControlType.Action2,
 					Source = Button1
 				},
 				new InputControlMapping
 				{
-					Handle = "X",
+					Handle = "Square",
 					Target = InputControlType.Action3,
 					Source = Button2
 				},
 				new InputControlMapping
 				{
-					Handle = "Y",
+					Handle = "Triangle",
 					Target = InputControlType.Action4,
 					Source = Button3
 				},
@@ -81,6 +69,18 @@ namespace InControl
 				},
 				new InputControlMapping
 				{
+					Handle = "Start",
+					Target = InputControlType.Start,
+					Source = Button6
+				},
+				new InputControlMapping
+				{
+					Handle = "Options",
+					Target = InputControlType.Select,
+					Source = Button7
+				},
+				new InputControlMapping
+				{
 					Handle = "Left Stick Button",
 					Target = InputControlType.LeftStickButton,
 					Source = Button8
@@ -90,18 +90,6 @@ namespace InControl
 					Handle = "Right Stick Button",
 					Target = InputControlType.RightStickButton,
 					Source = Button9
-				},
-				new InputControlMapping
-				{
-					Handle = "Back",
-					Target = InputControlType.Back,
-					Source = Button6
-				},
-				new InputControlMapping
-				{
-					Handle = "Start",
-					Target = InputControlType.Start,
-					Source = Button7
 				}
 			};
 
@@ -130,8 +118,7 @@ namespace InControl
 				{
 					Handle = "Right Stick Y",
 					Target = InputControlType.RightStickY,
-					Source = Analog4,
-					Invert = true
+					Source = Analog4
 				},
 				new InputControlMapping
 				{
@@ -167,18 +154,19 @@ namespace InControl
 					TargetRange = InputControlMapping.Range.Negative,
 					Invert = true
 				},
-				new InputControlMapping
-				{
-					Handle = "Left Trigger",
-					Target = InputControlType.LeftTrigger,
-					Source = Analog8
-				},
-				new InputControlMapping
-				{
-					Handle = "Right Trigger",
-					Target = InputControlType.RightTrigger,
-					Source = Analog9
-				}
+                new InputControlMapping
+                {
+                    Handle = "Left Trigger",
+                    Target = InputControlType.LeftTrigger,
+                    Source = Analog7
+                },
+                new InputControlMapping
+                {
+                    Handle = "Right Trigger",
+                    Target = InputControlType.RightTrigger,
+                    Source = Analog2,
+                    Invert = true
+                },
 			};
 		}
 	}

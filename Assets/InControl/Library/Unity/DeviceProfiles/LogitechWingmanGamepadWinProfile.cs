@@ -6,12 +6,12 @@ using System.Collections.Generic;
 namespace InControl
 {
 	[AutoDiscover]
-	public class Xbox360WinProfile : UnityInputDeviceProfile
+	public class LogitechWingmanGamepadWinProfile : UnityInputDeviceProfile
 	{
-		public Xbox360WinProfile()
+        public LogitechWingmanGamepadWinProfile()
 		{
-			Name = "XBox 360 Controller";
-			Meta = "XBox 360 Controller on Windows";
+			Name = "Logitech WingMan Cordless Gamepad";
+            Meta = "Logitech WingMan Cordless Gamepad on Windows";
 
 			SupportedPlatforms = new[]
 			{
@@ -20,23 +20,8 @@ namespace InControl
 
 			JoystickNames = new[]
 			{
-				"Controller (Afterglow Gamepad for Xbox 360)",
-				"Controller (Batarang wired controller (XBOX))",
-				"Controller (Gamepad for Xbox 360)",
-				"Controller (Infinity Controller 360)",
-				"Controller (Mad Catz FPS Pro GamePad)",
-				"Controller (MadCatz Call of Duty GamePad)",
-				"Controller (MadCatz GamePad)",
-				"Controller (MLG GamePad for Xbox 360)",
-				"Controller (Razer Sabertooth Elite)",
-				"Controller (Rock Candy Gamepad for Xbox 360)",
-				"Controller (Xbox 360 For Windows)",
-				"Controller (Xbox 360 Wireless Receiver for Windows)",
-				"XBOX 360 For Windows (Controller)",
-				"Controller (XEOX Gamepad)",
+				"WingMan Cordless Gamepad",
 			};
-
-			LastResortRegex = "360|xbox|catz";
 
 			Sensitivity = 1.0f;
 			LowerDeadZone = 0.2f;
@@ -47,61 +32,67 @@ namespace InControl
 				{
 					Handle = "A",
 					Target = InputControlType.Action1,
-					Source = Button0
+					Source = Button1
 				},
 				new InputControlMapping
 				{
 					Handle = "B",
 					Target = InputControlType.Action2,
-					Source = Button1
+					Source = Button2
 				},
+				//new InputControlMapping
+				//{
+				//	Handle = "C",
+				//	Target = InputControlType.Action5,
+				//	Source = Button2
+				//},
 				new InputControlMapping
 				{
 					Handle = "X",
 					Target = InputControlType.Action3,
-					Source = Button2
+					Source = Button4
 				},
 				new InputControlMapping
 				{
 					Handle = "Y",
 					Target = InputControlType.Action4,
-					Source = Button3
+					Source = Button5
 				},
+				//new InputControlMapping
+				//{
+				//	Handle = "Z",
+				//	Target = InputControlType.Action6,
+				//	Source = Button6
+				//},
 				new InputControlMapping
 				{
 					Handle = "Left Bumper",
 					Target = InputControlType.LeftBumper,
-					Source = Button4
+					Source = Button7
 				},
 				new InputControlMapping
 				{
 					Handle = "Right Bumper",
 					Target = InputControlType.RightBumper,
-					Source = Button5
-				},
-				new InputControlMapping
-				{
-					Handle = "Left Stick Button",
-					Target = InputControlType.LeftStickButton,
 					Source = Button8
 				},
 				new InputControlMapping
 				{
-					Handle = "Right Stick Button",
-					Target = InputControlType.RightStickButton,
-					Source = Button9
+					Handle = "Left Trigger",
+					Target = InputControlType.LeftTrigger,
+					Source = Button10
 				},
 				new InputControlMapping
 				{
-					Handle = "Back",
-					Target = InputControlType.Back,
-					Source = Button6
+					Handle = "Right Trigger",
+					Target = InputControlType.RightTrigger,
+					Source = Button11,
 				},
 				new InputControlMapping
 				{
 					Handle = "Start",
 					Target = InputControlType.Start,
-					Source = Button7
+					Source = Button9
 				}
 			};
 
@@ -167,18 +158,13 @@ namespace InControl
 					TargetRange = InputControlMapping.Range.Negative,
 					Invert = true
 				},
-				new InputControlMapping
-				{
-					Handle = "Left Trigger",
-					Target = InputControlType.LeftTrigger,
-					Source = Analog8
-				},
-				new InputControlMapping
-				{
-					Handle = "Right Trigger",
-					Target = InputControlType.RightTrigger,
-					Source = Analog9
-				}
+				//new InputControlMapping
+				//{
+				//	Handle = "Throttle",
+				//	Target = InputControlType.Throttle,
+				//	Source = Analog2
+				//},
+				
 			};
 		}
 	}
