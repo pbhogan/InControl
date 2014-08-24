@@ -38,7 +38,7 @@ namespace InControl
 		static float currentTime;
 		static float lastUpdateTime;
 
-		static ulong currentTick;
+		public static ulong currentTick;
 
 
 		public static void Setup()
