@@ -104,7 +104,7 @@ namespace InControl
 
 		void DetectAttachedJoystickDevice( int unityJoystickId, string unityJoystickName )
 		{
-			if (unityJoystickName == "WIRED CONTROLLER" || 
+			if (unityJoystickName == "WIRED CONTROLLER" ||
 			    unityJoystickName == " WIRED CONTROLLER")
 			{
 				// Ignore Steam controller for now.
@@ -198,7 +198,7 @@ namespace InControl
 				}
 
 				if (joystickNames.Length < inputDevice.JoystickId ||
-					!inputDevice.Profile.HasJoystickOrRegexName( joystickNames[inputDevice.JoystickId - 1] ))
+				    !inputDevice.Profile.HasJoystickOrRegexName( joystickNames[inputDevice.JoystickId - 1] ))
 				{
 					devices.Remove( inputDevice );
 					InputManager.DetachDevice( inputDevice );
