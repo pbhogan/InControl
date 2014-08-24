@@ -80,16 +80,6 @@ namespace InControl
 
 				foreach (var platform in SupportedPlatforms)
 				{
-					// Ignore Android profiles on OUYA.
-					// New OUYA Everywhere SDK takes care of OUYA controllers.
-					if (platform.ToUpper() == "ANDROID")
-					{
-						if (InputManager.Platform.Contains( "OUYA" ))
-						{
-							return false;
-						}
-					}
-
 					if (InputManager.Platform.Contains( platform.ToUpper() ))
 					{
 						return true;
