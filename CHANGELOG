@@ -1,4 +1,5 @@
 v1.3.0
+Improved touch controls API including pixel sizing and positioning.
 Added OuyaEverywhere SDK support (replaces old Ouya SDK support).
 Added InControlInputModule for new Unity GUI event system (Unity 4.6+).
 Updated InputManager settings generator for Unity 4.6 compatibility.
