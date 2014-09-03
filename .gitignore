@@ -23,6 +23,8 @@ Thumbs.db
 
 /Dev References
 
+/Packages/*.unitypackage
+
 /Assets/WorkInProgress
 /Assets/WorkInProgress.meta
 /Assets/InControl/Examples/TouchControls.meta
@@ -31,4 +33,5 @@ Thumbs.db
 /Assets/InControl/Library/Touch
 /Assets/InControl/Library/OuyaEverywhere.meta
 /Assets/InControl/Library/OuyaEverywhere
-/Packages/*.unitypackage
+/Assets/InControl/Library/GUI.meta
+/Assets/InControl/Library/GUI
