@@ -1,3 +1,7 @@
+v1.3.4
+Fixed crash in iOS builds.
+Updated InControlInputModule for new Unity 4.6 GUI support.
+
 v1.3.0
 Improved touch controls API including pixel sizing and positioning.
 Added OuyaEverywhere SDK support (replaces old Ouya SDK support).
