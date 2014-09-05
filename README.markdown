@@ -12,6 +12,7 @@ Current features available only in the Asset Store include:
 
 * [Touch controls](http://www.gallantgames.com/pages/incontrol-touch-controls).
 * OUYA Everywhere SDK support.
+* `InControlInputModule` component for new Unity GUI integration.
 
 ## Features
 
