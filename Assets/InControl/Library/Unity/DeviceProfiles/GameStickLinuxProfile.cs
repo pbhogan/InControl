@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 
 
 namespace InControl
@@ -13,107 +11,88 @@ namespace InControl
 			Name = "GameStick Controller";
 			Meta = "GameStick Controller on Linux";
 
-			SupportedPlatforms = new[]
-			{
+			SupportedPlatforms = new[] {
 				"Linux"
 			};
 
-			JoystickNames = new[]
-			{
+			JoystickNames = new[] {
 				"GameStick Controller"
 			};
 
-			Sensitivity = 1.0f;
-			LowerDeadZone = 0.2f;
+			MaxUnityVersion = new VersionInfo( 4, 9 );
 
-			ButtonMappings = new[]
-			{
-				new InputControlMapping
-				{
+			ButtonMappings = new[] {
+				new InputControlMapping {
 					Handle = "A",
 					Target = InputControlType.Action1,
 					Source = Button0
 				},
-				new InputControlMapping
-				{
+				new InputControlMapping {
 					Handle = "B",
 					Target = InputControlType.Action2,
 					Source = Button1
 				},
-				new InputControlMapping
-				{
+				new InputControlMapping {
 					Handle = "X",
 					Target = InputControlType.Action3,
 					Source = Button3
 				},
-				new InputControlMapping
-				{
+				new InputControlMapping {
 					Handle = "Y",
 					Target = InputControlType.Action4,
 					Source = Button4
 				},
-				new InputControlMapping
-				{
+				new InputControlMapping {
 					Handle = "Left Bumper",
 					Target = InputControlType.LeftBumper,
 					Source = Button6
 				},
-				new InputControlMapping
-				{
+				new InputControlMapping {
 					Handle = "Right Bumper",
 					Target = InputControlType.RightBumper,
 					Source = Button7
 				},
-				new InputControlMapping
-				{
+				new InputControlMapping {
 					Handle = "Left Stick Button",
 					Target = InputControlType.LeftStickButton,
 					Source = Button13
 				},
-				new InputControlMapping
-				{
+				new InputControlMapping {
 					Handle = "Right Stick Button",
 					Target = InputControlType.RightStickButton,
 					Source = Button14
 				},
-				new InputControlMapping
-				{
+				new InputControlMapping {
 					Handle = "Start",
 					Target = InputControlType.Start,
 					Source = Button11
 				}
 			};
 
-			AnalogMappings = new[]
-			{
-				new InputControlMapping
-				{
+			AnalogMappings = new[] {
+				new InputControlMapping {
 					Handle = "Left Stick X",
 					Target = InputControlType.LeftStickX,
 					Source = Analog0
 				},
-				new InputControlMapping
-				{
+				new InputControlMapping {
 					Handle = "Left Stick Y",
 					Target = InputControlType.LeftStickY,
 					Source = Analog1,
 					Invert = true
 				},
-				new InputControlMapping
-				{
+				new InputControlMapping {
 					Handle = "Right Stick X",
 					Target = InputControlType.RightStickX,
 					Source = Analog2
 				},
-				new InputControlMapping
-				{
+				new InputControlMapping {
 					Handle = "Right Stick Y",
 					Target = InputControlType.RightStickY,
 					Source = Analog3,
 					Invert = true
 				},
-				new InputControlMapping
-				{
+				new InputControlMapping {
 					Handle = "DPad Left",
 					Target = InputControlType.DPadLeft,
 					Source = Analog6,
@@ -121,16 +100,14 @@ namespace InControl
 					TargetRange = InputControlMapping.Range.Negative,
 					Invert = true
 				},
-				new InputControlMapping
-				{
+				new InputControlMapping {
 					Handle = "DPad Right",
 					Target = InputControlType.DPadRight,
 					Source = Analog6,
 					SourceRange = InputControlMapping.Range.Positive,
 					TargetRange = InputControlMapping.Range.Positive
 				},
-				new InputControlMapping
-				{
+				new InputControlMapping {
 					Handle = "DPad Up",
 					Target = InputControlType.DPadUp,
 					Source = Analog7,
@@ -138,8 +115,7 @@ namespace InControl
 					TargetRange = InputControlMapping.Range.Negative,
 					Invert = true
 				},
-				new InputControlMapping
-				{
+				new InputControlMapping {
 					Handle = "DPad Down",
 					Target = InputControlType.DPadDown,
 					Source = Analog7,
