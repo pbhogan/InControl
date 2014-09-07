@@ -27,6 +27,9 @@ namespace InControl
 
 		protected string LastResortRegex;
 
+		public VersionInfo MinUnityVersion { get; protected set; }
+		public VersionInfo MaxUnityVersion { get; protected set; }
+
 		static HashSet<Type> hideList = new HashSet<Type>();
 
 		float sensitivity;
@@ -45,6 +48,9 @@ namespace InControl
 
 			AnalogMappings = new InputControlMapping[0];
 			ButtonMappings = new InputControlMapping[0];
+
+			MinUnityVersion = new VersionInfo( 3 );
+			MaxUnityVersion = new VersionInfo( 9 );
 		}
 
 
@@ -73,6 +79,11 @@ namespace InControl
 		{
 			get
 			{
+				if (!IsSupportedOnThisVersionOfUnity)
+				{
+					return false;
+				}
+
 				if (SupportedPlatforms == null || SupportedPlatforms.Length == 0)
 				{
 					return true;
@@ -87,6 +98,16 @@ namespace InControl
 				}
 
 				return false;
+			}
+		}
+
+
+		public bool IsSupportedOnThisVersionOfUnity
+		{
+			get
+			{
+				var unityVersion = VersionInfo.UnityVersion();
+				return unityVersion >= MinUnityVersion && unityVersion <= MaxUnityVersion;
 			}
 		}
 
