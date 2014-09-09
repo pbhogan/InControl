@@ -41,7 +41,13 @@ namespace InControl
 		static ulong currentTick;
 
 
+		[Obsolete( "Calling InputManager.Setup() manually is deprecated. Please use the InControlManager component instead." )]
 		public static void Setup()
+		{
+			SetupInternal();
+		}
+
+		internal static void SetupInternal()
 		{
 			if (isSetup)
 			{
@@ -88,7 +94,13 @@ namespace InControl
 		}
 
 
+		[Obsolete( "Calling InputManager.Reset() manually is deprecated. Please use the InControlManager component instead." )]
 		public static void Reset()
+		{
+			ResetInternal();
+		}
+
+		internal static void ResetInternal()
 		{
 			OnSetup = null;
 			OnUpdate = null;
@@ -113,7 +125,13 @@ namespace InControl
 		}
 
 
+		[Obsolete( "Calling InputManager.Update() manually is deprecated. Please use the InControlManager component instead." )]
 		public static void Update()
+		{
+			UpdateInternal();
+		}
+
+		internal static void UpdateInternal()
 		{
 			AssertIsSetup();
 			if (OnSetup != null)
@@ -138,7 +156,7 @@ namespace InControl
 		}
 
 
-		public static void OnApplicationFocus( bool focusState )
+		internal static void OnApplicationFocus( bool focusState )
 		{
 			if (!focusState)
 			{
@@ -160,12 +178,12 @@ namespace InControl
 		}
 
 
-		public static void OnApplicationPause( bool pauseState )
+		internal static void OnApplicationPause( bool pauseState )
 		{
 		}
 
 
-		public static void OnApplicationQuit()
+		internal static void OnApplicationQuit()
 		{
 		}
 

@@ -27,7 +27,7 @@ namespace InControl
 
 			InputManager.InvertYAxis = invertYAxis;
 			InputManager.EnableXInput = enableXInput;
-			InputManager.Setup();
+			InputManager.SetupInternal();
 
 			foreach (var className in customProfiles)
 			{
@@ -52,7 +52,7 @@ namespace InControl
 
 		void OnDisable()
 		{
-			InputManager.Reset();
+			InputManager.ResetInternal();
 		}
 
 
@@ -79,7 +79,7 @@ namespace InControl
 		{
 			if (!useFixedUpdate || Mathf.Approximately( Time.timeScale, 0.0f ))
 			{
-				InputManager.Update();
+				InputManager.UpdateInternal();
 			}
 		}
 
@@ -88,7 +88,7 @@ namespace InControl
 		{
 			if (useFixedUpdate)
 			{
-				InputManager.Update();
+				InputManager.UpdateInternal();
 			}
 		}
 
