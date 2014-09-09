@@ -17,6 +17,9 @@ namespace InControl
 	{
 		public string Name { get; protected set; }
 		public string Meta { get; protected set; }
+		/* Higher priority gets selected over lower priority in case several 
+		 * profiles match same last resort regex. */
+		public int Priority { get; protected set; }
 
 		public InputControlMapping[] AnalogMappings { get; protected set; }
 		public InputControlMapping[] ButtonMappings { get; protected set; }

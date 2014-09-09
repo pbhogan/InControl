@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -136,7 +137,10 @@ namespace InControl
 
 			if (matchedDeviceProfile == null)
 			{
-				matchedDeviceProfile = deviceProfiles.Find( config => config.HasLastResortRegex( unityJoystickName ) );
+				var lastResort = deviceProfiles.Where(config => config.HasLastResortRegex( unityJoystickName ));
+				matchedDeviceProfile = lastResort.Aggregate(
+					(c1, c2) => c1.Priority > c2.Priority ? c1 : c2
+				);
 			}
 
 			UnityInputDeviceProfile deviceProfile = null;
