@@ -10,6 +10,8 @@ namespace InControl
 		{
 			"InControl.AmazonFireGameController",
 			"InControl.AmazonFireTvRemote",
+			"InControl.AndroidTvGamepadProfile",
+			"InControl.AndroidTVTouchInputProfile",
 			"InControl.AppleMFiProfile",
 			"InControl.ExecutionerXProfile",
 			"InControl.GameStickLinuxProfile",
