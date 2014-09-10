@@ -8,8 +8,10 @@ namespace InControl
 	{
 		public static string[] Profiles = new string[] 
 		{
-			"InControl.AmazonFireGameController",
-			"InControl.AmazonFireTvRemote",
+			"InControl.AmazonFireTVProfile",
+			"InControl.AmazonFireTVRemote",
+			"InControl.AndroidTVProfile",
+			"InControl.AndroidTVRemoteProfile",
 			"InControl.AppleMFiProfile",
 			"InControl.ExecutionerXProfile",
 			"InControl.GameStickLinuxProfile",
@@ -35,7 +37,7 @@ namespace InControl
 			"InControl.MogaProMacProfile",
 			"InControl.MogaProWinProfile",
 			"InControl.NVidiaShieldAndroidProfile",
-			"NatecGenesisP44Profile",
+			"InControl.NatecGenesisP44Profile",
 			"InControl.OuyaLinuxProfile",
 			"InControl.OuyaWinProfile",
 			"InControl.PlayStation2WinProfile",
