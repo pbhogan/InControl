@@ -41,7 +41,10 @@ namespace InControl
 		static ulong currentTick;
 
 
-		[Obsolete( "Calling InputManager.Setup() manually is deprecated. Please use the InControlManager component instead." )]
+		/// <summary>
+		/// DEPRECATED: Use the InControlManager component instead.
+		/// </summary>
+		[Obsolete( "Calling InputManager.Setup() manually is deprecated. Use the InControlManager component instead." )]
 		public static void Setup()
 		{
 			SetupInternal();
@@ -94,7 +97,10 @@ namespace InControl
 		}
 
 
-		[Obsolete( "Calling InputManager.Reset() manually is deprecated. Please use the InControlManager component instead." )]
+		/// <summary>
+		/// DEPRECATED: Use the InControlManager component instead.
+		/// </summary>
+		[Obsolete( "Calling InputManager.Reset() manually is deprecated. Use the InControlManager component instead." )]
 		public static void Reset()
 		{
 			ResetInternal();
@@ -125,7 +131,11 @@ namespace InControl
 		}
 
 
-		[Obsolete( "Calling InputManager.Update() manually is deprecated. Please use the InControlManager component instead." )]
+
+		/// <summary>
+		/// DEPRECATED: Use the InControlManager component instead.
+		/// </summary>
+		[Obsolete( "Calling InputManager.Update() manually is deprecated. Use the InControlManager component instead." )]
 		public static void Update()
 		{
 			UpdateInternal();
