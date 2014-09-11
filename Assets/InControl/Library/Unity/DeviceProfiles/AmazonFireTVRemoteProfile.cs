@@ -3,6 +3,7 @@
 
 namespace InControl
 {
+	// @cond nodoc
 	[AutoDiscover]
 	public class AmazonFireTVRemote : UnityInputDeviceProfile
 	{
@@ -19,9 +20,6 @@ namespace InControl
 			JoystickNames = new[] {
 				"Amazon Fire TV Remote",
 			};
-
-			Sensitivity = 1.0f;
-			LowerDeadZone = 0.1f;
 
 			ButtonMappings = new[] {
 				new InputControlMapping {

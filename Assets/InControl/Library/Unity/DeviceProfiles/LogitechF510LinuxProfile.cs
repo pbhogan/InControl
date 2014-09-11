@@ -3,6 +3,7 @@ using System;
 
 namespace InControl
 {
+	// @cond nodoc
 	[AutoDiscover]
 	public class LogitechF510LinuxProfile : UnityInputDeviceProfile
 	{

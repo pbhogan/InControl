@@ -6,6 +6,7 @@ namespace InControl
 	// Tested with ADT-1
 	// Profile by Artūras 'arturaz' Šlajus <arturas@tinylabproductions.com>
 	//
+	// @cond nodoc
 	[AutoDiscover]
 	public class AndroidTVRemoteProfile : UnityInputDeviceProfile
 	{

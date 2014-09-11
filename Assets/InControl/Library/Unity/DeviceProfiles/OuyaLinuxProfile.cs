@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace InControl
 {
+	// @cond nodoc
 	[AutoDiscover]
 	public class OuyaLinuxProfile : UnityInputDeviceProfile
 	{

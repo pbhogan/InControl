@@ -3,6 +3,7 @@
 
 namespace InControl
 {
+	// @cond nodoc
 	[AutoDiscover]
 	public class AmazonFireTVProfile : UnityInputDeviceProfile
 	{
