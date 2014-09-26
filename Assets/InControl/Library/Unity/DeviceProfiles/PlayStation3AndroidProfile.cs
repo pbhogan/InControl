@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -30,22 +32,22 @@ namespace InControl
 				new InputControlMapping {
 					Handle = "Cross",
 					Target = InputControlType.Action1,
-					Source = Button0
+					Source = Button2
 				},
 				new InputControlMapping {
 					Handle = "Circle",
 					Target = InputControlType.Action2,
-					Source = Button1
+					Source = Button3
 				},
 				new InputControlMapping {
 					Handle = "Square",
 					Target = InputControlType.Action3,
-					Source = Button2
+					Source = Button0
 				},
 				new InputControlMapping {
 					Handle = "Triangle",
 					Target = InputControlType.Action4,
-					Source = Button3
+					Source = Button1
 				},
 				new InputControlMapping {
 					Handle = "Left Bumper",
