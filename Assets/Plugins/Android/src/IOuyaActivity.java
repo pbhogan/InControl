@@ -56,26 +56,15 @@ public class IOuyaActivity
 		m_savedInstanceState = savedInstanceState;
 	}
 
-	// save reference to the FrameLayout
-	protected static FrameLayout m_layout = null;
-	public static FrameLayout GetLayout()
+	// save reference to the UnityOuyaFacade
+	protected static UnityOuyaFacade m_unityOuyaFacade = null;
+	public static UnityOuyaFacade GetUnityOuyaFacade()
 	{
-		return m_layout;
+		return m_unityOuyaFacade;
 	}
-	public static void SetLayout(FrameLayout layout)
+	public static void SetUnityOuyaFacade(UnityOuyaFacade unityOuyaFacade)
 	{
-		m_layout = layout;
-	}
-
-	// save reference to the testFacade
-	protected static TestOuyaFacade m_testOuyaFacade = null;
-	public static TestOuyaFacade GetTestOuyaFacade()
-	{
-		return m_testOuyaFacade;
-	}
-	public static void SetTestOuyaFacade(TestOuyaFacade testOuyaFacade)
-	{
-		m_testOuyaFacade = testOuyaFacade;
+		m_unityOuyaFacade = unityOuyaFacade;
 	}
 
 	/*

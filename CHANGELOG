@@ -1,0 +1,33 @@
+v1.3.4
+Fixed crash in iOS builds.
+Updated InControlInputModule for new Unity 4.6 GUI support.
+
+v1.3.0
+Improved touch controls API including pixel sizing and positioning.
+Added OuyaEverywhere SDK support (replaces old Ouya SDK support).
+Added InControlInputModule for new Unity GUI event system (Unity 4.6+).
+Updated InputManager settings generator for Unity 4.6 compatibility.
+Added PlayStation 4 console profile.
+Added XBox One console profile.
+Added Natec Genesis P44 Windows profile.
+Made the InputManager settings generator as non-destructive as possible.
+Make the profile list generator ignore whitespace.
+Fix for funky trigger behavior when app loses focus.
+
+v1.2.1
+Better support for scene switching.
+Added space, header and range property attributes for Unity 4.3 compatibility.
+Fix for building Windows Store apps.
+Fix to Xbox One profile for split axes triggers.
+Improved Logitech F310 / Dual Action support.
+Added PlayStation 3 Android profile.
+Map Xbox back button to InputControlType.Back instead of InputControlType.Select
+Add InputControlType.View for Xbox One controller.
+Create system compatible newlines when generating profile list.
+Disable Xbox One profile if XInput is used.
+
+v1.2.0
+The long awaited touch control support has landed!
+Bug fixes for a few controllers.
+KeyCodeButton control source can take multiple KeyCodes now.
+New KeyCodeComboButton control source.

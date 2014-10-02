@@ -27,27 +27,6 @@ using Debug = UnityEngine.Debug;
 
 public class OuyaPanel : EditorWindow
 {
-    private const string KEY_POST_PROCESSOR = "OuyaPanelUsePostProcessor";
-
-    public static bool UsePostProcessor
-    {
-        get
-        {
-            if (EditorPrefs.HasKey(OuyaPanel.KEY_POST_PROCESSOR))
-            {
-                return EditorPrefs.GetBool(OuyaPanel.KEY_POST_PROCESSOR);
-            }
-            else
-            {
-                return false;
-            }
-        }
-        set
-        {
-            EditorPrefs.SetBool(OuyaPanel.KEY_POST_PROCESSOR, value);
-        }
-    }
-
     private const string KEY_ERROR_STOP_BUILD = "OuyaPanelErrorStopBuild";
 
     public static bool StopOnErrors
@@ -105,13 +84,13 @@ public class OuyaPanel : EditorWindow
 
     private bool m_toggleRunApplication = false;
 
-    private bool m_toggleBuildApplication = false;
+    private bool m_toggleStopApplication = false;
+
+    private bool m_toggleReinstallApplication = false;
 
     private bool m_toggleBuildAndRunApplication = false;
 
     private bool m_toggleBuildRunAndCompileApplication = false;
-
-    private bool m_toggleCompileJava = false;
 
     private bool m_toggleCompilePlugin = false;
 
@@ -133,8 +112,6 @@ public class OuyaPanel : EditorWindow
     public const string KEY_APK_NAME = @"OuyaJavaApkName";
 
     private static string pathOuyaSDKJar = string.Empty;
-    private static string pathGsonJar = string.Empty;
-    private static string pathGuavaJar = string.Empty;
     private static string pathOuyaUnityPluginJar = string.Empty;
 
     private static string pathManifestPath = string.Empty;
@@ -142,14 +119,12 @@ public class OuyaPanel : EditorWindow
     private static string pathBin = string.Empty;
     private static string pathSrc = string.Empty;
 
-    private static string javaAppName = "OuyaUnityApplication";
-    private static string apkName = "OuyaUnityApplication.apk";
+    private static string javaAppName = "MainActivity";
+    private static string apkName = "Game.apk";
 
     void UpdateOuyaPaths()
     {
         pathOuyaSDKJar = string.Format("{0}/Assets/Plugins/Android/libs/ouya-sdk.jar", pathUnityProject);
-        pathGsonJar = string.Format("{0}/Assets/Plugins/Android/libs/gson-2.2.2.jar", pathUnityProject);
-        pathGuavaJar = string.Format("{0}/Assets/Plugins/Android/libs/guava-r09.jar", pathUnityProject);
         pathOuyaUnityPluginJar = string.Format("{0}/Assets/Plugins/Android/OuyaUnityPlugin.jar", pathUnityProject);
 
         pathManifestPath = string.Format("{0}/Assets/Plugins/Android/AndroidManifest.xml", pathUnityProject);
@@ -160,16 +135,9 @@ public class OuyaPanel : EditorWindow
         EditorPrefs.SetString(KEY_PATH_OUYA_SDK, pathOuyaSDKJar);
     }
 
-    static string GetRJava()
+    public static string GetMainActivity()
     {
-        if (string.IsNullOrEmpty(PlayerSettings.bundleIdentifier))
-        {
-            return string.Empty;
-        }
-
-        string path = string.Format("Assets/Plugins/Android/src/{0}/R.java", PlayerSettings.bundleIdentifier.Replace(".", "/"));
-        FileInfo fi = new FileInfo(path);
-        return fi.FullName;
+        return javaAppName;
     }
 
     private static string GetApplicationJava()
@@ -177,6 +145,11 @@ public class OuyaPanel : EditorWindow
         string path = string.Format("Assets/Plugins/Android/src/{0}.java", javaAppName);
         FileInfo fi = new FileInfo(path);
         return fi.FullName;
+    }
+
+    public static string GetBundleId()
+    {
+        return PlayerSettings.bundleIdentifier;
     }
 
     private static DateTime timerCheckAppJavaPackageName = DateTime.MinValue;
@@ -264,7 +237,7 @@ public class OuyaPanel : EditorWindow
         return fi.FullName;
     }
 
-    static string GetBundlePrefix()
+    public static string GetBundlePrefix()
     {
         string identifier = PlayerSettings.bundleIdentifier;
         if (string.IsNullOrEmpty(identifier))
@@ -306,21 +279,73 @@ public class OuyaPanel : EditorWindow
         return string.Format("{0}/platforms/android-{1}/android.jar", pathSDK, (int)PlayerSettings.Android.minSdkVersion);
     }
 
+    public static void FindFile(DirectoryInfo searchFolder, string searchFile, ref string path)
+    {
+        if (null == searchFolder)
+        {
+            return;
+        }
+        foreach (FileInfo file in searchFolder.GetFiles(searchFile))
+        {
+            if (string.IsNullOrEmpty(file.FullName))
+            {
+                continue;
+            }
+            path = file.FullName;
+            return;
+        }
+        foreach (DirectoryInfo subDir in searchFolder.GetDirectories())
+        {
+            if (null == subDir)
+            {
+                continue;
+            }
+            if (subDir.Name.ToUpper().Equals(".SVN"))
+            {
+                continue;
+            }
+            if (subDir.Name.ToUpper().Equals(".GIT"))
+            {
+                continue;
+            }
+            //Debug.Log(string.Format("Directory: {0}", subDir));
+            FindFile(subDir, searchFile, ref path);
+        }
+    }
+
     void UpdateAndroidSDKPaths()
     {
-        switch (Application.platform)
+        if (string.IsNullOrEmpty(pathADB))
         {
-            case RuntimePlatform.OSXEditor:
-                pathADB = string.Format("{0}/{1}/{2}", pathSDK, REL_ANDROID_PLATFORM_TOOLS, FILE_ADB_MAC);
-                pathAAPT = string.Format("{0}/{1}/{2}", pathSDK, REL_ANDROID_PLATFORM_TOOLS, FILE_AAPT_MAC);
-                break;
-            case RuntimePlatform.WindowsEditor:
-                pathADB = string.Format("{0}/{1}/{2}", pathSDK, REL_ANDROID_PLATFORM_TOOLS, FILE_ADB_WIN);
-                pathAAPT = string.Format("{0}/{1}/{2}", pathSDK, REL_ANDROID_PLATFORM_TOOLS, FILE_AAPT_WIN);
-                break;
+            switch (Application.platform)
+            {
+                case RuntimePlatform.OSXEditor:
+                    FindFile(new DirectoryInfo(string.Format("{0}", pathSDK)), FILE_ADB_MAC, ref pathADB);
+                    pathADB = pathADB.Replace(@"\", "/");
+                    break;
+                case RuntimePlatform.WindowsEditor:
+                    FindFile(new DirectoryInfo(string.Format("{0}", pathSDK)), FILE_ADB_WIN, ref pathADB);
+                    break;
+            }
+        }
+
+        if (string.IsNullOrEmpty(pathAAPT))
+        {
+            switch (Application.platform)
+            {
+                case RuntimePlatform.OSXEditor:
+                    FindFile(new DirectoryInfo(string.Format("{0}", pathSDK)), FILE_AAPT_MAC, ref pathAAPT);
+                    pathAAPT = pathAAPT.Replace(@"\", "/");
+                    break;
+                case RuntimePlatform.WindowsEditor:
+                    FindFile(new DirectoryInfo(string.Format("{0}", pathSDK)), FILE_AAPT_WIN, ref pathAAPT);
+                    break;
+            }
         }
 
         EditorPrefs.SetString(KEY_PATH_ANDROID_SDK, pathSDK);
+        EditorPrefs.SetString(KEY_PATH_ANDROID_ADB, pathADB);
+        EditorPrefs.SetString(KEY_PATH_ANDROID_AAPT, pathAAPT);
     }
 
     void ResetAndroidSDKPaths()
@@ -363,35 +388,33 @@ public class OuyaPanel : EditorWindow
     #region Android NDK
 
     private const string KEY_PATH_ANDROID_NDK = @"NDK Path";
-    private const string KEY_PATH_ANDROID_NDK_MAKE = @"NDK Make";
-    private const string KEY_PATH_ANDROID_JNI_MK = @"JNI mk";
-    private const string KEY_PATH_ANDROID_JNI_CPP = @"JNI cpp";
+    private const string KEY_PATH_ANDROID_NDK_BUILD = @"NDK Build";
     private const string KEY_PATH_OUYA_NDK_LIB = @"OUYA NDK Lib";
 
     public static string pathNDK = string.Empty;
-    public static string pathNDKMake = string.Empty;
-    public static string pathJNIMk = string.Empty;
-    public static string pathJNICpp = string.Empty;
+    public static string pathNDKBuild = string.Empty;
     public static string pathObj = string.Empty;
     public static string pathOuyaNDKLib = string.Empty;
+    public static string pathJNIAndroidMk = string.Empty;
+    public static string pathJNIApplicationMk = string.Empty;
 
     #region NDK Paths
 
     void UpdateAndroidNDKPaths()
     {
         pathObj = string.Format("{0}/Assets/Plugins/Android/obj", pathUnityProject);
-        pathJNIMk = string.Format("{0}/Assets/Plugins/Android/jni/Android.mk", pathUnityProject);
+        pathJNIAndroidMk = string.Format("{0}/Assets/Plugins/Android/jni/Android.mk", pathUnityProject);
+        pathJNIApplicationMk = string.Format("{0}/Assets/Plugins/Android/jni/Application.mk", pathUnityProject);
 
         switch (Application.platform)
         {
             case RuntimePlatform.OSXEditor:
-                //change this code to search instead
-                pathJNICpp = string.Format("{0}/Assets/Plugins/Android/jni/jni.cpp", pathUnityProject);
-                pathOuyaNDKLib = string.Format("{0}/Assets/Plugins/Android/libs/armeabi/lib-ouya-ndk.so", pathUnityProject);
+                pathNDKBuild = string.Format("{0}/ndk-build", pathNDK);
+                pathOuyaNDKLib = string.Format("{0}/Assets/Plugins/Android/libs/armeabi-v7a/lib-ouya-ndk.so", pathUnityProject);
                 break;
             case RuntimePlatform.WindowsEditor:
-                pathJNICpp = string.Format("{0}/Assets/Plugins/Android/jni/jni.cpp", pathUnityProject);
-                pathOuyaNDKLib = string.Format("{0}/Assets/Plugins/Android/libs/armeabi/lib-ouya-ndk.so", pathUnityProject);
+                pathNDKBuild = string.Format("{0}/ndk-build.cmd", pathNDK);
+                pathOuyaNDKLib = string.Format("{0}/Assets/Plugins/Android/libs/armeabi-v7a/lib-ouya-ndk.so", pathUnityProject);
                 break;
         }
 
@@ -406,7 +429,7 @@ public class OuyaPanel : EditorWindow
                 pathNDK = @"~/";
                 break;
             case RuntimePlatform.WindowsEditor:
-                pathNDK = @"C:/";
+                pathNDK = @"C:/NVPACK/android-ndk-r9c";
                 break;
         }
 
@@ -434,88 +457,52 @@ public class OuyaPanel : EditorWindow
 
     #endregion
 
-    #region NDK Make Path
-
-    void UpdateAndroidNDKMakePath()
-    {
-        EditorPrefs.SetString(KEY_PATH_ANDROID_NDK_MAKE, pathNDKMake);
-    }
-
-    void ResetAndroidNDKMakePath()
-    {
-        switch (Application.platform)
-        {
-            case RuntimePlatform.OSXEditor:
-                pathNDKMake = string.Format("{0}/prebuilt/darwin-x86_64/bin/make", pathNDK);
-                break;
-            case RuntimePlatform.WindowsEditor:
-                pathNDKMake = string.Format("{0}/prebuilt/windows-x86_64/bin/make.exe", pathNDK);
-                break;
-        }
-
-        UpdateAndroidNDKMakePath();
-    }
-
-    void SelectAndroidNDKMakePath()
-    {
-        string path = string.Empty;
-        switch (Application.platform)
-        {
-            case RuntimePlatform.OSXEditor:
-                path = EditorUtility.OpenFilePanel(string.Format("Path to {0}", KEY_PATH_ANDROID_NDK_MAKE), pathNDKMake, string.Empty);
-                break;
-            case RuntimePlatform.WindowsEditor:
-                path = EditorUtility.OpenFilePanel(string.Format("Path to {0}", KEY_PATH_ANDROID_NDK_MAKE), pathNDKMake, @"exe");
-                break;
-        }
-        if (!string.IsNullOrEmpty(path))
-        {
-            pathNDKMake = path;
-            UpdateAndroidNDKMakePath();
-        }
-    }
-
-    #endregion
-
     public static void CompileNDK()
     {
-        if (!File.Exists(pathNDKMake))
+        if (!string.IsNullOrEmpty(pathNDKBuild) &&
+            !File.Exists(pathNDKBuild))
         {
             return;
         }
 
-        if (!File.Exists(pathJNICpp))
-        {
-            return;
-        }
-
-        if (!File.Exists(pathJNIMk))
-        {
-            return;
-        }
-
-        if (File.Exists(pathOuyaNDKLib))
+        if (!string.IsNullOrEmpty(pathOuyaNDKLib) &&
+            File.Exists(pathOuyaNDKLib))
         {
             File.Delete(pathOuyaNDKLib);
         }
 
+        string pathAndroid = string.Format("{0}/Assets/Plugins/Android", pathUnityProject);
+        if (!Directory.Exists(pathAndroid))
+        {
+            Debug.LogError(string.Format("Failed to find Android Path: {0}", pathAndroid));
+            return;
+        }
+
+        List<KeyValuePair<string, string>> environment = new List<KeyValuePair<string, string>>();
+
         switch (Application.platform)
         {
             case RuntimePlatform.OSXEditor:
-                RunProcess(pathNDKMake, "Assets/Plugins/Android",
-                    string.Format("-f \"{0}/build/core/build-local.mk\" -ouya-ndk",
-                        pathNDK.Replace(@"/", "/")));
+                environment.Add(new KeyValuePair<string, string>("NDK_PROJECT_PATH", pathAndroid));
+                RunProcess(environment, pathNDKBuild, string.Empty);
                 break;
             case RuntimePlatform.WindowsEditor:
-                RunProcess(pathNDKMake, "Assets/Plugins/Android",
-                    string.Format("-f \"{0}/build/core/build-local.mk\" -ouya-ndk",
-                        pathNDK.Replace(@"/", "/")));
+                environment.Add(new KeyValuePair<string, string>("NDK_PROJECT_PATH", pathAndroid.Replace("/", "\\")));
+                RunProcess(environment, pathNDKBuild, string.Empty);
                 break;
         }
 
-        if (Directory.Exists(pathObj))
+        if (!string.IsNullOrEmpty(pathObj) &&
+            Directory.Exists(pathObj))
         {
             Directory.Delete(pathObj, true);
+        }
+
+        string meta = string.Format("{0}.meta", pathObj);
+        if (!string.IsNullOrEmpty(meta) &&
+            File.Exists(meta))
+        {
+            File.Delete(meta);
         }
     }
 
@@ -588,16 +575,53 @@ public class OuyaPanel : EditorWindow
                 XmlDocument xDoc = new XmlDocument();
                 xDoc.Load(path);
 
-                foreach (XmlNode level1 in xDoc.ChildNodes)
+                //Debug.Log("Processing Android.manifest");
+
+                foreach (XmlNode nodeManifest in xDoc.ChildNodes)
                 {
-                    if (level1.Name.ToUpper() == "MANIFEST")
+                    if (!(nodeManifest is XmlElement))
                     {
-                        XmlElement element = (XmlElement)level1;
-                        foreach (XmlAttribute attribute in element.Attributes)
+                        continue;
+                    }
+
+                    //Debug.Log(nodeManifest.Name);
+
+                    XmlElement manifest = nodeManifest as XmlElement;
+                    
+                    //Debug.Log(manifest.Name);
+
+                    if (nodeManifest.Name.ToUpper() == "MANIFEST")
+                    {
+                        foreach (XmlAttribute attribute in manifest.Attributes)
                         {
                             if (attribute.Name.ToUpper() == "PACKAGE")
                             {
                                 attribute.Value = bundleId;
+                            }
+                        }
+                        foreach (XmlElement application in manifest.ChildNodes)
+                        {
+                            //Debug.Log(application.Name);
+
+                            if (application.Name.ToUpper() == "APPLICATION")
+                            {
+                                foreach (XmlElement activity in application.ChildNodes)
+                                {
+                                    //Debug.Log(activity.Name);
+
+                                    if (activity.Name.ToUpper() == "ACTIVITY")
+                                    {
+                                        foreach (XmlAttribute attribute in activity.Attributes)
+                                        {
+                                            if (attribute.Name.ToUpper() == "ANDROID:NAME")
+                                            {
+                                                attribute.Value = string.Format(".{0}", javaAppName);
+                                                break; //only update the first activity
+                                            }
+                                        }
+                                        break;
+                                    }
+                                }
                             }
                         }
                     }
@@ -623,9 +647,9 @@ public class OuyaPanel : EditorWindow
     public const string KEY_PATH_UNITY_EDITOR = @"Unity Editor";
     public const string KEY_PATH_UNITY_PROJECT = @"Unity Project";
 
-    public const string PATH_UNITY_JAR_WIN = "Data/PlaybackEngines/androidplayer/bin/classes.jar";
-    public const string PATH_UNITY_JAR_MAC = "Contents/PlaybackEngines/AndroidPlayer/bin/classes.jar";
-
+    public const string FILE_UNITY_JAR = "classes.jar";
+    public const string PATH_UNITY_JAR_WIN = "Data/PlaybackEngines/androidplayer";
+    
     private static string pathUnityJar = string.Empty;
     private static string pathUnityEditor = string.Empty;
     private static string pathUnityProject = string.Empty;
@@ -635,10 +659,11 @@ public class OuyaPanel : EditorWindow
         switch (Application.platform)
         {
             case RuntimePlatform.OSXEditor:
-                pathUnityJar = string.Format("{0}/{1}", EditorApplication.applicationPath, PATH_UNITY_JAR_MAC);
+				FindFile(new DirectoryInfo(string.Format("{0}", EditorApplication.applicationPath)), FILE_UNITY_JAR, ref pathUnityJar);
+				pathUnityJar = pathUnityJar.Replace(@"\", "/");
                 break;
             case RuntimePlatform.WindowsEditor:
-                pathUnityJar = string.Format("{0}/{1}", pathUnityEditor, PATH_UNITY_JAR_WIN);
+                FindFile(new DirectoryInfo(string.Format("{0}/{1}", pathUnityEditor, PATH_UNITY_JAR_WIN)), FILE_UNITY_JAR, ref pathUnityJar);
                 break;
         }
     }
@@ -650,7 +675,7 @@ public class OuyaPanel : EditorWindow
     public const string KEY_PATH_JAVA_TOOLS_JAR = @"Tools Jar";
     public const string KEY_PATH_JAVA_JAR = @"Jar Path";
     public const string KEY_PATH_JAVA_JAVAC = @"JavaC Path";
-    public const string KEY_PATH_JAVA_JAVAP = @"SDK Path";
+    public const string KEY_PATH_JAVA_JAVAP = @"JavaP Path";
     public const string KEY_PATH_JAVA_JDK = @"JDK Path";
 
     public const string REL_JAVA_PLATFORM_TOOLS = "bin";
@@ -725,10 +750,10 @@ public class OuyaPanel : EditorWindow
 
     #endregion
 
-    [MenuItem("Window/Open Ouya Panel")]
+    [MenuItem("Window/Open OUYA Panel")]
     private static void MenuOpenPanel()
     {
-        GetWindow<OuyaPanel>("Ouya Panel");
+        GetWindow<OuyaPanel>("OUYA Panel");
     }
 
     void OnEnable()
@@ -752,8 +777,20 @@ public class OuyaPanel : EditorWindow
             pathSDK = EditorPrefs.GetString(KEY_PATH_ANDROID_SDK);
         }
 
+        if (EditorPrefs.HasKey(KEY_PATH_ANDROID_AAPT))
+        {
+            pathAAPT = EditorPrefs.GetString(KEY_PATH_ANDROID_AAPT);
+        }
+
+        if (EditorPrefs.HasKey(KEY_PATH_ANDROID_ADB))
+        {
+            pathADB = EditorPrefs.GetString(KEY_PATH_ANDROID_ADB);
+        }
+
         if (string.IsNullOrEmpty(pathSDK))
         {
+            pathAAPT = string.Empty;
+            pathADB = string.Empty;
             ResetAndroidSDKPaths();
         }
         else
@@ -774,20 +811,6 @@ public class OuyaPanel : EditorWindow
         {
             UpdateAndroidNDKPaths();
         }
-
-        if (EditorPrefs.HasKey(KEY_PATH_ANDROID_NDK_MAKE))
-        {
-            pathNDKMake = EditorPrefs.GetString(KEY_PATH_ANDROID_NDK_MAKE);
-        }
-        if (string.IsNullOrEmpty(pathNDKMake))
-        {
-            ResetAndroidNDKMakePath();
-        }
-        else
-        {
-            UpdateAndroidNDKMakePath();
-        }
-
 
         if (EditorPrefs.HasKey(KEY_PATH_JAVA_JDK))
         {
@@ -850,19 +873,12 @@ public class OuyaPanel : EditorWindow
         {
             m_toggleCompilePlugin = false;
 
-            OuyaMenuAdmin.MenuGeneratePluginJar();
+            if (GenerateRJava())
+            {
+                OuyaMenuAdmin.MenuGeneratePluginJar();
+            }
 
             AssetDatabase.Refresh();
-        }
-
-        if (m_toggleCompileJava)
-        {
-            m_toggleCompileJava = false;
-
-            if (CompileApplicationJava())
-            {
-                AssetDatabase.Refresh();
-            }
         }
 
         if (m_toggleRunApplication)
@@ -887,22 +903,47 @@ public class OuyaPanel : EditorWindow
             }
         }
 
-        if (m_toggleBuildApplication)
+        if (m_toggleStopApplication)
         {
-            m_toggleBuildApplication = false;
+            m_toggleStopApplication = false;
 
-            if (GenerateRJava())
+            string appPath = string.Format("{0}/{1}", pathUnityProject, apkName);
+            if (File.Exists(appPath))
             {
-                if (CompileApplicationClasses())
+                //Debug.Log(appPath);
+                //Debug.Log(pathADB);
+                string args = string.Format("shell am force-stop {0}", PlayerSettings.bundleIdentifier);
+                //Debug.Log(args);
+                ProcessStartInfo ps = new ProcessStartInfo(pathADB, args);
+                Process p = new Process();
+                p.StartInfo = ps;
+                p.Exited += (object sender, EventArgs e) =>
                 {
-                    if (BuildApplicationJar())
-                    {
-                        AssetDatabase.Refresh();
+                    p.Dispose();
+                };
+                p.Start();
+            }
+        }
 
-                        BuildPipeline.BuildPlayer(sceneArray, string.Format("{0}/{1}", pathUnityProject, apkName),
-                                                  BuildTarget.Android, BuildOptions.None);
-                    }
-                }
+        if (m_toggleReinstallApplication)
+        {
+            m_toggleReinstallApplication = false;
+
+            string appPath = string.Format("{0}/{1}", pathUnityProject, apkName);
+            if (File.Exists(appPath))
+            {
+                //Debug.Log(appPath);
+                //Debug.Log(pathADB);
+                string args = string.Format("install -r \"{0}\"", appPath);
+                //Debug.Log(args);
+                ProcessStartInfo ps = new ProcessStartInfo(pathADB, args);
+                Process p = new Process();
+                p.StartInfo = ps;
+                p.Exited += (object sender, EventArgs e) =>
+                {
+                    p.Dispose();
+                };
+                p.Start();
             }
         }
 
@@ -930,19 +971,16 @@ public class OuyaPanel : EditorWindow
             {
                 if (CompileApplicationClasses())
                 {
-                    if (BuildApplicationJar())
+                    AssetDatabase.Refresh();
+
+                    BuildOptions options = BuildOptions.AutoRunPlayer;
+                    if (EditorUserBuildSettings.allowDebugging)
                     {
-                        AssetDatabase.Refresh();
-
-                        BuildOptions options = BuildOptions.AutoRunPlayer;
-                        if (EditorUserBuildSettings.allowDebugging)
-                        {
-                            options |= BuildOptions.Development | BuildOptions.AllowDebugging;
-                        }
-
-                        BuildPipeline.BuildPlayer(sceneArray, string.Format("{0}/{1}", pathUnityProject, apkName),
-                                                  BuildTarget.Android, options);
+                        options |= BuildOptions.Development | BuildOptions.AllowDebugging;
                     }
+
+                    BuildPipeline.BuildPlayer(sceneArray, string.Format("{0}/{1}", pathUnityProject, apkName),
+                                                BuildTarget.Android, options);
                 }
             }
         }
@@ -1018,25 +1056,10 @@ public class OuyaPanel : EditorWindow
 
         Thread.Sleep(100);
 
+        /*
         RunProcess(pathAAPT, string.Format("package -v -f -m -J gen -M \"{0}\" -S \"{1}\" -I \"{2}\" -F \"{3}/resources.ap_\" -J \"{4}\"",
             pathManifestPath, pathRes, GetPathAndroidJar(), pathBin, pathSrc));
-
-        string pathRJava = GetRJava();
-        if (string.IsNullOrEmpty(pathRJava))
-        {
-            Debug.LogError("Path to R.java is empty");
-            return false;
-        }
-        if (File.Exists(pathRJava))
-        {
-            using (FileStream fs = File.Open(pathRJava, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            {
-                using (StreamReader sr = new StreamReader(fs))
-                {
-                    Debug.Log(sr.ReadToEnd());
-                }
-            }
-        }
+        */
 
         if (Directory.Exists(pathBin))
         {
@@ -1060,19 +1083,8 @@ public class OuyaPanel : EditorWindow
         {
             Directory.CreateDirectory(pathClasses);
         }
-        string pathRJava = GetRJava();
-        if (string.IsNullOrEmpty(pathRJava))
-        {
-            Debug.LogError("Path to R.java is empty");
-            return false;
-        }
-        if (!File.Exists(pathRJava))
-        {
-            Debug.LogError("R.java cannot be found");
-            return false;
-        }
-        string includeFiles = string.Format("\"{0}/{1}.java\" \"{0}/IOuyaActivity.java\" \"{0}/TestOuyaFacade.java\" \"{2}\"",
-            pathSrc, javaAppName, pathRJava);
+        string includeFiles = string.Format("\"{0}/{1}.java\" \"{0}/IOuyaActivity.java\" \"{0}/UnityOuyaFacade.java\"",
+            pathSrc, javaAppName);
         string jars = string.Empty;
 
         if (File.Exists(pathToolsJar))
@@ -1092,16 +1104,6 @@ public class OuyaPanel : EditorWindow
         else
         {
             Debug.LogError(string.Format("Failed to find Android jar: {0}", GetPathAndroidJar()));
-            return false;
-        }
-
-        if (File.Exists(pathGsonJar))
-        {
-            Debug.Log(string.Format("Found GJON jar: {0}", pathGsonJar));
-        }
-        else
-        {
-            Debug.LogError(string.Format("Failed to find GSON jar: {0}", pathGsonJar));
             return false;
         }
 
@@ -1141,8 +1143,8 @@ public class OuyaPanel : EditorWindow
         switch (Application.platform)
         {
             case RuntimePlatform.OSXEditor:
-                jars = string.Format("\"{0}:{1}:{2}:{3}:{4}:{5}\"",
-                    pathToolsJar, GetPathAndroidJar(), pathGsonJar, pathUnityJar, pathOuyaUnityPluginJar, pathOuyaSDKJar);
+                jars = string.Format("\"{0}:{1}:{2}:{3}:{4}\"",
+                    pathToolsJar, GetPathAndroidJar(), pathUnityJar, pathOuyaUnityPluginJar, pathOuyaSDKJar);
 
                 RunProcess(pathJavaC, string.Empty, string.Format("-g -source 1.6 -target 1.6 {0} -classpath {1} -bootclasspath {1} -d \"{2}\"",
                     includeFiles,
@@ -1152,8 +1154,8 @@ public class OuyaPanel : EditorWindow
                     ref error);
                 break;
             case RuntimePlatform.WindowsEditor:
-                jars = string.Format("\"{0}\";\"{1}\";\"{2}\";\"{3}\";\"{4}\";\"{5}\"",
-                    pathToolsJar, GetPathAndroidJar(), pathGsonJar, pathUnityJar, pathOuyaUnityPluginJar, pathOuyaSDKJar);
+                jars = string.Format("\"{0}\";\"{1}\";\"{2}\";\"{3}\";\"{4}\"",
+                    pathToolsJar, GetPathAndroidJar(), pathUnityJar, pathOuyaUnityPluginJar, pathOuyaSDKJar);
 
                 RunProcess(pathJavaC, string.Empty, string.Format("-Xlint:deprecation -g -source 1.6 -target 1.6 {0} -classpath {1} -bootclasspath {1} -d \"{2}\"",
                     includeFiles,
@@ -1174,109 +1176,6 @@ public class OuyaPanel : EditorWindow
         }
 
         return true;
-    }
-
-    static bool BuildApplicationJar()
-    {
-        string pathClasses = string.Format("{0}/Assets/Plugins/Android/Classes", pathUnityProject);
-        string bundlePrefix = GetBundlePrefix();
-        if (string.IsNullOrEmpty(bundlePrefix))
-        {
-            Debug.LogError("Bundle prefix cannot be empty");
-            return false;
-        }
-
-        //@hack: remove extra class file
-        // tv/ouya/sdk/IOuyaActivity.class
-        string extraClass = string.Format("{0}/tv/ouya/sdk/IOuyaActivity.class", pathClasses);
-        if (File.Exists(extraClass))
-        {
-            File.Delete(extraClass);
-            Debug.Log(string.Format("Removed: {0}", extraClass));
-        }
-        extraClass = string.Format("{0}/tv/ouya/sdk/IOuyaActivity.class.meta", pathClasses);
-        if (File.Exists(extraClass))
-        {
-            File.Delete(extraClass);
-            Debug.Log(string.Format("Removed: {0}", extraClass));
-        }
-
-        //@hack: remove extra class file
-        // tv/ouya/sdk/TestOuyaFacade.class
-        extraClass = string.Format("{0}/tv/ouya/sdk/TestOuyaFacade.class", pathClasses);
-        if (File.Exists(extraClass))
-        {
-            File.Delete(extraClass);
-            Debug.Log(string.Format("Removed: {0}", extraClass));
-        }
-        extraClass = string.Format("{0}/tv/ouya/sdk/TestOuyaFacade.class.meta", pathClasses);
-        if (File.Exists(extraClass))
-        {
-            File.Delete(extraClass);
-            Debug.Log(string.Format("Removed: {0}", extraClass));
-        }
-
-        //@hack: remove extra folder
-        // tv/ouya/sdk/*
-        string extraFolder = string.Format("{0}/tv/ouya/sdk", pathClasses);
-        if (Directory.Exists(extraFolder))
-        {
-            Directory.Delete(extraFolder, true);
-            Debug.Log(string.Format("Removed: {0}", extraFolder));
-        }
-        string extraMeta = string.Format("{0}/tv/ouya/sdk.meta", pathClasses);
-        if (File.Exists(extraMeta))
-        {
-            File.Delete(extraMeta);
-            Debug.Log(string.Format("Removed: {0}", extraMeta));
-        }
-
-        RunProcess(pathJar, pathClasses, string.Format("cvfM OuyaUnityApplication.jar {0}/", bundlePrefix));
-        OuyaPanel.RunProcess(pathJavaP, pathClasses, string.Format("-s {0}.{1}", PlayerSettings.bundleIdentifier, javaAppName));
-        string pathAppJar = string.Format("{0}/OuyaUnityApplication.jar", pathClasses);
-        string pathDest = string.Format("{0}/Assets/Plugins/Android/OuyaUnityApplication.jar", pathUnityProject);
-        try
-        {
-            if (File.Exists(pathDest))
-            {
-                File.Delete(pathDest);
-            }
-            if (File.Exists(pathAppJar))
-            {
-                File.Move(pathAppJar, pathDest);
-            }
-            if (Directory.Exists(pathClasses))
-            {
-                Directory.Delete(pathClasses, true);
-            }
-
-            extraMeta = string.Format("{0}.meta", pathClasses);
-            if (File.Exists(extraMeta))
-            {
-                File.Delete(extraMeta);
-                Debug.Log(string.Format("Removed: {0}", extraMeta));
-            }
-        }
-        catch (System.Exception)
-        {
-
-        }
-
-        return true;
-    }
-
-    public static bool CompileApplicationJava()
-    {
-        if (GenerateRJava() &&
-            CompileApplicationClasses() &&
-            BuildApplicationJar())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 
     void GUIDisplayFolder(string label, string path)
@@ -1481,7 +1380,6 @@ public class OuyaPanel : EditorWindow
         m_toggleSyncBundleID = true;
         m_toggleCompileNDK = true;
         m_toggleCompilePlugin = true;
-        m_toggleCompileJava = true;
     }
 
     private Vector2 m_scroll = Vector2.zero;
@@ -1491,19 +1389,10 @@ public class OuyaPanel : EditorWindow
     private static string[] m_exampleScenes =
         {
             "Starter Kit Scenes",
-            "SceneShowCamera",
-            "SceneShowDrumkit",
-            "SceneShowGuitar",
             "SceneShowJavaScript",
-            "SceneMultipleControllers",
-            "SceneSetResolution",
-            "SceneShowController",
-            "SceneShowMeshPerformance",
-            "SceneShowNDK",
             "SceneShowProducts",
-            "SceneShowSounds",
-            "SceneShowSticks",
             "SceneShowUnityInput",
+            "VirtualController",
         };
 
     private static int m_selectedAdbMode = 0;
@@ -1516,6 +1405,9 @@ public class OuyaPanel : EditorWindow
 
     void OnGUI()
     {
+        GUI.enabled = !EditorApplication.isCompiling;
+
+
         m_scroll = GUILayout.BeginScrollView(m_scroll, GUILayout.MaxWidth(position.width));
 
         GUILayout.Label(string.Format("{0} UID: {1}", OuyaSDK.VERSION, UID));
@@ -1528,68 +1420,57 @@ public class OuyaPanel : EditorWindow
         {
             case 0:
 
-                if (GUILayout.Button("Run Application"))
+                if (GUILayout.Button("Run", GUILayout.MaxWidth(position.width)))
                 {
                     m_toggleRunApplication = true;
                 }
 
-                if (GUILayout.Button("Build Application"))
+                if (GUILayout.Button("Stop", GUILayout.MaxWidth(position.width)))
                 {
-                    m_toggleCompileJava = true;
-                    m_toggleCompilePlugin = true;
-                    m_toggleCompileNDK = true;
-                    m_toggleBuildApplication = true;
+                    m_toggleStopApplication = true;
                 }
 
-                if (GUILayout.Button("Build and Run Application"))
+                if (GUILayout.Button("Reinstall", GUILayout.MaxWidth(position.width)))
+                {
+                    m_toggleReinstallApplication = true;
+                }
+
+                if (GUILayout.Button("Build and Run", GUILayout.MaxWidth(position.width)))
                 {
                     m_toggleBuildAndRunApplication = true;
                 }
 
-                if (GUILayout.Button("Build, Run, and Compile Application"))
+                if (GUILayout.Button("Compile, Build, and Run", GUILayout.MaxWidth(position.width)))
                 {
                     m_toggleBuildRunAndCompileApplication = true;
                 }
 
-                if (GUILayout.Button("Compile"))
-                {
-                    m_toggleCompileJava = true;
-                    m_toggleCompileNDK = true;
-                }
-
-                if (GUILayout.Button("Compile Java"))
-                {
-                    m_toggleCompileJava = true;
-                }
-
-                if (GUILayout.Button("Compile Plugin"))
+                if (GUILayout.Button("Compile Plugin", GUILayout.MaxWidth(position.width)))
                 {
                     m_toggleCompilePlugin = true;
                 }
 
-                if (GUILayout.Button("Compile NDK"))
+                if (GUILayout.Button("Compile NDK", GUILayout.MaxWidth(position.width)))
                 {
                     m_toggleCompileNDK = true;
                 }
 
                 /*
-                if (GUILayout.Button("Build Application Jar"))
+                if (GUILayout.Button("Build Application Jar", GUILayout.MaxWidth(position.width)))
                 {
                     BuildApplicationJar();
                 }
 
-                if (GUILayout.Button("Compile Application Classes"))
+                if (GUILayout.Button("Compile Application Classes", GUILayout.MaxWidth(position.width)))
                 {
                     CompileApplicationClasses();
                 }
 
-                if (GUILayout.Button("Generate R.java from main layout"))
+                if (GUILayout.Button("Generate R.java from main layout", GUILayout.MaxWidth(position.width)))
                 {
                     GenerateRJava();
                 }
                 */
-
-                UsePostProcessor = GUILayout.Toggle(UsePostProcessor, "Enable Java/C++ post processor");
 
                 GUILayout.Space(5);
 
@@ -1597,7 +1478,7 @@ public class OuyaPanel : EditorWindow
                 StopOnErrors = GUILayout.Toggle(StopOnErrors, "Stop Build on Errors");
 
                 GUILayout.Space(5);
-                if (GUILayout.Button("Sync Bundle ID"))
+                if (GUILayout.Button("Sync Bundle ID", GUILayout.MaxWidth(position.width)))
                 {
                     m_toggleSyncBundleID = true;
                 }
@@ -1644,6 +1525,8 @@ public class OuyaPanel : EditorWindow
 
                 // show splash screen settings
 
+                string error = string.Empty;
+
                 GUILayout.BeginHorizontal(GUILayout.MaxWidth(position.width));
                 GUILayout.Space(25);
                 GUILayout.Label("Product Name", GUILayout.Width(100));
@@ -1651,6 +1534,22 @@ public class OuyaPanel : EditorWindow
                 PlayerSettings.productName = GUILayout.TextField(PlayerSettings.productName, EditorStyles.wordWrappedLabel, GUILayout.MaxWidth(position.width - 130));
                 GUILayout.EndHorizontal();
 
+                if ((PlayerSettings.bundleIdentifier.Contains(" ") ||
+                    PlayerSettings.bundleIdentifier.Contains("\t") ||
+                    PlayerSettings.bundleIdentifier.Contains("\r") ||
+                    PlayerSettings.bundleIdentifier.Contains("\n") ||
+                    PlayerSettings.bundleIdentifier.Contains("(") ||
+                    PlayerSettings.bundleIdentifier.Contains(")")))
+                {
+                    String fieldError = "[error] (bundle id has an invalid character)\n";
+                    if (string.IsNullOrEmpty(error))
+                    {
+                        ShowNotification(new GUIContent(fieldError));
+                        error = fieldError;
+                    }
+                    EditorGUILayout.Separator();
+                    GUILayout.Label(fieldError, EditorStyles.wordWrappedLabel, GUILayout.MaxWidth(position.width - 130));
+                }
                 GUILayout.BeginHorizontal(GUILayout.MaxWidth(position.width));
                 GUILayout.Space(25);
                 GUILayout.Label("Bundle Identifier", GUILayout.Width(100));
@@ -1670,15 +1569,23 @@ public class OuyaPanel : EditorWindow
                     EditorPrefs.SetString(KEY_APK_NAME, apkName);
                 }
 
-                string error = string.Empty;
+                else if (javaAppName.ToUpper().Equals("IOUYAACTIVITY") ||
+                    javaAppName.ToUpper().Equals("OUYAUNITYPLUGIN") ||
+                    javaAppName.ToUpper().Equals("UNITYOUYAFACADE"))
+                {
+                    String fieldError = "[error] (Used reserved Java Class Name)\n";
+                    if (string.IsNullOrEmpty(error))
+                    {
+                        ShowNotification(new GUIContent(fieldError));
+                        error = fieldError;
+                    }
+                    EditorGUILayout.Separator();
+                    GUILayout.Label(fieldError, EditorStyles.wordWrappedLabel, GUILayout.MaxWidth(position.width - 130));
+                }
                 GUILayout.BeginHorizontal(GUILayout.MaxWidth(position.width));
                 GUILayout.Space(25);
-                GUILayout.Label("Java App Class:", GUILayout.Width(100));
+                GUILayout.Label("Main Activity:", GUILayout.Width(100));
                 GUILayout.Space(5);
-                if (!string.IsNullOrEmpty(error))
-                {
-                    GUILayout.Label(error);
-                }
                 string newJavaAppName = GUILayout.TextField(javaAppName, EditorStyles.wordWrappedLabel, GUILayout.MaxWidth(position.width - 130));
                 GUILayout.EndHorizontal();
                 if (javaAppName != newJavaAppName)
@@ -1697,13 +1604,16 @@ public class OuyaPanel : EditorWindow
                 string javaPackageName = GetApplicationJavaPackageName();
                 if (!javaPackageName.Equals(string.Format("package {0};", PlayerSettings.bundleIdentifier)))
                 {
-                    error = "[error] (bundle mismatched)\n";
-                    ShowNotification(new GUIContent(error));
+                    String fieldError = "[error] (bundle mismatched)\n";
+                    if (string.IsNullOrEmpty(error))
+                    {
+                        ShowNotification(new GUIContent(fieldError));
+                        error = fieldError;
+                    }
+                    EditorGUILayout.Separator();
+                    GUILayout.Label(fieldError, EditorStyles.wordWrappedLabel, GUILayout.MaxWidth(position.width - 130));
                 }
-                else
-                {
-                    error = string.Empty;
-                }
+
                 GUILayout.BeginHorizontal(GUILayout.MaxWidth(position.width));
                 GUILayout.Space(25);
                 GUILayout.Label("App Java Pack:", GUILayout.Width(100));
@@ -1714,12 +1624,14 @@ public class OuyaPanel : EditorWindow
                 string manifestPackageName = GetAndroidManifestPackageName();
                 if (!manifestPackageName.Equals(PlayerSettings.bundleIdentifier))
                 {
-                    error = "[error] (bundle mismatched)\n";
-                    ShowNotification(new GUIContent(error));
-                }
-                else
-                {
-                    error = string.Empty;
+                    String fieldError = "[error] (bundle mismatched)\n";
+                    if (string.IsNullOrEmpty(error))
+                    {
+                        ShowNotification(new GUIContent(fieldError));
+                        error = fieldError;
+                    }
+                    EditorGUILayout.Separator();
+                    GUILayout.Label(fieldError, EditorStyles.wordWrappedLabel, GUILayout.MaxWidth(position.width - 130));
                 }
                 GUILayout.BeginHorizontal(GUILayout.MaxWidth(position.width));
                 GUILayout.Space(25);
@@ -1750,13 +1662,10 @@ public class OuyaPanel : EditorWindow
                 }
 
                 GUIDisplayUnityFile(KEY_PATH_OUYA_SDK, pathOuyaSDKJar);
-                GUIDisplayUnityFile(KEY_PATH_JAR_GUAVA, pathGsonJar);
-                GUIDisplayUnityFile(KEY_PATH_JAR_GSON, pathGuavaJar);
                 GUIDisplayUnityFile(KEY_PATH_JAR_OUYA_UNITY_PLUGIN, pathOuyaUnityPluginJar);
                 GUIDisplayUnityFile("Manifest", pathManifestPath);
-                GUIDisplayUnityFile("key.der", "Assets/Plugins/Android/res/raw/key.der");
-                GUIDisplayUnityFile("R.Java", GetRJava());
-                GUIDisplayUnityFile("Application.Java", GetApplicationJava());
+                GUIDisplayUnityFile("key.der", "Assets/Plugins/Android/assets/key.der");
+                GUIDisplayUnityFile("Activity.Java", GetApplicationJava());
                 GUIDisplayUnityFile("IOuyaActivity.Java", GetIOuyaActivityJava());
                 //GUIDisplayFolder("Bin", pathBin);
                 GUIDisplayFolder("Res", pathRes);
@@ -1764,7 +1673,7 @@ public class OuyaPanel : EditorWindow
 
                 if (GUILayout.Button("Check for plugin updates"))
                 {
-                    Application.OpenURL("http://tagenigma.com/ouya/OuyaSDK-1.0.0/");
+                    Application.OpenURL("https://github.com/ouya/ouya-sdk-examples/tree/master/Unity/OuyaSDK");
                 }
 
                 if (GUILayout.Button("Visit Unity3d on OUYA Forum"))
@@ -1818,10 +1727,14 @@ public class OuyaPanel : EditorWindow
                 GUILayout.BeginHorizontal(GUILayout.MaxWidth(position.width));
                 if (GUILayout.Button("Select SDK Path..."))
                 {
+                    pathAAPT = string.Empty;
+                    pathADB = string.Empty;
                     SelectJavaJDKPaths();
                 }
                 if (GUILayout.Button("Reset Paths"))
                 {
+                    pathAAPT = string.Empty;
+                    pathADB = string.Empty;
                     ResetJavaJDKPaths();
                 }
 
@@ -1829,7 +1742,7 @@ public class OuyaPanel : EditorWindow
 
                 if (GUILayout.Button("Download JDK 6 32-bit"))
                 {
-                    Application.OpenURL("http://www.oracle.com/technetwork/java/javase/downloads/jdk6downloads-1902814.html");
+                    Application.OpenURL("http://www.oracle.com/technetwork/java/javasebusiness/downloads/java-archive-downloads-javase6-419409.html#jdk-6u45-oth-JPR");
                 }
 
                 break;
@@ -1891,6 +1804,180 @@ public class OuyaPanel : EditorWindow
                                         };
                         p.Start();
                     }
+                    EditorGUIUtility.ExitGUI();
+                }
+
+                if (GUILayout.Button("Advanced Settings"))
+                {
+                    ThreadStart ts = new ThreadStart(() =>
+                    {
+                        if (File.Exists(pathADB))
+                        {
+                            //Debug.Log(appPath);
+                            //Debug.Log(pathADB);
+                            string args =
+                                string.Format(
+                                    @"shell su -c am start com.android.settings");
+                            //Debug.Log(args);
+                            ProcessStartInfo ps = new ProcessStartInfo(pathADB,
+                                                                       args);
+                            Process p = new Process();
+                            ps.RedirectStandardOutput = false;
+                            ps.UseShellExecute = true;
+                            ps.CreateNoWindow = false;
+                            ps.WorkingDirectory = Path.GetDirectoryName(pathADB);
+                            p.StartInfo = ps;
+                            p.Exited += (object sender, EventArgs e) =>
+                            {
+                                p.Dispose();
+                            };
+                            p.Start();
+
+                            p.WaitForExit();
+                        }
+                    });
+                    Thread thread = new Thread(ts);
+                    thread.Start();
+                    EditorGUIUtility.ExitGUI();
+                }
+
+                GUILayout.BeginHorizontal();
+
+                if (GUILayout.Button("Ethernet Mode"))
+                {
+                    ThreadStart ts = new ThreadStart(() =>
+                    {
+                        if (File.Exists(pathADB))
+                        {
+                            //Debug.Log(appPath);
+                            //Debug.Log(pathADB);
+                            string args =
+                                string.Format(
+                                    @"shell su -c ifconfig eth0 up");
+                            //Debug.Log(args);
+                            ProcessStartInfo ps = new ProcessStartInfo(pathADB,
+                                                                       args);
+                            Process p = new Process();
+                            ps.RedirectStandardOutput = false;
+                            ps.UseShellExecute = true;
+                            ps.CreateNoWindow = false;
+                            ps.WorkingDirectory = Path.GetDirectoryName(pathADB);
+                            p.StartInfo = ps;
+                            p.Exited += (object sender, EventArgs e) =>
+                            {
+                                p.Dispose();
+                            };
+                            p.Start();
+
+                            p.WaitForExit();
+                        }
+                    });
+                    Thread thread = new Thread(ts);
+                    thread.Start();
+                    EditorGUIUtility.ExitGUI();
+                }
+
+                if (GUILayout.Button("Wifi Mode"))
+                {
+                    ThreadStart ts = new ThreadStart(() =>
+                    {
+                        if (File.Exists(pathADB))
+                        {
+                            //Debug.Log(appPath);
+                            //Debug.Log(pathADB);
+                            string args =
+                                string.Format(
+                                    @"shell su -c ifconfig eth0 down");
+                            //Debug.Log(args);
+                            ProcessStartInfo ps = new ProcessStartInfo(pathADB,
+                                                                       args);
+                            Process p = new Process();
+                            ps.RedirectStandardOutput = false;
+                            ps.UseShellExecute = true;
+                            ps.CreateNoWindow = false;
+                            ps.WorkingDirectory = Path.GetDirectoryName(pathADB);
+                            p.StartInfo = ps;
+                            p.Exited += (object sender, EventArgs e) =>
+                            {
+                                p.Dispose();
+                            };
+                            p.Start();
+
+                            p.WaitForExit();
+                        }
+                    });
+                    Thread thread = new Thread(ts);
+                    thread.Start();
+                    EditorGUIUtility.ExitGUI();
+                }
+
+                if (GUILayout.Button("Wifi Settings"))
+                {
+                    ThreadStart ts = new ThreadStart(() =>
+                    {
+                        if (File.Exists(pathADB))
+                        {
+                            //Debug.Log(appPath);
+                            //Debug.Log(pathADB);
+                            string args =
+                                string.Format(
+                                    @"shell su -c am start -n com.android.settings/com.android.settings.wifi.WifiSettings");
+                            //Debug.Log(args);
+                            ProcessStartInfo ps = new ProcessStartInfo(pathADB,
+                                                                       args);
+                            Process p = new Process();
+                            ps.RedirectStandardOutput = false;
+                            ps.UseShellExecute = true;
+                            ps.CreateNoWindow = false;
+                            ps.WorkingDirectory = Path.GetDirectoryName(pathADB);
+                            p.StartInfo = ps;
+                            p.Exited += (object sender, EventArgs e) =>
+                            {
+                                p.Dispose();
+                            };
+                            p.Start();
+
+                            p.WaitForExit();
+                        }
+                    });
+                    Thread thread = new Thread(ts);
+                    thread.Start();
+                    EditorGUIUtility.ExitGUI();
+                }
+
+                GUILayout.EndHorizontal();
+
+                if (GUILayout.Button("Toggle Safe Overlay"))
+                {
+                    ThreadStart ts = new ThreadStart(() =>
+                    {
+                        if (File.Exists(pathADB))
+                        {
+                            //Debug.Log(appPath);
+                            //Debug.Log(pathADB);
+                            string args =
+                                string.Format(
+                                    @"shell su -c am start -n tv.ouya.console/tv.ouya.console.launcher.ToggleSafeZoneActivity");
+                            //Debug.Log(args);
+                            ProcessStartInfo ps = new ProcessStartInfo(pathADB,
+                                                                       args);
+                            Process p = new Process();
+                            ps.RedirectStandardOutput = false;
+                            ps.UseShellExecute = true;
+                            ps.CreateNoWindow = false;
+                            ps.WorkingDirectory = Path.GetDirectoryName(pathADB);
+                            p.StartInfo = ps;
+                            p.Exited += (object sender, EventArgs e) =>
+                            {
+                                p.Dispose();
+                            };
+                            p.Start();
+
+                            p.WaitForExit();
+                        }
+                    });
+                    Thread thread = new Thread(ts);
+                    thread.Start();
                     EditorGUIUtility.ExitGUI();
                 }
 
@@ -2411,10 +2498,10 @@ public class OuyaPanel : EditorWindow
 
                 GUIDisplayFolder(KEY_PATH_ANDROID_NDK, pathNDK);
                 GUI.enabled = !string.IsNullOrEmpty(pathNDK);
-                GUIDisplayFile(KEY_PATH_ANDROID_NDK_MAKE, pathNDKMake);
+                GUIDisplayUnityFile("Android.mk", pathJNIAndroidMk);
+                GUIDisplayUnityFile("Application.mk", pathJNIApplicationMk);
+                GUIDisplayFile("NDK Build", pathNDKBuild);
                 GUI.enabled = true;
-                GUIDisplayUnityFile(KEY_PATH_ANDROID_JNI_CPP, pathJNICpp);
-                GUIDisplayUnityFile(KEY_PATH_ANDROID_JNI_MK, pathJNIMk);
                 GUIDisplayUnityFile(KEY_PATH_OUYA_NDK_LIB, pathOuyaNDKLib);
 
                 GUILayout.BeginHorizontal(GUILayout.MaxWidth(position.width));
@@ -2428,17 +2515,6 @@ public class OuyaPanel : EditorWindow
                 }
                 GUILayout.EndHorizontal();
                 
-                GUILayout.BeginHorizontal(GUILayout.MaxWidth(position.width));
-                if (GUILayout.Button("Select NDK Make Path..."))
-                {
-                    SelectAndroidNDKMakePath();
-                }
-                if (GUILayout.Button("Reset Make Path"))
-                {
-                    ResetAndroidNDKMakePath();
-                }
-                GUILayout.EndHorizontal();
-
                 if (GUILayout.Button("Download Android NDK"))
                 {
                     Application.OpenURL("http://developer.android.com/tools/sdk/ndk/index.html");
@@ -2455,15 +2531,17 @@ public class OuyaPanel : EditorWindow
     enum Languages
     {
         EnglishUnitedStates,
-        EnglishUnitedAustralia,
-        EnglishUnitedCanada,
-        EnglishUnitedKingdom,
+        //EnglishAustralia,
+        //EnglishCanada,
+        //EnglishUnitedKingdom,
+        French,
+        Italian,
         German,
         Spanish,
-        Korean,
-        China,
-        Taiwan,
-        Japan,
+        //Korean,
+        //China,
+        //Taiwan,
+        //Japan,
     }
 
     struct LanguageDetails
@@ -2476,15 +2554,17 @@ public class OuyaPanel : EditorWindow
     private static LanguageDetails[] LanguageMap =
         {
             new LanguageDetails() { Language = Languages.EnglishUnitedStates, PropertySystemLanguage="en", PropertySystemCountry="US"}, 
-            new LanguageDetails() { Language = Languages.EnglishUnitedAustralia, PropertySystemLanguage="en", PropertySystemCountry="AU"}, 
-            new LanguageDetails() { Language = Languages.EnglishUnitedCanada, PropertySystemLanguage="en", PropertySystemCountry="CA"}, 
-            new LanguageDetails() { Language = Languages.EnglishUnitedKingdom, PropertySystemLanguage="en", PropertySystemCountry="GB"}, 
-            new LanguageDetails() { Language = Languages.German, PropertySystemLanguage="de", PropertySystemCountry="de"}, 
+            //new LanguageDetails() { Language = Languages.EnglishAustralia, PropertySystemLanguage="en", PropertySystemCountry="AU"}, 
+            //new LanguageDetails() { Language = Languages.EnglishCanada, PropertySystemLanguage="en", PropertySystemCountry="CA"}, 
+            //new LanguageDetails() { Language = Languages.EnglishUnitedKingdom, PropertySystemLanguage="en", PropertySystemCountry="GB"}, 
+            new LanguageDetails() { Language = Languages.German, PropertySystemLanguage="fr", PropertySystemCountry="FR"}, 
+            new LanguageDetails() { Language = Languages.Italian, PropertySystemLanguage="it", PropertySystemCountry="IT"}, 
+            new LanguageDetails() { Language = Languages.German, PropertySystemLanguage="de", PropertySystemCountry="DE"}, 
             new LanguageDetails() { Language = Languages.Spanish, PropertySystemLanguage="es", PropertySystemCountry="ES"}, 
-            new LanguageDetails() { Language = Languages.Korean, PropertySystemLanguage="ko", PropertySystemCountry="KR"}, 
-            new LanguageDetails() { Language = Languages.China, PropertySystemLanguage="zh", PropertySystemCountry="CN"}, 
-            new LanguageDetails() { Language = Languages.Taiwan, PropertySystemLanguage="zh", PropertySystemCountry="TW"}, 
-            new LanguageDetails() { Language = Languages.Japan, PropertySystemLanguage="ja", PropertySystemCountry="JP"}, 
+            //new LanguageDetails() { Language = Languages.Korean, PropertySystemLanguage="ko", PropertySystemCountry="KR"}, 
+            //new LanguageDetails() { Language = Languages.China, PropertySystemLanguage="zh", PropertySystemCountry="CN"}, 
+            //new LanguageDetails() { Language = Languages.Taiwan, PropertySystemLanguage="zh", PropertySystemCountry="TW"}, 
+            //new LanguageDetails() { Language = Languages.Japan, PropertySystemLanguage="ja", PropertySystemCountry="JP"}, 
         };
 
     private Languages m_language = Languages.EnglishUnitedStates;
@@ -2582,23 +2662,63 @@ public class OuyaPanel : EditorWindow
     #region RUN PROCESS
     public static void RunProcess(string path, string arguments)
     {
+        List<KeyValuePair<string, string>> environment = new List<KeyValuePair<string, string>>();
+        RunProcess(environment, path, arguments);
+    }
+
+    public static void RunProcess(List<KeyValuePair<string, string>> environment, string path, string arguments)
+    {
         string error = string.Empty;
         string output = string.Empty;
-        RunProcess(path, string.Empty, arguments, ref output, ref error);
+        RunProcess(environment, path, string.Empty, arguments, ref output, ref error);
     }
 
     public static void RunProcess(string path, string workingDirectory, string arguments)
     {
+        List<KeyValuePair<string, string>> environment = new List<KeyValuePair<string, string>>();
+        RunProcess(environment, path, workingDirectory, arguments);
+    }
+
+    public static void RunProcess(List<KeyValuePair<string, string>> environment, string path, string workingDirectory, string arguments)
+    {
         string error = string.Empty;
         string output = string.Empty;
-        RunProcess(path, workingDirectory, arguments, ref output, ref error);
+        RunProcess(environment, path, workingDirectory, arguments, ref output, ref error);
+    }
+
+    public static void RunProcess(string path, string workingDirectory, string arguments, string description)
+    {
+        List<KeyValuePair<string, string>> environment = new List<KeyValuePair<string, string>>();
+        RunProcess(environment, path, workingDirectory, arguments, description);
+    }
+
+    public static void RunProcess(List<KeyValuePair<string, string>> environment, string path, string workingDirectory, string arguments, string description)
+    {
+        string error = string.Empty;
+        string output = string.Empty;
+        RunProcess(environment, path, workingDirectory, arguments, ref output, ref error, description);
     }
 
     public static void RunProcess(string path, string workingDirectory, string arguments, ref string output, ref string error)
     {
+        List<KeyValuePair<string, string>> environment = new List<KeyValuePair<string, string>>();
+        RunProcess(environment, path, workingDirectory, arguments, ref output, ref error);
+    }
+
+    public static void RunProcess(List<KeyValuePair<string, string>> environment, string path, string workingDirectory, string arguments, ref string output, ref string error)
+    {
+        RunProcess(environment, path, workingDirectory, arguments, ref output, ref error, string.Empty);
+    }
+
+    public static void RunProcess(List<KeyValuePair<string,string>> environment, string path, string workingDirectory, string arguments, ref string output, ref string error, string description)
+    {
         try
         {
             System.Diagnostics.Process process = new System.Diagnostics.Process();
+            foreach (KeyValuePair<string, string> pair in environment)
+            {
+                process.StartInfo.EnvironmentVariables[pair.Key] = pair.Value;
+            }
             process.StartInfo.Arguments = arguments;
             process.StartInfo.WorkingDirectory = workingDirectory;
             process.StartInfo.FileName = path;
@@ -2608,8 +2728,17 @@ public class OuyaPanel : EditorWindow
             process.StartInfo.RedirectStandardInput = true;
             process.StartInfo.RedirectStandardError = true;
             DateTime startTime = DateTime.Now;
-            Debug.Log(string.Format("[Running Process] filename={0} arguments={1}", process.StartInfo.FileName,
-                                    process.StartInfo.Arguments));
+
+            if (string.IsNullOrEmpty(description))
+            {
+                Debug.Log(string.Format("[Running Process] filename={0} arguments={1}", process.StartInfo.FileName,
+                    process.StartInfo.Arguments));
+            }
+            else
+            {
+                Debug.Log(string.Format("{0}\n[Running Process] filename={1} arguments={2}", description, process.StartInfo.FileName,
+                    process.StartInfo.Arguments));
+            }            
 
             process.Start();
 
@@ -2617,9 +2746,17 @@ public class OuyaPanel : EditorWindow
             error = process.StandardError.ReadToEnd();
 
             float elapsed = (float)(DateTime.Now - startTime).TotalSeconds;
-            Debug.Log(string.Format("[Results] elapsedTime: {3} errors: {2}\noutput: {1}", process.StartInfo.FileName,
-                                    output, error, elapsed));
+            if (string.IsNullOrEmpty(description))
+            {
+                Debug.Log(string.Format("[Results] elapsedTime: {3} errors: {2}\noutput: {1}", process.StartInfo.FileName,
+                    output, error, elapsed));
 
+            }
+            else
+            {
+                Debug.Log(string.Format("{0}\n[Results] elapsedTime: {3} errors: {2}\noutput: {1}", description,
+                    output, error, elapsed));
+            }
             //if (output.Length > 0 ) Debug.Log("Output: " + output);
             //if (error.Length > 0 ) Debug.Log("Error: " + error); 
         }
