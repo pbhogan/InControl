@@ -10,7 +10,7 @@ namespace InControl
 		public SpeedlinkStrikeMacProfile()
 		{
 			Name = "Speedlink Strike Controller";
-			Meta = "Speedlink Strike Controller on Mac";
+			Meta = "Speedlink Strike Controller on Mac (Analog mode)";
 
 			SupportedPlatforms = new[] {
 				"OS X"
