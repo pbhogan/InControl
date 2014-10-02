@@ -22,7 +22,7 @@ namespace InControl
 			if (logDebugInfo)
 			{
 				Debug.Log( "InControl (version " + InputManager.Version + ")" );
-				Logger.OnLogMessage += LogMessage;
+				Logger.OnLogMessage += HandleOnLogMessage;
 			}
 
 			InputManager.InvertYAxis = invertYAxis;
@@ -111,7 +111,7 @@ namespace InControl
 		}
 
 
-		void LogMessage( LogMessage logMessage )
+		void HandleOnLogMessage( LogMessage logMessage )
 		{
 			switch (logMessage.type)
 			{

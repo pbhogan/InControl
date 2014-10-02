@@ -22,11 +22,11 @@ Thumbs.db
 /Assets/WorkInProgress.meta
 /Assets/InControl/Examples/TouchControls
 /Assets/InControl/Examples/TouchControls.meta
-/Assets/InControl/Library/Touch
-/Assets/InControl/Library/Touch.meta
-/Assets/InControl/Library/OuyaEverywhere
-/Assets/InControl/Library/OuyaEverywhere.meta
-/Assets/InControl/Library/GUI
-/Assets/InControl/Library/GUI.meta
+/Assets/InControl/Source/Touch
+/Assets/InControl/Source/Touch.meta
+/Assets/InControl/Source/OuyaEverywhere
+/Assets/InControl/Source/OuyaEverywhere.meta
+/Assets/InControl/Source/GUI
+/Assets/InControl/Source/GUI.meta
 /Assets/UnityTestTools
 /Assets/UnityTestTools.meta

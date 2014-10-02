@@ -15,12 +15,12 @@ namespace InControl
 
 
 		public XInputDevice( int deviceIndex )
-			: base( "Xbox 360 Controller (XInput)" )
+			: base( "XInput Controller" )
 		{
 			DeviceIndex = deviceIndex;
-			SortOrder   = deviceIndex;
+			SortOrder = deviceIndex;
 
-			Meta = "XInput Device #" + deviceIndex;
+			Meta = "XInput Controller #" + deviceIndex;
 
 			AddControl( InputControlType.LeftStickX, "LeftStickX" );
 			AddControl( InputControlType.LeftStickY, "LeftStickY" );

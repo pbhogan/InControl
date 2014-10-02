@@ -28,7 +28,7 @@ namespace InControl
 
 		static void UpdateVersion()
 		{
-			string versionPath = "Assets/InControl/Library/VersionInfo.cs";
+			string versionPath = "Assets/InControl/Source/VersionInfo.cs";
 			string versionText = GetFileContents( versionPath );
 			if (versionText != null)
 			{
@@ -43,12 +43,12 @@ namespace InControl
 		{
 			var value = int.Parse( match.Groups["value"].Value ) + 1;
 			return "Build = " + value.ToString();
-		} 
+		}
 
 
 		static string GetFileContents( string fileName )
 		{			
-			StreamReader streamReader = new StreamReader( fileName );;			
+			StreamReader streamReader = new StreamReader( fileName );
 			var fileContents = streamReader.ReadToEnd();
 			streamReader.Close();
 			
