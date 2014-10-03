@@ -10,7 +10,7 @@ namespace InControl
 		public SpeedlinkStrikeMacProfile()
 		{
 			Name = "Speedlink Strike Controller";
-			Meta = "Speedlink Strike Controller on Mac";
+			Meta = "Speedlink Strike Controller on Mac (Analog Mode)";
 
 			SupportedPlatforms = new[] {
 				"OS X"
@@ -109,7 +109,7 @@ namespace InControl
 				new InputControlMapping {
 					Handle = "DPad Left",
 					Target = InputControlType.DPadLeft,
-					Source = Analog0,
+					Source = Analog5,
 					SourceRange = InputControlMapping.Range.Negative,
 					TargetRange = InputControlMapping.Range.Negative,
 					Invert = true
@@ -117,21 +117,21 @@ namespace InControl
 				new InputControlMapping {
 					Handle = "DPad Right",
 					Target = InputControlType.DPadRight,
-					Source = Analog0,
+					Source = Analog5,
 					SourceRange = InputControlMapping.Range.Positive,
 					TargetRange = InputControlMapping.Range.Positive
 				},
 				new InputControlMapping {
 					Handle = "DPad Down",
 					Target = InputControlType.DPadDown,
-					Source = Analog1,
+					Source = Analog6,
 					SourceRange = InputControlMapping.Range.Positive,
 					TargetRange = InputControlMapping.Range.Positive
 				},
 				new InputControlMapping {
 					Handle = "DPad Up",
 					Target = InputControlType.DPadUp,
-					Source = Analog1,
+					Source = Analog6,
 					SourceRange = InputControlMapping.Range.Negative,
 					TargetRange = InputControlMapping.Range.Negative,
 					Invert = true
