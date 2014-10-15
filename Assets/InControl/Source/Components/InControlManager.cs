@@ -31,16 +31,7 @@ namespace InControl
 
 			foreach (var className in customProfiles)
 			{
-				var classType = Type.GetType( className );
-				if (classType == null)
-				{
-					Debug.LogError( "Cannot find class for custom profile: " + className );
-				}
-				else
-				{
-					var customProfileInstance = Activator.CreateInstance( classType ) as UnityInputDeviceProfile;
-					InputManager.AttachDevice( new UnityInputDevice( customProfileInstance ) );
-				}
+				CreateCustomProfile( className );
 			}
 
 			if (dontDestroyOnLoad)
@@ -53,6 +44,29 @@ namespace InControl
 		void OnDisable()
 		{
 			InputManager.ResetInternal();
+		}
+		
+		public void AddCustomProfile(string className)
+		{
+			customProfiles.Add( className );
+			if (enabled)
+			{
+				CreateCustomProfile( className );
+			}
+		}
+		
+		void CreateCustomProfile(string className)
+		{
+			var classType = Type.GetType( className );
+			if (classType == null)
+			{
+				Debug.LogError( "Cannot find class for custom profile: " + className );
+			}
+			else
+			{
+				var customProfileInstance = Activator.CreateInstance( classType ) as UnityInputDeviceProfile;
+				InputManager.AttachDevice( new UnityInputDevice( customProfileInstance ) );
+			}
 		}
 
 
