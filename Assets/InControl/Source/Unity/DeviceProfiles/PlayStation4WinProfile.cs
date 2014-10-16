@@ -53,12 +53,12 @@ namespace InControl
 				},
 				new InputControlMapping {
 					Handle = "Share",
-					Target = InputControlType.Share,
+					Target = InputControlType.Select,
 					Source = Button8
 				},
 				new InputControlMapping {
 					Handle = "Options",
-					Target = InputControlType.Select,
+					Target = InputControlType.Start,
 					Source = Button9
 				},
 				new InputControlMapping {
