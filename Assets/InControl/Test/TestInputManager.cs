@@ -41,6 +41,8 @@ namespace InControl
 			InputManager.OnActiveDeviceChanged += inputDevice => Debug.Log( "Active device changed to: " + inputDevice.Name );
 
 			TestInputMappings();
+
+//			Debug.Log( "Unity Version: " + InputManager.UnityVersion );
 		}
 
 

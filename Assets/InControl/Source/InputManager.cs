@@ -13,7 +13,6 @@ namespace InControl
 	public class InputManager
 	{
 		public static readonly VersionInfo Version = VersionInfo.InControlVersion();
-		public static readonly VersionInfo UnityVersion = VersionInfo.UnityVersion();
 
 		public static event Action OnSetup;
 		public static event Action<ulong,float> OnUpdate;
@@ -39,6 +38,8 @@ namespace InControl
 		static float lastUpdateTime;
 
 		static ulong currentTick;
+
+		static VersionInfo? unityVersion;
 
 
 		/// <summary>
@@ -415,6 +416,20 @@ namespace InControl
 			{
 				enableXInput = value;
 			}
+		}
+
+
+		public static VersionInfo UnityVersion
+		{ 
+			get
+			{ 
+				if (!unityVersion.HasValue)
+				{
+					unityVersion = VersionInfo.UnityVersion(); 
+				}
+
+				return unityVersion.Value; 
+			} 
 		}
 	}
 }
