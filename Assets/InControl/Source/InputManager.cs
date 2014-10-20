@@ -371,7 +371,7 @@ namespace InControl
 
 		public static void HideDevicesWithProfile( Type type )
 		{
-			#if !UNITY_EDITOR && UNITY_WINRT
+			#if !UNITY_EDITOR && UNITY_METRO
 			if (type.GetTypeInfo().IsAssignableFrom( typeof( UnityInputDeviceProfile ).GetTypeInfo() ))
 			#else
 			if (type.IsSubclassOf( typeof(UnityInputDeviceProfile) ))
