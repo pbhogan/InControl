@@ -120,6 +120,8 @@ namespace InControl
 					TargetRange = InputControlMapping.Range.Positive,
 					IgnoreInitialZeroValue = true
 				},
+
+				// OS X 10.9
 				new InputControlMapping {
 					Handle = "DPad Left",
 					Target = InputControlType.DPadLeft,
@@ -149,7 +151,39 @@ namespace InControl
 					SourceRange = InputControlMapping.Range.Negative,
 					TargetRange = InputControlMapping.Range.Negative,
 					Invert = true
-				}
+				},
+
+				// OS X 10.10
+				new InputControlMapping {
+					Handle = "DPad Left",
+					Target = InputControlType.DPadLeft,
+					Source = Analog6,
+					SourceRange = InputControlMapping.Range.Negative,
+					TargetRange = InputControlMapping.Range.Negative,
+					Invert = true
+				},
+				new InputControlMapping {
+					Handle = "DPad Right",
+					Target = InputControlType.DPadRight,
+					Source = Analog6,
+					SourceRange = InputControlMapping.Range.Positive,
+					TargetRange = InputControlMapping.Range.Positive
+				},
+				new InputControlMapping {
+					Handle = "DPad Down",
+					Target = InputControlType.DPadDown,
+					Source = Analog7,
+					SourceRange = InputControlMapping.Range.Positive,
+					TargetRange = InputControlMapping.Range.Positive
+				},
+				new InputControlMapping {
+					Handle = "DPad Up",
+					Target = InputControlType.DPadUp,
+					Source = Analog7,
+					SourceRange = InputControlMapping.Range.Negative,
+					TargetRange = InputControlMapping.Range.Negative,
+					Invert = true
+				},
 			};
 		}
 	}
