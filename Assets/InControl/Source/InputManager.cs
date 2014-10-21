@@ -118,7 +118,7 @@ namespace InControl
 			inputDeviceManagers.Clear();
 			devices.Clear();
 			activeDevice = InputDevice.Null;
-			
+
 			isSetup = false;
 		}
 
@@ -283,7 +283,7 @@ namespace InControl
 		static void PreUpdateDevices( float deltaTime )
 		{
 			MenuWasPressed = false;
-			
+
 			int deviceCount = devices.Count;
 			for (int i = 0; i < deviceCount; i++)
 			{
@@ -310,14 +310,14 @@ namespace InControl
 
 
 		static void PostUpdateDevices( float deltaTime )
-		{			
+		{
 			int deviceCount = devices.Count;
 			for (int i = 0; i < deviceCount; i++)
 			{
 				var device = devices[i];
-				
+
 				device.PostUpdate( currentTick, deltaTime );
-				
+
 				if (device.MenuWasPressed)
 				{
 					MenuWasPressed = true;
@@ -371,7 +371,7 @@ namespace InControl
 
 		public static void HideDevicesWithProfile( Type type )
 		{
-			#if !UNITY_EDITOR && UNITY_WINRT
+			#if !UNITY_EDITOR && UNITY_METRO
 			if (type.GetTypeInfo().IsAssignableFrom( typeof( UnityInputDeviceProfile ).GetTypeInfo() ))
 			#else
 			if (type.IsSubclassOf( typeof(UnityInputDeviceProfile) ))
@@ -385,8 +385,8 @@ namespace InControl
 		static InputDevice DefaultActiveDevice
 		{
 			get
-			{ 
-				return (devices.Count > 0) ? devices[0] : InputDevice.Null; 
+			{
+				return (devices.Count > 0) ? devices[0] : InputDevice.Null;
 			}
 		}
 
@@ -408,8 +408,8 @@ namespace InControl
 		public static bool EnableXInput
 		{
 			get
-			{ 
-				return enableXInput; 
+			{
+				return enableXInput;
 			}
 
 			set
@@ -420,16 +420,16 @@ namespace InControl
 
 
 		public static VersionInfo UnityVersion
-		{ 
+		{
 			get
-			{ 
+			{
 				if (!unityVersion.HasValue)
 				{
-					unityVersion = VersionInfo.UnityVersion(); 
+					unityVersion = VersionInfo.UnityVersion();
 				}
 
-				return unityVersion.Value; 
-			} 
+				return unityVersion.Value;
+			}
 		}
 	}
 }
