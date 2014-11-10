@@ -17,10 +17,11 @@ namespace InControl
 			};
 
 			JoystickNames = new[] {
-				"NVIDIA Corporation NVIDIA Controller v01",
-				"NVIDIA Corporation NVIDIA Controller v01.01",
-				"NVIDIA Corporation NVIDIA Controller v01.03",
 				"nvidia_Corporation nvidia_joypad"
+			};
+
+			JoystickRegex = new[] {
+				"NVIDIA Corporation NVIDIA Controller"
 			};
 
 			ButtonMappings = new[] {
