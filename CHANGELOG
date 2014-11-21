@@ -6,6 +6,7 @@ Fixed build error on Windows 8
 Lazy load InputManager.UnityVersion.
 Updated Speedlink Strike Mac profile.
 Updated PS Vita profile.
+Updated InControlInputModule for Unity 4.6 RC2.
 
 v1.3.7
 Updated InControlInputModule for Unity 4.6b20 changes.
