@@ -37,6 +37,7 @@ namespace InControl
 			"InControl.MogaProMacProfile",
 			"InControl.MogaProWinProfile",
 			"InControl.NVidiaShieldAndroidProfile",
+			"InControl.NVidiaShieldTabletProfile",
 			"InControl.NatecGenesisP44Profile",
 			"InControl.OuyaLinuxProfile",
 			"InControl.OuyaWinProfile",

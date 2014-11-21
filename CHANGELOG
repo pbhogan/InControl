@@ -1,3 +1,19 @@
+v1.3.8
+NVidia Shield controller matches more reliably.
+Fix compatibility attributes for builds in Unity 4.3
+Fix for PS4 Mac BT profile on OS X 10.10
+Fixed build error on Windows 8
+Lazy load InputManager.UnityVersion.
+Updated Speedlink Strike Mac profile.
+Updated PS Vita profile.
+
+v1.3.7
+Updated InControlInputModule for Unity 4.6b20 changes.
+Renamed Library folder to Source because it breaks Unity Cloud Build.
+XInput devices now report their names as "XInput Controller"
+Fixed mappings in PS3 Android profile.
+Minor bug fixes in touch controls.
+
 v1.3.4
 Fixed crash in iOS builds.
 Updated InControlInputModule for new Unity 4.6 GUI support.
