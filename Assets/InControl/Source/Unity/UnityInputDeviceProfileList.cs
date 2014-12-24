@@ -19,6 +19,8 @@ namespace InControl
 			"InControl.GenericAndroidProfile",
 			"InControl.GenericBlackBerryProfile",
 			"InControl.GenericLinuxProfile",
+			"InControl.GoogleNexusPlayerProfile",
+			"InControl.GoogleNexusPlayerRemoteProfile",
 			"InControl.HamaBlackForceWinProfile",
 			"InControl.LogitechF310LinuxProfile",
 			"InControl.LogitechF310ModeDMacProfile",
