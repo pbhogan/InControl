@@ -6,6 +6,8 @@ namespace InControl
 	// TODO: This should be renamed to InputControlTarget.
 	public enum InputControlType : int
 	{
+		None = 0,
+
 		// Standardized.
 		//
 		LeftStickX,
