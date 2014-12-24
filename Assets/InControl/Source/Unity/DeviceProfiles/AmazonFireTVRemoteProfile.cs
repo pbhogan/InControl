@@ -14,11 +14,12 @@ namespace InControl
 
 			SupportedPlatforms = new[] {
 				"Amazon AFTB",
-				"Android"
+				"Amazon AFTM"
 			};
 
 			JoystickNames = new[] {
-				"Amazon Fire TV Remote",
+				"",
+				"Amazon Fire TV Remote"
 			};
 
 			ButtonMappings = new[] {
