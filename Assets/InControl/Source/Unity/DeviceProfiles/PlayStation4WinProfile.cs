@@ -112,6 +112,7 @@ namespace InControl
 					Source = Analog3,
 					SourceRange = InputControlMapping.Range.Complete,
 					TargetRange = InputControlMapping.Range.Positive,
+					IgnoreInitialZeroValue = true
 				},
 				new InputControlMapping {
 					Handle = "Right Trigger",
@@ -119,6 +120,7 @@ namespace InControl
 					Source = Analog4,
 					SourceRange = InputControlMapping.Range.Complete,
 					TargetRange = InputControlMapping.Range.Positive,
+					IgnoreInitialZeroValue = true
 				},
 				new InputControlMapping {
 					Handle = "DPad Left",
