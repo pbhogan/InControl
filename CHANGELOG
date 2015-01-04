@@ -1,3 +1,11 @@
+v1.3.9
+Properly namespace Utility class.
+Added None to InputControlType enum.
+Added Nvidia Shield Windows profile.
+Added Google Nexus Player profiles.
+Updated Amazon Fire TV Remote profile.
+Made TouchControlEditor more subclass friendly.
+
 v1.3.8
 NVidia Shield controller matches more reliably.
 Fix compatibility attributes for builds in Unity 4.3
