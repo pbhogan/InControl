@@ -209,6 +209,13 @@ namespace InControl
 		{
 			get { return ButtonMappings.Length; }
 		}
+		
+	        public void AddInputControlMapping(InputControlMapping cm)
+	        {
+	            List<InputControlMapping> mappingsCopy = ButtonMappings.ToList();
+	            mappingsCopy.Add(cm);
+	            ButtonMappings = mappingsCopy.ToArray();
+	        }
 
 
 		#region InputControlSource Helpers
