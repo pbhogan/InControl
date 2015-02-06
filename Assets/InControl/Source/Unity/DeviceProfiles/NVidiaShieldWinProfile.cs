@@ -16,8 +16,8 @@ namespace InControl
 				"Windows"
 			};
 
-			JoystickNames = new[] {
-				"NVIDIA Controller v01.03",
+			JoystickRegex = new[] {
+				"NVIDIA Controller",
 			};
 
 			ButtonMappings = new[] {
@@ -64,13 +64,23 @@ namespace InControl
 				new InputControlMapping
 				{
 					Handle = "Back",
-					Target = InputControlType.Select,
+					Target = InputControlType.Back,
 					Source = Button11
 				},
 				new InputControlMapping {
 					Handle = "Start",
 					Target = InputControlType.Start,
 					Source = Button0
+				},
+				new InputControlMapping {
+					Handle = "System",
+					Target = InputControlType.System,
+					Source = Button12
+				},
+				new InputControlMapping {
+					Handle = "Home",
+					Target = InputControlType.Menu,
+					Source = Button10
 				}
 			};
 
@@ -117,15 +127,15 @@ namespace InControl
 					Target = InputControlType.DPadUp,
 					Source = Analog5,
 					SourceRange = InputControlMapping.Range.Positive,
-					TargetRange = InputControlMapping.Range.Positive,
-					Invert = true
+					TargetRange = InputControlMapping.Range.Positive
 				},
 				new InputControlMapping {
 					Handle = "DPad Down",
 					Target = InputControlType.DPadDown,
 					Source = Analog5,
 					SourceRange = InputControlMapping.Range.Negative,
-					TargetRange = InputControlMapping.Range.Negative
+					TargetRange = InputControlMapping.Range.Negative,
+					Invert = true
 				},
 				new InputControlMapping {
 					Handle = "Left Trigger",
@@ -141,5 +151,4 @@ namespace InControl
 		}
 	}
 }
-
 
