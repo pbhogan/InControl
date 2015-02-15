@@ -29,6 +29,7 @@ namespace InControl
 			"InControl.LogitechF310ModeXWinProfile",
 			"InControl.LogitechF510LinuxProfile",
 			"InControl.LogitechF510WinProfile",
+			"InControl.LogitechF710LinuxProfile",
 			"InControl.LogitechF710MacProfile",
 			"InControl.LogitechF710ModeDWinProfile",
 			"InControl.LogitechF710ModeXWinProfile",
@@ -67,6 +68,7 @@ namespace InControl
 			"InControl.Xbox360LinuxProfile",
 			"InControl.Xbox360MacProfile",
 			"InControl.Xbox360WinProfile",
+			"InControl.XboxOneMacProfile",
 			"InControl.XboxOneProfile",
 			"InControl.XboxOneWinProfile",
 		};
