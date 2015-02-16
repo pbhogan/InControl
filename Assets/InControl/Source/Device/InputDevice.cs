@@ -12,6 +12,7 @@ namespace InControl
 
 		public string Name { get; protected set; }
 		public string Meta { get; protected set; }
+		public virtual int JoystickId { get; protected set; }
 
 		public ulong LastChangeTick { get; protected set; }
 
