@@ -36,6 +36,7 @@ namespace InControl
 			"InControl.LogitechRumblePad2MacProfile",
 			"InControl.LogitechRumblePad2WinProfile",
 			"InControl.LogitechWingManWinProfile",
+			"InControl.MaxFireBlaze5Profile",
 			"InControl.MogaProLinuxProfile",
 			"InControl.MogaProMacProfile",
 			"InControl.MogaProWinProfile",
