@@ -53,13 +53,13 @@ namespace InControl
 					Source = Button14
 				},
 				new InputControlMapping {
-					Handle = "Start",
-					Target = InputControlType.Start,
+					Handle = "Share",
+					Target = InputControlType.Share,
 					Source = Button7
 				},
 				new InputControlMapping {
 					Handle = "Options",
-					Target = InputControlType.Select,
+					Target = InputControlType.Options,
 					Source = Button6
 				},
 				new InputControlMapping {
