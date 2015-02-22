@@ -45,6 +45,7 @@ namespace InControl
 		Menu,
 		Share,
 		View,
+		Options,
 		TiltX,
 		TiltY,
 		TiltZ,
