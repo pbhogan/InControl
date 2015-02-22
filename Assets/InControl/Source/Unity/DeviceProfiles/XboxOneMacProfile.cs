@@ -42,6 +42,26 @@ namespace InControl
 					Source = Button19
 				},
 				new InputControlMapping {
+					Handle = "DPad Left",
+					Target = InputControlType.DPadLeft,
+					Source = Button7
+				},
+				new InputControlMapping {
+					Handle = "DPad Right",
+					Target = InputControlType.DPadRight,
+					Source = Button8
+				},
+				new InputControlMapping {
+					Handle = "DPad Up",
+					Target = InputControlType.DPadUp,
+					Source = Button5
+				},
+				new InputControlMapping {
+					Handle = "DPad Down",
+					Target = InputControlType.DPadDown,
+					Source = Button6,
+				},
+				new InputControlMapping {
 					Handle = "Left Bumper",
 					Target = InputControlType.LeftBumper,
 					Source = Button13
@@ -70,6 +90,11 @@ namespace InControl
 					Handle = "Menu",
 					Target = InputControlType.Menu,
 					Source = Button9
+				},
+				new InputControlMapping {
+					Handle = "Guide",
+					Target = InputControlType.System,
+					Source = Button15
 				}
 			};
 
@@ -95,26 +120,6 @@ namespace InControl
 					Target = InputControlType.RightStickY,
 					Source = Analog3,
 					Invert = true
-				},
-				new InputControlMapping {
-					Handle = "DPad Left",
-					Target = InputControlType.DPadLeft,
-					Source = Button7
-				},
-				new InputControlMapping {
-					Handle = "DPad Right",
-					Target = InputControlType.DPadRight,
-					Source = Button8
-				},
-				new InputControlMapping {
-					Handle = "DPad Up",
-					Target = InputControlType.DPadUp,
-					Source = Button5
-				},
-				new InputControlMapping {
-					Handle = "DPad Down",
-					Target = InputControlType.DPadDown,
-					Source = Button6,
 				},
 				new InputControlMapping {
 					Handle = "Left Trigger",
