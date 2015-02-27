@@ -132,6 +132,20 @@ namespace InControl
 				}
 			}
 
+			// As of Unity 4.6.3p1, empty strings on windows represent disconnected devices.
+			if (InputManager.UnityVersion >= new VersionInfo( 4, 6, 3 ))
+			{
+				if (Application.platform == RuntimePlatform.WindowsEditor ||
+				    Application.platform == RuntimePlatform.WindowsPlayer ||
+				    Application.platform == RuntimePlatform.WindowsWebPlayer)
+				{
+					if (String.IsNullOrEmpty( unityJoystickName ))
+					{
+						return;
+					}
+				}
+			}
+
 			var matchedDeviceProfile = deviceProfiles.Find( config => config.HasJoystickName( unityJoystickName ) );
 
 			if (matchedDeviceProfile == null)
