@@ -11,6 +11,13 @@ namespace InterfaceMovement
 		public Button down = null;
 		public Button left = null;
 		public Button right = null;
+		Renderer cubeRenderer;
+
+
+		void Start()
+		{
+			cubeRenderer = GetComponent<Renderer>();
+		}
 
 
 		void Update()
@@ -19,9 +26,9 @@ namespace InterfaceMovement
 			bool hasFocus = transform.parent.GetComponent<ButtonManager>().focusedButton == this;
 
 			// Fade alpha in and out depending on focus.
-			var color = renderer.material.color;
+			var color = cubeRenderer.material.color;
 			color.a = Mathf.MoveTowards( color.a, hasFocus ? 1.0f : 0.5f, Time.deltaTime * 3.0f );
-			renderer.material.color = color;
+			cubeRenderer.material.color = color;
 		}
 	}
 }

@@ -8,10 +8,13 @@ namespace CustomProfileExample
 	public class CubeController : MonoBehaviour
 	{
 		Vector3 targetPosition;
+		Renderer cubeRenderer;
 
 
 		void Start()
 		{
+			cubeRenderer = GetComponent<Renderer>();
+
 			// Get the starting position of the object.
 			targetPosition = transform.position;
 		}
@@ -23,12 +26,12 @@ namespace CustomProfileExample
 			var inputDevice = InputManager.ActiveDevice;
 
 			// Set target object material color based on which action is pressed.
-			renderer.material.color = GetColorFromActionButtons( inputDevice );
+			cubeRenderer.material.color = GetColorFromActionButtons( inputDevice );
 
 			// Rotate target object with both sticks and d-pad.
-			transform.Rotate( Vector3.down,  500.0f * Time.deltaTime * inputDevice.Direction.X, Space.World );
+			transform.Rotate( Vector3.down, 500.0f * Time.deltaTime * inputDevice.Direction.X, Space.World );
 			transform.Rotate( Vector3.right, 500.0f * Time.deltaTime * inputDevice.Direction.Y, Space.World );
-			transform.Rotate( Vector3.down,  500.0f * Time.deltaTime * inputDevice.RightStickX, Space.World );
+			transform.Rotate( Vector3.down, 500.0f * Time.deltaTime * inputDevice.RightStickX, Space.World );
 			transform.Rotate( Vector3.right, 500.0f * Time.deltaTime * inputDevice.RightStickY, Space.World );
 
 			// Zoom target object with scroll wheel.
