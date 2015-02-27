@@ -20,7 +20,8 @@ namespace InControl
 				"", // Yes, really.
 				"Microsoft Wireless 360 Controller",
 				"Mad Catz, Inc. Mad Catz FPS Pro GamePad",
-				"\u00A9Microsoft Corporation Controller"
+				"\u00A9Microsoft Corporation Controller",
+				"\u00A9Microsoft Corporation Xbox Original Wired Controller"
 			};
 
 			LastResortRegex = "360";
