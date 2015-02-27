@@ -1,3 +1,16 @@
+v1.4.4
+Fixed Unity 5 deprecation.
+
+v1.4.2
+Added MaxFire Blaze5 Windows profile.
+Added Xbox One Mac profile.
+Added Logitech F710 Linux profile.
+Fixed NVidia Shield Windows profile.
+Fixed Xbox One Mac profile.
+Fixed PlayStation4 Android profile.
+Added devkit support to PS Vita profile.
+Added InControlType.Options
+
 v1.3.9
 Properly namespace Utility class.
 Added None to InputControlType enum.
