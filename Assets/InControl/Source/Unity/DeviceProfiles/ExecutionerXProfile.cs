@@ -18,6 +18,7 @@ namespace InControl
 			};
 
 			JoystickNames = new[] {
+				"Zeroplus PS Vibration Feedback Converter",
 				"Zeroplus PS Vibration Feedback Converter "
 			};
 
