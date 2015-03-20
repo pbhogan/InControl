@@ -21,6 +21,7 @@ namespace InControl
 			"InControl.GenericLinuxProfile",
 			"InControl.GoogleNexusPlayerProfile",
 			"InControl.GoogleNexusPlayerRemoteProfile",
+			"InControl.GreenThrottleAtlasAndroidProfile",
 			"InControl.HamaBlackForceWinProfile",
 			"InControl.LogitechF310LinuxProfile",
 			"InControl.LogitechF310ModeDMacProfile",
