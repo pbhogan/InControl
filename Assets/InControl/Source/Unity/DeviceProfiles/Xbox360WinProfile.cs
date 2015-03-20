@@ -144,6 +144,21 @@ namespace InControl
 				new InputControlMapping {
 					Handle = "Left Trigger",
 					Target = InputControlType.LeftTrigger,
+					Source = Analog2,
+					SourceRange = InputControlMapping.Range.Positive,
+					TargetRange = InputControlMapping.Range.Positive,
+				},
+				new InputControlMapping {
+					Handle = "Right Trigger",
+					Target = InputControlType.RightTrigger,
+					Source = Analog2,
+					SourceRange = InputControlMapping.Range.Negative,
+					TargetRange = InputControlMapping.Range.Negative,
+					Invert = true
+				},
+				new InputControlMapping {
+					Handle = "Left Trigger",
+					Target = InputControlType.LeftTrigger,
 					Source = Analog8
 				},
 				new InputControlMapping {
