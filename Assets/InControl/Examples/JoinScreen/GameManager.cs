@@ -37,14 +37,5 @@ namespace JoinScreenExample
                     Destroy(gameObject);
             }
         }
-    
-        void Update()
-        {
-        	if (Input.GetKeyDown(KeyCode.Alpha1))
-        		Application.LoadLevel(1);
-
-        	if (Input.GetKeyDown(KeyCode.Alpha2))
-        		Application.LoadLevel(2);
-        }
     }
 }
