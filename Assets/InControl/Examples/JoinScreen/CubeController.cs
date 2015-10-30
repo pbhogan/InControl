@@ -14,7 +14,6 @@ namespace JoinScreenExample
 		void Start()
 		{
 			cubeRenderer = GetComponent<Renderer>();
-			print(GameManager.Instance.Controllers.Count);
 		}
 
 
