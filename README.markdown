@@ -1,6 +1,11 @@
 ## NOTICE
 
-This open source edition of InControl is now discontinued. It will be frozen at version 1.4.4, with only basic bug and Unity compatibility fixes being applied. This repository will remain available, but no new features will be added or significant changes made.
+The open source edition of InControl is now discontinued by the original creator, Patrick Hogan. It was be frozen at version 1.4.4, with only basic bug and Unity compatibility fixes being applied. The repository remains available, but no new features will be added or significant changes made. I, Cukia Kimani forked the original and changed some stuff.
+
+Small teeny weeny changes like:
+
+1. When the InControlManager component is marked **Don't Destroy On Load**, it will destroy any other instances of the object when navigating to another scene. 
+2. Due to the [controller assignment problem](http://www.gallantgames.com/pages/incontrol-limitations-and-best-practices), I also included a Join Screen example to the project
 
 Future feature development continues on the [Unity Asset Store version](http://u3d.as/6mr) exclusively.
 
