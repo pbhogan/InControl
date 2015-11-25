@@ -18,6 +18,9 @@
 			]
 		}
 	],
+
+	"solution_file": "./InControl.sln",
+
 	"settings":
 	{
 		"completesharp_mono_path": "/Applications/Unity/MonoDevelop.app/Contents/MacOS/monodevelop",

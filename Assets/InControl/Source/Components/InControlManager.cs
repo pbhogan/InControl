@@ -16,9 +16,40 @@ namespace InControl
 		public bool dontDestroyOnLoad = false;
 		public List<string> customProfiles = new List<string>();
 
+		private bool isBeingDestroyed;
+
+		private static InControlManager instance;
+
+        public static InControlManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = FindObjectOfType<InControlManager>();
+                    DontDestroyOnLoad(instance.gameObject);
+                }
+                return instance;
+            }
+        }
 
 		void OnEnable()
 		{
+			if (instance == null)
+            {
+                instance = this;
+            
+                if (dontDestroyOnLoad)
+                {
+                    DontDestroyOnLoad(this);
+                }
+            }
+            else if (this != instance)
+            {
+                isBeingDestroyed = true; //If destroying, we don't want to reset the InputManager
+                Destroy(gameObject);
+            }
+
 			if (logDebugInfo)
 			{
 				Debug.Log( "InControl (version " + InputManager.Version + ")" );
@@ -52,7 +83,8 @@ namespace InControl
 
 		void OnDisable()
 		{
-			InputManager.ResetInternal();
+			if (!isBeingDestroyed)
+                InputManager.ResetInternal();
 		}
 
 
