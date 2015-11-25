@@ -1,2 +1,2 @@
-m_EditorVersion: 5.2.2p4
+m_EditorVersion: 5.3.0f1
 m_StandardAssetsVersion: 0
