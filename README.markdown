@@ -1,6 +1,6 @@
 ## NOTICE
 
-This open source edition of InControl is now discontinued. It will be frozen at version 1.4.4, with only basic bug and Unity compatibility fixes being applied. This repository will remain available, but no new features will be added or significant changes made.
+This open source edition of InControl is now discontinued. It will be frozen at version 1.4.4. This repository will remain available, but no new features will be added or significant changes made.
 
 Future feature development continues on the [Unity Asset Store version](http://u3d.as/6mr) exclusively.
 
