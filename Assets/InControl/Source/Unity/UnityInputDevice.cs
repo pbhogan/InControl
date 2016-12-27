@@ -12,7 +12,7 @@ namespace InControl
 		public const int MaxButtons = 20;
 		public const int MaxAnalogs = 20;
 
-		internal int JoystickId { get; private set; }
+		public override int JoystickId { get; protected set; }
 		public UnityInputDeviceProfile Profile { get; protected set; }
 
 

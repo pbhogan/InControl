@@ -10,6 +10,12 @@ namespace InControl
 {
 	public class XInputDevice : InputDevice
 	{
+		public override int JoystickId
+		{
+			get { return DeviceIndex; }
+			protected set { DeviceIndex = value; }
+		}
+		
 		public int DeviceIndex { get; private set; }
 		GamePadState state;
 
