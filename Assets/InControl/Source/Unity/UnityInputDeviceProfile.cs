@@ -50,7 +50,7 @@ namespace InControl
 			ButtonMappings = new InputControlMapping[0];
 
 			MinUnityVersion = new VersionInfo( 3 );
-			MaxUnityVersion = new VersionInfo( 9 );
+			MaxUnityVersion = new VersionInfo( int.MaxValue );
 		}
 
 
