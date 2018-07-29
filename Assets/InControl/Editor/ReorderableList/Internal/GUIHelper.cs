@@ -22,9 +22,12 @@ namespace InControl.ReorderableList.Internal
 			var tyGUIClip = typeof(GUI).Assembly.GetType( "UnityEngine.GUIClip" );
 			if (tyGUIClip != null)
 			{
-				var piVisibleRect = tyGUIClip.GetProperty( "visibleRect", BindingFlags.Static | BindingFlags.Public );
+				var piVisibleRect = tyGUIClip.GetProperty( "visibleRect", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
 				if (piVisibleRect != null)
-					VisibleRect = (Func<Rect>)Delegate.CreateDelegate( typeof(Func<Rect>), piVisibleRect.GetGetMethod() );
+				{
+					var getMethod = piVisibleRect.GetGetMethod(true) ?? piVisibleRect.GetGetMethod(false);
+					VisibleRect = (Func<Rect>)Delegate.CreateDelegate(typeof(Func<Rect>), getMethod);
+				}
 			}
 
 			var miFocusTextInControl = typeof(EditorGUI).GetMethod( "FocusTextInControl", BindingFlags.Static | BindingFlags.Public );
